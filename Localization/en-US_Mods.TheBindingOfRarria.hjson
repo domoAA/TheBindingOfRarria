@@ -1,0 +1,31 @@
+Items: {
+	BrokenAnkh: {
+		Tooltip: With 22.22% chance, you will suvrive a fatal hit with 3 hearts.
+		Tooltip1: Eternal life?
+		DisplayName: Broken Ankh
+	}
+
+	Ankh: {
+		Tooltip: You will survive a fatal hit with half hearts.
+		Tooltip1: Eternal life?
+		DisplayName: Ankh
+	}
+
+	ToothAndNail: {
+		DisplayName: Tooth And Nail
+		Tooltip: ""
+	}
+}
+
+Buffs: {
+	AnubisCurse: {
+		Description:
+			'''
+			Cannot regain life.
+			"Your heart shall not beat again."
+			'''
+		DisplayName: Anubis's Curse
+	}
+}
+
+Projectiles.InvisibleNails.DisplayName: Invisible Nails
