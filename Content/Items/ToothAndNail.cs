@@ -24,6 +24,10 @@ namespace TheBindingOfRarria.Content.Items
     {
         public bool IsSigma = false;
         public int StoneCD = 300;
+        public override void ResetEffects()
+        {
+            IsSigma = false;
+        }
         public override void UpdateEquips()
         {
             if (IsSigma)
@@ -37,8 +41,9 @@ namespace TheBindingOfRarria.Content.Items
             switch (StoneCD)
             {
                 case <= 0:
-                    Player.AddImmuneTime(-1, 60 + time);
-                    StoneCD = 360;
+                    Player.immune = true;
+                    Player.immuneTime += 60 + time;
+                    StoneCD = 360 + time;
                     break;
                 case > 300:
                     if(Array.FindIndex(Main.projectile, proj => proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<InvisibleNails>() && proj.owner == Player.whoAmI) == -1)
@@ -47,7 +52,7 @@ namespace TheBindingOfRarria.Content.Items
                 default:
                     if (StoneCD%30 == 0 && StoneCD < 100)
                     {
-                        Player.immuneNoBlink = true;
+                        Player.immuneAlpha = 255;
                     }
                     break;
             }

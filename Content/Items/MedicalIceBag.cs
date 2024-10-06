@@ -28,20 +28,6 @@ namespace TheBindingOfRarria.Content.Items
         public bool IsMedicated = false;
         public override void PostUpdateBuffs()
         {
-            bool IsPoisoned = Player.HasBuff(BuffID.Poisoned) || Player.HasBuff(BuffID.Venom);
-            bool IsOnFire = Player.HasBuff(BuffID.OnFire) || Player.HasBuff(BuffID.OnFire3);
-
-            if (IsOnFire && !IsPoisoned)
-                CurrentImmunity = DiseaseImmunity.Fire;
-            else if (IsPoisoned && !IsOnFire)
-                CurrentImmunity = DiseaseImmunity.Poison;
-        }
-        public override void ResetEffects()
-        {
-            IsMedicated = false;
-        }
-        public override void PreUpdate()
-        {
             if (!IsMedicated)
                 return;
 
@@ -55,6 +41,17 @@ namespace TheBindingOfRarria.Content.Items
                 Player.buffImmune[BuffID.OnFire] = true;
                 Player.buffImmune[BuffID.OnFire3] = true;
             }
+            bool IsPoisoned = Player.HasBuff(BuffID.Poisoned) || Player.HasBuff(BuffID.Venom);
+            bool IsOnFire = Player.HasBuff(BuffID.OnFire) || Player.HasBuff(BuffID.OnFire3);
+
+            if (IsOnFire && !IsPoisoned)
+                CurrentImmunity = DiseaseImmunity.Fire;
+            else if (IsPoisoned && !IsOnFire)
+                CurrentImmunity = DiseaseImmunity.Poison;
+        }
+        public override void ResetEffects()
+        {
+            IsMedicated = false;
         }
     }
 }
