@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 using Terraria.ID;
-using System;
+using Terraria;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -11,6 +11,10 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 28;
             Item.height = 32;
             Item.accessory = true;
+        }
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.GetModPlayer<MedicatedPlayer>().IsMedicated = true;
         }
     }
     public class MedicatedPlayer : ModPlayer
@@ -24,18 +28,17 @@ namespace TheBindingOfRarria.Content.Items
         public bool IsMedicated = false;
         public override void PostUpdateBuffs()
         {
-            if (Player.HasBuff(BuffID.OnFire) || Player.HasBuff(BuffID.OnFire3))
+            bool IsPoisoned = Player.HasBuff(BuffID.Poisoned) || Player.HasBuff(BuffID.Venom);
+            bool IsOnFire = Player.HasBuff(BuffID.OnFire) || Player.HasBuff(BuffID.OnFire3);
+
+            if (IsOnFire && !IsPoisoned)
                 CurrentImmunity = DiseaseImmunity.Fire;
-            else
+            else if (IsPoisoned && !IsOnFire)
                 CurrentImmunity = DiseaseImmunity.Poison;
         }
-        public override void PostUpdateEquips()
+        public override void ResetEffects()
         {
-            var index = Array.FindIndex(Player.armor, item => !item.social && item.type == ModContent.ItemType<MedicalIceBag>());
-            if (index != -1)
-                IsMedicated = true;
-            else
-                IsMedicated = false;
+            IsMedicated = false;
         }
         public override void PreUpdate()
         {

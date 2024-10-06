@@ -12,18 +12,17 @@ namespace TheBindingOfRarria.Content.Items
             Item.height = 24;
             Item.accessory = true;
         }
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.GetModPlayer<NatureDodgePlayer>().HasBracelet = true;
+        }
     }
     public class NatureDodgePlayer : ModPlayer
     {
         public bool HasBracelet = false;
-        public override void PreUpdate()
+        public override void ResetEffects()
         {
             HasBracelet = false;
-        }
-        public override void UpdateEquips()
-        {
-            if (Array.FindIndex(Player.armor, item => item.type == ModContent.ItemType<AnemoiBracelet>() && !item.social) != -1)
-                HasBracelet = true;
         }
         public override bool FreeDodge(Player.HurtInfo info)
         {

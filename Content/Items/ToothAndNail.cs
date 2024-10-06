@@ -15,14 +15,18 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.defense = 300;
         }
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.GetModPlayer<StonePlayer>().IsSigma = true;
+        }
     }
     public class StonePlayer : ModPlayer
     {
+        public bool IsSigma = false;
         public int StoneCD = 300;
         public override void UpdateEquips()
         {
-            var index = Array.FindIndex(Player.armor, item => !item.social && item.type == ModContent.ItemType<ToothAndNail>());
-            if (index != -1)
+            if (IsSigma)
             {
                 StoneCD--;
             }
@@ -43,7 +47,7 @@ namespace TheBindingOfRarria.Content.Items
                 default:
                     if (StoneCD%30 == 0 && StoneCD < 100)
                     {
-                        Player.GetImmuneAlpha(Color.White, 255);
+                        Player.immuneNoBlink = true;
                     }
                     break;
             }
