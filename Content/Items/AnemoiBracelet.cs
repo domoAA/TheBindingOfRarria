@@ -31,7 +31,17 @@ namespace TheBindingOfRarria.Content.Items
 
             var rand = new Random();
             var chance = Math.Min(0.07 + Player.moveSpeed / 10, 0.21);
-            return rand.NextDouble() < chance;
+            if (rand.NextDouble() < chance) {
+                NatureDodge();
+                return true; }
+            else
+                return false;
+        }
+        public void NatureDodge()
+        {
+            Player.NinjaDodge();
+            Player.immune = true;
+            Player.SetImmuneTimeForAllTypes(Player.longInvince ? 150 : 90);
         }
     }
 }

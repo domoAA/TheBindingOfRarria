@@ -3,6 +3,10 @@ using Terraria;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Projectiles;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -13,7 +17,6 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 22;
             Item.height = 24;
             Item.accessory = true;
-            Item.defense = 300;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -50,10 +53,8 @@ namespace TheBindingOfRarria.Content.Items
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, new Vector2(0, 0), ModContent.ProjectileType<InvisibleNails>(), 40, 0, Player.whoAmI, time, 0, 0);
                     break;
                 default:
-                    if (StoneCD%30 == 0 && StoneCD < 100)
-                    {
-                        Player.immuneAlpha = 255;
-                    }
+                    if (StoneCD % 30 == 0 && StoneCD < 100)
+                        Player.immuneNoBlink = true;
                     break;
             }
         }

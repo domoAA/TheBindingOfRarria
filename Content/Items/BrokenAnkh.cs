@@ -1,6 +1,8 @@
 using Terraria.ModLoader;
 using Terraria;
 using TheBindingOfRarria.Content.Buffs;
+using System.Collections.Generic;
+using Terraria.Localization;
 
 namespace TheBindingOfRarria.Content.Items
 {
