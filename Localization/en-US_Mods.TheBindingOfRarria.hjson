@@ -2,7 +2,7 @@ Items: {
 	BrokenAnkh: {
 		Tooltip:
 			'''
-			With 22.22% chance, you will suvrive a fatal hit with 3 hearts.
+			With 22.22% chance, you will suvrive a fatal hit with 3 hearts
 			"Eternal life?"
 			'''
 		DisplayName: Broken Ankh
@@ -11,7 +11,7 @@ Items: {
 	Ankh: {
 		Tooltip:
 			'''
-			You will survive a fatal hit with half hearts.
+			You will survive a fatal hit with half hearts
 			"Eternal life?"
 			'''
 		DisplayName: Ankh
@@ -21,7 +21,7 @@ Items: {
 		DisplayName: Tooth And Nail
 		Tooltip:
 			'''
-			Every 5 seconds, you turn to stone and grow spikes.
+			Every 5 seconds, you turn to stone and grow spikes
 			"You feel prickly"
 			'''
 	}
@@ -30,8 +30,8 @@ Items: {
 		DisplayName: Anemoi Bracelet
 		Tooltip:
 			'''
-			Grants a chance to dodge attacks.
-			The chance scales with movement speed.
+			Grants a chance to dodge attacks
+			The chance scales with movement speed
 			'''
 	}
 
@@ -39,8 +39,8 @@ Items: {
 		DisplayName: Armor Conversion
 		Tooltip:
 			'''
-			Converts defense into max health increase.
-			Health regeneration is increased and cannot fall below 1% max health per second.
+			Converts defense into max health increase
+			Health regeneration is increased and cannot fall below 1% max health per second
 			'''
 	}
 
@@ -62,6 +62,11 @@ Items: {
 			You heal for 50% of damage taken over 6 seconds
 			'''
 	}
+
+	ButtonBomb: {
+		DisplayName: Button Bomb
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -69,10 +74,14 @@ Buffs: {
 		Description:
 			'''
 			Cannot regain life
-			"Your heart shall not beat again."
+			"Your heart shall not beat again"
 			'''
 		DisplayName: Anubis's Curse
 	}
 }
 
-Projectiles.InvisibleNails.DisplayName: Invisible Nails
+Projectiles: {
+	InvisibleNails.DisplayName: Invisible Nails
+	DetonatedButton.DisplayName: Detonated Button
+	Extra98Bomb.DisplayName: Extra98 Bomb
+}
