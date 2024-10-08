@@ -28,6 +28,9 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void PostUpdateEquips()
         {
+            if (!HasChoker)
+                totalHeal = 0;
+
             if (totalHeal != 0)
                 CD--;
             else
@@ -43,7 +46,8 @@ namespace TheBindingOfRarria.Content.Items
         }
         public void ModifyHitByAnything(ref Player.HurtModifiers modifiers)
         {
-            modifiers.FinalDamage *= 1.5f;
+            if (HasChoker)
+                modifiers.FinalDamage *= 1.5f;
         }
         public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers) {
             ModifyHitByAnything(ref modifiers); }
@@ -60,6 +64,7 @@ namespace TheBindingOfRarria.Content.Items
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo) {
             OnHitByAnything(hurtInfo); }
         public void OnHitByAnything(Player.HurtInfo hurtInfo) {
-            totalHeal += (int)(hurtInfo.Damage * 0.5f); }
+            if (HasChoker)
+                totalHeal += (int)(hurtInfo.Damage * 0.5f); }
     }
 }

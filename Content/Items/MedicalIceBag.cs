@@ -1,6 +1,8 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria;
+using TheBindingOfRarria.Content.Buffs;
+using System;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -26,21 +28,19 @@ namespace TheBindingOfRarria.Content.Items
         }
         public DiseaseImmunity CurrentImmunity = DiseaseImmunity.Poison;
         public bool IsMedicated = false;
-        public override void PostUpdateBuffs()
+        public override void PostUpdateEquips()
         {
-            if (!IsMedicated)
-                return;
+            if (!IsMedicated) {
+                var type = ModContent.BuffType<PoisonImmunity>();
+                int index = Array.FindIndex(Player.buffType, buff => buff == type);
+                if (index == -1) {
+                    type = ModContent.BuffType<FireImmunity>();
+                    index = Array.FindIndex(Player.buffType, buff => buff == type);}
 
-            if (CurrentImmunity == DiseaseImmunity.Poison)
-            {
-                Player.buffImmune[BuffID.Poisoned] = true;
-                Player.buffImmune[BuffID.Venom] = true;
-            }
-            else
-            {
-                Player.buffImmune[BuffID.OnFire] = true;
-                Player.buffImmune[BuffID.OnFire3] = true;
-            }
+                if (index != -1)
+                    Player.ClearBuff(type);
+                return; }
+
             bool IsPoisoned = Player.HasBuff(BuffID.Poisoned) || Player.HasBuff(BuffID.Venom);
             bool IsOnFire = Player.HasBuff(BuffID.OnFire) || Player.HasBuff(BuffID.OnFire3);
 
@@ -48,6 +48,14 @@ namespace TheBindingOfRarria.Content.Items
                 CurrentImmunity = DiseaseImmunity.Fire;
             else if (IsPoisoned && !IsOnFire)
                 CurrentImmunity = DiseaseImmunity.Poison;
+
+            if (Player.HasBuff(ModContent.BuffType<FireImmunity>()) || Player.HasBuff(ModContent.BuffType<PoisonImmunity>()))
+                return;
+
+            if (CurrentImmunity == DiseaseImmunity.Poison)
+                Player.AddBuff(ModContent.BuffType<PoisonImmunity>(), 300);
+            else
+                Player.AddBuff(ModContent.BuffType<FireImmunity>(), 300);
         }
         public override void ResetEffects()
         {

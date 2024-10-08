@@ -4,7 +4,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Projectiles;
 using Microsoft.Xna.Framework;
-using System.Linq;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -48,7 +47,7 @@ namespace TheBindingOfRarria.Content.Items
                     offset.Normalize();
                     offset *= bigger; }
                 else
-                    offset *= 0.9f;
+                    offset *= 0.8f;
                 Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 0, 0, Player.whoAmI, target.whoAmI, offset.X, offset.Y);
                 target.GetGlobalNPC<ButtonedNPC>().ButtonCD = 20; }
         }

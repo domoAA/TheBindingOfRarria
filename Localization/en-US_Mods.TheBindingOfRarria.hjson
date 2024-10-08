@@ -65,7 +65,26 @@ Items: {
 
 	ButtonBomb: {
 		DisplayName: Button Bomb
-		Tooltip: ""
+		Tooltip: Every hit leaves a button bomb on the enemy
+	}
+
+	CharmOfTheVampire: {
+		DisplayName: Charm Of The Vampire
+		Tooltip: Heal for half a heart every 13 kills
+	}
+
+	Handprint: {
+		DisplayName: Handprint
+		Tooltip: Enemies that hit you take double damage for 12 seconds
+	}
+
+	HolyMantle: {
+		DisplayName: Holy Mantle
+		Tooltip: 
+			'''
+			Gain immunity to damage for the next hit
+			Cooldown 50 seconds
+			'''
 	}
 }
 
@@ -77,6 +96,26 @@ Buffs: {
 			"Your heart shall not beat again"
 			'''
 		DisplayName: Anubis's Curse
+	}
+
+	FireImmunity: {
+		DisplayName: Fire Immunity
+		Description: Immunity to some fire debuffs
+	}
+
+	PoisonImmunity: {
+		DisplayName: Poison Immunity
+		Description: Immunity to some poison debuffs
+	}
+
+	RevengeDebuff: {
+		DisplayName: Revenge Debuff
+		Description: Takes double damage
+	}
+
+	HolyProtection: {
+		DisplayName: Holy Protection
+		Description: Mods.TheBindingOfRarria.Buffs.HolyProtection.Description
 	}
 }
 
