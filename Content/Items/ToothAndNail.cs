@@ -7,11 +7,23 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.Graphics.Shaders;
+using Terraria.Graphics.Effects;
+using ReLogic.Content;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace TheBindingOfRarria.Content.Items
 {
     public class ToothAndNail : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            if (!Main.dedServ)
+            {
+                //Asset<Effect> filterShader = Mod.Assets.Request<Effect>("Common/PlayerFlashingShader");
+                //Filters.Scene["WhiteFlashing"] = new Filter(new ScreenShaderData(filterShader, "ArmorTint"), EffectPriority.Medium);
+            }
+        }
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -54,7 +66,14 @@ namespace TheBindingOfRarria.Content.Items
                     break;
                 default:
                     if (StoneCD % 30 == 0 && StoneCD < 100)
-                        Player.immuneNoBlink = true;
+                        if (Main.netMode != NetmodeID.Server) // This all needs to happen client-side!
+                        {
+                            //Filters.Scene.Activate("WhiteFlashing", Player.Center).GetShader().UseColor(Color.White).UseTargetPosition(Player.Center); //.UseImage()
+                        }
+                    //else if(Main.netMode != NetmodeID.Server && Filters.Scene["Flashing"].IsActive())
+                    //{
+                        //Filters.Scene["WhiteFlashing"].Deactivate();
+                    //}
                     break;
             }
         }

@@ -80,11 +80,26 @@ Items: {
 
 	HolyMantle: {
 		DisplayName: Holy Mantle
-		Tooltip: 
+		Tooltip:
 			'''
 			Gain immunity to damage for the next hit
 			Cooldown 50 seconds
 			'''
+	}
+
+	MetalPlate: {
+		DisplayName: Metal Plate
+		Tooltip: ""
+	}
+
+	CupidsArrow: {
+		DisplayName: Cupids Arrow
+		Tooltip: ""
+	}
+
+	FishTank: {
+		DisplayName: Fish Tank
+		Tooltip: ""
 	}
 }
 
@@ -117,10 +132,17 @@ Buffs: {
 		DisplayName: Holy Protection
 		Description: Mods.TheBindingOfRarria.Buffs.HolyProtection.Description
 	}
+
+	PoisonDoT: {
+		DisplayName: Poison Do T
+		Description: Mods.TheBindingOfRarria.Buffs.PoisonDoT.Description
+	}
 }
 
 Projectiles: {
 	InvisibleNails.DisplayName: Invisible Nails
 	DetonatedButton.DisplayName: Detonated Button
 	Extra98Bomb.DisplayName: Extra98 Bomb
+	CupidArrow.DisplayName: Cupid Arrow
+	FloppingFish.DisplayName: Flopping Fish
 }
