@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using System.Collections.Generic;
+using Terraria.GameContent;
 
 namespace TheBindingOfRarria.Content.Buffs.DoTUI
 {
@@ -14,7 +15,26 @@ namespace TheBindingOfRarria.Content.Buffs.DoTUI
         {
             base.Draw(spriteBatch);
             Texture2D texture = ModContent.Request<Texture2D>("TheBindingOfRarria/Content/Buffs/PoisonSign").Value;
-            spriteBatch.Draw(texture, new Vector2(Main.screenWidth - 20, Main.screenHeight - 130) / 2, Color.White);
+            if (Main.dedServ)
+                return;
+
+            Rectangle screen = new(0, 0, Main.screenWidth, Main.screenHeight);
+
+            foreach (var member in DamageOverTtimeUserInterfacePlayer.DamageOverTimeUICollection)
+            {
+                var player = member.Key.Item1;
+                Vector2 UIPosition = new(player.MountedCenter.X - Main.screenPosition.X - 2, player.MountedCenter.Y - Main.screenPosition.Y - 60);
+                Rectangle UI = new(
+                    (int)UIPosition.X - (texture.Width / 2), 
+                    (int)UIPosition.Y - (texture.Height / 2), 
+                    texture.Width, 
+                    texture.Height);
+
+                if (screen.Contains(UI))
+                    spriteBatch.Draw(texture, UIPosition, Color.White);
+
+                //that thing isnt working: spriteBatch.DrawString(FontAssets.MouseText.Value, member.Value.ToString(), new Vector2(UIPosition.X + (texture.Width / 2), UIPosition.Y + (texture.Height / 2)), Color.White);
+            }
         }
     }
     public class DoTUIState : UIState
