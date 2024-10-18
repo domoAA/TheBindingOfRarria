@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using ReLogic.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -23,7 +24,7 @@ namespace TheBindingOfRarria.Content.Buffs.DoTUI
             foreach (var member in DamageOverTtimeUserInterfacePlayer.DamageOverTimeUICollection)
             {
                 var player = member.Key.Item1;
-                Vector2 UIPosition = new(player.MountedCenter.X - Main.screenPosition.X - 2, player.MountedCenter.Y - Main.screenPosition.Y - 60);
+                Vector2 UIPosition = new Vector2(player.MountedCenter.X - Main.screenPosition.X - 10 * Main.GameZoomTarget, player.MountedCenter.Y - Main.screenPosition.Y - Main.GameZoomTarget * 60) / Main.UIScale;
                 Rectangle UI = new(
                     (int)UIPosition.X - (texture.Width / 2), 
                     (int)UIPosition.Y - (texture.Height / 2), 
@@ -31,9 +32,9 @@ namespace TheBindingOfRarria.Content.Buffs.DoTUI
                     texture.Height);
 
                 if (screen.Contains(UI))
-                    spriteBatch.Draw(texture, UIPosition, Color.White);
+                    spriteBatch.Draw(texture, UIPosition, null, Color.White, 0, new(0, 0), Main.GameZoomTarget / Main.UIScale, SpriteEffects.None, 0);
 
-                //that thing isnt working: spriteBatch.DrawString(FontAssets.MouseText.Value, member.Value.ToString(), new Vector2(UIPosition.X + (texture.Width / 2), UIPosition.Y + (texture.Height / 2)), Color.White);
+                spriteBatch.DrawString(FontAssets.MouseText.Value, member.Value.ToString(), new Vector2(UIPosition.X + (texture.Width / 2), UIPosition.Y + (texture.Height / 2)), Color.White);
             }
         }
     }

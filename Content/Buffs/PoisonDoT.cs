@@ -12,7 +12,7 @@ namespace TheBindingOfRarria.Content.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<DamageOverTtimeUserInterfacePlayer>().poison = 1;
+            player.GetModPlayer<DamageOverTtimeUserInterfacePlayer>().poison = 7;
         }
     }
     public class DamageOverTtimeUserInterfacePlayer : ModPlayer
@@ -32,6 +32,8 @@ namespace TheBindingOfRarria.Content.Buffs
                 return;
             else if (!DamageOverTimeUICollection.ContainsKey((Player, DamageOverTimeType.Poison)))
                 DamageOverTimeUICollection.Add((Player, DamageOverTimeType.Poison), poison);
+            else
+                DamageOverTimeUICollection[(Player, DamageOverTimeType.Poison)] = poison;
         }
     }
 }
