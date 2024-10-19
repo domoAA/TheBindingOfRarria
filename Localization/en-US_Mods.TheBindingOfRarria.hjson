@@ -101,6 +101,16 @@ Items: {
 		DisplayName: Fish Tank
 		Tooltip: ""
 	}
+
+	Fireball: {
+		DisplayName: Fireball
+		Tooltip: ""
+	}
+
+	GolemsHeart: {
+		DisplayName: Golems Heart
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -136,6 +146,11 @@ Buffs: {
 	PoisonDoT: {
 		DisplayName: Poison Do T
 		Description: Mods.TheBindingOfRarria.Buffs.PoisonDoT.Description
+	}
+
+	FireDoT: {
+		DisplayName: Fire Do T
+		Description: Mods.TheBindingOfRarria.Buffs.FireDoT.Description
 	}
 }
 
