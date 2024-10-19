@@ -13,11 +13,12 @@ namespace TheBindingOfRarria
 	// Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
 	public class TheBindingOfRarria : Mod
 	{
-        private const string PoisonTexturePath = "TheBindingOfRarria/Content/Buffs/PoisonSign";
-        public static Asset<Texture2D> PoisonTexture;
-        public override void Load()
-        {
-            PoisonTexture = ModContent.Request<Texture2D>(PoisonTexturePath);
-        }
-    }
+    		public static Asset<Texture2D> PoisonTexture;
+    		public static Asset<Texture2D> FireTexture;
+    		public override void Load()
+    		{
+        		PoisonTexture = ModContent.Request<Texture2D>("TheBindingOfRarria/Content/Buffs/PoisonSign");
+        		FireTexture = ModContent.Request<Texture2D>("TheBindingOfRarria/Content/Buffs/FireSign");
+    		}
+	}
 }
