@@ -18,13 +18,6 @@ namespace TheBindingOfRarria.Content.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.DefenseEffectiveness *= (0.08f + player.DefenseEffectiveness.Value) / player.DefenseEffectiveness.Value;
-
-            Item.defense = 1;
-            player.GetModPlayer<GolemPlayer>().StoneHeart = true;
-        }
-        public override void UpdateInventory(Player player)
-        {
-            Item.defense = 1;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -37,31 +30,6 @@ namespace TheBindingOfRarria.Content.Items
                 return PrefixID.Hard;
             else 
                 return base.ChoosePrefix(rand);
-        }
-    }
-    public class GolemPlayer : ModPlayer
-    {
-        public bool StoneHeart = false;
-        public override void ResetEffects()
-        {
-            StoneHeart = false;
-        }
-        public override void PostUpdateEquips()
-        {
-            if (!StoneHeart)
-                return;
-
-            var index = Array.FindIndex(Player.armor, eek => eek.type == ModContent.ItemType<GolemsHeart>() && !eek.social);
-            if (index == -1)
-                return;
-
-            foreach (var item in Player.armor)
-            {
-                if (!item.social && item.shieldSlot != -1) //WARNING!   doesnt seem to be workin
-                {
-                    Player.armor[index].defense++;
-                }
-            }
         }
     }
 }

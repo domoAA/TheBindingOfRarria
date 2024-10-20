@@ -39,6 +39,7 @@ namespace TheBindingOfRarria.Content.Items
                 proj.velocity = -proj.velocity;
                 proj.hostile = false;
                 proj.friendly = true;
+                proj.reflected = true;
                 proj.DamageType = DamageClass.Ranged; }
         }
         public override bool FreeDodge(Player.HurtInfo info)
