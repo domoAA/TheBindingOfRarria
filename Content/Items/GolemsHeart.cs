@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -17,7 +18,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.DefenseEffectiveness *= (0.08f + player.DefenseEffectiveness.Value) / player.DefenseEffectiveness.Value;
+            player.GetModPlayer<GolemPlayer>().IsRockHard = true;
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -30,6 +31,28 @@ namespace TheBindingOfRarria.Content.Items
                 return PrefixID.Hard;
             else 
                 return base.ChoosePrefix(rand);
+        }
+    }
+    public class GolemPlayer : ModPlayer
+    {
+        public bool IsRockHard = false;
+        public override void ResetEffects()
+        {
+            IsRockHard = false;
+        }
+        public override void PostUpdateEquips()
+        {
+            var index = Array.FindIndex(Main.projectile, proj => proj.active && proj.type == ModContent.ProjectileType<RepellingPulse>() && proj.owner == Player.whoAmI);
+            if (!IsRockHard)
+            {
+                if (index != -1)
+                    Main.projectile[index].Kill();
+            }
+            else
+            {
+                if (index == -1)
+                    Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Microsoft.Xna.Framework.Vector2.Zero, ModContent.ProjectileType<RepellingPulse>(), 0, 0, Player.whoAmI);
+            }
         }
     }
 }

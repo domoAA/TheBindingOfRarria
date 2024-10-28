@@ -43,5 +43,9 @@ namespace TheBindingOfRarria.Content.Items
             Player.immune = true;
             Player.SetImmuneTimeForAllTypes(Player.longInvince ? 150 : 90);
         }
+        public void ImmunityWhiteFlash()
+        {
+
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace TheBindingOfRarria.Content.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<VampirePlayer>().HasCharm = true;
+            player.GetDamage(DamageClass.Generic).Base += 0.1f;
         }
     }
     public class VampirePlayer : ModPlayer

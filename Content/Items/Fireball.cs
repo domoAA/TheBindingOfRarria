@@ -22,6 +22,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            //var increase => increase == (int)(player.GetDamage(DamageClass.Generic) * 4);
             player.GetModPlayer<FireballPlayer>().fireBALLS = 1;
         }
     }
@@ -41,9 +42,18 @@ namespace TheBindingOfRarria.Content.Items
             if (player.GetModPlayer<FireballPlayer>().fireBALLS <= 0)
                 return;
 
-            float modifier = 60 / item.useAnimation;
-            var velocity = modifier * player.Center.DirectionTo(new Vector2(Main.mouseX, Main.mouseY)) * (player.Center.DistanceSQ(new Vector2(Main.mouseX, Main.mouseY)) / 9);
-            Projectile.NewProjectile(player.GetSource_ItemUse(item), player.Center, velocity, ModContent.ProjectileType<FlyingFireball>(), 10, 3, player.whoAmI, modifier);
+            float modifier = item.useAnimation;
+            var velocity = player.Center.DirectionTo(new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y)) * 9;
+            var total = player.GetModPlayer<FireballPlayer>().fireBALLS;
+            if (total % 2 == 0)
+                velocity = velocity.RotatedBy(-MathHelper.PiOver4 / 8f);
+            var rotation = 0f;
+            for (int i = 0; i < total; i++)
+            {
+                var direction = i % 2 == 0 ? -i : i;
+                rotation += MathHelper.PiOver2 / 8f * direction;
+                Projectile.NewProjectile(player.GetSource_ItemUse(item), player.Center, velocity.RotatedBy(rotation), ModContent.ProjectileType<FlyingFireball>(), 1, 3, player.whoAmI, modifier);
+            }
         }
     }
 }

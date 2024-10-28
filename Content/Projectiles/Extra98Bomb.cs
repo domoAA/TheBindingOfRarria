@@ -28,7 +28,9 @@ namespace TheBindingOfRarria.Content.Projectiles
         private Vector2 Offset = new(0, 0);
         public override void AI()
         {
-            if (!Target.active)
+            if (Target  == null) 
+                Projectile.Kill();
+            else if (!Target.active)
                 Projectile.Kill();
             else
             {

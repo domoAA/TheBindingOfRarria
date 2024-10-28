@@ -27,11 +27,13 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void PostUpdateEquips()
         {
-            if (!IsTheRibbler || Player.ownedProjectileCounts[ModContent.ProjectileType<ReflectiveRib>()] > 0)
+            int index = Array.FindIndex(Main.projectile, proj => proj.active && proj.owner == Player.whoAmI && proj.type == ModContent.ProjectileType<ReflectiveRib>());
+
+            if (!IsTheRibbler || index != -1)
                 return;
 
-            var position = Player.Center + new Microsoft.Xna.Framework.Vector2(-30, 30);
-            Projectile.NewProjectile(Player.GetSource_FromThis(), position, new Microsoft.Xna.Framework.Vector2(0, 0), ModContent.ProjectileType<ReflectiveRib>(), 9, 1, Player.whoAmI);
+            var position = new Microsoft.Xna.Framework.Vector2(Player.Center.X, Player.Center.Y - 40);// + new Microsoft.Xna.Framework.Vector2(-30, 30);
+            Projectile.NewProjectile(Player.GetSource_FromThis(), position, new Microsoft.Xna.Framework.Vector2(5, 5), ModContent.ProjectileType<ReflectiveRib>(), 9, 1, Player.whoAmI);
         }
     }
 }

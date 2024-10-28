@@ -111,6 +111,16 @@ Items: {
 		DisplayName: Golems Heart
 		Tooltip: ""
 	}
+
+	PioneersShield: {
+		DisplayName: Pioneers Shield
+		Tooltip: ""
+	}
+
+	SlippedRib: {
+		DisplayName: Slipped Rib
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -160,4 +170,7 @@ Projectiles: {
 	Extra98Bomb.DisplayName: Extra98 Bomb
 	CupidArrow.DisplayName: Cupid Arrow
 	FloppingFish.DisplayName: Flopping Fish
+	FlyingFireball.DisplayName: Flying Fireball
+	ReflectiveRib.DisplayName: Reflective Rib
+	RepellingPulse.DisplayName: Repelling Pulse
 }
