@@ -32,15 +32,7 @@ namespace TheBindingOfRarria.Content.Items
             if (!HasPlate)
                 return;
 
-            if (new Random().NextDouble() < 0.25)
-                Reflected = true;
-
-            if (Reflected) {
-                proj.velocity = -proj.velocity;
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.reflected = true;
-                proj.DamageType = DamageClass.Ranged; }
+            Reflected = Player.ReflectProjectiles(Player.getRect(), DamageClass.Ranged, 0.25f);
         }
         public override bool FreeDodge(Player.HurtInfo info)
         {

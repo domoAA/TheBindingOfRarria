@@ -24,28 +24,15 @@ namespace TheBindingOfRarria.Content.Projectiles
             var owner = Main.player[Projectile.owner];
 
             if (owner.GetModPlayer<SlipperyRibblerPlayer>().IsTheRibbler)
-                Projectile.timeLeft = 2;
+                Projectile.timeLeft = 3;
             Projectile.ai[0]++;
 
             var rotation = (MathHelper.TwoPi / 360 * Projectile.ai[0]);
-            Projectile.rotation = rotation - MathHelper.PiOver2 * 1.6f;
-            var desiredPosition = rotation.ToRotationVector2() * 40;
-            Projectile.Center = Main.player[Projectile.owner].Center + desiredPosition;
-            ReflectingProjectiles();
+            Projectile.OrbitingPlayer(1.6f, 40, rotation);
+            Projectile.ReflectProjectiles(true, 1f);
 
             //var pull = Projectile.Center.DirectionTo(owner.Center);//(Projectile.velocity.LengthSquared() * 40);
             //Projectile.velocity = pull.RotatedBy(MathHelper.PiOver2) * 3;
-        }
-        public void ReflectingProjectiles()
-        {
-            var target = Array.Find(Main.projectile, proj => proj.active && proj.hostile && proj.Colliding(proj.getRect(), Projectile.getRect()));
-            if (target != null)
-            {
-                target.velocity = -target.velocity;
-                target.hostile = false;
-                target.friendly = true;
-                target.reflected = true;
-            }
         }
     }
 }
