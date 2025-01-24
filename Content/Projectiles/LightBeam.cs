@@ -33,7 +33,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.rotation = rotation + MathHelper.PiOver2;
 
             var offset = new Vector2(Projectile.ai[0], Projectile.ai[1]);
-            Projectile.Center = Main.player[Projectile.owner].Center + offset * 2.5f;
+            Projectile.Center = Main.player[Projectile.owner].Center + offset * 2f;
 
             CD--;
             if (CD < 0)

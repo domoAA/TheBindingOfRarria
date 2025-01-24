@@ -20,7 +20,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             Projectile.width = (int)(110 * Projectile.scale);
             Projectile.height = (int)(110 * Projectile.scale);
-            Projectile.ReflectProjectiles(true, 0.3f);
+            Projectile.ReflectProjectiles(true, 0.15f);
             Projectile.CenteredOnPlayer();
         }
         public override bool PreDraw(ref Color lightColor)
@@ -39,7 +39,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             byte alpha = (byte)(7 + Projectile.ai[1]);
 
-            Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 5, 5, 0.015f);
+            Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 6, 3, 0.015f);
             return false;
         }
     }
