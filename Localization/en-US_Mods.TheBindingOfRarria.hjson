@@ -115,15 +115,6 @@ Items: {
 			'''
 	}
 
-	Fireball: {
-		DisplayName: Fireball
-		Tooltip:
-			'''
-			You shoot fireballs every time you use an item
-			"Enough fireballs for everyone"
-			'''
-	}
-
 	GolemsHeart: {
 		DisplayName: Golems Heart
 		Tooltip:
@@ -345,7 +336,7 @@ Items: {
 
 	GeneSickle: {
 		DisplayName: Gene Sickle
-		Tooltip: 
+		Tooltip:
 			'''
 			You gain 3 max life every time you kill an enemy, up to 300
 			The bonus is reset every minute
@@ -373,7 +364,7 @@ Items: {
 
 	DeadDove: {
 		DisplayName: Dead Dove
-		Tooltip: 
+		Tooltip:
 			'''
 			Increases flight time by 50%
 			Grants 8% flight acceleration
@@ -411,12 +402,16 @@ Buffs: {
 		DisplayName: Holy Protection
 		Description: You are protected
 	}
+
+	LifePool: {
+		DisplayName: Life Pool
+		Description: Mods.TheBindingOfRarria.Buffs.LifePool.Description
+	}
 }
 
 Projectiles: {
 	DetonatedButton.DisplayName: Detonated Button
 	Extra98Bomb.DisplayName: Extra98 Bomb
-	FlyingFireball.DisplayName: Flying Fireball
 	ReflectiveRib.DisplayName: Reflective Rib
 	RepellingPulse.DisplayName: Repelling Pulse
 	CircleOfLight.DisplayName: Circle Of Light
