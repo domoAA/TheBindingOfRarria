@@ -46,7 +46,7 @@ namespace TheBindingOfRarria.Content.Items
             if (!HasPlate)
                 return;
 
-            Reflected = Player.ReflectProjectiles(DamageClass.Ranged, 0.25f);
+            Reflected = Player.ReflectProjectiles(DamageClass.Ranged, 0.1f);
 
             if (!Reflected)
                 return;
