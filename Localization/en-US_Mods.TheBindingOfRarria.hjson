@@ -1,0 +1,432 @@
+Items: {
+	BrokenAnkh: {
+		Tooltip:
+			'''
+			With 22.22% chance, you will suvrive a fatal hit with 60 health
+			"Eternal life?"
+			'''
+		DisplayName: Broken Ankh
+	}
+
+	Ankh: {
+		Tooltip:
+			'''
+			You will survive a fatal hit with half health
+			"Eternal life"
+			'''
+		DisplayName: Ankh
+	}
+
+	ToothAndNail: {
+		DisplayName: Tooth And Nail
+		Tooltip:
+			'''
+			Enemies that hit you take damage
+			Every 5-10 seconds, you have 1/6 of a second to press {0}
+			You briefly become immune on success
+			Failure to react will briefly set you in stone
+			"You feel prickly"
+			'''
+	}
+
+	AnemoiBracelet: {
+		DisplayName: Anemoi Bracelet
+		Tooltip:
+			'''
+			Grants a chance to dodge attacks
+			The chance scales with movement speed bonuses
+			'''
+	}
+
+	ArmorConversion: {
+		DisplayName: Armor Conversion
+		Tooltip:
+			'''
+			Converts half defense into max health
+			You regenerate an additional 0.5% max health per second
+			"Literally too healthy to die"
+			'''
+	}
+
+	MedicalIceBag: {
+		DisplayName: Medical Ice Bag
+		Tooltip:
+			'''
+			Grants immunity to fire or poison
+			"Works for me."
+			'''
+	}
+
+	ValiantArmor: {
+		DisplayName: Valiant Armor
+		Tooltip:
+			'''
+			Increases max health by 15%
+			Increases defense by 5%
+			Enemies are more likely to target you
+			"Resilience befitting of a hero"
+			'''
+	}
+
+	CursedChain: {
+		DisplayName: Cursed Chain
+		Tooltip:
+			'''
+			Damage taken is increased by 50%
+			You heal for 50% of damage taken over 6 seconds
+			"Calculated risk."
+			'''
+	}
+
+	ButtonBomb: {
+		DisplayName: Button Bomb
+		Tooltip:
+			'''
+			Every hit leaves a button bomb on the enemy
+			"A little bit of tomfoolery"
+			'''
+	}
+
+	Handprint: {
+		DisplayName: Handprint
+		Tooltip:
+			'''
+			Enemies that hit you take double damage for 12 seconds
+			"Make them regret."
+			'''
+	}
+
+	HolyMantle: {
+		DisplayName: Holy Mantle
+		Tooltip:
+			'''
+			Gain immunity to damage for the next hit
+			Cooldown 50 seconds
+			"Holy shield!"
+			'''
+	}
+
+	AfterimageMirror: {
+		DisplayName: Afterimage Mirror
+		Tooltip:
+			'''
+			Grants a chance to reflect projectiles
+			"Reflect (on) your mistakes"
+			'''
+	}
+
+	Fireball: {
+		DisplayName: Fireball
+		Tooltip:
+			'''
+			You shoot fireballs every time you use an item
+			"Enough fireballs for everyone"
+			'''
+	}
+
+	GolemsHeart: {
+		DisplayName: Golems Heart
+		Tooltip:
+			'''
+			Grants a repelling aura
+			"It's still beating?"
+			'''
+	}
+
+	PioneersShield: {
+		DisplayName: Pioneer's Shield
+		Tooltip:
+			'''
+			Grants 7% movement speed
+			Grants immunity to knockback and Slow
+			"Man, gotta love shields"
+			'''
+	}
+
+	SlippedRib: {
+		DisplayName: Slipped Rib
+		Tooltip:
+			'''
+			You gain a bone that orbits you and reflects projectiles
+			"Does the identity of its previous owner matter?"
+			'''
+	}
+
+	Censer: {
+		DisplayName: Censer
+		Tooltip:
+			'''
+			Grants a slowing aura
+			"Slowpokes, all of them."
+			'''
+	}
+
+	GodHead: {
+		DisplayName: God Head
+		Tooltip:
+			'''
+			Grants a halo that has a chance to reflect projectiles
+			"Protect me from myself..."
+			'''
+	}
+
+	DevilsTrumpet: {
+		DisplayName: Devils Trumpet
+		Tooltip:
+			'''
+			Your attacks convert Poison on enemies into Venom
+			"No, not that Venom."
+			'''
+	}
+
+	Revelation: {
+		DisplayName: Revelation
+		Tooltip:
+			'''
+			Using an item allows you to fire a light beam
+			"A beam of faith (and light)"
+			'''
+	}
+
+	EightInchNails: {
+		DisplayName: 8 Inch Nails
+		Tooltip:
+			'''
+			Transforms ranged projectiles into nails
+			"How much is that in centimeters?"
+			'''
+	}
+
+	Fuse: {
+		DisplayName: Fuse
+		Tooltip:
+			'''
+			Non-critical attacks set enemies on fire
+			Critical attacks against burning enemies make them explode
+			"Let's commit some arson!"
+			'''
+	}
+
+	SerpentsKiss: {
+		DisplayName: Serpent's Kiss
+		Tooltip:
+			'''
+			Your attacks apply poison on enemies
+			Enemies that attack you get poisoned
+			"Deadly love"
+			'''
+	}
+
+	CursedWoodMask: {
+		DisplayName: Atropian Mask
+		Tooltip:
+			'''
+			Nearby enemies take increased damage based on the amount of debuffs and buffs they are afflicted with
+			"The power of shamanism!"
+			'''
+	}
+
+	TinyPlanet: {
+		DisplayName: Tiny Planet
+		Tooltip:
+			'''
+			Your ranged projectiles orbit you
+			"No it's not useless..."
+			'''
+	}
+
+	AshenSkull: {
+		DisplayName: Ashen Skull
+		Tooltip:
+			'''
+			Increased crit damage by 6% for every debuff you are afflicted with
+			"What doesn't kill you, makes you... Crazier?"
+			'''
+	}
+
+	Saturnus: {
+		DisplayName: Saturnus
+		Tooltip:
+			'''
+			Projectiles have a chance to start orbiting you
+			"Now that's useful, right?"
+			'''
+	}
+
+	CombustiveToxin: {
+		DisplayName: Combustive Toxin
+		Tooltip:
+			'''
+			If an enemy is afflicted with any debuff, your attacks will set them on fire
+			Otherwise, your attacks will poison them
+			'''
+	}
+
+	HiveBlood: {
+		DisplayName: Hive Blood
+		Tooltip:
+			'''
+			Grants Honey buff at all times
+			Release bees when taking damage
+			You heal for 5% of incoming damage
+			"Respect existence or expect resistance"
+			'''
+	}
+
+	BrokenWatch: {
+		DisplayName: Broken Watch
+		Tooltip:
+			'''
+			Slows down or speeds up projectiles and creatures every once in a while
+			"To never be late again..."
+			'''
+	}
+
+	RubberCement: {
+		DisplayName: Rubber Cement
+		Tooltip:
+			'''
+			Your projectiles become bouncy
+			"It tastes funny"
+			'''
+	}
+
+	SweetHeart: {
+		DisplayName: Sweet Heart
+		Tooltip:
+			'''
+			Grants 5% lifesteal on your attacks
+			Reduces your life regeneration by 3 hp/s
+			"Your guilt weighs heavier with each heartbeat"
+			'''
+	}
+
+	UdjatEye: {
+		DisplayName: Udjat Eye
+		Tooltip:
+			'''
+			Grants you the vision of traps and treasures
+			"Spelunky?"
+			'''
+	}
+
+	NightLight: {
+		DisplayName: Night Light
+		Tooltip:
+			'''
+			You emit a cone of light that slows enemies and projectiles
+			"Scared of the dark?"
+			'''
+	}
+
+	PushPin: {
+		DisplayName: Push Pin
+		Tooltip: Grants a chance for your projectiles to become spectral
+	}
+
+	LoupesForWeakness: {
+		DisplayName: Loupes For Weakness
+		Tooltip:
+			'''
+			Increases critical strike chance by 6%
+			Increases critical strike damage by 14%
+			"7:3 ratio is where the weakness lies."
+			'''
+	}
+
+	VestOfVines: {
+		DisplayName: Vest Of Vines
+		Tooltip:
+			'''
+			Grants 2% damage reduction for every debuff you are afflicted with
+			"Too sturdy to bend"
+			'''
+	}
+
+	GeneSickle: {
+		DisplayName: Gene Sickle
+		Tooltip: 
+			'''
+			You gain 3 max life every time you kill an enemy, up to 300
+			The bonus is reset every minute
+			'''
+	}
+
+	GnawedLeaf: {
+		DisplayName: Gnawed Leaf
+		Tooltip:
+			'''
+			Reduces your damage by 10%
+			Not moving and avoiding item use for 3 seconds sets you in stone for 3 seconds
+			"Unbreakable"
+			'''
+	}
+
+	GoodFruit: {
+		DisplayName: Good Fruit
+		Tooltip:
+			'''
+			Grants Well Fed buff at all times
+			"Yummers"
+			'''
+	}
+
+	DeadDove: {
+		DisplayName: Dead Dove
+		Tooltip: 
+			'''
+			Increases flight time by 50%
+			Grants 8% flight acceleration
+			"Freedom is a blessing. One you have to fight for"
+			'''
+	}
+}
+
+Buffs: {
+	AnubisCurse: {
+		Description:
+			'''
+			Cannot regain life
+			"Your heart shall not beat again."
+			'''
+		DisplayName: Anubis's Curse
+	}
+
+	FireImmunity: {
+		DisplayName: Fire Immunity
+		Description: Immunity to some fire debuffs
+	}
+
+	PoisonImmunity: {
+		DisplayName: Poison Immunity
+		Description: Immunity to some poison debuffs
+	}
+
+	RevengeDebuff: {
+		DisplayName: Revenge Debuff
+		Description: Takes more damage
+	}
+
+	HolyProtection: {
+		DisplayName: Holy Protection
+		Description: You are protected
+	}
+}
+
+Projectiles: {
+	DetonatedButton.DisplayName: Detonated Button
+	Extra98Bomb.DisplayName: Extra98 Bomb
+	FlyingFireball.DisplayName: Flying Fireball
+	ReflectiveRib.DisplayName: Reflective Rib
+	RepellingPulse.DisplayName: Repelling Pulse
+	CircleOfLight.DisplayName: Circle Of Light
+	LightBeam.DisplayName: Light Beam
+	NailProjectile.DisplayName: Nail Projectile
+	FireExplotaro.DisplayName: Fire Explotaro
+	SaturnusRing.DisplayName: Saturnus Ring
+	SlowingAura.DisplayName: Slowing Aura
+	LightCone.DisplayName: Light Cone
+	ElectricityChain.DisplayName: Electricity Chain
+}
+
+Keybinds.StonedInvul.DisplayName: Stoned Invul
