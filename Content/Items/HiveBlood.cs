@@ -1,11 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using System;
-using System.Linq;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -23,31 +21,28 @@ namespace TheBindingOfRarria.Content.Items
         {
             player.AddBuff(BuffID.Honey, 2);
             player.GetModPlayer<HiveBloodPlayer>().RespectsBees = true;
-            player.GetModPlayer<HiveBloodPlayer>().Hive = Item;
+            player.GetModPlayer<HiveBloodPlayer>().counter--;
+            if (Main.myPlayer != player.whoAmI || player.GetModPlayer<HiveBloodPlayer>().counter > 0)
+                return;
+
+            Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<HivePulse>(), player.statLifeMax2 / 100, 2, player.whoAmI);
+            player.GetModPlayer<HiveBloodPlayer>().counter = 300;
         }
     }
     public class HiveBloodPlayer : ModPlayer
     {
         public bool RespectsBees = false;
-        public Item Hive = null;
+        public int counter = 300;
         public override void ResetEffects()
         {
             RespectsBees = false;
-            Hive = null;
         }
-        public void BeeHeal(int damage, PlayerDeathReason playerDeathReason)
+        public void BeeHeal(int damage)
         {
-            if (!RespectsBees)
+            if (!RespectsBees || Main.myPlayer != Player.whoAmI)
                 return;
 
             Player.Heal(damage / 20);
-            if (Main.myPlayer == 255 || Hive == null)
-                return;
-
-            for (int i = Main.rand.Next(1, 7); i > 0; i--)
-            {
-                Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(Hive, playerDeathReason), Player.Center, new Vector2(5, 5).RotatedByRandom(MathHelper.TwoPi), ProjectileID.Bee, damage / 10, 2, Player.whoAmI);
-            }
 
             // Those who respect bees
             // Those who don't bother them
@@ -56,12 +51,12 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
-            BeeHeal(hurtInfo.SourceDamage, hurtInfo.DamageSource);
+            BeeHeal(hurtInfo.SourceDamage);
             base.OnHitByProjectile(proj, hurtInfo);
         }
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
-            BeeHeal(hurtInfo.SourceDamage, hurtInfo.DamageSource);
+            BeeHeal(hurtInfo.SourceDamage);
             base.OnHitByNPC(npc, hurtInfo);
         }
     }
