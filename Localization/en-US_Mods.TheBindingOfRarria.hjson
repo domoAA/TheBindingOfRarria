@@ -2,7 +2,7 @@ Items: {
 	BrokenAnkh: {
 		Tooltip:
 			'''
-			With 22.22% chance, you will suvrive a fatal hit with 60 health
+			With 22.22% chance, you will suvrive a fatal hit with 100 health
 			"Eternal life?"
 			'''
 		DisplayName: Broken Ankh
@@ -33,7 +33,7 @@ Items: {
 		DisplayName: Anemoi Bracelet
 		Tooltip:
 			'''
-			Grants a chance to dodge attacks
+			Grants a {0} chance to dodge attacks
 			The chance scales with movement speed bonuses
 			'''
 	}
@@ -42,8 +42,9 @@ Items: {
 		DisplayName: Armor Conversion
 		Tooltip:
 			'''
-			Converts half defense into max health
-			You regenerate an additional 0.5% max health per second
+			Reduces defense by 8
+			Increases max health by 80
+			You regenerate additional 2 hp/s
 			"Literally too healthy to die"
 			'''
 	}
@@ -61,8 +62,7 @@ Items: {
 		DisplayName: Valiant Armor
 		Tooltip:
 			'''
-			Increases max health by 15%
-			Increases defense by 5%
+			Increases max health by 50
 			Enemies are more likely to target you
 			"Resilience befitting of a hero"
 			'''
@@ -74,7 +74,7 @@ Items: {
 			'''
 			Damage taken is increased by 50%
 			You heal for 50% of damage taken over 6 seconds
-			"Calculated risk."
+			"Calculated risk"
 			'''
 	}
 
@@ -92,7 +92,7 @@ Items: {
 		Tooltip:
 			'''
 			Enemies that hit you take double damage for 12 seconds
-			"Make them regret."
+			"Make them regret"
 			'''
 	}
 
@@ -110,7 +110,7 @@ Items: {
 		DisplayName: Afterimage Mirror
 		Tooltip:
 			'''
-			Grants a chance to reflect projectiles
+			Grants a 15% chance to reflect projectiles
 			"Reflect (on) your mistakes"
 			'''
 	}
@@ -156,7 +156,7 @@ Items: {
 		DisplayName: God Head
 		Tooltip:
 			'''
-			Grants a halo that has a chance to reflect projectiles
+			Grants a halo that has a 20% chance to reflect projectiles
 			"Protect me from myself..."
 			'''
 	}
@@ -221,13 +221,13 @@ Items: {
 		DisplayName: Tiny Planet
 		Tooltip:
 			'''
-			Your ranged projectiles orbit you
+			Your projectiles orbit you
 			"No it's not useless..."
 			'''
 	}
 
-	AshenSkull: {
-		DisplayName: Ashen Skull
+	SuspiciousLookingMask: {
+		DisplayName: Suspicious Looking Mask
 		Tooltip:
 			'''
 			Increased crit damage by 6% for every debuff you are afflicted with
@@ -235,8 +235,8 @@ Items: {
 			'''
 	}
 
-	Saturnus: {
-		DisplayName: Saturnus
+	MicroPlanet: {
+		DisplayName: Micro Planet
 		Tooltip:
 			'''
 			Projectiles have a chance to start orbiting you
@@ -246,11 +246,7 @@ Items: {
 
 	CombustiveToxin: {
 		DisplayName: Combustive Toxin
-		Tooltip:
-			'''
-			If an enemy is afflicted with any debuff, your attacks will set them on fire
-			Otherwise, your attacks will poison them
-			'''
+		Tooltip: If an enemy is afflicted with any debuff, your attacks will set them on fire
 	}
 
 	HiveBlood: {
@@ -258,7 +254,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants Honey buff at all times
-			Release bees when taking damage
+			You emit a healing pulse every 5 seconds
 			You heal for 5% of incoming damage
 			"Respect existence or expect resistance"
 			'''
@@ -288,7 +284,7 @@ Items: {
 			'''
 			Grants 5% lifesteal on your attacks
 			Reduces your life regeneration by 3 hp/s
-			"Your guilt weighs heavier with each heartbeat"
+			"The guilt weighs heavier with each heartbeat"
 			'''
 	}
 
@@ -319,8 +315,8 @@ Items: {
 		DisplayName: Loupes For Weakness
 		Tooltip:
 			'''
-			Increases critical strike chance by 6%
-			Increases critical strike damage by 14%
+			Increases critical strike chance by 9%
+			Increases critical strike damage by 12%
 			"7:3 ratio is where the weakness lies."
 			'''
 	}
@@ -338,8 +334,8 @@ Items: {
 		DisplayName: Gene Sickle
 		Tooltip:
 			'''
-			You gain 3 max life every time you kill an enemy, up to 300
-			The bonus is reset every minute
+			You gain 1 max life every time you kill an enemy, up to 150
+			The bonus is reset every 5 minutes
 			'''
 	}
 
@@ -375,11 +371,7 @@ Items: {
 
 Buffs: {
 	AnubisCurse: {
-		Description:
-			'''
-			Cannot regain life
-			"Your heart shall not beat again."
-			'''
+		Description: Reduced life regeneration by 1 hp/s
 		DisplayName: Anubis's Curse
 	}
 
@@ -400,12 +392,12 @@ Buffs: {
 
 	HolyProtection: {
 		DisplayName: Holy Protection
-		Description: You are protected
+		Description: Holy protection
 	}
 
 	LifePool: {
 		DisplayName: Life Pool
-		Description: Mods.TheBindingOfRarria.Buffs.LifePool.Description
+		Description: Increased max life
 	}
 }
 
@@ -421,7 +413,6 @@ Projectiles: {
 	SaturnusRing.DisplayName: Saturnus Ring
 	SlowingAura.DisplayName: Slowing Aura
 	LightCone.DisplayName: Light Cone
-	ElectricityChain.DisplayName: Electricity Chain
 }
 
 Keybinds.StonedInvul.DisplayName: Stoned Invul
