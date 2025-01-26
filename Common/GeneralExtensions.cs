@@ -103,7 +103,7 @@ namespace TheBindingOfRarria.Content
             public override void PostAI(NPC npc)
             {
                 if (Slowed.Item1)
-                    npc.velocity *= 0.96f;
+                    npc.velocity *= 0.97f;
             }
             public override void DrawEffects(NPC npc, ref Color drawColor)
             {
@@ -136,7 +136,7 @@ namespace TheBindingOfRarria.Content
             var target = Array.Find(Main.projectile, proj => proj.velocity != Vector2.Zero && proj.active && proj.hostile && proj.Colliding(proj.getRect(), player.getRect()));
             if (target != null)
             {
-                if (new Random().NextDouble() >= chance)
+                if (Main.rand.NextFloat() >= chance)
                     return false;
 
                 target.velocity = -target.velocity;
@@ -144,45 +144,75 @@ namespace TheBindingOfRarria.Content
                 target.friendly = true;
                 target.reflected = true;
                 target.DamageType = damageClass;
+                target.netUpdate = true;
                 return true;
             }
             return false;
         }
         public static bool OwnsProjectile(this Player player, int type)
         {
-            return Main.ActiveProjectiles.Find(proj => proj.type == type && proj.owner == player.whoAmI) != null;
+            return player.ownedProjectileCounts[type] > 0;
+            return Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI) != null;
         }
         public static void SpawnProjectileIfNotSpawned(this Player player, int type)
         {
+            Projectile proj = null;
             if (Main.myPlayer != player.whoAmI)
                 return;
             if (!player.OwnsProjectile(type))
-                Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, type, 0, 0, player.whoAmI);
+                proj = Main.projectile[Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, type, 0, 0, player.whoAmI)];
             else
-                Main.ActiveProjectiles.Find(proj => proj.type == type && proj.owner == player.whoAmI).timeLeft = 3;
+                proj = Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI);
+            if (proj != null)
+            {
+                proj.timeLeft = 3;
+                proj.netUpdate = true;
+            }
         }
         public static void SpawnProjectileIfNotSpawned(this Player player, int type, Vector2 position)
         {
+            Projectile proj = null;
             if (Main.myPlayer != player.whoAmI)
                 return;
             if (!player.OwnsProjectile(type))
                 Projectile.NewProjectile(player.GetSource_FromThis(), position, Vector2.Zero, type, 0, 0, player.whoAmI);
             else
-                Main.ActiveProjectiles.Find(proj => proj.type == type && proj.owner == player.whoAmI).timeLeft = 3;
+                proj = Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI);
+            if (proj != null)
+            {
+                proj.timeLeft = 3;
+                proj.netUpdate = true;
+            }
         }
         public static void SpawnProjectileIfNotSpawned(this Player player, int type, IEntitySource source)
         {
+            Projectile proj = null;
+            if (Main.myPlayer != player.whoAmI)
+                return;
             if (!player.OwnsProjectile(type))
                 Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, 0, 0, player.whoAmI);
             else
-                Main.ActiveProjectiles.Find(proj => proj.type == type && proj.owner == player.whoAmI).timeLeft = 3;
+                proj = Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI);
+            if (proj != null)
+            {
+                proj.timeLeft = 3;
+                proj.netUpdate = true;
+            }
         }
         public static void SpawnProjectileIfNotSpawned(this Player player, int type, Vector2 position, IEntitySource source)
         {
+            Projectile proj = null;
+            if (Main.myPlayer != player.whoAmI)
+                return;
             if (!player.OwnsProjectile(type))
                 Projectile.NewProjectile(source, position, Vector2.Zero, type, 0, 0, player.whoAmI);
             else
-                Main.ActiveProjectiles.Find(proj => proj.type == type && proj.owner == player.whoAmI).timeLeft = 3;
+                proj = Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI);
+            if (proj != null)
+            {
+                proj.timeLeft = 3;
+                proj.netUpdate = true;
+            }
         }
     }
 }
