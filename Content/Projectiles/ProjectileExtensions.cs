@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
+using System.Diagnostics;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -87,7 +88,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                     target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
 
                     var reflected = Main.rand.NextFloat() < chance;
-
+                    Console.WriteLine(reflected); // 
                     ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
                     packet.Write("ProjectileReflection");
                     packet.Write(reflected);
@@ -100,12 +101,15 @@ namespace TheBindingOfRarria.Content.Projectiles
 
                     if (projectile.type == ModContent.ProjectileType<CircleOfLight>())
                         projectile.ai[0] = 1;
+                    target.GetReflected(friendly);
                 }
             }
         }
         public static void GetReflected(this Projectile projectile, bool friendly)
         {
+            Console.WriteLine("GetReflected"); // 
             projectile.velocity = -projectile.velocity;
+            projectile.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
             if (friendly)
             {
                 projectile.hostile = false;
