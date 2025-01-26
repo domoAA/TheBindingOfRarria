@@ -15,7 +15,6 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.ignoreWater = true;
             Projectile.width = 116;
             Projectile.height = 116;
-            Projectile.timeLeft = 3;
             Projectile.scale = 2.5f;
         }
         public override void AI()

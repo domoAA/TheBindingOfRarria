@@ -14,7 +14,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.ignoreWater = true;
             Projectile.width = 60;
             Projectile.height = 60;
-            Projectile.timeLeft = 3;
+            Projectile.friendly = true;
             Projectile.netImportant = true;
         }
         public override void AI()
@@ -25,7 +25,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.CenteredOnPlayer();
             if (Main.myPlayer != Projectile.owner)
                 return;
-            //Projectile.ReflectProjectiles(true, 0.2f);
+            Projectile.ReflectProjectiles(true, 0.2f);
         }
         public override bool PreDraw(ref Color lightColor)
         {

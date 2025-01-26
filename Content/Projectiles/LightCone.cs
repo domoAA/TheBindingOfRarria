@@ -14,6 +14,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.width = 113;
             Projectile.height = 120;
             Projectile.damage = 0;
+            Projectile.netImportant = true;
         }
         public override void AI()
         {
@@ -60,6 +61,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                     }
                 }
             }
+            Projectile.netUpdate = true;
         }
         public override bool PreDraw(ref Color lightColor)
         {

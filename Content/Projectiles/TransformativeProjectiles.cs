@@ -17,7 +17,7 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
         public bool Godly = false;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (!projectile.Transform(projectile.owner != Main.myPlayer || projectile.hostile || Main.LocalPlayer.HeldItem.consumable || Main.LocalPlayer.ChooseAmmo(Main.LocalPlayer.HeldItem).ammo == AmmoID.Gel))
+            if (!projectile.Transform(projectile.owner != Main.myPlayer || projectile.hostile || Main.netMode == NetmodeID.Server || Main.LocalPlayer.HeldItem.consumable || Main.LocalPlayer.ChooseAmmo(Main.LocalPlayer.HeldItem).ammo == AmmoID.Gel))
                 return;
 
             else if (projectile.DamageType == DamageClass.Ranged)

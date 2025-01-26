@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -14,7 +12,6 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Default;
-            Projectile.timeLeft = 60;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;

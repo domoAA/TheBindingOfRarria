@@ -13,7 +13,6 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.ignoreWater = true;
             Projectile.width = 50;
             Projectile.height = 50;
-            Projectile.timeLeft = 3;
             Projectile.friendly = true;
         }
         public enum State
@@ -24,7 +23,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public State state = State.Expanding;
         public override void AI()
         {
-            if (!Projectile.hostile && Main.myPlayer == Projectile.owner)
+            if (!Projectile.hostile)
                 Projectile.CenteredOnPlayer();
 
             var rand = Main.rand.NextFloat() * 1.5f + 0.1f;
