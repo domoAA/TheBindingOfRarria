@@ -15,13 +15,17 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.width = 60;
             Projectile.height = 60;
             Projectile.timeLeft = 3;
+            Projectile.netImportant = true;
         }
         public override void AI()
         {
             Projectile.width = (int)(110 * Projectile.scale);
             Projectile.height = (int)(110 * Projectile.scale);
-            Projectile.ReflectProjectiles(true, 0.15f);
+
             Projectile.CenteredOnPlayer();
+            if (Main.myPlayer != Projectile.owner)
+                return;
+            //Projectile.ReflectProjectiles(true, 0.2f);
         }
         public override bool PreDraw(ref Color lightColor)
         {

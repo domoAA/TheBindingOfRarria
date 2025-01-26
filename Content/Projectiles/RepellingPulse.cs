@@ -24,7 +24,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public State state = State.Expanding;
         public override void AI()
         {
-            if (!Projectile.hostile)
+            if (!Projectile.hostile && Main.myPlayer == Projectile.owner)
                 Projectile.CenteredOnPlayer();
 
             var rand = Main.rand.NextFloat() * 1.5f + 0.1f;
@@ -40,6 +40,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.ProjectileRepelling();
 
             Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3() * Projectile.scale / 2);
+            Projectile.netUpdate = true;
         }
         public override bool PreDraw(ref Color lightColor)
         {

@@ -64,7 +64,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             byte alpha = (byte)(7 + Projectile.ai[1]);
 
             Projectile.scale = 2.5f;
-            Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 5, 5, 0.015f);
+            Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 8, 2, 0.035f);
             return false;
         }
     }

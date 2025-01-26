@@ -43,6 +43,7 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
                     projectile.penetrate += 2;
                 projectile.usesIDStaticNPCImmunity = true;
                 projectile.idStaticNPCHitCooldown = 15;
+                projectile.netUpdate = true;
             }
             else if (Main.LocalPlayer.GetModPlayer<CementosPlayer>().Cementos)
             {

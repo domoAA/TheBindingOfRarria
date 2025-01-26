@@ -42,6 +42,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 else
                     proj.GetGlobalProjectile<OrbitalDebrisProjectile>().FollowingARing = null;
             }
+            Projectile.netUpdate = true;
         }
         public bool CheckOrbit(Projectile projectile)
         {
