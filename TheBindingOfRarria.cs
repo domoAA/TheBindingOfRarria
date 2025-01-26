@@ -13,6 +13,8 @@ using System.Collections;
 using TheBindingOfRarria.Content;
 using TheBindingOfRarria.Content.Items;
 using Terraria.Graphics.Shaders;
+using System.IO;
+using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria
 {
@@ -55,6 +57,45 @@ namespace TheBindingOfRarria
                 MirrorCrack = null;
 
             }
+        }
+        public override void HandlePacket(BinaryReader reader, int whoAmI)
+        {
+            bool reflected;
+            int id;
+            bool friendly;
+            if (Main.netMode != NetmodeID.Server && whoAmI == 255)
+            {
+                if (reader.ReadString() == "ProjectileReflection")
+                {
+                    reflected = reader.ReadBoolean();
+                    id = reader.ReadInt32();
+                    friendly = reader.ReadBoolean();
+                    foreach ( var proj in Main.ActiveProjectiles)
+                    {
+                        if (proj.identity == id)
+                        {
+                            proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                            if (reflected)
+                                proj.GetReflected(friendly);
+                        }
+                    }
+                    return;
+                }
+            }
+
+            if (reader.ReadString() == "ProjectileReflection" && Main.netMode == NetmodeID.Server) {
+                reflected = reader.ReadBoolean();
+                id = reader.ReadInt32();
+                friendly = reader.ReadBoolean(); }
+            else
+                return;
+
+            ModPacket packet = GetPacket();
+            packet.Write("ProjectileReflection");
+            packet.Write(reflected);
+            packet.Write(id);
+            packet.Write(friendly);
+            packet.Send();
         }
     }
 }
