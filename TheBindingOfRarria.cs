@@ -15,6 +15,7 @@ using TheBindingOfRarria.Content.Items;
 using Terraria.Graphics.Shaders;
 using System.IO;
 using TheBindingOfRarria.Content.Projectiles;
+using System.Diagnostics;
 
 namespace TheBindingOfRarria
 {
@@ -60,42 +61,44 @@ namespace TheBindingOfRarria
         }
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            bool reflected;
-            int id;
-            bool friendly;
-            if (Main.netMode != NetmodeID.Server && whoAmI == 255)
+            var name = reader.ReadString();
+
+            if (name != "ProjectileReflection")
             {
-                if (reader.ReadString() == "ProjectileReflection")
-                {
-                    reflected = reader.ReadBoolean();
-                    id = reader.ReadInt32();
-                    friendly = reader.ReadBoolean();
-                    foreach ( var proj in Main.ActiveProjectiles)
-                    {
-                        if (proj.identity == id)
-                        {
-                            proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
-                            if (reflected)
-                                proj.GetReflected(friendly);
-                        }
-                    }
-                    return;
-                }
+                base.HandlePacket(reader, whoAmI);
+                return;
             }
 
-            if (reader.ReadString() == "ProjectileReflection" && Main.netMode == NetmodeID.Server) {
-                reflected = reader.ReadBoolean();
-                id = reader.ReadInt32();
-                friendly = reader.ReadBoolean(); }
-            else
-                return;
 
-            ModPacket packet = GetPacket();
-            packet.Write("ProjectileReflection");
-            packet.Write(reflected);
-            packet.Write(id);
-            packet.Write(friendly);
-            packet.Send();
+            var reflected = reader.ReadBoolean();
+            var id = reader.ReadInt32();
+            var friendly = reader.ReadBoolean();
+
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                foreach (var proj in Main.ActiveProjectiles)
+                {
+                    if (proj.identity == id)
+                    {
+                        proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                        if (reflected)
+                            proj.GetReflected(friendly);
+
+                        Console.WriteLine("RecievedPacket"); // 
+                    }
+                }
+                return;
+            }
+            else
+            {
+                ModPacket packet = GetPacket();
+                packet.Write(name);
+                packet.Write(reflected);
+                packet.Write(id);
+                packet.Write(friendly);
+                packet.Send();
+                Console.WriteLine("SentPacket"); // 
+            }
         }
     }
 }
