@@ -71,7 +71,6 @@ namespace TheBindingOfRarria.Content.Projectiles
                     target.velocity = -target.velocity;
 
                     target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
-                    target.netUpdate = true;
                 }
             }
         }
@@ -86,23 +85,34 @@ namespace TheBindingOfRarria.Content.Projectiles
                 if (target != null && Main.myPlayer == projectile.owner)
                 {
                     target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
-                    if (Main.rand.NextFloat() >= chance)
-                        return;
 
-                    target.velocity = -target.velocity;
+                    var reflected = Main.rand.NextFloat() < chance;
 
-                    if (!friendly)
+                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
+                    packet.Write("ProjectileReflection");
+                    packet.Write(reflected);
+                    packet.Write(target.identity);
+                    packet.Write(friendly);
+                    packet.Send();
+
+                    if (!reflected)
                         return;
 
                     if (projectile.type == ModContent.ProjectileType<CircleOfLight>())
                         projectile.ai[0] = 1;
-
-                    target.hostile = false;
-                    target.friendly = true;
-                    target.reflected = true;
-                    target.netUpdate = true;
                 }
             }
+        }
+        public static void GetReflected(this Projectile projectile, bool friendly)
+        {
+            projectile.velocity = -projectile.velocity;
+            if (friendly)
+            {
+                projectile.hostile = false;
+                projectile.friendly = true;
+                projectile.reflected = true;
+            }
+            projectile.netUpdate = true;
         }
         public static void DrawElectricity(this Projectile projectile, Vector4[] points, float width, Color color)
         {
