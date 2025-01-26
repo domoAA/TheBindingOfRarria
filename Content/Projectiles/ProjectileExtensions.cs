@@ -83,7 +83,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 if (projectile.ReflectCheck(proj))
                     target = proj;
 
-                if (target != null)
+                if (target != null && Main.myPlayer == projectile.owner)
                 {
                     target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
                     if (Main.rand.NextFloat() >= chance)
