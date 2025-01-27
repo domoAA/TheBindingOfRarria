@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
-using System.Diagnostics;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -13,9 +12,15 @@ namespace TheBindingOfRarria.Content.Projectiles
     {
         public override bool InstancePerEntity => true;
         public bool Reflected = false;
+        public override void PostAI(Projectile projectile)
+        {
+            base.PostAI(projectile);
+            if (projectile.reflected)
+                Reflected = true;
+        }
         public override bool PreDraw(Projectile projectile, ref Color lightColor)
         {
-            if (projectile.reflected)
+            if (Reflected)
                 lightColor.A = 70;
 
             return base.PreDraw(projectile, ref lightColor);
@@ -85,38 +90,35 @@ namespace TheBindingOfRarria.Content.Projectiles
 
                 if (target != null && Main.myPlayer == projectile.owner)
                 {
-                    target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
-
                     var reflected = Main.rand.NextFloat() < chance;
-                    Console.WriteLine(reflected); // 
+
                     ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                    packet.Write("ProjectileReflection");
+                    packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflection);
                     packet.Write(reflected);
                     packet.Write(target.identity);
                     packet.Write(friendly);
                     packet.Send();
+
 
                     if (!reflected)
                         return;
 
                     if (projectile.type == ModContent.ProjectileType<CircleOfLight>())
                         projectile.ai[0] = 1;
-                    target.GetReflected(friendly);
+                    
                 }
             }
         }
         public static void GetReflected(this Projectile projectile, bool friendly)
         {
-            Console.WriteLine("GetReflected"); // 
             projectile.velocity = -projectile.velocity;
-            projectile.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
             if (friendly)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
                 projectile.reflected = true;
             }
-            projectile.netUpdate = true;
+            //projectile.netUpdate = true;
         }
         public static void DrawElectricity(this Projectile projectile, Vector4[] points, float width, Color color)
         {

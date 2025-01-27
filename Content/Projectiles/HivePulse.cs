@@ -18,6 +18,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.scale = 0.1f;
+            Projectile.ai[0] = 0.1f;
             Projectile.hostile = true;
         }
         public override void AI()
@@ -25,8 +26,8 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.width = (int)(110 * Projectile.scale);
             Projectile.height = (int)(110 * Projectile.scale);
 
-            Projectile.ai[0] += 0.01f;
-            Projectile.scale += Projectile.ai[0];
+            Projectile.ai[0] += 0.005f;
+            Projectile.scale = Projectile.ai[0];
 
             for (int i = 3; i > 0; i--)
             {

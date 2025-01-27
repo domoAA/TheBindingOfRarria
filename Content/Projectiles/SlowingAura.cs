@@ -14,7 +14,6 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.ignoreWater = true;
             Projectile.width = 110;
             Projectile.height = 110;
-            Projectile.timeLeft = 3;
         }
         public override void AI()
         {
@@ -63,7 +62,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             byte alpha = (byte)(7 + Projectile.ai[1]);
 
-            Projectile.scale = 2.5f;
+            Projectile.scale = 3.5f;
             Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 8, 2, 0.035f);
             return false;
         }
