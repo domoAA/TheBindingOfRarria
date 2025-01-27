@@ -12,13 +12,13 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.ignoreWater = true;
-            Projectile.width = 110;
-            Projectile.height = 110;
+            Projectile.width = 105;
+            Projectile.height = 105;
         }
         public override void AI()
         {
-            Projectile.width = (int)(110 * Projectile.scale);
-            Projectile.height = (int)(110 * Projectile.scale);
+            Projectile.width = (int)(105 * Projectile.scale);
+            Projectile.height = (int)(105 * Projectile.scale);
 
             foreach (var proj in Main.ActiveProjectiles)
             {
@@ -44,13 +44,13 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             switch(Projectile.ai[1])
             {
-                case > 7: 
+                case > 6: 
                     shining = false;
-                    Projectile.ai[1] = 6.9f;
+                    Projectile.ai[1] = 5.9f;
                     break;
-                case < -7:
+                case < -6:
                     shining = true;
-                    Projectile.ai[1] = -6.9f;
+                    Projectile.ai[1] = -5.9f;
                     break;
                 default:
                     if (shining)
@@ -60,10 +60,10 @@ namespace TheBindingOfRarria.Content.Projectiles
                     break;
             }
 
-            byte alpha = (byte)(7 + Projectile.ai[1]);
+            byte alpha = (byte)(6 + Projectile.ai[1]);
 
             Projectile.scale = 3.5f;
-            Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 8, 2, 0.035f);
+            Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 8, 2, 0.025f);
             return false;
         }
     }

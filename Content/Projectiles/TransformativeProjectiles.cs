@@ -17,25 +17,30 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
         public bool Godly = false;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (!projectile.Transform(projectile.owner != Main.myPlayer || projectile.hostile || Main.netMode == NetmodeID.Server || Main.LocalPlayer.HeldItem.consumable || Main.LocalPlayer.ChooseAmmo(Main.LocalPlayer.HeldItem).ammo == AmmoID.Gel))
+            var owner = Main.player[projectile.owner];
+            if (!projectile.Transform(projectile.hostile || Main.netMode == NetmodeID.Server || owner.HeldItem.consumable || owner.ChooseAmmo(owner.HeldItem).ammo == AmmoID.Gel))
                 return;
 
             else if (projectile.DamageType == DamageClass.Ranged)
             {
-                if (Main.player[projectile.owner].GetModPlayer<ProjectileTransformPlayer>().IsNailed)
+                if (owner.GetModPlayer<ProjectileTransformPlayer>().IsNailed && projectile.owner == Main.myPlayer)
                 {
                     projectile.active = false;
                     Projectile.NewProjectile(source, projectile.position, projectile.velocity * 2, ModContent.ProjectileType<NailProjectile>(), (int)(projectile.damage * 0.67f), 2, projectile.owner);
+                    projectile.netUpdate = true;
                 }
             }
 
-            if (Main.LocalPlayer.GetModPlayer<PlanetPlayer>().planet == PlanetPlayer.Planets.Earth)
+            if (owner.GetModPlayer<PlanetPlayer>().planet == PlanetPlayer.Planets.Earth && projectile.penetrate != -1 && projectile.aiStyle != ProjAIStyleID.NightsEdge && projectile.aiStyle != ProjAIStyleID.TrueNightsEdge && projectile.aiStyle != ProjAIStyleID.NorthPoleSpear && projectile.aiStyle != ProjAIStyleID.Bounce && projectile.aiStyle != ProjAIStyleID.Boomerang && projectile.aiStyle != ProjAIStyleID.IceRod && projectile.aiStyle != ProjAIStyleID.RainCloud && projectile.aiStyle != ProjAIStyleID.StellarTune)
             {
                 projectile.GetGlobalProjectile<OrbitalDebrisProjectile>().Orbiting = true;
-                projectile.timeLeft += 180;
+                projectile.timeLeft = 300;
+                projectile.tileCollide = false;
+                projectile.netUpdate = true;
+                projectile.damage = projectile.damage * 4 / 5;
             }
 
-            if (Main.LocalPlayer.GetModPlayer<PinnedPlayer>().Pinned && Main.rand.NextFloat() < (0.1f + Main.LocalPlayer.luck / 10))
+            if (owner.GetModPlayer<PinnedPlayer>().Pinned && Main.rand.NextFloat() < (0.1f + Main.LocalPlayer.luck / 10))
             {
                 Spectral = true;
                 projectile.tileCollide = false;
@@ -45,7 +50,7 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
                 projectile.idStaticNPCHitCooldown = 15;
                 projectile.netUpdate = true;
             }
-            else if (Main.LocalPlayer.GetModPlayer<CementosPlayer>().Cementos)
+            else if (owner.GetModPlayer<CementosPlayer>().Cementos)
             {
                 Bouncy = true;
             }
@@ -69,6 +74,7 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
                 // borrowing code from EM, yessir
 
                 projectile.timeLeft -= 60;
+                projectile.velocity *= 0.95f;
                 return false;
             }
             else if (Spectral)

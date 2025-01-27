@@ -1,6 +1,7 @@
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -29,14 +30,16 @@ namespace TheBindingOfRarria.Content.Projectiles
                 if (proj.GetGlobalProjectile<OrbitalDebrisProjectile>().FollowingARing != false || proj.GetGlobalProjectile<OrbitalDebrisProjectile>().Orbiting == true)
                     continue;
 
-                if (Main.rand.NextFloat() < chance)
+                if (Main.rand.NextFloat() < chance && proj.penetrate != -1 && proj.aiStyle != ProjAIStyleID.NightsEdge && proj.aiStyle != ProjAIStyleID.TrueNightsEdge && proj.aiStyle != ProjAIStyleID.NorthPoleSpear && proj.aiStyle != ProjAIStyleID.Bounce && proj.aiStyle != ProjAIStyleID.Boomerang && proj.aiStyle != ProjAIStyleID.IceRod && proj.aiStyle != ProjAIStyleID.RainCloud && proj.aiStyle != ProjAIStyleID.StellarTune)
                 {
+                    proj.tileCollide = false;
                     proj.hostile = false;
                     proj.friendly = true;
                     proj.owner = Projectile.owner;
                     proj.GetGlobalProjectile<OrbitalDebrisProjectile>().FollowingARing = true;
                     proj.GetGlobalProjectile<OrbitalDebrisProjectile>().Orbiting = true;
                     proj.GetGlobalProjectile<OrbitalDebrisProjectile>().SaturnusRing = Projectile;
+                    proj.netUpdate = true;
                 }
                 else
                     proj.GetGlobalProjectile<OrbitalDebrisProjectile>().FollowingARing = null;

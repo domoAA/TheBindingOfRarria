@@ -16,43 +16,45 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.localNPCHitCooldown = 30;
             Projectile.timeLeft = 500;
         }
-        public enum State
-        {
-            Flying,
-            Sticking
-        }
-        public State state = State.Flying;
-        public NPC Target = null;
+        public NPC Target;
         public Vector2 offset;
         public override void AI()
         {
             if (Target != null && !Projectile.Colliding(Projectile.Hitbox, Target.Hitbox))
-                state = State.Flying;
+                Projectile.ai[0] = 0;
 
-            if (state == State.Flying) {
+            if (Projectile.ai[0] == 0)
+            {
                 Projectile.velocity *= 0.98f;
                 Projectile.velocity.Y += 0.01f * (500 - Projectile.timeLeft);
                 Projectile.rotation = Projectile.velocity.ToRotation();
-                return; }
+                return;
+            }
 
             if (Target == null || !Target.active)
                 Projectile.Kill();
 
-            Projectile.Center = Target.Center - offset;
+            if (Main.myPlayer == Projectile.owner) {
+                Projectile.Center = Target.Center - new Vector2(Projectile.ai[1], Projectile.ai[2]);
+                Projectile.netUpdate = true;
+            }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Projectile.penetrate == 1 && state == State.Flying) {
-                state = State.Sticking;
+            if (Projectile.penetrate == 1 && Projectile.ai[0] == 1) {
+                Projectile.ai[0] = -1;
                 Projectile.penetrate = 3;
                 Target = target; 
                 offset = (target.Center - Projectile.Center);
+                Projectile.ai[1] = offset.X;
+                Projectile.ai[2] = offset.Y;
                 Projectile.velocity = Projectile.oldVelocity / 2;
+                Projectile.netUpdate = true;
             }
         }
         public override bool ShouldUpdatePosition()
         {
-            return state == State.Flying;
+            return Projectile.ai[0] != -1;
         }
         public override bool PreDraw(ref Color lightColor)
         {

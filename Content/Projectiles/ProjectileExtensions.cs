@@ -92,12 +92,18 @@ namespace TheBindingOfRarria.Content.Projectiles
                 {
                     var reflected = Main.rand.NextFloat() < chance;
 
-                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                    packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflection);
-                    packet.Write(reflected);
-                    packet.Write(target.identity);
-                    packet.Write(friendly);
-                    packet.Send();
+                    if (Main.netMode == NetmodeID.MultiplayerClient){
+                        ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
+                        packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflection);
+                        packet.Write(reflected);
+                        packet.Write(target.identity);
+                        packet.Write(friendly);
+                        packet.Send(); }
+                    else if (reflected)
+                    {
+                        target.GetReflected(friendly);
+                        target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                    }
 
 
                     if (!reflected)
@@ -105,7 +111,6 @@ namespace TheBindingOfRarria.Content.Projectiles
 
                     if (projectile.type == ModContent.ProjectileType<CircleOfLight>())
                         projectile.ai[0] = 1;
-                    
                 }
             }
         }

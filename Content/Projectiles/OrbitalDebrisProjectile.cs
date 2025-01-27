@@ -12,7 +12,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public override bool InstancePerEntity => true;
         public float rotation = Main.rand.NextBool() ? MathHelper.PiOver2 : -MathHelper.PiOver2;
         public float speed = 0.9f;
-        public float IndividualOffset = (Main.rand.NextFloat() - 0.5f) * 32;
+        public float IndividualOffset = (Main.rand.NextFloat() - 0.5f) * 128;
         public override void PostAI(Projectile projectile)
         {
             base.PostAI(projectile);
@@ -37,8 +37,13 @@ namespace TheBindingOfRarria.Content.Projectiles
             var gravity = 0.01f * projectile.Center.DirectionTo(Main.player[projectile.owner].Center) * r;
             var offset = (projectile.Center.DirectionTo(Main.player[projectile.owner].Center).ToRotation() + rotation) - projectile.velocity.ToRotation();
             projectile.velocity = projectile.velocity.RotatedBy(offset);
-            projectile.velocity += r > 160 + IndividualOffset ? gravity : -gravity;
-            speed += speed < 0.98f ? 0.01f : 0;
+            if (r > 270 + IndividualOffset)
+                projectile.velocity += gravity;
+            else if (r < 250 + IndividualOffset)
+                projectile.velocity -= gravity;
+            else
+                projectile.velocity *= 1.03f;
+            speed += speed < 0.98f ? 0.005f : 0;
             projectile.velocity *= speed;
         }
     }
