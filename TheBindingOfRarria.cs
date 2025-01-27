@@ -59,11 +59,16 @@ namespace TheBindingOfRarria
 
             }
         }
+        public enum PacketTypes
+        {
+            ProjectileReflection,
+            Default
+        }
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            var name = reader.ReadString();
+            var name = reader.ReadInt32();
 
-            if (name != "ProjectileReflection")
+            if (name != ((int)PacketTypes.ProjectileReflection))
             {
                 base.HandlePacket(reader, whoAmI);
                 return;
@@ -81,10 +86,6 @@ namespace TheBindingOfRarria
                     if (proj.identity == id)
                     {
                         proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
-                        if (reflected)
-                            proj.GetReflected(friendly);
-
-                        Console.WriteLine("RecievedPacket"); // 
                     }
                 }
                 return;
@@ -97,7 +98,16 @@ namespace TheBindingOfRarria
                 packet.Write(id);
                 packet.Write(friendly);
                 packet.Send();
-                Console.WriteLine("SentPacket"); // 
+                foreach (var proj in Main.ActiveProjectiles)
+                {
+                    if (proj.identity == id)
+                    {
+                        if (reflected && !proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected)
+                            proj.GetReflected(friendly);
+
+                        proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                    }
+                }
             }
         }
     }
