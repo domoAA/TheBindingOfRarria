@@ -54,6 +54,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants immunity to fire or poison
+			The immunity is reset every 5 seconds
 			"Works for me."
 			'''
 	}
@@ -335,7 +336,7 @@ Items: {
 		Tooltip:
 			'''
 			You gain 1 max life every time you kill an enemy, up to 150
-			The bonus is reset every 5 minutes
+			The bonus is reduces by 1 every 5 seconds
 			'''
 	}
 
@@ -413,6 +414,8 @@ Projectiles: {
 	SaturnusRing.DisplayName: Saturnus Ring
 	SlowingAura.DisplayName: Slowing Aura
 	LightCone.DisplayName: Light Cone
+	HivePulse.DisplayName: Hive Pulse
+	MirrorCrack.DisplayName: Mirror Crack
 }
 
 Keybinds.StonedInvul.DisplayName: Stoned Invul
