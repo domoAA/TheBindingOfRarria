@@ -9,7 +9,7 @@ namespace TheBindingOfRarria.Content.Items
     {
         public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
         {
-            return !equippedItem.HasTag(TheBindingOfRarria.blockItems) || !incomingItem.HasTag(TheBindingOfRarria.blockItems);
+            return !equippedItem.HasTag(TheBindingOfRarria.reflectItems) || !incomingItem.HasTag(TheBindingOfRarria.reflectItems);
         }
         public override void SetDefaults()
         {

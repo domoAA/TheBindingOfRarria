@@ -16,7 +16,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<RatioPlayer>().CritIncrease = 0.16f;
+            player.GetModPlayer<RatioPlayer>().CritIncrease = 0.12f;
             player.GetCritChance(DamageClass.Generic) += 9;
             player.scope = true;
         }

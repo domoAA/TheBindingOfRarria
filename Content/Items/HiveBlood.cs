@@ -25,7 +25,7 @@ namespace TheBindingOfRarria.Content.Items
             if (Main.myPlayer != player.whoAmI || player.GetModPlayer<HiveBloodPlayer>().counter > 0)
                 return;
 
-            Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<HivePulse>(), player.statLifeMax2 / 100, 2, player.whoAmI);
+            Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<HivePulse>(), player.statLifeMax2 / 100, 2, player.whoAmI, 0, player.Center.X, player.Center.Y);
             player.GetModPlayer<HiveBloodPlayer>().counter = 300;
         }
     }

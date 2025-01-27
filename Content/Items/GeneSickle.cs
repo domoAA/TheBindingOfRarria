@@ -15,23 +15,30 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (!player.HasBuff(ModContent.BuffType<LifePool>()))
-                player.AddBuff(ModContent.BuffType<LifePool>(), 3600);
+            player.AddBuff(ModContent.BuffType<LifePool>(), 2);
+            player.GetModPlayer<GeneThiefPlayer>().counter--;
+            if (player.GetModPlayer<GeneThiefPlayer>().counter < 0)
+            {
+                player.GetModPlayer<GeneThiefPlayer>().counter = 300;
+                player.GetModPlayer<GeneThiefPlayer>().genePool -= player.GetModPlayer<GeneThiefPlayer>().genePool > 0 ? 1 : 0;
+            }
         }
     }
     public class GeneThiefPlayer : ModPlayer
     {
         public int genePool;
+        public int counter = 300;
         public override void PostUpdate()
         {
             if (!Player.HasBuff(ModContent.BuffType<LifePool>()))
                 genePool = 0;
+
             base.PostUpdate();
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!target.active && genePool < 300)
-                genePool += 3;
+            if (!target.active && genePool < 150)
+                genePool += 1;
 
             base.OnHitNPC(target, hit, damageDone);
         }

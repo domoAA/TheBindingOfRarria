@@ -4,16 +4,36 @@ using Terraria.ID;
 using Terraria.GameInput;
 using TheBindingOfRarria.Common.Config;
 using Terraria.Audio;
+using System.Collections.Generic;
+using System.Threading.Channels;
+using Terraria.Localization;
 
 namespace TheBindingOfRarria.Content.Items
 {
     public class ToothAndNail : ModItem
     {
+        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
+        {
+            return !equippedItem.HasTag(TheBindingOfRarria.invulItems) || !incomingItem.HasTag(TheBindingOfRarria.invulItems);
+        }
         public override void SetDefaults()
         {
             Item.width = 22;
             Item.height = 24;
             Item.accessory = true;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            base.ModifyTooltips(tooltips);
+            for (int i = 10; i > 0; i--)
+            {
+                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip").Remove(7)));
+                if (index != -1)
+                {
+                    tooltips[index].Text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip"), KeybindSystem.StonedKey.GetAssignedKeys().ToString());
+                    break;
+                }
+            }
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -33,7 +53,8 @@ namespace TheBindingOfRarria.Content.Items
             }
             else if (player.GetModPlayer<StonePlayer>().StoneBlink == 0)
             {
-                // sound
+                if (player.whoAmI == Main.myPlayer)
+                    SoundEngine.PlaySound(SoundID.Duck);
             }
         }
     }
