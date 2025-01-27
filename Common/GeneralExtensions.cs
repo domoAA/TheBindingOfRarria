@@ -131,24 +131,6 @@ namespace TheBindingOfRarria.Content
     }
     public static class PlayerExtensions
     {
-        public static bool ReflectProjectiles(this Player player, DamageClass damageClass, float chance)
-        {
-            var target = Array.Find(Main.projectile, proj => proj.velocity != Vector2.Zero && proj.active && proj.hostile && proj.Colliding(proj.getRect(), player.getRect()));
-            if (target != null)
-            {
-                if (Main.rand.NextFloat() >= chance)
-                    return false;
-
-                target.velocity = -target.velocity;
-                target.hostile = false;
-                target.friendly = true;
-                target.reflected = true;
-                target.DamageType = damageClass;
-                target.netUpdate = true;
-                return true;
-            }
-            return false;
-        }
         public static bool OwnsProjectile(this Player player, int type)
         {
             return player.ownedProjectileCounts[type] > 0;
