@@ -30,7 +30,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 if (proj.GetGlobalProjectile<OrbitalDebrisProjectile>().FollowingARing != false || proj.GetGlobalProjectile<OrbitalDebrisProjectile>().Orbiting == true)
                     continue;
 
-                if (Main.rand.NextFloat() < chance && proj.penetrate != -1 && proj.aiStyle != ProjAIStyleID.NightsEdge && proj.aiStyle != ProjAIStyleID.TrueNightsEdge && proj.aiStyle != ProjAIStyleID.NorthPoleSpear && proj.aiStyle != ProjAIStyleID.Bounce && proj.aiStyle != ProjAIStyleID.Boomerang && proj.aiStyle != ProjAIStyleID.IceRod && proj.aiStyle != ProjAIStyleID.RainCloud && proj.aiStyle != ProjAIStyleID.StellarTune)
+                if (Main.rand.NextFloat() < chance && proj.penetrate != -1 && proj.velocity.LengthSquared() > 1 && proj.aiStyle != ProjAIStyleID.NightsEdge && proj.aiStyle != ProjAIStyleID.TrueNightsEdge && proj.aiStyle != ProjAIStyleID.NorthPoleSpear && proj.aiStyle != ProjAIStyleID.Bounce && proj.aiStyle != ProjAIStyleID.Boomerang && proj.aiStyle != ProjAIStyleID.IceRod && proj.aiStyle != ProjAIStyleID.RainCloud && proj.aiStyle != ProjAIStyleID.StellarTune)
                 {
                     proj.tileCollide = false;
                     proj.hostile = false;

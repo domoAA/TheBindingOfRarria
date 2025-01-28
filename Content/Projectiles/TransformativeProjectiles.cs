@@ -31,7 +31,7 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
                 }
             }
 
-            if (owner.GetModPlayer<PlanetPlayer>().planet == PlanetPlayer.Planets.Earth && projectile.penetrate != -1 && projectile.aiStyle != ProjAIStyleID.NightsEdge && projectile.aiStyle != ProjAIStyleID.TrueNightsEdge && projectile.aiStyle != ProjAIStyleID.NorthPoleSpear && projectile.aiStyle != ProjAIStyleID.Bounce && projectile.aiStyle != ProjAIStyleID.Boomerang && projectile.aiStyle != ProjAIStyleID.IceRod && projectile.aiStyle != ProjAIStyleID.RainCloud && projectile.aiStyle != ProjAIStyleID.StellarTune)
+            if (owner.GetModPlayer<PlanetPlayer>().planet == PlanetPlayer.Planets.Earth && projectile.velocity.LengthSquared() > 1 && projectile.penetrate != -1 && projectile.aiStyle != ProjAIStyleID.NightsEdge && projectile.aiStyle != ProjAIStyleID.TrueNightsEdge && projectile.aiStyle != ProjAIStyleID.NorthPoleSpear && projectile.aiStyle != ProjAIStyleID.Bounce && projectile.aiStyle != ProjAIStyleID.Boomerang && projectile.aiStyle != ProjAIStyleID.IceRod && projectile.aiStyle != ProjAIStyleID.RainCloud && projectile.aiStyle != ProjAIStyleID.StellarTune)
             {
                 projectile.GetGlobalProjectile<OrbitalDebrisProjectile>().Orbiting = true;
                 projectile.timeLeft = 300;

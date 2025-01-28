@@ -17,6 +17,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.height = 24;
             Projectile.timeLeft = 360;
             Projectile.friendly = true;
+            Projectile.netImportant = true;
         }
         public override void AI()
         {
@@ -38,6 +39,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             CD--;
             if (CD < 0)
                 CD = 20;
+            Projectile.netUpdate = true;
         }
         public override bool? CanHitNPC(NPC target)
         {

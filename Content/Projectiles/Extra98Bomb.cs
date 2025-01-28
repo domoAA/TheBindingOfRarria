@@ -15,6 +15,8 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.width = 18;
             Projectile.height = 18;
             Projectile.timeLeft = 120;
+            if (Main.myPlayer != Projectile.owner)
+                return;
             Projectile.rotation = (float)(new Random().NextDouble() * MathHelper.TwoPi);
         }
         private NPC Target
