@@ -13,12 +13,10 @@ namespace TheBindingOfRarria.Content.Buffs
     }
     public class MummyPlayer : ModPlayer
     {
-        public int PrevHP = 200;
         public override void PostUpdate()
         {
             if (Player.HasBuff(ModContent.BuffType<AnubisCurse>()))
-                Player.statLife = Math.Min(Player.statLife, PrevHP);
-            PrevHP = Player.statLife;
+                Player.lifeRegen -= 2;
         }
     }
 }
