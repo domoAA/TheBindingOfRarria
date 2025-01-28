@@ -44,8 +44,6 @@ namespace TheBindingOfRarria.Content.Items
 
             if (target.buffType.Length <= 0)
                 target.AddBuff(BuffID.Poisoned, 180);
-            else
-                target.AddBuff(BuffID.OnFire, 300);
 
             base.OnHitNPC(target, hit, damageDone);
         }

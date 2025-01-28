@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
+    [AutoloadEquip(EquipType.Neck)]
     public class CursedChain : ModItem
     {
         public override void SetDefaults()

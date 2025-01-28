@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
+    [AutoloadEquip(EquipType.Face)]
     public class SuspiciousLookingMask : ModItem
     {
         public override void SetDefaults()

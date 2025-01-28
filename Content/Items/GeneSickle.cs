@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Buffs;
@@ -12,9 +11,6 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.height = 30;
             Item.width = 32;
-            // Item.rare = death scythe rarity
-            // Item.value = death scythe value + 1 gold
-            // recipe = death scythe + souls of light + flesh knuckle
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

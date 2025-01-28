@@ -19,11 +19,9 @@ namespace TheBindingOfRarria.Content.Items
     public class ProjectileTransformPlayer : ModPlayer
     {
         public bool IsNailed = false;
-        public bool IsDeadly = false;
         public override void ResetEffects()
         {
             IsNailed = false;
-            IsDeadly = false;
         }
     }
 }

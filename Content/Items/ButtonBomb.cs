@@ -61,6 +61,9 @@ namespace TheBindingOfRarria.Content.Items
                     offset *= bigger; }
                 else
                     offset *= 0.8f;
+
+                if (Main.myPlayer != Player.whoAmI)
+                    return;
                 Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 0, 0, Player.whoAmI, target.whoAmI, offset.X, offset.Y);
                 target.GetGlobalNPC<ButtonedNPC>().ButtonCD = 20; }
         }

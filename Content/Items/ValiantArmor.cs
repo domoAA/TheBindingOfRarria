@@ -11,14 +11,13 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 28;
             Item.height = 28;
             Item.accessory = true;
-            Item.defense = 5;
+            Item.defense = 8;
             Item.value = Item.buyPrice(0, 9);
             Item.rare = ItemRarityID.LightPurple;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense *= 1.05f;
-            player.statLifeMax2 += player.statLifeMax2 * 15 / 100;
+            player.statLifeMax2 += 50;
             player.aggro += 500;
         }
         public override void AddRecipes()

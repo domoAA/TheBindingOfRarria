@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
+    [AutoloadEquip(EquipType.Shield)]
     public class PioneersShield : ModItem
     {
         public override void SetDefaults()

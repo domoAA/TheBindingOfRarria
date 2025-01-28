@@ -50,6 +50,8 @@ namespace TheBindingOfRarria.Content.Items
                         return;
 
                     int damag = (int)(target.buffTime[index] * power) + 1;
+                    if (Main.myPlayer != Player.whoAmI)
+                        return;
                     Projectile.NewProjectile(Player.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<FireExplotaro>(), damag, 1.5f, Player.whoAmI);
                 }
                 else

@@ -16,9 +16,9 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 5 * player.statDefense;
-            player.statDefense -= player.statDefense / 2;
-            player.lifeRegenCount += player.statLifeMax2 / 100;
+            player.statLifeMax2 += 80;
+            player.statDefense -= 8;
+            player.lifeRegenCount += 4;
         }
         public override void AddRecipes()
         {

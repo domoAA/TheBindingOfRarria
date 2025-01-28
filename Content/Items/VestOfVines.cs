@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
+    [AutoloadEquip(EquipType.Body)]
     public class VestOfVines : ModItem
     {
         public override void SetDefaults()
@@ -14,7 +15,7 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 7);
             Item.rare = ItemRarityID.Pink;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
             var counter = 0f;
             for (int i = 0; i < player.buffType.Length; i++)

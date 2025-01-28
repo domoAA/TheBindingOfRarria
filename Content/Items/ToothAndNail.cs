@@ -5,7 +5,6 @@ using Terraria.GameInput;
 using TheBindingOfRarria.Common.Config;
 using Terraria.Audio;
 using System.Collections.Generic;
-using System.Threading.Channels;
 using Terraria.Localization;
 
 namespace TheBindingOfRarria.Content.Items

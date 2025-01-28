@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
@@ -10,7 +12,7 @@ namespace TheBindingOfRarria.Content.Items
     {
         public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
         {
-            return !equippedItem.HasTag(TheBindingOfRarria.blockItems) || !incomingItem.HasTag(TheBindingOfRarria.blockItems);
+            return !equippedItem.HasTag(TheBindingOfRarria.dodgeItems) || !incomingItem.HasTag(TheBindingOfRarria.dodgeItems);
         }
         public override void SetDefaults()
         {
@@ -20,9 +22,23 @@ namespace TheBindingOfRarria.Content.Items
             Item.rare = ItemRarityID.Green;
             Item.value = Item.buyPrice(0, 1, 70);
         }
+        public float chance = 0.07f;
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<NatureDodgePlayer>().HasBracelet = true;
+            chance = Math.Min(0.07f + player.moveSpeed / 10, 0.21f);
+            player.GetModPlayer<NatureDodgePlayer>().chance = chance;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            base.ModifyTooltips(tooltips);
+            for (int i = 10; i > 0; i--)
+            {
+                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip").Remove(5)));
+                if (index != -1) {
+                    tooltips[index].Text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip"), chance);
+                    break; }
+            } 
         }
         public override void AddRecipes()
         {
@@ -66,7 +82,7 @@ namespace TheBindingOfRarria.Content.Items
                     offset.Y *= 0.5f;
                     var position = offset.RotatedBy(rotation) + center;
                     var velocity = new Vector2(offset.X, offset.Y + vel.Y).RotatedBy(rotation) / 6;
-                    Dust.NewDustPerfect(position, Terraria.ID.DustID.FireworksRGB, velocity, 0, Color.ForestGreen, 1).noGravity = true;
+                    Dust.NewDustPerfect(position, DustID.FireworksRGB, velocity, 0, Color.ForestGreen, 1).noGravity = true;
                 }
                 r += 7;
                 vel.Y += 3;
@@ -75,13 +91,14 @@ namespace TheBindingOfRarria.Content.Items
         }
         public bool blocked = false;
         public float Rotation = 0;
+        public float chance = 0.07f;
         public Vector2 Position = Vector2.Zero;
         public void CheckNatureDodge(Projectile projectile, NPC npc)
         {
             if (!HasBracelet)
                 return;
 
-            var chance = Math.Min(0.07f + Player.moveSpeed / 10, 0.21f);
+            
             if (Main.rand.NextFloat() < chance)
                 blocked = true;
 
