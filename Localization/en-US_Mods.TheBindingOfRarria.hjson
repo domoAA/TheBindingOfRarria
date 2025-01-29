@@ -21,10 +21,9 @@ Items: {
 		DisplayName: Tooth And Nail
 		Tooltip:
 			'''
-			Enemies that hit you take damage
-			Every 5-10 seconds, you have 1/6 of a second to press {0}
-			You briefly become immune on success
-			Failure to react will briefly set you in stone
+			Press {0} to briefly become invincible, with a cooldown of 30 seconds
+			Every time you get hit, you briefly get Stoned
+			Damage taken is returned to the attacker
 			"You feel prickly"
 			'''
 	}
@@ -53,9 +52,9 @@ Items: {
 		DisplayName: Medical Ice Bag
 		Tooltip:
 			'''
-			Grants immunity to fire or poison
-			The immunity is reset every 5 seconds
-			"Works for me."
+			On Fire! and Poison get converted to buffs
+			Reduces the duration of debuffs on you by 20%
+			"Makes you feel cooler"
 			'''
 	}
 
@@ -158,7 +157,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants a halo that has a 20% chance to reflect projectiles
-			"Protect me from myself..."
+			"A shielding light from dimensions unkown"
 			'''
 	}
 
@@ -167,7 +166,7 @@ Items: {
 		Tooltip:
 			'''
 			Your attacks convert Poison on enemies into Venom
-			"No, not that Venom."
+			"No, not that Venom"
 			'''
 	}
 
@@ -218,36 +217,14 @@ Items: {
 			'''
 	}
 
-	TinyPlanet: {
-		DisplayName: Tiny Planet
-		Tooltip:
-			'''
-			Your projectiles orbit you
-			"No it's not useless..."
-			'''
-	}
-
 	SuspiciousLookingMask: {
 		DisplayName: Suspicious Looking Mask
 		Tooltip:
 			'''
-			Increased crit damage by 6% for every debuff you are afflicted with
+			Gain a temporary immunity to a debuff after being afflicted with it for 5 seconds
+			Spawn Shadow Hands every time you get hit
 			"What doesn't kill you, makes you... Crazier?"
 			'''
-	}
-
-	MicroPlanet: {
-		DisplayName: Micro Planet
-		Tooltip:
-			'''
-			Projectiles have a chance to start orbiting you
-			"Now that's useful, right?"
-			'''
-	}
-
-	CombustiveToxin: {
-		DisplayName: Combustive Toxin
-		Tooltip: If an enemy is afflicted with any debuff, your attacks will set them on fire
 	}
 
 	HiveBlood: {
@@ -256,7 +233,7 @@ Items: {
 			'''
 			Grants Honey buff at all times
 			You emit a healing pulse every 5 seconds
-			You heal for 5% of incoming damage
+			You heal for 5% of damage taken
 			"Respect existence or expect resistance"
 			'''
 	}
@@ -309,16 +286,10 @@ Items: {
 
 	PushPin: {
 		DisplayName: Push Pin
-		Tooltip: Grants a chance for your projectiles to become spectral
-	}
-
-	LoupesForWeakness: {
-		DisplayName: Loupes For Weakness
 		Tooltip:
 			'''
-			Increases critical strike chance by 9%
-			Increases critical strike damage by 12%
-			"7:3 ratio is where the weakness lies."
+			Grants a chance for your projectiles to become spectral
+			"It stings..."
 			'''
 	}
 
@@ -326,7 +297,7 @@ Items: {
 		DisplayName: Vest Of Vines
 		Tooltip:
 			'''
-			Grants 2% damage reduction for every debuff you are afflicted with
+			Increases life regeneration by 0.5 hp/s for every 5% damage reduction
 			"Too sturdy to bend"
 			'''
 	}
@@ -354,7 +325,7 @@ Items: {
 		DisplayName: Good Fruit
 		Tooltip:
 			'''
-			Grants Well Fed buff at all times
+			Grants a food and happiness buffs at all times
 			"Yummers"
 			'''
 	}
@@ -377,13 +348,13 @@ Buffs: {
 	}
 
 	FireImmunity: {
-		DisplayName: Fire Immunity
-		Description: Immunity to some fire debuffs
+		DisplayName: Cool Resilience
+		Description: Gain 10% damage reduction
 	}
 
 	PoisonImmunity: {
-		DisplayName: Poison Immunity
-		Description: Immunity to some poison debuffs
+		DisplayName: Cool Vitality
+		Description: Increased life regeneration by 2 hp/s
 	}
 
 	RevengeDebuff: {
@@ -411,7 +382,6 @@ Projectiles: {
 	LightBeam.DisplayName: Light Beam
 	NailProjectile.DisplayName: Nail Projectile
 	FireExplotaro.DisplayName: Fire Explotaro
-	SaturnusRing.DisplayName: Saturnus Ring
 	SlowingAura.DisplayName: Slowing Aura
 	LightCone.DisplayName: Light Cone
 	HivePulse.DisplayName: Hive Pulse
