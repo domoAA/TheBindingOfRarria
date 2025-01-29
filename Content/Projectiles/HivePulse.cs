@@ -24,18 +24,15 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override void AI()
         {
-            Projectile.width = (int)(60 * Projectile.scale);
-            Projectile.height = (int)(60 * Projectile.scale);
+            Projectile.width = (int)(112 * Projectile.scale);
+            Projectile.height = (int)(112 * Projectile.scale);
 
             Projectile.ai[0] += 0.05f;
             Projectile.scale = Projectile.ai[0];
 
             Projectile.Center = new Vector2(Projectile.ai[1], Projectile.ai[2]);
 
-            for (int i = 3; i > 0; i--)
-            {
-                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, Terraria.ID.DustID.Honey).noGravity = true;
-            }
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, Terraria.ID.DustID.Honey).noGravity = true;
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {

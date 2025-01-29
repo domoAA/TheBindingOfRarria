@@ -14,18 +14,21 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.height = 80;
             Projectile.damage = 0;
             Projectile.netImportant = true;
-            Projectile.timeLeft = 180;
+            Projectile.timeLeft = 120;
+            Projectile.scale = 2;
         }
         public override void AI()
         {
-            if (Projectile.timeLeft > 160)
+            if (Projectile.timeLeft > 100)
                 Projectile.ReflectProjectiles(true, 1);
 
-            Projectile.rotation = Projectile.ai[0];
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Projectile.DrawWithTransparency(lightColor, 150);
+            Projectile.ai[1]++;
+            byte dimming = (byte)(128 - (byte)Projectile.ai[1]);
+            var effect = Projectile.ai[2] == 0 ? Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically : Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
+            Projectile.DrawWithTransparency(lightColor, dimming, effect);
             return false;
         }
     }

@@ -18,29 +18,29 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             var owner = Main.player[projectile.owner];
-            if (!projectile.Transform(projectile.hostile || Main.netMode == NetmodeID.Server || owner.HeldItem.consumable || owner.ChooseAmmo(owner.HeldItem).ammo == AmmoID.Gel))
+            if (!projectile.Transform(projectile.hostile || Main.netMode == NetmodeID.Server))
                 return;
 
-            else if (projectile.DamageType == DamageClass.Ranged)
-            {
-                if (owner.GetModPlayer<ProjectileTransformPlayer>().IsNailed && projectile.owner == Main.myPlayer)
-                {
-                    projectile.active = false;
-                    Projectile.NewProjectile(source, projectile.position, projectile.velocity * 2, ModContent.ProjectileType<NailProjectile>(), (int)(projectile.damage * 0.67f), 2, projectile.owner);
-                    projectile.netUpdate = true;
-                }
-            }
+            //else if (projectile.DamageType == DamageClass.Ranged)
+            //{
+            //    if (owner.GetModPlayer<ProjectileTransformPlayer>().IsNailed && projectile.owner == Main.myPlayer)
+            //    {
+            //        projectile.active = false;
+            //        Projectile.NewProjectile(source, projectile.position, projectile.velocity * 2, ModContent.ProjectileType<NailProjectile>(), (int)(projectile.damage * 0.67f), 2, projectile.owner);
+            //        projectile.netUpdate = true;
+            //    }
+            //}
 
-            if (owner.GetModPlayer<PlanetPlayer>().planet == PlanetPlayer.Planets.Earth && projectile.velocity.LengthSquared() > 1 && projectile.penetrate != -1 && projectile.aiStyle != ProjAIStyleID.NightsEdge && projectile.aiStyle != ProjAIStyleID.TrueNightsEdge && projectile.aiStyle != ProjAIStyleID.NorthPoleSpear && projectile.aiStyle != ProjAIStyleID.Bounce && projectile.aiStyle != ProjAIStyleID.Boomerang && projectile.aiStyle != ProjAIStyleID.IceRod && projectile.aiStyle != ProjAIStyleID.RainCloud && projectile.aiStyle != ProjAIStyleID.StellarTune)
-            {
-                projectile.GetGlobalProjectile<OrbitalDebrisProjectile>().Orbiting = true;
-                projectile.timeLeft = 300;
-                projectile.tileCollide = false;
-                projectile.netUpdate = true;
-                projectile.damage = projectile.damage * 4 / 5;
-            }
+            //if (owner.GetModPlayer<PlanetPlayer>().planet == PlanetPlayer.Planets.Earth && projectile.velocity.LengthSquared() > 1 && projectile.penetrate != -1 && projectile.aiStyle != ProjAIStyleID.NightsEdge && projectile.aiStyle != ProjAIStyleID.TrueNightsEdge && projectile.aiStyle != ProjAIStyleID.NorthPoleSpear && projectile.aiStyle != ProjAIStyleID.Bounce && projectile.aiStyle != ProjAIStyleID.Boomerang && projectile.aiStyle != ProjAIStyleID.IceRod && projectile.aiStyle != ProjAIStyleID.RainCloud && projectile.aiStyle != ProjAIStyleID.StellarTune)
+            //{
+            //    projectile.GetGlobalProjectile<OrbitalDebrisProjectile>().Orbiting = true;
+            //    projectile.timeLeft = 300;
+            //    projectile.tileCollide = false;
+            //    projectile.netUpdate = true;
+            //    projectile.damage = projectile.damage * 4 / 5;
+            //}
 
-            if (owner.GetModPlayer<PinnedPlayer>().Pinned && Main.rand.NextFloat() < (0.1f + Main.LocalPlayer.luck / 10))
+            if (owner.GetModPlayer<PinnedPlayer>().Pinned && projectile.tileCollide && Main.rand.NextFloat() < (0.1f + Main.LocalPlayer.luck / 10))
             {
                 Spectral = true;
                 projectile.tileCollide = false;
@@ -50,7 +50,7 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
                 projectile.idStaticNPCHitCooldown = 15;
                 projectile.netUpdate = true;
             }
-            else if (owner.GetModPlayer<CementosPlayer>().Cementos)
+            else if (owner.GetModPlayer<CementosPlayer>().Cementos && projectile.tileCollide && projectile.aiStyle != ProjAIStyleID.Bounce)
             {
                 Bouncy = true;
             }

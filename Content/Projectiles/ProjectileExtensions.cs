@@ -154,7 +154,21 @@ namespace TheBindingOfRarria.Content.Projectiles
             var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
             var scale = projectile.scale * Main.GameZoomTarget;
             color.A += alpha;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, color, 0, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+        }
+        public static void DrawWithTransparency(this Projectile projectile, Color color, byte alpha, SpriteEffects effect)
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
+            var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
+            var scale = projectile.scale * Main.GameZoomTarget;
+            color.A += alpha;
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
