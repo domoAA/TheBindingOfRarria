@@ -16,6 +16,7 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 30;
             Item.value = Item.buyPrice(0, 6);
             Item.rare = ItemRarityID.Master;
+            Item.master = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -42,7 +43,7 @@ namespace TheBindingOfRarria.Content.Items
             if (!RespectsBees || Main.myPlayer != Player.whoAmI)
                 return;
 
-            Player.Heal(damage / 20);
+            Player.Heal(damage / 20 + 1);
 
             // Those who respect bees
             // Those who don't bother them
@@ -51,12 +52,12 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
-            BeeHeal(hurtInfo.SourceDamage);
+            BeeHeal(hurtInfo.Damage);
             base.OnHitByProjectile(proj, hurtInfo);
         }
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
-            BeeHeal(hurtInfo.SourceDamage);
+            BeeHeal(hurtInfo.Damage);
             base.OnHitByNPC(npc, hurtInfo);
         }
     }

@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,6 +20,7 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.rare = ItemRarityID.Expert;
             Item.value = Item.buyPrice(0, 2);
+            Item.expert = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -49,7 +49,9 @@ namespace TheBindingOfRarria.Content.Items
             Player.immune = true;
             Player.SetImmuneTimeForAllTypes(70);
 
-            Projectile.NewProjectile(Player.GetSource_OnHurt(modifiers.DamageSource), proj.Center, Vector2.Zero, ModContent.ProjectileType<MirrorCrack>(), 0, 0, Player.whoAmI, proj.velocity.ToRotation());
+            var projectile = Projectile.NewProjectileDirect(Player.GetSource_OnHurt(modifiers.DamageSource), proj.Center, Vector2.Zero, ModContent.ProjectileType<MirrorCrack>(), 0, 0, Player.whoAmI, proj.velocity.ToRotation());
+            projectile.rotation = proj.velocity.ToRotation() + MathHelper.Pi;
+            projectile.ai[2] = Main.rand.Next(0, 2);
         }
     }
     public class ReflectiveLootNPC : GlobalNPC

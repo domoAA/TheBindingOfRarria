@@ -26,17 +26,18 @@ namespace TheBindingOfRarria.Content.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<NatureDodgePlayer>().HasBracelet = true;
-            chance = Math.Min(0.07f + player.moveSpeed / 10, 0.21f);
+            chance = Math.Min(0.07f + (player.moveSpeed - 0.5f) / 10, 0.21f);
             player.GetModPlayer<NatureDodgePlayer>().chance = chance;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             base.ModifyTooltips(tooltips);
+            var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip"), $"{(int)(chance * 100)}%");
             for (int i = 10; i > 0; i--)
             {
                 var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip").Remove(5)));
                 if (index != -1) {
-                    tooltips[index].Text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip"), chance);
+                    tooltips[index].Text = text.Remove(text.IndexOf($"\n"));
                     break; }
             } 
         }

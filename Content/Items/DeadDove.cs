@@ -22,8 +22,10 @@ namespace TheBindingOfRarria.Content.Items
         public override void AddRecipes()
         {
             Recipe.Create(Item.type)
-                .AddIngredient(ItemID.SoulofFlight, 16)
-                .AddTile(TileID.Tombstones)
+                .AddIngredient(ItemID.BoneFeather)
+                .AddIngredient(ItemID.SoulofFlight, 8)
+                .AddIngredient(ItemID.Feather, 8)
+                .AddCondition(Condition.NearShimmer)
                 .Register();
 
             base.AddRecipes();

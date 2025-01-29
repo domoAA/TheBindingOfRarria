@@ -16,53 +16,56 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.rare = ItemRarityID.Expert;
             Item.value = Item.buyPrice(0, 2);
+            Item.expert = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MedicatedPlayer>().IsMedicated = true;
+            player.GetModPlayer<MedicatedPlayer>().Cool = true;
+            if (player.HasBuff(BuffID.OnFire))
+            {
+                player.AddBuff(ModContent.BuffType<FireImmunity>(), 300);
+                player.buffImmune[BuffID.OnFire] = true;
+            }
+            if (player.HasBuff(BuffID.Poisoned))
+            {
+                player.AddBuff(ModContent.BuffType<PoisonImmunity>(), 300);
+                player.buffImmune[BuffID.Poisoned] = true;
+            }
         }
     }
     public class MedicatedPlayer : ModPlayer
     {
-        public enum DiseaseImmunity
-        {
-            Poison,
-            Fire
-        }
-        public DiseaseImmunity CurrentImmunity = DiseaseImmunity.Poison;
-        public bool IsMedicated = false;
-        public override void PostUpdateEquips()
-        {
-            if (!IsMedicated) {
-                var type = ModContent.BuffType<PoisonImmunity>();
-                int index = Array.FindIndex(Player.buffType, buff => buff == type);
-                if (index == -1) {
-                    type = ModContent.BuffType<FireImmunity>();
-                    index = Array.FindIndex(Player.buffType, buff => buff == type);}
-
-                if (index != -1)
-                    Player.ClearBuff(type);
-                return; }
-
-            bool IsPoisoned = Player.HasBuff(BuffID.Poisoned) || Player.HasBuff(BuffID.Venom);
-            bool IsOnFire = Player.HasBuff(BuffID.OnFire) || Player.HasBuff(BuffID.OnFire3);
-
-            if (IsOnFire && !IsPoisoned)
-                CurrentImmunity = DiseaseImmunity.Fire;
-            else if (IsPoisoned && !IsOnFire)
-                CurrentImmunity = DiseaseImmunity.Poison;
-
-            if (Player.HasBuff(ModContent.BuffType<FireImmunity>()) || Player.HasBuff(ModContent.BuffType<PoisonImmunity>()))
-                return;
-
-            if (CurrentImmunity == DiseaseImmunity.Poison)
-                Player.AddBuff(ModContent.BuffType<PoisonImmunity>(), 300);
-            else
-                Player.AddBuff(ModContent.BuffType<FireImmunity>(), 300);
-        }
+        public bool Cool = false;
         public override void ResetEffects()
         {
-            IsMedicated = false;
+            base.ResetEffects();
+            Cool = false;
+        }
+        public override void Load()
+        {
+            base.Load();
+            Terraria.On_Player.AddBuff_DetermineBuffTimeToAdd += CoolBuffTime;
+        }
+
+        private int CoolBuffTime(On_Player.orig_AddBuff_DetermineBuffTimeToAdd orig, Player self, int type, int time1)
+        {
+            int buffTime = orig(self, type, time1);
+
+            if (!self.GetModPlayer<MedicatedPlayer>().Cool)
+                return buffTime;
+
+            if (type == BuffID.OnFire || type == BuffID.Poisoned)
+            {
+                var buff = type == BuffID.OnFire ? ModContent.BuffType<FireImmunity>() : ModContent.BuffType<PoisonImmunity>();
+                self.AddBuff(buff, buffTime);
+                return 0;
+            }
+
+            else if (Main.debuff[type])
+                return (int)(0.8f * buffTime);
+
+            else 
+                return buffTime;
         }
     }
     public class MedicatedAndCoolNPC : GlobalNPC

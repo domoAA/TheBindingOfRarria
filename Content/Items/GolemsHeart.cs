@@ -19,6 +19,7 @@ namespace TheBindingOfRarria.Content.Items
             Item.defense = 2;
             Item.rare = ItemRarityID.Expert;
             Item.value = Item.buyPrice(0, 6, 66);
+            Item.expert = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

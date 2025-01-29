@@ -10,20 +10,14 @@ namespace TheBindingOfRarria.Content.Items
         public override void SetDefaults()
         {
             Item.accessory = true;
-            Item.height = 24;
-            Item.width = 26;
+            Item.height = 22;
+            Item.width = 24;
             Item.value = Item.buyPrice(0, 7);
             Item.rare = ItemRarityID.Pink;
         }
         public override void UpdateEquip(Player player)
         {
-            var counter = 0f;
-            for (int i = 0; i < player.buffType.Length; i++)
-            {
-                if (Main.debuff[player.buffType[i]])
-                    counter += 0.02f;
-            }
-            player.endurance += counter;
+            player.GetModPlayer<WoodBarkPlayer>().WiseAndMystical = true;
         }
         public override void AddRecipes()
         {
@@ -44,6 +38,20 @@ namespace TheBindingOfRarria.Content.Items
                 .Register();
 
             base.AddRecipes();
+        }
+    }
+    public class WoodBarkPlayer : ModPlayer
+    {
+        public bool WiseAndMystical = false;
+        public override void ResetEffects()
+        {
+            WiseAndMystical = false;
+        }
+        public override void UpdateLifeRegen()
+        {
+            if (WiseAndMystical)
+                Player.lifeRegen += (int)(Player.endurance * 20);
+            base.UpdateLifeRegen();
         }
     }
 }

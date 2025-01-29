@@ -17,6 +17,7 @@ namespace TheBindingOfRarria.Content.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.AddBuff(BuffID.WellFed2, 2);
+            player.AddBuff(BuffID.Sunflower, 2);
         }
         public override void AddRecipes()
         {

@@ -6,6 +6,7 @@ using TheBindingOfRarria.Common.Config;
 using Terraria.Audio;
 using System.Collections.Generic;
 using Terraria.Localization;
+using System.Linq;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -23,13 +24,14 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.ToothAndNail.Tooltip"), KeybindSystem.StonedKey.GetAssignedKeys().First());
             base.ModifyTooltips(tooltips);
             for (int i = 10; i > 0; i--)
             {
-                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip").Remove(7)));
+                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue("Mods.TheBindingOfRarria.Items.ToothAndNail.Tooltip").Remove(7)));
                 if (index != -1)
                 {
-                    tooltips[index].Text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.AnemoiBracelet.Tooltip"), KeybindSystem.StonedKey.GetAssignedKeys().ToString());
+                    tooltips[index].Text = text.Remove(text.IndexOf($"\n"));
                     break;
                 }
             }
@@ -37,54 +39,39 @@ namespace TheBindingOfRarria.Content.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<StonePlayer>().HasAStone = true;
-            player.GetModPlayer<StonePlayer>().StoneBlink--;
-
-            if (player.GetModPlayer<StonePlayer>().StoneBlink <= -10)
-            {
-                player.GetModPlayer<StonePlayer>().StoneBlink = 300;
-                if (!player.GetModPlayer<StonePlayer>().Stoned)
-                {
-                    player.buffImmune[BuffID.Stoned] = false;
-                    player.AddBuff(BuffID.Stoned, 30);
-                }
-                else
-                    player.GetModPlayer<StonePlayer>().Stoned = false;
-            }
-            else if (player.GetModPlayer<StonePlayer>().StoneBlink == 0)
-            {
-                if (player.whoAmI == Main.myPlayer)
-                    SoundEngine.PlaySound(SoundID.Duck);
-            }
+            player.GetModPlayer<StonePlayer>().counter--;
+            
         }
     }
     public class StonePlayer : ModPlayer
     {
-        public int StoneBlink = 300;
+        public int counter = 0;
         public bool HasAStone = false;
-        public bool Stoned = false;
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (KeybindSystem.StonedKey.JustPressed && StoneBlink <= 0 && HasAStone)
+            if (KeybindSystem.StonedKey.JustPressed && counter < 0 && HasAStone)
             {
-                Stoned = true;
+                var time = Player.longInvince ? 70 : 35;
                 Player.immune = true;
-                var time = Player.longInvince ? 120 : 60;
+                Player.immuneTime = time;
+                Player.immuneAlpha = 150;
                 Player.SetImmuneTimeForAllTypes(time);
+                counter = 1800;
+                if (Main.myPlayer == Player.whoAmI)
+                    SoundEngine.PlaySound(SoundID.Shatter);
             }
 
             base.ProcessTriggers(triggersSet);
         }
         public override void ResetEffects()
         {
-            if (!HasAStone)
-                StoneBlink = 300 + Main.rand.Next(300);
-
             HasAStone = false;
         }
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
-            var info = new NPC().CalculateHitInfo(hurtInfo.SourceDamage / 10, -hurtInfo.HitDirection);
+            var info = new NPC().CalculateHitInfo(hurtInfo.SourceDamage, -hurtInfo.HitDirection);
             if (HasAStone) {
+                Player.AddBuff(BuffID.Stoned, 10);
                 npc.StrikeNPC(info);
                 NetMessage.SendStrikeNPC(npc, info);
                     }

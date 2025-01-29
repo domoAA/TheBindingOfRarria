@@ -23,6 +23,17 @@ namespace TheBindingOfRarria.Content.Items
             Item.rare = ItemRarityID.LightPurple;
             Item.value = Item.buyPrice(0, 3);
         }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.AnkhCharm)
+                .AddIngredient(ItemID.AnkhBanner)
+                .AddIngredient(ItemID.LifeCrystal)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
+
+            base.AddRecipes();
+        }
     }
     public class RevivePlayer : ModPlayer
     {
