@@ -41,7 +41,6 @@ namespace TheBindingOfRarria
                 BeamEnd = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamEnd");
                 BeamBody = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamBody");
                 CenserExtra = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CenserExtra");
-
             }
         }
         public override void Unload()
@@ -53,7 +52,6 @@ namespace TheBindingOfRarria
                 ChargeIndicatorCircleExtra = null;
                 BeamEnd = null;
                 CenserExtra = null;
-
             }
         }
         public enum PacketTypes
