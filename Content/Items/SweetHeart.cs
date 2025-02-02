@@ -44,8 +44,8 @@ namespace TheBindingOfRarria.Content.Items
             if (!Sweetie || Player.lifeSteal <= 0 || !target.canGhostHeal)
                 return;
 
-            Player.Heal(damageDone / 20);
-            Player.lifeSteal -= damageDone / 20;
+            Player.Heal(damageDone / 10);
+            Player.lifeSteal -= damageDone / 10;
         }
         public override void UpdateBadLifeRegen()
         {
