@@ -34,6 +34,8 @@ namespace TheBindingOfRarria.Common.UI
 
                 var offset = new Vector2(24 * 15, 0).RotatedBy(rotation);
 
+                if (Main.myPlayer != Player.whoAmI)
+                    return;
                 if (Charge == 10) {
                     Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<LightBeam>(), 30, 3, Player.whoAmI, offset.X, offset.Y);
                     Charge = 0; }

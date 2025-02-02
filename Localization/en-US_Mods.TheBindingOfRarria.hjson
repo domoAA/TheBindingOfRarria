@@ -179,15 +179,6 @@ Items: {
 			'''
 	}
 
-	EightInchNails: {
-		DisplayName: 8 Inch Nails
-		Tooltip:
-			'''
-			Transforms ranged projectiles into nails
-			"How much is that in centimeters?"
-			'''
-	}
-
 	Fuse: {
 		DisplayName: Fuse
 		Tooltip:
@@ -260,7 +251,7 @@ Items: {
 		DisplayName: Sweet Heart
 		Tooltip:
 			'''
-			Grants 5% lifesteal on your attacks
+			Gain 10% lifesteal on your attacks
 			Reduces your life regeneration by 3 hp/s
 			"The guilt weighs heavier with each heartbeat"
 			'''
@@ -290,15 +281,6 @@ Items: {
 			'''
 			Grants a chance for your projectiles to become spectral
 			"It stings..."
-			'''
-	}
-
-	VestOfVines: {
-		DisplayName: Vest Of Vines
-		Tooltip:
-			'''
-			Increases life regeneration by 0.5 hp/s for every 5% damage reduction
-			"Too sturdy to bend"
 			'''
 	}
 
@@ -380,7 +362,6 @@ Projectiles: {
 	RepellingPulse.DisplayName: Repelling Pulse
 	CircleOfLight.DisplayName: Circle Of Light
 	LightBeam.DisplayName: Light Beam
-	NailProjectile.DisplayName: Nail Projectile
 	FireExplotaro.DisplayName: Fire Explotaro
 	SlowingAura.DisplayName: Slowing Aura
 	LightCone.DisplayName: Light Cone
