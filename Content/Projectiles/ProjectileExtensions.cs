@@ -125,27 +125,6 @@ namespace TheBindingOfRarria.Content.Projectiles
             }
             //projectile.netUpdate = true;
         }
-        public static void DrawElectricity(this Projectile projectile, Vector4[] points, float width, Color color)
-        {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
-
-            var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
-            var scale = projectile.scale * Main.GameZoomTarget;
-
-            GameShaders.Misc["electricity"].Shader.Parameters["points"].SetValue(points);
-            GameShaders.Misc["electricity"].Shader.Parameters["width"].SetValue(width);
-            GameShaders.Misc["electricity"].Shader.Parameters["dimensions"].SetValue(texture.Size());
-            GameShaders.Misc["electricity"].UseColor(color);
-            GameShaders.Misc["electricity"].Shader.CurrentTechnique.Passes[0].Apply();
-
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, texture.Bounds, color, 0, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
-
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
-        }
         public static void DrawWithTransparency(this Projectile projectile, Color color, byte alpha)
         {
             Main.spriteBatch.End();
