@@ -147,7 +147,15 @@ namespace TheBindingOfRarria.Content.Projectiles
             var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
             var scale = projectile.scale * Main.GameZoomTarget;
             color.A += alpha;
+
+            // testing gender target pixelation thingie from petrichor
+            var genderTarget = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
+            Main.instance.GraphicsDevice.SetRenderTarget(genderTarget);
+
             Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+
+            // drawing gender target
+            Main.spriteBatch.Draw(genderTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
