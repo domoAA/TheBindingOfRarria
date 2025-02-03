@@ -28,6 +28,7 @@ namespace TheBindingOfRarria
         public static Asset<Texture2D> BeamEnd;
         public static Asset<Texture2D> BeamBody;
         public static Asset<Texture2D> CenserExtra;
+        public static RenderTarget2D genderTarget;
         public static int[] reflectItems = [ModContent.ItemType<GodHead>(), ModContent.ItemType<AfterimageMirror>(), ModContent.ItemType<SlippedRib>()];
         public static int[] dodgeItems = [ModContent.ItemType<AnemoiBracelet>(), ItemID.BrainOfConfusion, ItemID.MasterNinjaGear, ItemID.BlackBelt];
         public static int[] invulItems = [ModContent.ItemType<ToothAndNail>(), ModContent.ItemType<GnawedLeaf>()];
@@ -41,6 +42,11 @@ namespace TheBindingOfRarria
                 BeamEnd = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamEnd");
                 BeamBody = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamBody");
                 CenserExtra = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CenserExtra");
+
+                Main.RunOnMainThread(() =>
+                {
+                    genderTarget = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
+                }).Wait();
             }
         }
         public override void Unload()
@@ -52,6 +58,7 @@ namespace TheBindingOfRarria
                 ChargeIndicatorCircleExtra = null;
                 BeamEnd = null;
                 CenserExtra = null;
+                genderTarget = null;
             }
         }
         public enum PacketTypes
