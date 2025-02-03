@@ -81,39 +81,6 @@ namespace TheBindingOfRarria.Content
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
-        public static void DrawPrimStripe(this VertexPositionColorTexture[] vertices)
-        {
-            var viewport = Main.instance.GraphicsDevice.Viewport;
-            PrimsSystem.primThingie.World = Matrix.CreateTranslation(new Vector3(-Main.screenPosition, 0));
-            PrimsSystem.primThingie.View = Main.GameViewMatrix.TransformationMatrix;
-            PrimsSystem.primThingie.Projection = Matrix.CreateOrthographicOffCenter(left: 0, right: viewport.Width, bottom: viewport.Height, top: 0, zNearPlane: -1, zFarPlane: 10);
-
-            Main.instance.GraphicsDevice.Textures[0] = Terraria.GameContent.TextureAssets.MagicPixel.Value;
-            foreach (var pass in PrimsSystem.primThingie.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                Main.instance.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, vertices, 0, vertices.Length);
-            }
-
-        }
-    }
-    public class PrimsSystem : ModSystem
-    {
-        public static BasicEffect primThingie;
-        public override void Load()
-        {
-            Main.RunOnMainThread(() => // 
-            {
-                primThingie = new BasicEffect(Main.instance.GraphicsDevice);
-                primThingie.VertexColorEnabled = true; // enable vertices colors
-                primThingie.TextureEnabled = true; // enable using textures
-            }).Wait();
-        }
-        public override void Unload()
-        {
-            primThingie?.Dispose();
-            primThingie = null;
-        }
     }
     public static class NPCExtensions
     {
