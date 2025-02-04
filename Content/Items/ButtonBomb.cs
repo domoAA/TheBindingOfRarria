@@ -47,7 +47,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!HasABomb || proj.type == ModContent.ProjectileType<DetonatedButton>())
+            if (!HasABomb || proj.type == ModContent.ProjectileType<Extra98Bomb>())
             {
                 base.OnHitNPCWithProj(proj, target, hit, damageDone);
                 return;
@@ -64,7 +64,7 @@ namespace TheBindingOfRarria.Content.Items
 
                 if (Main.myPlayer != Player.whoAmI)
                     return;
-                Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 0, 0, Player.whoAmI, target.whoAmI, offset.X, offset.Y);
+                Projectile.NewProjectileDirect(Player.GetSource_FromThis(), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 3, 2, Player.whoAmI, target.whoAmI, offset.X, offset.Y).rotation = Main.rand.NextFloat() * MathHelper.TwoPi;
                 target.GetGlobalNPC<ButtonedNPC>().ButtonCD = 20; }
         }
     }

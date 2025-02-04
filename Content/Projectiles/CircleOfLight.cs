@@ -23,7 +23,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.height = (int)(110 * Projectile.scale);
 
             Projectile.CenteredOnPlayer();
-            Projectile.ReflectProjectiles(true, 0.2f);
+            Projectile.ReflectProjectiles(true, 0.12f);
         }
         public override bool PreDraw(ref Color lightColor)
         {

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -11,13 +12,13 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
+            Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.width = 18;
-            Projectile.height = 18;
-            Projectile.timeLeft = 120;
-            if (Main.myPlayer != Projectile.owner)
-                return;
-            Projectile.rotation = (float)(new Random().NextDouble() * MathHelper.TwoPi);
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 20;
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.timeLeft = 132;
         }
         private NPC Target
         {
@@ -28,51 +29,53 @@ namespace TheBindingOfRarria.Content.Projectiles
             }
         }
         private Vector2 Offset = new(0, 0);
+        public Vector2[] bomba =
+        {
+            Vector2.One.RotatedBy(MathHelper.PiOver4 + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10)),
+            Vector2.One.RotatedBy(MathHelper.PiOver4 * 2 + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10)),
+            Vector2.One.RotatedBy(MathHelper.PiOver4 * 3 + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10)),
+            Vector2.One.RotatedBy(MathHelper.PiOver4 * 4 + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10)),
+            Vector2.One.RotatedBy(MathHelper.PiOver4 * 5 + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10)),
+            Vector2.One.RotatedBy(MathHelper.PiOver4 * 6 + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10)),
+            Vector2.One.RotatedBy(MathHelper.PiOver4 * 7 + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10)),
+            Vector2.One.RotatedBy(MathHelper.PiOver4 * 8 + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10))
+        };
         public override void AI()
         {
-            if (Target  == null) 
+            if (Target  == null || !Target.active)
                 Projectile.Kill();
-            else if (!Target.active)
-                Projectile.Kill();
-            else
+            else if (Projectile.timeLeft > 12)
             {
                 Offset = new Vector2(Projectile.ai[1], Projectile.ai[2]);
                 Projectile.Center = Target.Center - Offset;
+                Projectile.netUpdate = true;
             }
         }
-        public override void OnKill(int timeLeft)
+        public override bool? CanHitNPC(NPC target)
         {
-            if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<DetonatedButton>(), 5, 5, Projectile.owner);
+            if (Projectile.timeLeft > 4)
+                return false;
+
+            return base.CanHitNPC(target);
         }
-    }
-    public class DetonatedButton : ModProjectile
-    {
-        public override void SetStaticDefaults()
+        public override bool PreDraw(ref Color lightColor)
         {
-            Main.projFrames[Projectile.type] = 4;
-        }
-        public override void SetDefaults()
-        {
-            Projectile.DamageType = DamageClass.Default;
-            Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
-            Projectile.penetrate = -1;
-            Projectile.width = 18;
-            Projectile.height = 18;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 20;
-            Projectile.timeLeft = 12;
-            Projectile.friendly = true;
-        }
-        public override void AI()
-        {
-            if (++Projectile.frameCounter >= 3)
+            Projectile.scale = 0.5f;
+            if (Projectile.timeLeft > 12)
+                Projectile.DrawPixellated();
+            else
             {
-                Projectile.frameCounter = 0;
-                if (++Projectile.frame >= Main.projFrames[Projectile.type])
-                    Projectile.frame = 0;
+                var extra98 = Terraria.GameContent.TextureAssets.Extra[98].Value;
+                var color = lightColor;
+                PixellationSystem.QueuePixelationAction(() => {
+                    for (int i = bomba.Length - 1; i > 0; i--)
+                    {
+                        Main.EntitySpriteDraw(extra98, (Projectile.Center + bomba[i] * (12 - Projectile.timeLeft) - Main.screenPosition) / 2, extra98.Bounds, color, bomba[i].ToRotation() + MathHelper.PiOver2, extra98.Size() / 2, 0.15f, SpriteEffects.None);
+                    }
+                }, PixellationSystem.RenderType.AlphaBlend);
             }
+
+            return false;
         }
     }
 }

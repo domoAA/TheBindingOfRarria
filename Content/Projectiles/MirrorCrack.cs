@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Projectiles
@@ -11,11 +13,10 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.width = 30;
-            Projectile.height = 80;
+            Projectile.height = 30;
             Projectile.damage = 0;
             Projectile.netImportant = true;
             Projectile.timeLeft = 120;
-            Projectile.scale = 2;
         }
         public override void AI()
         {
@@ -26,9 +27,9 @@ namespace TheBindingOfRarria.Content.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Projectile.ai[1]++;
-            byte dimming = (byte)(128 - (byte)Projectile.ai[1]);
-            var effect = Projectile.ai[2] == 0 ? Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipVertically : Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
-            Projectile.DrawWithTransparency(lightColor, dimming, effect);
+            byte dimming = (byte)(180 - (byte)Projectile.ai[1]);
+            var effect = Projectile.ai[2] == 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+            Projectile.DrawPixellated(lightColor, dimming, effect, PixellationSystem.RenderType.Additive);
             return false;
         }
     }

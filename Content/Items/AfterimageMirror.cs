@@ -40,7 +40,7 @@ namespace TheBindingOfRarria.Content.Items
             if (!HasPlate || proj.reflected)
                 return;
 
-            var reflected = Main.rand.NextFloat() < 0.15f;
+            var reflected = Main.rand.NextFloat() < 0.16f;
 
             if (!reflected)
                 return;

@@ -64,13 +64,13 @@ namespace TheBindingOfRarria.Content.Items
         }
         public void NatureDodge(Vector2 position, float rotation)
         {
-            ImmunityWhiteFlash(position, rotation);
+            ReflectionVisual(position, rotation);
             Position = Vector2.Zero;
             Rotation = 0;
             Player.immune = true;
             Player.SetImmuneTimeForAllTypes(Player.longInvince ? 150 : 90);
         }
-        public static void ImmunityWhiteFlash(Vector2 center, float rotation)
+        public static void ReflectionVisual(Vector2 center, float rotation)
         {
             var r = 7f;
             var total = 8;
@@ -83,7 +83,7 @@ namespace TheBindingOfRarria.Content.Items
                     offset.Y *= 0.5f;
                     var position = offset.RotatedBy(rotation) + center;
                     var velocity = new Vector2(offset.X, offset.Y + vel.Y).RotatedBy(rotation) / 6;
-                    Dust.NewDustPerfect(position, DustID.FireworksRGB, velocity, 0, Color.ForestGreen, 1).noGravity = true;
+                    Dust.NewDustPerfect(position, ModContent.DustType<PixelatedDustParticle>(), velocity, 0, Color.ForestGreen, 1);
                 }
                 r += 7;
                 vel.Y += 3;
@@ -100,7 +100,7 @@ namespace TheBindingOfRarria.Content.Items
                 return;
 
             
-            if (Main.rand.NextFloat() < chance)
+            if (Main.rand.NextFloat() < chance * 10)
                 blocked = true;
 
 
@@ -137,6 +137,37 @@ namespace TheBindingOfRarria.Content.Items
                 return true;
             }
             return base.FreeDodge(info);
+        }
+    }
+    public class PixelatedDustParticle : ModDust
+    {
+        public override void OnSpawn(Dust dust)
+        {
+            dust.noGravity = true;
+            dust.noLight = true;
+            dust.scale = 0.5f;
+        }
+        public override bool Update(Dust dust)
+        {
+            dust.position += dust.velocity;
+            dust.rotation = dust.velocity.ToRotation();
+            dust.velocity *= 0.97f;
+            dust.color.A -= 2;
+            float light = 0.0035f * dust.color.A;
+
+            Lighting.AddLight(dust.position, light, light, light);
+
+            if (dust.color.A < 100)
+            {
+                dust.active = false;
+            }
+
+            return false;
+        }
+        public override bool PreDraw(Dust dust)
+        {
+            Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale, dust.rotation + MathHelper.PiOver2, dust.color, PixellationSystem.RenderType.Additive);
+            return false;
         }
     }
 }

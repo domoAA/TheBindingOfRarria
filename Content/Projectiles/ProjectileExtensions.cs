@@ -139,32 +139,24 @@ namespace TheBindingOfRarria.Content.Projectiles
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
-        public static void DrawWithTransparency(this Projectile projectile, Color color, byte alpha, SpriteEffects effect)
+        public static void DrawPixellated(this Projectile projectile, Color color, byte alpha, SpriteEffects effects, PixellationSystem.RenderType renderType)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
             var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
             var scale = projectile.scale * Main.GameZoomTarget;
             color.A += alpha;
 
-            // testing gender target pixelation thingie from petrichor
-            if (TheBindingOfRarria.genderTarget.Width != Main.screenWidth)
-                TheBindingOfRarria.genderTarget = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
-            var oldTargets = Main.instance.GraphicsDevice.GetRenderTargets();
-            Main.instance.GraphicsDevice.SetRenderTarget(TheBindingOfRarria.genderTarget);
-            Main.instance.GraphicsDevice.Clear(Color.Transparent);
+            PixellationSystem.QueuePixelationAction(() => {
+                Main.EntitySpriteDraw(texture, (projectile.Center - Main.screenPosition) / 2, texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, effects, 0);
+            }, renderType);
+        }
+        public static void DrawPixellated(this Projectile projectile)
+        {
+            var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
+            var scale = projectile.scale * Main.GameZoomTarget;
 
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
-
-            // drawing gender target after "deactivating" it
-            Main.instance.GraphicsDevice.SetRenderTargets(oldTargets);
-            Main.spriteBatch.Draw(TheBindingOfRarria.genderTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color);
-
-
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            PixellationSystem.QueuePixelationAction(() => {
+                Main.EntitySpriteDraw(texture, (projectile.Center - Main.screenPosition) / 2, texture.Bounds, Color.White, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+            }, PixellationSystem.RenderType.AlphaBlend);
         }
         public static void DrawWithTransparency(this Projectile projectile, Rectangle rect, Color color, byte alpha, int layers, byte layerAlphaStep, float layerScaleStep)
         {
