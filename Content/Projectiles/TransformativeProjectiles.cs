@@ -13,8 +13,8 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
     {
         public override bool InstancePerEntity => true;
         public bool Bouncy = false;
-        public bool Spectral = false;
-        public bool Godly = false;
+        //public bool Spectral = false;
+        //public bool Godly = false;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             var owner = Main.player[projectile.owner];
@@ -40,16 +40,16 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
             //    projectile.damage = projectile.damage * 4 / 5;
             //}
 
-            if (owner.GetModPlayer<PinnedPlayer>().Pinned && projectile.tileCollide && Main.rand.NextFloat() < (0.1f + Main.LocalPlayer.luck / 10))
-            {
-                Spectral = true;
-                projectile.tileCollide = false;
-                if (projectile.penetrate != -1)
-                    projectile.penetrate += 2;
-                projectile.usesIDStaticNPCImmunity = true;
-                projectile.idStaticNPCHitCooldown = 15;
-                projectile.netUpdate = true;
-            }
+            //if (owner.GetModPlayer<PinnedPlayer>().Pinned && projectile.tileCollide && Main.rand.NextFloat() < (0.1f + Main.LocalPlayer.luck / 10))
+            //{
+            //    Spectral = true;
+            //    projectile.tileCollide = false;
+            //    if (projectile.penetrate != -1)
+            //        projectile.penetrate += 2;
+            //    projectile.usesIDStaticNPCImmunity = true;
+            //    projectile.idStaticNPCHitCooldown = 15;
+            //    projectile.netUpdate = true;
+            //}
             else if (owner.GetModPlayer<CementosPlayer>().Cementos && projectile.tileCollide && projectile.aiStyle != ProjAIStyleID.Bounce)
             {
                 Bouncy = true;
@@ -57,7 +57,7 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
         }
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
-            if (!Spectral && Bouncy && projectile.tileCollide)
+            if (Bouncy && projectile.tileCollide)
             {
                 // If the projectile hits the left or right side of the tile, reverse the X velocity
                 if (Math.Abs(projectile.velocity.X - oldVelocity.X) > float.Epsilon)
@@ -77,21 +77,8 @@ namespace TheBindingOfRarria.Content.Projectiles.TransformativeProjectiles
                 projectile.velocity *= 0.95f;
                 return false;
             }
-            else if (Spectral)
-                return false;
 
             return base.OnTileCollide(projectile, oldVelocity);
-        }
-        public override bool PreDraw(Projectile projectile, ref Color lightColor)
-        {
-            if (Spectral)
-            {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-                Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
-                lightColor.A = 100;
-            }
-            return base.PreDraw(projectile, ref lightColor);
         }
     }
 }

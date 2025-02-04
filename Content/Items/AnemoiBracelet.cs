@@ -83,7 +83,7 @@ namespace TheBindingOfRarria.Content.Items
                     offset.Y *= 0.5f;
                     var position = offset.RotatedBy(rotation) + center;
                     var velocity = new Vector2(offset.X, offset.Y + vel.Y).RotatedBy(rotation) / 6;
-                    Dust.NewDustPerfect(position, ModContent.DustType<PixelatedDustParticle>(), velocity, 0, Color.ForestGreen, 1);
+                    Dust.NewDustPerfect(position, ModContent.DustType<PixelatedDustParticle>(), velocity * 6, 0, Color.ForestGreen, 0.35f);
                 }
                 r += 7;
                 vel.Y += 3;
@@ -145,15 +145,14 @@ namespace TheBindingOfRarria.Content.Items
         {
             dust.noGravity = true;
             dust.noLight = true;
-            dust.scale = 0.5f;
         }
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
             dust.rotation = dust.velocity.ToRotation();
-            dust.velocity *= 0.97f;
-            dust.color.A -= 2;
-            float light = 0.0035f * dust.color.A;
+            dust.velocity *= 0.9f;
+            dust.color.A -= 8;
+            float light = 0.002f * dust.color.A;
 
             Lighting.AddLight(dust.position, light, light, light);
 
@@ -166,7 +165,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override bool PreDraw(Dust dust)
         {
-            Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale, dust.rotation + MathHelper.PiOver2, dust.color, PixellationSystem.RenderType.Additive);
+            Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale * new Vector2(0.9f, 0.015f * dust.color.A), dust.rotation + MathHelper.PiOver2, dust.color, PixellationSystem.RenderType.Additive);
             return false;
         }
     }

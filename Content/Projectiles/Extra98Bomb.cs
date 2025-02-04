@@ -1,8 +1,9 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -14,10 +15,11 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
+            Projectile.CritChance = (int)(Main.player[Projectile.owner].GetCritChance(DamageClass.Generic));
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 20;
-            Projectile.width = 48;
-            Projectile.height = 48;
+            Projectile.width = 80;
+            Projectile.height = 80;
             Projectile.timeLeft = 132;
         }
         private NPC Target
@@ -62,17 +64,20 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             Projectile.scale = 0.5f;
             if (Projectile.timeLeft > 12)
-                Projectile.DrawPixellated();
-            else
+                Projectile.DrawPixellated(lightColor, 230, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, PixellationSystem.RenderType.Additive);
+            else if (Projectile.timeLeft == 12)
             {
-                var extra98 = Terraria.GameContent.TextureAssets.Extra[98].Value;
                 var color = lightColor;
-                PixellationSystem.QueuePixelationAction(() => {
-                    for (int i = bomba.Length - 1; i > 0; i--)
-                    {
-                        Main.EntitySpriteDraw(extra98, (Projectile.Center + bomba[i] * (12 - Projectile.timeLeft) - Main.screenPosition) / 2, extra98.Bounds, color, bomba[i].ToRotation() + MathHelper.PiOver2, extra98.Size() / 2, 0.15f, SpriteEffects.None);
-                    }
-                }, PixellationSystem.RenderType.AlphaBlend);
+                for (int i = bomba.Length - 1; i > 0; i--)
+                {
+                    var rot = Main.rand.NextFloat(-MathHelper.Pi / 8, MathHelper.Pi / 8);
+                    Dust.NewDustPerfect(Projectile.Center + bomba[i], ModContent.DustType<PixelatedDustParticle>(), bomba[i] * 3, 255, color, 0.3f * Main.rand.NextFloat(0.8f, 1.3f));
+                    Dust.NewDustPerfect(Projectile.Center + bomba[i].RotatedBy(rot), ModContent.DustType<PixelatedDustParticle>(), bomba[i].RotatedBy(rot) * 2, 255, color, 0.15f * Main.rand.NextFloat(0.8f, 1.3f));
+                }
+                var sound = SoundID.Item14;
+                sound.Pitch += 0.8f;
+                sound.Volume *= 0.3f;
+                SoundEngine.PlaySound(sound, Projectile.Center);
             }
 
             return false;

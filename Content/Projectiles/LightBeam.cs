@@ -21,6 +21,13 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override void AI()
         {
+            Projectile.ai[2] += shining == true ? 0.2f : shining == false ? -0.2f : 0;
+
+            if (Projectile.ai[2] > 2)
+                shining = false;
+            else if (Projectile.ai[2] < -2)
+                shining = true;
+
             if (Projectile.timeLeft < 100)
                 Projectile.Kill();
             else if (Projectile.timeLeft < 240)
@@ -38,7 +45,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             CD--;
             if (CD < 0)
-                CD = 20;
+                CD = 10;
             Projectile.netUpdate = true;
         }
         public override bool? CanHitNPC(NPC target)
@@ -70,14 +77,6 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-
-            Projectile.ai[2] += shining == true ? 0.2f : shining == false ? -0.2f : 0;
-
-            if (Projectile.ai[2] > 2)
-                shining = false;
-            else if (Projectile.ai[2] < -2)
-                shining = true;
-
             float power = 0.0035f * (Projectile.timeLeft);
 
             byte alpha = (byte)(5 + Projectile.ai[2]);

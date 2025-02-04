@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.Graphics.Shaders;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -29,11 +28,13 @@ namespace TheBindingOfRarria.Content.Projectiles
     public class SlowedGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
-        public (bool, int) Slowed = (false, 0);
+        public (bool?, int) Slowed = (false, 0);
         public override void PostAI(Projectile projectile)
         {
-            if (Slowed.Item1)
+            if (Slowed.Item1 == true)
                 projectile.velocity *= 0.97f;
+            else if (Slowed.Item1 == null)
+                projectile.velocity *= 1.03f;
             projectile.netUpdate = true;
         }
         public override bool PreDraw(Projectile projectile, ref Color lightColor)
@@ -133,7 +134,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
             var scale = projectile.scale * Main.GameZoomTarget;
             color.A += alpha;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

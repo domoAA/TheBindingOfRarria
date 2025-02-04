@@ -24,9 +24,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             Projectile.CenteredOnPlayer();
             Projectile.ReflectProjectiles(true, 0.12f);
-        }
-        public override bool PreDraw(ref Color lightColor)
-        {
+
             if (Projectile.ai[0] != 0)
                 shining = true;
 
@@ -39,6 +37,9 @@ namespace TheBindingOfRarria.Content.Projectiles
             else if (Projectile.ai[1] <= 0)
                 shining = null;
 
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
             byte alpha = (byte)(7 + Projectile.ai[1]);
 
             Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 6, 3, 0.015f);

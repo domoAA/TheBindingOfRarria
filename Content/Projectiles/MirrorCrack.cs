@@ -23,10 +23,10 @@ namespace TheBindingOfRarria.Content.Projectiles
             if (Projectile.timeLeft > 100)
                 Projectile.ReflectProjectiles(true, 1);
 
+            Projectile.ai[1]++;
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Projectile.ai[1]++;
             byte dimming = (byte)(180 - (byte)Projectile.ai[1]);
             var effect = Projectile.ai[2] == 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
             Projectile.DrawPixellated(lightColor, dimming, effect, PixellationSystem.RenderType.Additive);

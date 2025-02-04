@@ -39,18 +39,16 @@ namespace TheBindingOfRarria.Content.Projectiles
             }
 
             Projectile.CenteredOnPlayer();
-        }
-        public override bool PreDraw(ref Color lightColor)
-        {
-            switch(Projectile.ai[1])
+
+            switch (Projectile.ai[1])
             {
-                case > 6: 
+                case > 4:
                     shining = false;
-                    Projectile.ai[1] = 5.9f;
+                    Projectile.ai[1] = 3.9f;
                     break;
-                case < -6:
+                case < -4:
                     shining = true;
-                    Projectile.ai[1] = -5.9f;
+                    Projectile.ai[1] = -3.9f;
                     break;
                 default:
                     if (shining)
@@ -59,10 +57,12 @@ namespace TheBindingOfRarria.Content.Projectiles
                         Projectile.ai[1] -= 0.1f;
                     break;
             }
-
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
             byte alpha = (byte)(6 + Projectile.ai[1]);
 
-            Projectile.scale = 3.5f;
+            Projectile.scale = 3f;
             Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 8, 2, 0.025f);
             return false;
         }

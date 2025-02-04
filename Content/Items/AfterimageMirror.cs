@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,6 +53,10 @@ namespace TheBindingOfRarria.Content.Items
             var projectile = Projectile.NewProjectileDirect(Player.GetSource_OnHurt(modifiers.DamageSource), proj.Center, Vector2.Zero, ModContent.ProjectileType<MirrorCrack>(), 0, 0, Player.whoAmI, proj.velocity.ToRotation());
             projectile.rotation = proj.velocity.ToRotation() + MathHelper.Pi;
             projectile.ai[2] = Main.rand.Next(0, 2);
+            var sound = SoundID.Shatter;
+            sound.Volume *= 0.4f;
+            sound.Pitch -= 0.6f;
+            SoundEngine.PlaySound(sound, proj.Center);
         }
     }
     public class ReflectiveLootNPC : GlobalNPC
