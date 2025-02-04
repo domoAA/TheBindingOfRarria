@@ -110,7 +110,7 @@ Items: {
 		DisplayName: Afterimage Mirror
 		Tooltip:
 			'''
-			Grants a 15% chance to reflect projectiles
+			Grants a 16% chance to reflect projectiles
 			"Reflect (on) your mistakes"
 			'''
 	}
@@ -156,7 +156,7 @@ Items: {
 		DisplayName: God Head
 		Tooltip:
 			'''
-			Grants a halo that has a 20% chance to reflect projectiles
+			Grants a halo that has a 12% chance to reflect projectiles
 			"A shielding light from dimensions unkown"
 			'''
 	}
@@ -369,4 +369,7 @@ Projectiles: {
 	MirrorCrack.DisplayName: Mirror Crack
 }
 
-Keybinds.StonedInvul.DisplayName: Stoned Invul
+Keybinds: {
+	StonedInvul.DisplayName: Stoned Invul
+	BrokenWatch.DisplayName: Broken Watch
+}

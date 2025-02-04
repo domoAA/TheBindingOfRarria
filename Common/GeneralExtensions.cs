@@ -30,6 +30,14 @@ namespace TheBindingOfRarria.Content
                 Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }, renderType);
         }
+        public static void DrawPixellated(this Texture2D texture, Vector2 position, Vector2 scale, float rotation, Color color, PixellationSystem.RenderType renderType)
+        {
+            scale *= Main.GameZoomTarget;
+
+            PixellationSystem.QueuePixelationAction(() => {
+                Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+            }, renderType);
+        }
         public static void DrawWithTransparency(this Texture2D texture, Vector2 center, Rectangle? rect, Color color, byte alpha, byte alphaStep, float scale, float scaleStep, int layers)
         {
             Main.spriteBatch.End();
@@ -95,7 +103,7 @@ namespace TheBindingOfRarria.Content
         public class SlowedGlobalNPC : GlobalNPC
         {
             public override bool InstancePerEntity => true;
-            public (bool, int) Slowed = (false, 0);
+            public (bool?, int) Slowed = (false, 0);
             public int counter = 0;
             public override bool PreAI(NPC npc)
             {
@@ -111,8 +119,10 @@ namespace TheBindingOfRarria.Content
             }
             public override void PostAI(NPC npc)
             {
-                if (Slowed.Item1)
+                if (Slowed.Item1 == true)
                     npc.velocity *= 0.97f;
+                else if (Slowed.Item1 == null)
+                    npc.velocity *= 1.03f;
             }
             public override void DrawEffects(NPC npc, ref Color drawColor)
             {
