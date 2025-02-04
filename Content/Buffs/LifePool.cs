@@ -20,7 +20,7 @@ namespace TheBindingOfRarria.Content.Buffs
         }
         public override void PostDraw(SpriteBatch spriteBatch, int buffIndex, BuffDrawParams drawParams)
         {
-            Utils.DrawBorderString(spriteBatch, life.ToString(), drawParams.Position + drawParams.Texture.Size() * 2 / 3, Color.White);
+            Utils.DrawBorderString(spriteBatch, life.ToString(), drawParams.Position + drawParams.Texture.Size() * 2 / 3, Color.White, 0.3f);
             base.PostDraw(spriteBatch, buffIndex, drawParams);
         }
     }
