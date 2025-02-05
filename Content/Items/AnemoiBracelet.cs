@@ -100,7 +100,7 @@ namespace TheBindingOfRarria.Content.Items
                 return;
 
             
-            if (Main.rand.NextFloat() < chance * 10)
+            if (Main.rand.NextFloat() < chance)
                 blocked = true;
 
 

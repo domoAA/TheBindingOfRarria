@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Config;
 using TheBindingOfRarria.Content.Projectiles;
@@ -33,6 +36,20 @@ namespace TheBindingOfRarria.Content.Items
 
             base.AddRecipes();
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.BrokenWatch.Tooltip"), KeybindSystem.ZaWardoKey.GetAssignedKeys().First());
+            base.ModifyTooltips(tooltips);
+            for (int i = 10; i > 0; i--)
+            {
+                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue("Mods.TheBindingOfRarria.Items.BrokenWatch.Tooltip").Remove(7)));
+                if (index != -1)
+                {
+                    tooltips[index].Text = text.Remove(text.IndexOf($"\n"));
+                    break;
+                }
+            }
+        }
     }
     public class ZaWardoPlayer : ModPlayer
     {
@@ -50,7 +67,7 @@ namespace TheBindingOfRarria.Content.Items
                 var rand = Main.rand.NextBool();
                 foreach (var target in Main.ActiveNPCs)
                 {
-                    if (target == null)
+                    if (target == null || !target.active)
                         continue;
 
                     if (rand)
@@ -82,7 +99,7 @@ namespace TheBindingOfRarria.Content.Items
                 }
 
                 counter = 600;
-                SoundEngine.PlaySound(SoundID.Camera, Player.position);
+                SoundEngine.PlaySound(SoundID.Shatter, Player.position);
             }
 
             base.ProcessTriggers(triggersSet);

@@ -21,6 +21,7 @@ namespace TheBindingOfRarria.Content.Items
                 player.GetModPlayer<GeneThiefPlayer>().counter = 300;
                 player.GetModPlayer<GeneThiefPlayer>().genePool -= player.GetModPlayer<GeneThiefPlayer>().genePool > 0 ? 1 : 0;
             }
+            player.statLifeMax2 += player.GetModPlayer<GeneThiefPlayer>().genePool;
         }
     }
     public class GeneThiefPlayer : ModPlayer

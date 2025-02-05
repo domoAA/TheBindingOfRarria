@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -81,8 +82,9 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             byte alpha = (byte)(5 + Projectile.ai[2]);
 
-            Projectile.DrawLightBeam(TheBindingOfRarria.BeamEnd.Value, TheBindingOfRarria.BeamBody.Value, Color.LightYellow, alpha, 1, new Vector2(power, 1), new Vector2(0.05f, 0f), 15);
-            
+            PixellationSystem.QueuePixelationAction(() => {
+                Projectile.DrawLightBeam(TheBindingOfRarria.BeamEnd.Value, TheBindingOfRarria.BeamBody.Value, Color.LightYellow, alpha, 1, new Vector2(power, 1), new Vector2(0.05f, 0f), 15);
+            }, PixellationSystem.RenderType.Additive);
             return false;
         }
     }

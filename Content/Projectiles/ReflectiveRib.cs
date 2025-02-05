@@ -32,10 +32,10 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.ai[0]++;
 
             var rotation = (MathHelper.TwoPi / 360 * Projectile.ai[0]);
-            Projectile.OrbitingPlayer(1.6f, 400, rotation);
+            Projectile.OrbitingPlayer(1.6f, 40, rotation);
             Projectile.ReflectProjectiles(true, 1f);
 
-            if (Projectile.ai[0] % 5 == 0)
+            if (Projectile.ai[0] % 5 == 6)
             {
                 var owner = Main.player[Projectile.owner];
                 for (int i = stripe.Length - 1; i > 1; i--)

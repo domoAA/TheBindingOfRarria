@@ -51,14 +51,14 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (KeybindSystem.StonedKey.JustPressed && counter < 0 && HasAStone)
             {
-                var time = Player.longInvince ? 70 : 35;
+                var time = Player.longInvince ? 90 : 50;
                 Player.immune = true;
                 Player.immuneTime = time;
                 Player.immuneAlpha = 150;
                 Player.SetImmuneTimeForAllTypes(time);
                 counter = 1800;
                 if (Main.myPlayer == Player.whoAmI)
-                    SoundEngine.PlaySound(SoundID.Shatter);
+                    SoundEngine.PlaySound(SoundID.Item69);
             }
 
             base.ProcessTriggers(triggersSet);

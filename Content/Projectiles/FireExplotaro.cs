@@ -45,8 +45,8 @@ namespace TheBindingOfRarria.Content.Projectiles
                 Dust.NewDustPerfect(Projectile.Center + bomba[i].RotatedBy(rot), ModContent.DustType<PixelatedDustParticle>(), bomba[i].RotatedBy(rot) * 5.2f, 255, color, 0.32f * Main.rand.NextFloat(0.8f, 2.3f));
             }
             var sound = SoundID.Item14;
-            sound.Pitch += 0.8f;
-            sound.Volume *= 0.3f;
+            sound.Pitch += 0.7f;
+            sound.Volume *= 0.5f;
             SoundEngine.PlaySound(sound, Projectile.Center);
         }
         public Vector2[] bomba =
