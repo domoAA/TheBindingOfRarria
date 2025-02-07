@@ -38,7 +38,11 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.BrokenWatch.Tooltip"), KeybindSystem.ZaWardoKey.GetAssignedKeys().First());
+            var key = KeybindSystem.ZaWardoKey.GetAssignedKeys().FirstOrDefault();
+            if (key == "" || key == null)
+                key = "P";
+
+            var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.BrokenWatch.Tooltip"), key);
             base.ModifyTooltips(tooltips);
             for (int i = 10; i > 0; i--)
             {
@@ -62,40 +66,16 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (KeybindSystem.ZaWardoKey.JustPressed && counter <= 0 && ZaWardo)
+            if ((KeybindSystem.ZaWardoKey.JustPressed || (KeybindSystem.ZaWardoKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.P))) && Main.myPlayer == Player.whoAmI && counter <= 0 && ZaWardo)
             {
-                var rand = Main.rand.NextBool();
+                var rand = (TheBindingOfRarria.State)Main.rand.Next(1, 3);
                 foreach (var target in Main.ActiveNPCs)
                 {
-                    if (target == null || !target.active)
-                        continue;
-
-                    if (rand)
-                    {
-                        target.velocity *= 0.7f;
-                        target.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = (true, 180);
-                    }
-                    else
-                    {
-                        target.velocity *= 1.3f;
-                        target.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = (null, 180);
-                    }
+                    target?.GetSlowed(rand, 180);
                 }
                 foreach (var proj in Main.ActiveProjectiles)
                 {
-                    if (proj == null)
-                        continue;
-
-                    if (rand)
-                    {
-                        proj.velocity *= 0.7f;
-                        proj.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = (true, 180);
-                    }
-                    else
-                    {
-                        proj.velocity *= 1.3f;
-                        proj.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = (null, 180);
-                    }
+                    proj?.GetSlowed(rand, 180);
                 }
 
                 counter = 600;

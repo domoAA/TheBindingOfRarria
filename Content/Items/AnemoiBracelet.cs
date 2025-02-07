@@ -25,7 +25,6 @@ namespace TheBindingOfRarria.Content.Items
         public float chance = 0.07f;
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<NatureDodgePlayer>().HasBracelet = true;
             chance = Math.Min(0.07f + (player.moveSpeed - 0.5f) / 10, 0.21f);
             player.GetModPlayer<NatureDodgePlayer>().chance = chance;
         }
@@ -56,87 +55,73 @@ namespace TheBindingOfRarria.Content.Items
     }
     public class NatureDodgePlayer : ModPlayer
     {
-        public bool HasBracelet = false;
+        public float chance = 0f;
+        public bool blocked = false;
+        public Vector2 direction = Vector2.UnitY;
+        public Vector2 position = Vector2.Zero;
         public override void ResetEffects()
         {
-            HasBracelet = false;
-            blocked = false;
+            chance = 0f;
         }
-        public void NatureDodge(Vector2 position, float rotation)
+        public override void PostUpdate()
         {
-            ReflectionVisual(position, rotation);
-            Position = Vector2.Zero;
-            Rotation = 0;
-            Player.immune = true;
-            Player.SetImmuneTimeForAllTypes(Player.longInvince ? 150 : 90);
-        }
-        public static void ReflectionVisual(Vector2 center, float rotation)
-        {
-            var r = 7f;
-            var total = 8;
-            var vel = Vector2.Zero;
-            for (int l = 0; l < 1; l++)
+            base.PostUpdate();
+            if (blocked)
             {
-                for (int i = 0; i < total; i++)
-                {
-                    var offset = (MathHelper.TwoPi / total * i).ToRotationVector2() * r;
-                    offset.Y *= 0.5f;
-                    var position = offset.RotatedBy(rotation) + center;
-                    var velocity = new Vector2(offset.X, offset.Y + vel.Y).RotatedBy(rotation) / 6;
-                    Dust.NewDustPerfect(position, ModContent.DustType<PixelatedDustParticle>(), velocity * 6, 0, Color.ForestGreen, 0.35f);
-                }
-                r += 7;
-                vel.Y += 3;
-                total += 4;
+                position.SpawnDust(ModContent.DustType<PixelatedDustParticle>(), 1.6f, 0.36f, Color.LightSeaGreen, 7, 25, 0.7f, direction.ToRotation() + MathHelper.PiOver2);
+                blocked = false;
+                direction = Vector2.UnitX;
+                position = Vector2.Zero;
             }
-        }
-        public bool blocked = false;
-        public float Rotation = 0;
-        public float chance = 0.07f;
-        public Vector2 Position = Vector2.Zero;
-        public void CheckNatureDodge(Projectile projectile, NPC npc)
-        {
-            if (!HasBracelet)
-                return;
-
-            
-            if (Main.rand.NextFloat() < chance)
-                blocked = true;
-
-
-            //FreeDodge(modifiers.ToHurtInfo(proj.damage, Player.statDefense, Player.DefenseEffectiveness.Value, modifiers.Knockback.ApplyTo(1f), modifiers.KnockbackImmunityEffectiveness.Value == 0));
-
-            if (!blocked)
-                return;
-
-            if (projectile == null) {
-                Position = Player.Center + Player.Center.DirectionTo(npc.Center) * 2;
-                Rotation = Player.Center.DirectionTo(npc.Center).ToRotation() + MathHelper.PiOver2; }
-            else {
-                Position = projectile.Center + projectile.Center.DirectionFrom(Player.Center) * 2;
-                Rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2; }
-
-            NatureDodge(Position, Rotation);
-        }
-        public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
-        {
-            base.ModifyHitByProjectile(proj, ref modifiers);
-
-            CheckNatureDodge(proj, null);
         }
         public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
         {
-            base.ModifyHitByNPC(npc, ref modifiers);
-
-            CheckNatureDodge(null, npc);
-        }
-        public override bool FreeDodge(Player.HurtInfo info)
-        {
-            if (HasBracelet && blocked)
+            if (Main.rand.NextFloat() < chance * 10)
             {
-                return true;
+                modifiers.Cancel();
+                Player.immune = true;
+                Player.immuneTime = 70;
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
+                    packet.Write((int)TheBindingOfRarria.PacketTypes.DustSpawn);
+                    packet.WriteVector2(Player.Center + Player.Center.DirectionTo(npc.Center) * Player.Hitbox.Size() / 2);
+                    packet.WriteVector2(npc.Center.DirectionTo(Player.Center));
+                    packet.Send();
+                }
+                else
+                {
+                    blocked = true;
+                    position = Player.Center + Player.Center.DirectionTo(npc.Center) * Player.Hitbox.Size() / 2;
+                    direction = npc.Center.DirectionTo(Player.Center);
+                }
             }
-            return base.FreeDodge(info);
+            else
+                base.ModifyHitByNPC(npc, ref modifiers);
+        }
+        public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
+        {
+            if (Main.rand.NextFloat() < chance * 10) {
+                modifiers.Cancel();
+                Player.immune = true;
+                Player.immuneTime = 70;
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
+                    packet.Write((int)TheBindingOfRarria.PacketTypes.DustSpawn);
+                    packet.WriteVector2(Player.Center + Player.Center.DirectionTo(proj.Center) * Player.Hitbox.Size() / 2);
+                    packet.WriteVector2(proj.velocity);
+                    packet.Send();
+                }
+                else
+                {
+                    blocked = true;
+                    position = Player.Center + Player.Center.DirectionTo(proj.Center) * Player.Hitbox.Size() / 2;
+                    direction = proj.velocity;
+                }
+            }
+            else
+                base.ModifyHitByProjectile(proj, ref modifiers);
         }
     }
     public class PixelatedDustParticle : ModDust

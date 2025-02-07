@@ -17,7 +17,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<LightCone>());
+            player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<LightCone>(), player.GetSource_Accessory(Item));
         }
         public override void AddRecipes()
         {

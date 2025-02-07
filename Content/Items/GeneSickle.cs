@@ -1,3 +1,4 @@
+using System;
 using Terraria;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Buffs;
@@ -32,6 +33,8 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (!Player.HasBuff(ModContent.BuffType<LifePool>()))
                 genePool = 0;
+
+            genePool = Math.Min(genePool, 150);
 
             base.PostUpdate();
         }

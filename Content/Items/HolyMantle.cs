@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Buffs;
 
@@ -15,6 +16,17 @@ namespace TheBindingOfRarria.Content.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<ProtectedPlayer>().IsProtected = true;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.CrossNecklace)
+                .AddIngredient(ItemID.ShimmerCloak)
+                .AddIngredient(ItemID.SoulofLight, 3)
+                .AddTile(TileID.TinkerersWorkbench)
+                .Register();
+
+            base.AddRecipes();
         }
     }
     public class ProtectedPlayer : ModPlayer

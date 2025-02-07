@@ -21,7 +21,7 @@ namespace TheBindingOfRarria.Content.Items
         public Dictionary<int, int> immunities = [];
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<CrazyPlayer>().Insane = true;
+            player.GetModPlayer<CrazyPlayer>().Insanity = Item;
 
             foreach (var buff in player.buffType) {
                 if (Main.debuff[buff] && !immunities.ContainsKey(buff))
@@ -51,10 +51,10 @@ namespace TheBindingOfRarria.Content.Items
     }
     public class CrazyPlayer : ModPlayer
     {
-        public bool Insane = false;
+        public Item Insanity = null;
         public override void ResetEffects()
         {
-            Insane = false;
+            Insanity = null;
         }
         public void OnHitByAnything(Player.HurtInfo info, Vector2 target)
         {
@@ -63,18 +63,18 @@ namespace TheBindingOfRarria.Content.Items
                 var offset = new Vector2(Main.screenWidth * Main.rand.NextFloat(0.2f, 0.8f), Main.screenHeight * Main.rand.NextFloat(0.2f, 0.8f));
                 var pos = Main.screenPosition + offset;
                 pos += pos.DirectionTo(target) * (pos.Distance(target) / 2 - 50);
-                Projectile.NewProjectile(Player.GetSource_OnHurt(info.DamageSource), pos, pos.DirectionTo(target) * 6, ProjectileID.InsanityShadowFriendly, info.SourceDamage / 5 + 5, 3, Player.whoAmI);
+                Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(Insanity, info.DamageSource), pos, pos.DirectionTo(target) * 6, ProjectileID.InsanityShadowFriendly, info.SourceDamage / 5 + 5, 3, Player.whoAmI);
             }
         }
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
-            if (Insane)
+            if (Insanity != null)
                 OnHitByAnything(hurtInfo, npc.Center);
             base.OnHitByNPC(npc, hurtInfo);
         }
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
         {
-            if (Insane)
+            if (Insanity != null)
             {
                 var pos = Player.Center;
                 var distance = 800f * 800;

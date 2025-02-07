@@ -13,22 +13,35 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 26;
             Item.height = 20;
             Item.accessory = true;
+            Item.value = Item.buyPrice(0, 0, 80);
+            Item.rare = ItemRarityID.LightRed;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<ExplotaroPlayer>().IsBomboclat = true;
+            player.GetModPlayer<ExplotaroPlayer>().Bomboclat = Item;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.Bomb)
+                .AddIngredient(ItemID.LivingFireBlock, 8)
+                .AddIngredient(ItemID.ExplosivePowder, 13)
+                .AddTile(TileID.Anvils)
+                .Register();
+
+            base.AddRecipes();
         }
     }
     public class ExplotaroPlayer : ModPlayer
     {
-        public bool IsBomboclat = false;
+        public Item Bomboclat = null;
         public override void ResetEffects()
         {
-            IsBomboclat = false;
+            Bomboclat = null;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (IsBomboclat)
+            if (Bomboclat != null)
             {
                 var index = 0;
                 var power = 0f;
@@ -52,7 +65,7 @@ namespace TheBindingOfRarria.Content.Items
                     int damag = (int)(target.buffTime[index] * power) + 1;
                     if (Main.myPlayer != Player.whoAmI)
                         return;
-                    Projectile.NewProjectile(Player.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<FireExplotaro>(), damag, 1.5f, Player.whoAmI);
+                    Projectile.NewProjectile(Player.GetSource_Accessory(Bomboclat), target.Center, Vector2.Zero, ModContent.ProjectileType<FireExplotaro>(), damag, 1.5f, Player.whoAmI);
                 }
                 else
                     target.AddBuff(BuffID.OnFire, 120);

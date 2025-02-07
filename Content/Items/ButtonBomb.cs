@@ -24,7 +24,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<ButtonBombPlayer>().HasABomb = true;
+            player.GetModPlayer<ButtonBombPlayer>().Button = Item;
         }
         public override void AddRecipes()
         {
@@ -40,14 +40,14 @@ namespace TheBindingOfRarria.Content.Items
     }
     public class ButtonBombPlayer : ModPlayer
     {
-        public bool HasABomb = false;
+        public Item Button = null;
         public override void ResetEffects()
         {
-            HasABomb = false;
+            Button = null;
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!HasABomb || proj.type == ModContent.ProjectileType<Extra98Bomb>() || proj.type == ModContent.ProjectileType<FireExplotaro>())
+            if (Button == null || proj.type == ModContent.ProjectileType<Extra98Bomb>() || proj.type == ModContent.ProjectileType<FireExplotaro>())
             {
                 base.OnHitNPCWithProj(proj, target, hit, damageDone);
                 return;
@@ -64,7 +64,7 @@ namespace TheBindingOfRarria.Content.Items
 
                 if (Main.myPlayer != Player.whoAmI)
                     return;
-                Projectile.NewProjectileDirect(Player.GetSource_FromThis(), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 3, 1, Player.whoAmI, target.whoAmI, offset.X, offset.Y).rotation = Main.rand.NextFloat() * MathHelper.TwoPi;
+                Projectile.NewProjectileDirect(Player.GetSource_Accessory(Button), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 3, 1, Player.whoAmI, target.whoAmI, offset.X, offset.Y).rotation = Main.rand.NextFloat() * MathHelper.TwoPi;
                 target.GetGlobalNPC<ButtonedNPC>().ButtonCD = 20; }
         }
     }

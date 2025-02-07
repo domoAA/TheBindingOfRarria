@@ -11,10 +11,22 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.width = 32;
             Item.height = 30;
+            Item.value = Item.buyPrice(0, 1, 30);
+            Item.rare = ItemRarityID.LightRed;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<MasterMirrorPlayer>().IsEvilIncarnate = true;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.JungleRose)
+                .AddIngredient(ItemID.SpiderFang, 10)
+                .AddTile(TileID.MythrilAnvil)
+                .Register();
+
+            base.AddRecipes();
         }
     }
     public class MasterMirrorPlayer : ModPlayer

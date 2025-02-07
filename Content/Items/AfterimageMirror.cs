@@ -25,20 +25,20 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<PlatedPlayer>().HasPlate = true;
+            player.GetModPlayer<PlatedPlayer>().Mirror = Item;
         }
     }
     public class PlatedPlayer : ModPlayer
     {
-        public bool HasPlate = false;
+        public Item Mirror = null;
         public override void ResetEffects()
         {
-            HasPlate = false;
+            Mirror = null;
         }
         public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
         {
             base.ModifyHitByProjectile(proj, ref modifiers);
-            if (!HasPlate || proj.reflected)
+            if (Mirror == null || proj.reflected)
                 return;
 
             var reflected = Main.rand.NextFloat() < 0.16f;
@@ -50,9 +50,7 @@ namespace TheBindingOfRarria.Content.Items
             Player.immune = true;
             Player.SetImmuneTimeForAllTypes(70);
 
-            var projectile = Projectile.NewProjectileDirect(Player.GetSource_OnHurt(modifiers.DamageSource), proj.Center, Vector2.Zero, ModContent.ProjectileType<MirrorCrack>(), 0, 0, Player.whoAmI, proj.velocity.ToRotation());
-            projectile.rotation = proj.velocity.ToRotation() + MathHelper.Pi;
-            projectile.ai[2] = Main.rand.Next(0, 2);
+            Projectile.NewProjectileDirect(Player.GetSource_Accessory_OnHurt(Mirror, modifiers.DamageSource), proj.Center, Vector2.Zero, ModContent.ProjectileType<MirrorCrack>(), 0, 0, Player.whoAmI, proj.velocity.ToRotation() + MathHelper.Pi, 0, Main.rand.Next(0, 2));
             var sound = SoundID.Shatter;
             sound.Volume *= 0.4f;
             sound.Pitch -= 0.6f;

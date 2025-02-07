@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Items;
+using ReLogic.Graphics;
+using Terraria.GameContent;
 
 namespace TheBindingOfRarria.Content.Buffs
 {
@@ -20,9 +22,10 @@ namespace TheBindingOfRarria.Content.Buffs
         }
         public override void PostDraw(SpriteBatch spriteBatch, int buffIndex, BuffDrawParams drawParams)
         {
-            PixellationSystem.QueuePixelationAction(() => {
-                Utils.DrawBorderString(spriteBatch, life.ToString(), (drawParams.Position + drawParams.Texture.Size() / 2) / 2, Color.White, 0.3f);
-            }, PixellationSystem.RenderType.Additive);
+            var color = Color.Black;
+            color.A = 150;
+            spriteBatch.DrawString(FontAssets.MouseText.Value, life.ToString(), (drawParams.Position + drawParams.Texture.Size()), color, 0, drawParams.Texture.Size() / 2 + new Vector2(6f * (life / 50), 4.5f), 0.8f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(FontAssets.MouseText.Value, life.ToString(), (drawParams.Position + drawParams.Texture.Size()), Color.White, 0, drawParams.Texture.Size() / 2 + new Vector2(6.5f * (life / 50), 5), 0.7f, SpriteEffects.None, 0);
 
             base.PostDraw(spriteBatch, buffIndex, drawParams);
         }
