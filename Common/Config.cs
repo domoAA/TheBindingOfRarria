@@ -9,7 +9,7 @@ namespace TheBindingOfRarria.Common.Config
         public override void Load()
         {
             StonedKey = KeybindLoader.RegisterKeybind(Mod, "StonedInvul", Microsoft.Xna.Framework.Input.Keys.LeftShift);
-            ZaWardoKey = KeybindLoader.RegisterKeybind(Mod, "BrokenWatch", Microsoft.Xna.Framework.Input.Keys.Y);
+            ZaWardoKey = KeybindLoader.RegisterKeybind(Mod, "BrokenWatch", Microsoft.Xna.Framework.Input.Keys.P);
             base.Load();
         }
         public override void Unload()

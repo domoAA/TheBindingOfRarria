@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria.ID;
 using Terraria.GameContent;
+using TheBindingOfRarria.Content.Projectiles;
+using MonoMod.Cil;
+using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content
 {
@@ -26,7 +29,8 @@ namespace TheBindingOfRarria.Content
         {
             scale *= Main.GameZoomTarget;
 
-            PixellationSystem.QueuePixelationAction(() => {
+            PixellationSystem.QueuePixelationAction(() =>
+            {
                 Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }, renderType);
         }
@@ -34,7 +38,8 @@ namespace TheBindingOfRarria.Content
         {
             scale *= Main.GameZoomTarget;
 
-            PixellationSystem.QueuePixelationAction(() => {
+            PixellationSystem.QueuePixelationAction(() =>
+            {
                 Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }, renderType);
         }
@@ -97,17 +102,53 @@ namespace TheBindingOfRarria.Content
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
+        public static void SpawnDust(this Vector2 center, Vector2 totalRect, int type, float speed, float scale, Color color, int amount, float distance = 1, float rectRotation = 0)
+        {
+            for (int i = amount; i > 0; i--)
+            {
+                var direction = totalRect.RotatedBy(rectRotation) * Vector2.One.RotatedBy(MathHelper.TwoPi / amount * i + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10));
+                Dust.NewDustPerfect(center + direction * distance, type, direction * speed, 0, color, scale);
+            }
+        }
+        public static void SpawnDust(this Vector2 center, int type, float speed, float scale, Color color, int amount, float distance = 1, float totalSize = 1, float rotation = -MathHelper.PiOver4 * 3)
+        {
+            for (int i = amount; i > 0; i--)
+            {
+                var rot = Main.rand.NextFloat(-totalSize / 2, totalSize / 2);
+                var direction = Vector2.One.RotatedBy(totalSize + rot + rotation);
+                Dust.NewDustPerfect(center + direction * distance, type, direction * speed, 0, color, scale * Main.rand.NextFloat(0.8f, 1.3f));
+            }
+        }
+        public static void SpawnDust(this Vector2 center, Vector2[] directions, int type, float speed, float scale, Color color, int layers = 1, float scaleStep = 0, float random = 0, float distance = 1)
+        {
+            for (int i = layers; i > 0; i--)
+            {
+                scale += scaleStep;
+                foreach (var direction in directions)
+                {
+                    var rotation = Main.rand.NextFloat(-random / 2, random / 2);
+                    Dust.NewDustPerfect(
+                        center + direction.RotatedBy(rotation) * distance,
+                        type,
+                        direction.RotatedBy(rotation) * speed, 
+                        255, 
+                        color, 
+                        scale * float.Abs(rotation) + 0.3f
+                    );
+                }
+            }
+        }
     }
     public static class NPCExtensions
     {
         public class SlowedGlobalNPC : GlobalNPC
         {
             public override bool InstancePerEntity => true;
-            public (bool?, int) Slowed = (false, 0);
+            public (TheBindingOfRarria.State, int) Slowed = (TheBindingOfRarria.State.Default, 0);
             public int counter = 0;
             public override bool PreAI(NPC npc)
             {
-                if (Slowed.Item1 == true)
+                if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
                     counter++;
 
                 if (counter >= 3)
@@ -119,21 +160,38 @@ namespace TheBindingOfRarria.Content
             }
             public override void PostAI(NPC npc)
             {
-                if (Slowed.Item1 == true)
+                if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
                     npc.velocity *= 0.97f;
-                else if (Slowed.Item1 == null)
+                else if (Slowed.Item1 == TheBindingOfRarria.State.Fast)
                     npc.velocity *= 1.03f;
             }
             public override void DrawEffects(NPC npc, ref Color drawColor)
             {
-                if (Slowed.Item1 == true)
+                if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
                     drawColor.A = 100;
 
                 Slowed.Item2--;
                 if (Slowed.Item2 <= 0)
-                    Slowed.Item1 = false;
+                    Slowed.Item1 = TheBindingOfRarria.State.Default;
 
                 base.DrawEffects(npc, ref drawColor);
+            }
+        }
+        public static void GetSlowed(this NPC npc, TheBindingOfRarria.State state, int duration)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
+                packet.Write((int)TheBindingOfRarria.PacketTypes.EntitySlow);
+                packet.Write((int)state);
+                packet.Write(duration);
+                packet.Write(false);
+                packet.Write(npc.whoAmI);
+                packet.Send();
+            }
+            else
+            {
+                npc.GetGlobalNPC<SlowedGlobalNPC>().Slowed = (state, duration);
             }
         }
     }
@@ -155,24 +213,11 @@ namespace TheBindingOfRarria.Content
             return player.ownedProjectileCounts[type] > 0;
             // return Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI) != null;
         }
-        public static void SpawnProjectileIfNotSpawned(this Player player, int type)
+        public static void SpawnProjectileIfNotSpawned(this Player player, int type, IEntitySource source, Vector2 position)
         {
             Projectile proj = null;
             if (!player.OwnsProjectile(type) && Main.myPlayer == player.whoAmI)
-                proj = Main.projectile[Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, type, 0, 0, player.whoAmI)];
-            else
-                proj = Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI);
-            if (proj != null)
-            {
-                proj.timeLeft = 5;
-                proj.netUpdate = true;
-            }
-        }
-        public static void SpawnProjectileIfNotSpawned(this Player player, int type, Vector2 position)
-        {
-            Projectile proj = null;
-            if (!player.OwnsProjectile(type) && Main.myPlayer == player.whoAmI)
-                Projectile.NewProjectile(player.GetSource_FromThis(), position, Vector2.Zero, type, 0, 0, player.whoAmI);
+                Projectile.NewProjectile(source, position, Vector2.Zero, type, 0, 0, player.whoAmI);
             else
                 proj = Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI);
             if (proj != null)
@@ -206,6 +251,41 @@ namespace TheBindingOfRarria.Content
                 proj.timeLeft = 5;
                 proj.netUpdate = true;
             }
+        }
+        public static void BlockHits(this Player player, Action<int, int, Vector2, Color> action)
+        {
+
+        }
+    }
+    public class FixDustBugSystem : ModSystem
+    {
+        // credits to Lion (or Zen?? idk who even made it tbh)
+        public override void Load()
+        {
+            IL_Dust.NewDust += FixStupidBugBecauseTerrariaDevsAreIncompetent;
+        }
+
+        public override void Unload()
+        {
+            IL_Dust.NewDust -= FixStupidBugBecauseTerrariaDevsAreIncompetent;
+        }
+
+        private void FixStupidBugBecauseTerrariaDevsAreIncompetent(ILContext il)
+        {
+            ILCursor c = new(il);
+
+            c.GotoNext(MoveType.After,
+                i => i.MatchLdloca(1),
+                i => i.MatchLdloc2(),
+                i => i.MatchCall<Rectangle>("Intersects"));
+
+            c.EmitLdarg3();
+            c.EmitDelegate((bool Intersects, int Type) =>
+            {
+                if (Type == ModContent.DustType<PixelatedDustParticle>())
+                    return true;
+                return Intersects;
+            });
         }
     }
     public class PixellationSystem : ModSystem
