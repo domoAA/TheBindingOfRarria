@@ -23,9 +23,6 @@ namespace TheBindingOfRarria
     public class TheBindingOfRarria : Mod
     {
         public static Asset<Texture2D> Boulder;
-        public static Asset<Texture2D> Circle;
-        public static Asset<Texture2D> ChargeIndicatorBar;
-        public static Asset<Texture2D> ChargeIndicatorCircleExtra;
         public static int[] reflectItems = [ModContent.ItemType<GodHead>(), ModContent.ItemType<AfterimageMirror>(), ModContent.ItemType<SlippedRib>()];
         public static int[] dodgeItems = [ModContent.ItemType<AnemoiBracelet>(), ItemID.BrainOfConfusion, ItemID.MasterNinjaGear, ItemID.BlackBelt];
         public static int[] invulItems = [ModContent.ItemType<ToothAndNail>(), ModContent.ItemType<GnawedLeaf>()];
@@ -34,9 +31,6 @@ namespace TheBindingOfRarria
             if (Main.netMode != NetmodeID.Server)
             {
                 Boulder = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BoulderTexture");
-                Circle = ModContent.Request<Texture2D>("TheBindingOfRarria/Content/Projectiles/CircleOfLight");
-                ChargeIndicatorBar = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/ChargeIndicatorBar");
-                ChargeIndicatorCircleExtra = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/ChargeIndicatorCircleExtra");
             }
         }
         public override void Unload()
@@ -44,9 +38,6 @@ namespace TheBindingOfRarria
             if (Main.netMode != NetmodeID.Server)
             {
                 Boulder = null;
-                Circle = null;
-                ChargeIndicatorBar = null;
-                ChargeIndicatorCircleExtra = null;
             }
         }
         public enum PacketTypes
