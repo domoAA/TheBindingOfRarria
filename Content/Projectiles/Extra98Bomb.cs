@@ -22,15 +22,10 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.width = 80;
             Projectile.height = 80;
             Projectile.timeLeft = 132;
-        }
-        public override void OnSpawn(IEntitySource source)
-        {
-
             for (int i = 7; i > 0; i--)
             {
                 bomba[i] = Vector2.One.RotatedBy(MathHelper.PiOver4 * (i + 1) + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10));
             }
-            base.OnSpawn(source);
         }
         private NPC Target
         {
@@ -55,12 +50,8 @@ namespace TheBindingOfRarria.Content.Projectiles
             else if (Projectile.timeLeft == 12 && bomba != null)
             {
                 var color = Color.White;
-                for (int i = bomba.Length - 1; i > 0; i--)
-                {
-                    var rot = Main.rand.NextFloat(-MathHelper.Pi / 8, MathHelper.Pi / 8);
-                    Dust.NewDustPerfect(Projectile.Center + bomba[i], ModContent.DustType<PixelatedDustParticle>(), bomba[i] * 3, 255, color, 0.3f * Main.rand.NextFloat(0.8f, 1.3f));
-                    Dust.NewDustPerfect(Projectile.Center + bomba[i].RotatedBy(rot), ModContent.DustType<PixelatedDustParticle>(), bomba[i].RotatedBy(rot) * 2, 255, color, 0.15f * Main.rand.NextFloat(0.8f, 1.3f));
-                }
+                Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixelatedDustParticle>(), 2, Main.rand.NextFloat(0.7f, 1.1f), color, 2, -0.2f, MathHelper.PiOver4);
+                
                 var sound = SoundID.Item14;
                 sound.Pitch += 0.8f;
                 sound.Volume *= 0.3f;

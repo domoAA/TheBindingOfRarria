@@ -26,7 +26,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                     continue;
 
                 if (proj.Colliding(proj.getRect(), Projectile.getRect()))
-                    proj.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = (true, 180);
+                    proj?.GetSlowed(TheBindingOfRarria.State.Slow, 180);
             }
 
             foreach (var target in Main.ActiveNPCs)
@@ -35,7 +35,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                     continue;
 
                 if (Projectile.Colliding(target.getRect(), Projectile.getRect()))
-                    target.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = (true, 60);
+                    target?.GetSlowed(TheBindingOfRarria.State.Slow, 60);
             }
 
             Projectile.CenteredOnPlayer();

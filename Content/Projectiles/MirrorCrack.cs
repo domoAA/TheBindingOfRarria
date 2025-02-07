@@ -24,6 +24,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 Projectile.ReflectProjectiles(true, 1);
 
             Projectile.ai[1]++;
+            Projectile.rotation = Projectile.ai[0];
         }
         public override bool PreDraw(ref Color lightColor)
         {

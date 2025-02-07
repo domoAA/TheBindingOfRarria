@@ -44,7 +44,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                     var c = Projectile.Center + Projectile.Center.DirectionFrom(a).RotatedBy(-MathHelper.PiOver2) * 113 * Main.GameZoomTarget - Main.screenPosition;
                     if (IsPointInTriangle(target.Center - Main.screenPosition, a, b, c))
                     {
-                        target.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = (true, 30);
+                        target?.GetSlowed(TheBindingOfRarria.State.Slow, 30);
                     }
                 }
             }
@@ -57,7 +57,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                     var c = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(-MathHelper.PiOver2) * 113 - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
                     if (IsPointInTriangle(target.Center - Main.screenPosition, a, b, c))
                     {
-                        target.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = (true, 3000);
+                        target?.GetSlowed(TheBindingOfRarria.State.Slow, 3000);
                     }
                 }
             }

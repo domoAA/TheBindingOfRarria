@@ -54,5 +54,17 @@ namespace TheBindingOfRarria.Content.Projectiles
     public class HiveHealedPlayer : ModPlayer
     {
         public List<int> HealedByHives = [];
+        public int counter = 130;
+        public override void PostUpdate()
+        {
+            base.PostUpdate();
+            counter--;
+            if (counter < 0)
+            {
+                counter = 130;
+                if (HealedByHives.Count > 0)
+                    HealedByHives.RemoveAt(0);
+            }
+        }
     }
 }
