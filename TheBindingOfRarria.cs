@@ -22,12 +22,10 @@ namespace TheBindingOfRarria
     // Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
     public class TheBindingOfRarria : Mod
     {
+        public static Asset<Texture2D> Boulder;
         public static Asset<Texture2D> Circle;
         public static Asset<Texture2D> ChargeIndicatorBar;
         public static Asset<Texture2D> ChargeIndicatorCircleExtra;
-        public static Asset<Texture2D> BeamEnd;
-        public static Asset<Texture2D> BeamBody;
-        public static Asset<Texture2D> CenserExtra;
         public static int[] reflectItems = [ModContent.ItemType<GodHead>(), ModContent.ItemType<AfterimageMirror>(), ModContent.ItemType<SlippedRib>()];
         public static int[] dodgeItems = [ModContent.ItemType<AnemoiBracelet>(), ItemID.BrainOfConfusion, ItemID.MasterNinjaGear, ItemID.BlackBelt];
         public static int[] invulItems = [ModContent.ItemType<ToothAndNail>(), ModContent.ItemType<GnawedLeaf>()];
@@ -35,75 +33,142 @@ namespace TheBindingOfRarria
         {
             if (Main.netMode != NetmodeID.Server)
             {
+                Boulder = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BoulderTexture");
                 Circle = ModContent.Request<Texture2D>("TheBindingOfRarria/Content/Projectiles/CircleOfLight");
                 ChargeIndicatorBar = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/ChargeIndicatorBar");
                 ChargeIndicatorCircleExtra = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/ChargeIndicatorCircleExtra");
-                BeamEnd = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamEnd");
-                BeamBody = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamBody");
-                CenserExtra = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CenserExtra");
             }
         }
         public override void Unload()
         {
             if (Main.netMode != NetmodeID.Server)
             {
+                Boulder = null;
                 Circle = null;
                 ChargeIndicatorBar = null;
                 ChargeIndicatorCircleExtra = null;
-                BeamEnd = null;
-                CenserExtra = null;
             }
         }
         public enum PacketTypes
         {
             ProjectileReflection,
+            EntitySlow,
+            DustSpawn,
             Default
+        }
+        public enum State
+        {
+            Default,
+            Slow,
+            Fast
         }
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            var name = reader.ReadInt32();
+            var type = reader.ReadInt32();
 
-            if (name != ((int)PacketTypes.ProjectileReflection))
+            if (type == ((int)PacketTypes.ProjectileReflection))
             {
-                base.HandlePacket(reader, whoAmI);
-                return;
-            }
 
 
-            var reflected = reader.ReadBoolean();
-            var id = reader.ReadInt32();
-            var friendly = reader.ReadBoolean();
+                var reflected = reader.ReadBoolean();
+                var id = reader.ReadInt32();
+                var friendly = reader.ReadBoolean();
 
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                foreach (var proj in Main.ActiveProjectiles)
+                if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    if (proj.identity == id)
+                    foreach (var proj in Main.ActiveProjectiles)
                     {
-                        proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                        if (proj.identity == id)
+                        {
+                            proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                        }
+                    }
+                    return;
+                }
+                else
+                {
+                    ModPacket packet = GetPacket();
+                    packet.Write(type);
+                    packet.Write(reflected);
+                    packet.Write(id);
+                    packet.Write(friendly);
+                    packet.Send();
+                    foreach (var proj in Main.ActiveProjectiles)
+                    {
+                        if (proj.identity == id)
+                        {
+                            if (reflected && !proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected)
+                                proj.GetReflected(friendly);
+
+                            proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                        }
+                    }
+                    return;
+                }
+            }
+            else if (type == ((int)PacketTypes.EntitySlow))
+            {
+                var slow = reader.ReadInt32();
+                var duration = reader.ReadInt32();
+                var entityType = reader.ReadBoolean();
+                var id = reader.ReadInt32();
+
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = GetPacket();
+                    packet.Write(type);
+                    packet.Write(slow);
+                    packet.Write(duration);
+                    packet.Write(entityType);
+                    packet.Write(id);
+                    packet.Send();
+                }
+
+                if (entityType)
+                {
+                    foreach (var proj in Main.ActiveProjectiles)
+                    {
+                        if (proj.identity == id)
+                        {
+                            proj.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = ((State)slow, duration);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var npc in Main.ActiveNPCs)
+                    {
+                        if (npc.whoAmI == id)
+                        {
+                            npc.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = ((State)slow, duration);
+                        }
                     }
                 }
                 return;
             }
-            else
+            else if (type == ((int)PacketTypes.DustSpawn))
             {
-                ModPacket packet = GetPacket();
-                packet.Write(name);
-                packet.Write(reflected);
-                packet.Write(id);
-                packet.Write(friendly);
-                packet.Send();
-                foreach (var proj in Main.ActiveProjectiles)
+                var position = reader.ReadVector2();
+                var direction = reader.ReadVector2();
+                if (Main.netMode == NetmodeID.Server)
                 {
-                    if (proj.identity == id)
-                    {
-                        if (reflected && !proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected)
-                            proj.GetReflected(friendly);
-
-                        proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
-                    }
+                    ModPacket packet = GetPacket();
+                    packet.Write(type);
+                    packet.WriteVector2(position);
+                    packet.WriteVector2(direction);
+                    packet.Send();
                 }
+                else
+                {
+                    Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().blocked = true;
+                    Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().position = position;
+                    Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().direction = direction;
+                }
+                return;
             }
+            
+            base.HandlePacket(reader, whoAmI);
+            return;
         }
     }
 }
