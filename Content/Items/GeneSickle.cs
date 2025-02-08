@@ -1,5 +1,7 @@
 using System;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Buffs;
 
@@ -12,6 +14,9 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.height = 30;
             Item.width = 32;
+            Item.value = Item.buyPrice(0, 3);
+            Item.rare = ItemRarityID.Expert;
+            Item.expert = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -23,6 +28,17 @@ namespace TheBindingOfRarria.Content.Items
                 player.GetModPlayer<GeneThiefPlayer>().genePool -= player.GetModPlayer<GeneThiefPlayer>().genePool > 0 ? 1 : 0;
             }
             player.statLifeMax2 += player.GetModPlayer<GeneThiefPlayer>().genePool;
+        }
+    }
+    public class GeneticPeakNPC : GlobalNPC
+    {
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            if (npc.type == NPCID.GoblinShark)
+            {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<MedicalIceBag>(), 5));
+            }
+            base.ModifyNPCLoot(npc, npcLoot);
         }
     }
     public class GeneThiefPlayer : ModPlayer

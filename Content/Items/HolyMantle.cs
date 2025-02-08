@@ -12,6 +12,8 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 28;
             Item.height = 34;
             Item.accessory = true;
+            Item.value = Item.buyPrice(0, 5);
+            Item.rare = ItemRarityID.LightRed;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -55,8 +57,8 @@ namespace TheBindingOfRarria.Content.Items
                 Player.SetImmuneTimeForAllTypes(time);
                 Player.ClearBuff(ModContent.BuffType<HolyProtection>());
                 return true; }
-
-            return base.FreeDodge(info);
+            else 
+                return base.FreeDodge(info);
         }
     }
 }

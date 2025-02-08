@@ -6,10 +6,10 @@ namespace TheBindingOfRarria.Content.Items
 {
     public class GnawedLeaf : ModItem
     {
-        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
-        {
-            return !equippedItem.HasTag(TheBindingOfRarria.invulItems) || !incomingItem.HasTag(TheBindingOfRarria.invulItems);
-        }
+        //public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
+        //{
+        //    return !equippedItem.HasTag(TheBindingOfRarria.invulItems) || !incomingItem.HasTag(TheBindingOfRarria.invulItems);
+        //}
         public override void SetDefaults()
         {
             Item.accessory = true;

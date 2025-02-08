@@ -8,10 +8,10 @@ namespace TheBindingOfRarria.Content.Items
 {
     public class SlippedRib : ModItem
     {
-        public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
-        {
-            return !equippedItem.HasTag(TheBindingOfRarria.reflectItems) || !incomingItem.HasTag(TheBindingOfRarria.reflectItems);
-        }
+        //public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
+        //{
+        //    return !equippedItem.HasTag(TheBindingOfRarria.reflectItems) || !incomingItem.HasTag(TheBindingOfRarria.reflectItems);
+        //}
         public override void SetDefaults()
         {
             Item.width = 22;

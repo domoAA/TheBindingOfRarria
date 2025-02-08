@@ -10,8 +10,8 @@ namespace TheBindingOfRarria.Content.Items
     {
         public override void SetDefaults()
         {
-            Item.width = 26;
-            Item.height = 20;
+            Item.width = 30;
+            Item.height = 30;
             Item.accessory = true;
             Item.value = Item.buyPrice(0, 0, 80);
             Item.rare = ItemRarityID.LightRed;
