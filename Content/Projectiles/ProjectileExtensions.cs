@@ -102,7 +102,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                         packet.Send(); }
                     else if (reflected)
                     {
-                        target.GetReflected(friendly);
+                        target.GetReflected(friendly, false);
                         target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
                     }
 
@@ -115,16 +115,35 @@ namespace TheBindingOfRarria.Content.Projectiles
                 }
             }
         }
-        public static void GetReflected(this Projectile projectile, bool friendly)
+        public static void GetReflected(this Projectile projectile, bool friendly, bool Directly = false)
         {
-            projectile.velocity = -projectile.velocity;
-            if (friendly)
+            if (!Directly)
             {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.reflected = true;
+                projectile.velocity = -projectile.velocity;
+                if (friendly)
+                {
+                    projectile.hostile = false;
+                    projectile.friendly = true;
+                    projectile.reflected = true;
+                }
             }
-            //projectile.netUpdate = true;
+            else
+            {
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
+                    packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflection);
+                    packet.Write(true);
+                    packet.Write(projectile.identity);
+                    packet.Write(friendly);
+                    packet.Send();
+                }
+                else
+                {
+                    projectile.GetReflected(friendly, false);
+                    projectile.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                }
+            }
         }
         public static void GetSlowed(this Projectile projectile, TheBindingOfRarria.State state, int duration)
         {

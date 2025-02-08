@@ -16,6 +16,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.height = 60;
             Projectile.friendly = true;
             Projectile.netImportant = true;
+            Projectile.light = 0.4f;
         }
         public override void AI()
         {

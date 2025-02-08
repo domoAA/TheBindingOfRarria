@@ -41,7 +41,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             Projectile.Center.SpawnDust(edges, ModContent.DustType<PixelatedDustParticle>(), 1, 0.95f * Main.rand.NextFloat(1.12f, 2.2f), color, 5, -0.09f, MathHelper.PiOver4, 96);
 
-            var sound = SoundID.Item14;
+            var sound = SoundID.Item74;
             sound.Pitch += 0.7f;
             sound.Volume *= 0.5f;
             SoundEngine.PlaySound(sound, Projectile.Center);
