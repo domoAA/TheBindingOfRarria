@@ -110,13 +110,17 @@ namespace TheBindingOfRarria.Content
                 Dust.NewDustPerfect(center + direction * distance, type, direction * speed, 0, color, scale);
             }
         }
-        public static void SpawnDust(this Vector2 center, int type, float speed, float scale, Color color, int amount, float distance = 1, float totalSize = 1, float rotation = -MathHelper.PiOver4 * 3)
+        public static void SpawnDust(this Vector2 center, int type, float speed, float scale, Color color, int amount, float distance = 1, float totalSize = 1, float rotation = -MathHelper.PiOver4 * 3, int layers = 1, float scaleStep = 0f)
         {
-            for (int i = amount; i > 0; i--)
+            for (int x = layers; x > 0; x--)
             {
-                var rot = Main.rand.NextFloat(-totalSize / 2, totalSize / 2);
-                var direction = Vector2.One.RotatedBy(totalSize + rot + rotation);
-                Dust.NewDustPerfect(center + direction * distance, type, direction * speed, 0, color, scale * Main.rand.NextFloat(0.8f, 1.3f));
+                scale += scaleStep;
+                for (int i = amount; i > 0; i--)
+                {
+                    var rot = Main.rand.NextFloat(-totalSize / 2, totalSize / 2);
+                    var direction = Vector2.One.RotatedBy(totalSize + rot + rotation);
+                    Dust.NewDustPerfect(center + direction * distance, type, direction * speed, 0, color, scale * Main.rand.NextFloat(0.8f, 1.3f));
+                }
             }
         }
         public static void SpawnDust(this Vector2 center, Vector2[] directions, int type, float speed, float scale, Color color, int layers = 1, float scaleStep = 0, float random = 0, float distance = 1)

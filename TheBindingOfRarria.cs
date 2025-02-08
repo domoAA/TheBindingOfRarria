@@ -23,9 +23,9 @@ namespace TheBindingOfRarria
     public class TheBindingOfRarria : Mod
     {
         public static Asset<Texture2D> Boulder;
-        public static int[] reflectItems = [ModContent.ItemType<GodHead>(), ModContent.ItemType<AfterimageMirror>(), ModContent.ItemType<SlippedRib>()];
-        public static int[] dodgeItems = [ModContent.ItemType<AnemoiBracelet>(), ItemID.BrainOfConfusion, ItemID.MasterNinjaGear, ItemID.BlackBelt];
-        public static int[] invulItems = [ModContent.ItemType<ToothAndNail>(), ModContent.ItemType<GnawedLeaf>()];
+        //public static int[] reflectItems = [ModContent.ItemType<GodHead>(), ModContent.ItemType<AfterimageMirror>(), ModContent.ItemType<SlippedRib>()];
+        //public static int[] dodgeItems = [ModContent.ItemType<AnemoiBracelet>(), ModContent.ItemType<CarefreeMelody>(), ItemID.BrainOfConfusion, ItemID.MasterNinjaGear, ItemID.BlackBelt];
+        //public static int[] invulItems = [ModContent.ItemType<ToothAndNail>(), ModContent.ItemType<GnawedLeaf>()];
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
