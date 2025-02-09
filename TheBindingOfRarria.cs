@@ -22,7 +22,6 @@ namespace TheBindingOfRarria
     // Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
     public class TheBindingOfRarria : Mod
     {
-        public static Asset<Texture2D> Boulder;
         //public static int[] reflectItems = [ModContent.ItemType<GodHead>(), ModContent.ItemType<AfterimageMirror>(), ModContent.ItemType<SlippedRib>()];
         //public static int[] dodgeItems = [ModContent.ItemType<AnemoiBracelet>(), ModContent.ItemType<CarefreeMelody>(), ItemID.BrainOfConfusion, ItemID.MasterNinjaGear, ItemID.BlackBelt];
         //public static int[] invulItems = [ModContent.ItemType<ToothAndNail>(), ModContent.ItemType<GnawedLeaf>()];
@@ -30,14 +29,14 @@ namespace TheBindingOfRarria
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Boulder = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BoulderTexture");
+
             }
         }
         public override void Unload()
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Boulder = null;
+
             }
         }
         public enum PacketTypes
