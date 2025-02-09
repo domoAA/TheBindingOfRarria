@@ -71,6 +71,17 @@ namespace TheBindingOfRarria.Content.Items
             if (counter < 0 && Hydra != null)
             {
                 counter = 360;
+
+                var info = new NPC.HitInfo();
+                info.SourceDamage = Player.statLifeMax2 / 5;
+                info.HitDirection = modifiers.HitDirection;
+                info.Crit = Main.rand.NextFloat() < 0.1f;
+                info.Knockback = Player.GetKnockback(DamageClass.Melee).ApplyTo(5);
+                info.DamageType = DamageClass.Melee;
+                target.StrikeNPC(info);
+                NetMessage.SendStrikeNPC(target, info);
+
+
                 var position = target.Center + target.Center.DirectionTo(Player.Center) * target.Hitbox.Size() / 2;
                 Projectile.NewProjectile(Player.GetSource_Accessory(Hydra), target.Center + target.Center.DirectionFrom(Player.Center) * 150, Vector2.Zero, ModContent.ProjectileType<Cleave>(), Player.statLifeMax2 / 5, 5, Player.whoAmI, 0, position.X, position.Y);
             }

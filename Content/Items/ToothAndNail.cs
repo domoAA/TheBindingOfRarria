@@ -10,6 +10,7 @@ using System.Linq;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -45,7 +46,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<StonePlayer>().HasAStone = true;
+            player.GetModPlayer<StonePlayer>().Stone = Item;
             player.GetModPlayer<StonePlayer>().counter--;
             
         }
@@ -53,17 +54,18 @@ namespace TheBindingOfRarria.Content.Items
     public class StonePlayer : ModPlayer
     {
         public int counter = 0;
-        public bool HasAStone = false;
+        public Item Stone = null;
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if ((KeybindSystem.StonedKey.JustPressed || (KeybindSystem.StonedKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))) && Main.myPlayer == Player.whoAmI && counter <= 0 && HasAStone)
+            if ((KeybindSystem.StonedKey.JustPressed || (KeybindSystem.StonedKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))) && Main.myPlayer == Player.whoAmI && counter <= 0 && Stone != null)
             {
                 var time = Player.longInvince ? 90 : 50;
                 Player.immune = true;
                 Player.immuneTime = time;
                 Player.immuneAlpha = 150;
                 Player.SetImmuneTimeForAllTypes(time);
-                counter = 1800 + time;
+                counter = 180 + time;
+                Projectile.NewProjectile(Player.GetSource_Accessory(Stone), Player.Center, Vector2.Zero, ModContent.ProjectileType<BlockBoulder>(), 0, 0, Player.whoAmI, time * 3 + 100);
                 if (Main.myPlayer == Player.whoAmI)
                     SoundEngine.PlaySound(SoundID.Item69);
             }
@@ -72,32 +74,17 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ResetEffects()
         {
-            HasAStone = false;
+            Stone = null;
         }
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
             var info = new NPC().CalculateHitInfo(hurtInfo.SourceDamage, -hurtInfo.HitDirection);
-            if (HasAStone) {
+            if (Stone != null) {
                 Player.AddBuff(BuffID.Stoned, 10);
                 npc.StrikeNPC(info);
                 NetMessage.SendStrikeNPC(npc, info);
                     }
             base.OnHitByNPC(npc, hurtInfo);
-        }
-        public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
-        {
-            base.DrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
-            if (counter > 1800)
-            {
-                Player.immuneAlpha = 255;
-                Player.immuneNoBlink = false;
-                //a = 0;
-                //drawInfo.hideEntirePlayer = true;
-                var texture = TheBindingOfRarria.Boulder.Value;
-                var color = Color.Gray;
-                color.A = (byte)(counter % 1800);
-                texture.DrawPixellated((Player.Center - Main.screenPosition) / 2, 4, 0, color, PixellationSystem.RenderType.Additive);
-            }
         }
     }
 }
