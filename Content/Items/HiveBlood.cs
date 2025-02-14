@@ -22,18 +22,11 @@ namespace TheBindingOfRarria.Content.Items
         {
             player.AddBuff(BuffID.Honey, 2);
             player.GetModPlayer<HiveBloodPlayer>().RespectsBees = true;
-            player.GetModPlayer<HiveBloodPlayer>().counter--;
-            if (Main.myPlayer != player.whoAmI || player.GetModPlayer<HiveBloodPlayer>().counter > 0)
-                return;
-
-            Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<HivePulse>(), player.statLifeMax2 / 100, 2, player.whoAmI, 0, player.Center.X, player.Center.Y);
-            player.GetModPlayer<HiveBloodPlayer>().counter = 300;
         }
     }
     public class HiveBloodPlayer : ModPlayer
     {
         public bool RespectsBees = false;
-        public int counter = 300;
         public override void ResetEffects()
         {
             RespectsBees = false;
@@ -43,7 +36,7 @@ namespace TheBindingOfRarria.Content.Items
             if (!RespectsBees || Main.myPlayer != Player.whoAmI)
                 return;
 
-            Player.Heal(damage / 20 + 1);
+            Player.Heal(damage / 10 + 1);
 
             // Those who respect bees
             // Those who don't bother them

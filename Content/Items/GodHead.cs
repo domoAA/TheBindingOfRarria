@@ -21,7 +21,8 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<CircleOfLight>(), player.GetSource_Accessory(Item));
+            if (Main.myPlayer == player.whoAmI)
+                player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<CircleOfLight>(), player.GetSource_Accessory(Item));
         }
         public override void AddRecipes()
         {

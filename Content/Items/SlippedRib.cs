@@ -23,7 +23,8 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<ReflectiveRib>(), player.GetSource_Accessory(Item), new Microsoft.Xna.Framework.Vector2(player.Center.X, player.Center.Y - 40));
+            if (Main.myPlayer == player.whoAmI)
+                player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<ReflectiveRib>(), player.GetSource_Accessory(Item), new Microsoft.Xna.Framework.Vector2(player.Center.X, player.Center.Y - 40));
         }
     }
     public class BoneLootNPC : GlobalNPC
