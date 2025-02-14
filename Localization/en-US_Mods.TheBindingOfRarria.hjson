@@ -17,23 +17,13 @@ Items: {
 		DisplayName: Ankh
 	}
 
-	ToothAndNail: {
-		DisplayName: Tooth And Nail
-		Tooltip:
-			'''
-			Press {0} to briefly become invincible, with a cooldown of 30 seconds
-			Every time you get hit, you briefly get Stoned
-			Damage taken is returned to the attacker
-			"You feel prickly"
-			'''
-	}
-
-	AnemoiBracelet: {
-		DisplayName: Anemoi Bracelet
+	FallingBlossomEmotion: {
+		DisplayName: Falling Blossom Emotion
 		Tooltip:
 			'''
 			Grants a {0} chance to dodge attacks
 			The chance scales with movement speed bonuses
+			"Contains traces of a secret anti-domain technique"
 			'''
 	}
 
@@ -148,7 +138,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants a halo that has a 12% chance to reflect projectiles
-			"A shielding light from dimensions unkown"
+			"A protective halo from dimensions unkown"
 			'''
 	}
 
@@ -158,15 +148,6 @@ Items: {
 			'''
 			Your attacks convert Poison on enemies into Venom
 			"No, not that Venom"
-			'''
-	}
-
-	Revelation: {
-		DisplayName: Revelation
-		Tooltip:
-			'''
-			Using an item allows you to fire a light beam
-			"A beam of faith (and light)"
 			'''
 	}
 
@@ -205,8 +186,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants Honey buff at all times
-			You emit a healing pulse every 5 seconds
-			You heal for 5% of damage taken
+			You heal for 10% of damage taken
 			"Respect existence or expect resistance"
 			'''
 	}
@@ -262,17 +242,8 @@ Items: {
 		Tooltip:
 			'''
 			You gain 1 max life every time you kill an enemy, up to 150
-			The bonus is reduces by 1 every 5 seconds
-			'''
-	}
-
-	GnawedLeaf: {
-		DisplayName: Gnawed Leaf
-		Tooltip:
-			'''
-			Reduces your damage by 10%
-			Not moving and avoiding item use for 3 seconds sets you in stone for 3 seconds
-			"Unbreakable"
+			The bonus is reduced by 1 every 5 seconds
+			"Reap the fruits of evolution"
 			'''
 	}
 
@@ -299,8 +270,8 @@ Items: {
 		DisplayName: Shaman Stone
 		Tooltip:
 			'''
-			Increases size of your magic projectiles
 			Increases magic damage by 10%
+			Increases size of your magic projectiles
 			"Said to contain the knowledge of past generations of shaman"
 			'''
 	}
@@ -311,6 +282,16 @@ Items: {
 			'''
 			You dodge every 6th attack
 			"Contains a song of protection"
+			'''
+	}
+
+	TitanicHydra: {
+		DisplayName: Titanic Hydra
+		Tooltip:
+			'''
+			+60 max life 
+			Your attacks cause a shockwave that deals 20% of your max life every 6 seconds.
+			"Titanic might too great to control"
 			'''
 	}
 }
@@ -347,16 +328,14 @@ Projectiles: {
 	ReflectiveRib.DisplayName: Reflective Rib
 	RepellingPulse.DisplayName: Repelling Pulse
 	CircleOfLight.DisplayName: Circle Of Light
-	LightBeam.DisplayName: Light Beam
 	FireExplotaro.DisplayName: Fire Explotaro
 	SlowingAura.DisplayName: Slowing Aura
 	LightCone.DisplayName: Light Cone
-	HivePulse.DisplayName: Hive Pulse
 	MirrorCrack.DisplayName: Mirror Crack
 	CarefreePower.DisplayName: Carefree Power
+	Cleave.DisplayName: Cleave
 }
 
 Keybinds: {
-	StonedInvul.DisplayName: Stoned Invul
 	BrokenWatch.DisplayName: Broken Watch
 }

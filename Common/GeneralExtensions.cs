@@ -256,10 +256,6 @@ namespace TheBindingOfRarria.Content
                 proj.netUpdate = true;
             }
         }
-        public static void BlockHits(this Player player, Action<int, int, Vector2, Color> action)
-        {
-
-        }
     }
     public class FixDustBugSystem : ModSystem
     {

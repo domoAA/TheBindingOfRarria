@@ -29,7 +29,7 @@ namespace TheBindingOfRarria
         {
             if (Main.netMode != NetmodeID.Server)
             {
-
+                
             }
         }
         public override void Unload()
@@ -70,7 +70,7 @@ namespace TheBindingOfRarria
                     {
                         if (proj.identity == id)
                         {
-                            proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                            proj.reflected = true;
                         }
                     }
                     return;
@@ -87,10 +87,10 @@ namespace TheBindingOfRarria
                     {
                         if (proj.identity == id)
                         {
-                            if (reflected && !proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected)
+                            if (reflected && !proj.reflected)
                                 proj.GetReflected(friendly);
 
-                            proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                            proj.reflected = true;
                         }
                     }
                     return;
