@@ -31,7 +31,10 @@ namespace TheBindingOfRarria.Content.Projectiles
                 vel = new Vector2(owner.direction, 0);
             Projectile.Center = owner.Center + basePos.RotatedBy(Projectile.Center.DirectionFrom(owner.Center).ToRotation().AngleTowards(basePos.RotatedBy(vel.ToRotation()).ToRotation(), MathHelper.Pi / 20));
 
-            Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 120 + Projectile.Center, Color.LightYellow.ToVector3() / 2);
+            Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 220 + Projectile.Center, Color.LightYellow.ToVector3() / 5);
+            Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 170 + Projectile.Center, Color.LightYellow.ToVector3() / 4);
+            Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 120 + Projectile.Center, Color.LightYellow.ToVector3() / 3);
+            Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 70 + Projectile.Center, Color.LightYellow.ToVector3() / 2);
 
             Projectile.rotation = owner.Center.DirectionTo(Projectile.Center).ToRotation() + MathHelper.PiOver2;
 

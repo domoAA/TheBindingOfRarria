@@ -10,16 +10,9 @@ namespace TheBindingOfRarria.Content.Projectiles
     public class GlobalProjectileReflectionBlacklist : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
-        public bool Reflected = false;
-        public override void PostAI(Projectile projectile)
-        {
-            base.PostAI(projectile);
-            if (projectile.reflected)
-                Reflected = true;
-        }
         public override bool PreDraw(Projectile projectile, ref Color lightColor)
         {
-            if (Reflected)
+            if (projectile.reflected)
                 lightColor.A = 70;
 
             return base.PreDraw(projectile, ref lightColor);
@@ -61,7 +54,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static bool ReflectCheck(this Projectile projectile, Projectile target)
         {
-            var predicate = new Predicate<Projectile>(proj => proj.velocity != Vector2.Zero && !proj.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected && proj.type != projectile.type && proj.hostile && projectile.Colliding(proj.getRect(), projectile.getRect()));
+            var predicate = new Predicate<Projectile>(proj => proj.velocity.LengthSquared() > 1 && !proj.reflected && proj.type != projectile.type && proj.hostile && projectile.Colliding(proj.getRect(), projectile.getRect()));
 
             return predicate(target);
         }
@@ -77,7 +70,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 {
                     target.velocity = -target.velocity;
 
-                    target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                    target.reflected = true;
                 }
             }
         }
@@ -103,7 +96,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                     else if (reflected)
                     {
                         target.GetReflected(friendly, false);
-                        target.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                        target.reflected = true;
                     }
 
 
@@ -141,7 +134,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 else
                 {
                     projectile.GetReflected(friendly, false);
-                    projectile.GetGlobalProjectile<GlobalProjectileReflectionBlacklist>().Reflected = true;
+                    projectile.reflected = true;
                 }
             }
         }
@@ -301,7 +294,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             foreach (var projectile in Main.ActiveProjectiles)
             {
-                var predicate = proj.hostile ? new Predicate<Projectile>(p => p != null && p.aiStyle != ProjAIStyleID.Spear && p.active && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect())) : new Predicate<Projectile>(p => p != null && p.active && p.hostile && p.type != proj.type && p.Colliding(p.getRect(), proj.getRect()));
+                var predicate = proj.hostile ? new Predicate<Projectile>(p => p != null && p.aiStyle != ProjAIStyleID.Spear && p.active && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect())) : new Predicate<Projectile>(p => p != null && p.active && p.hostile && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect()));
                 if (proj.ReflectCheck(projectile, predicate))
                 {
                     projectile.velocity += proj.hostile ? projectile.Center.DirectionFrom(proj.Center) * 4 : projectile.Center.DirectionFrom(proj.Center);
