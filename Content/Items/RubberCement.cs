@@ -1,7 +1,11 @@
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -48,6 +52,47 @@ namespace TheBindingOfRarria.Content.Items
                 npcLoot.Add(ItemDropRule.ByCondition(new Conditions.NotExpert(), ModContent.ItemType<RubberCement>(), 6));
             }
             base.ModifyNPCLoot(npc, npcLoot);
+        }
+    }
+    public class GlobalBouncyProjectile : GlobalProjectile
+    {
+        public override bool InstancePerEntity => true;
+        public bool Bouncy = false;
+        public override void OnSpawn(Projectile projectile, IEntitySource source)
+        {
+
+            if (!projectile.Transform(projectile.hostile || Main.netMode == NetmodeID.Server))
+                return;
+
+            else if (Main.player[projectile.owner].GetModPlayer<CementosPlayer>().Cementos && projectile.tileCollide && projectile.aiStyle != ProjAIStyleID.Bounce)
+            {
+                Bouncy = true;
+            }
+        }
+        public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
+        {
+            if (Bouncy && projectile.tileCollide)
+            {
+                // If the projectile hits the left or right side of the tile, reverse the X velocity
+                if (Math.Abs(projectile.velocity.X - oldVelocity.X) > float.Epsilon)
+                {
+                    projectile.velocity.X = -oldVelocity.X;
+                }
+
+                // If the projectile hits the top or bottom side of the tile, reverse the Y velocity
+                if (Math.Abs(projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
+                {
+                    projectile.velocity.Y = -oldVelocity.Y;
+                }
+
+                // borrowing code from EM, yessir
+
+                projectile.timeLeft -= 60;
+                projectile.velocity *= 0.9f;
+                return false;
+            }
+
+            return base.OnTileCollide(projectile, oldVelocity);
         }
     }
 }
