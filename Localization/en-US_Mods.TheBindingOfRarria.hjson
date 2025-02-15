@@ -77,16 +77,6 @@ Items: {
 			'''
 	}
 
-	HolyMantle: {
-		DisplayName: Holy Mantle
-		Tooltip:
-			'''
-			Gain immunity to damage for the next hit
-			Cooldown: 1 minute
-			"Holy shield!"
-			'''
-	}
-
 	AfterimageMirror: {
 		DisplayName: Afterimage Mirror
 		Tooltip:
@@ -102,16 +92,6 @@ Items: {
 			'''
 			Grants a repelling aura
 			"It's still beating?"
-			'''
-	}
-
-	PioneersShield: {
-		DisplayName: Pioneer's Shield
-		Tooltip:
-			'''
-			Grants 7% movement speed
-			Grants immunity to knockback and Slow
-			"Man, gotta love shields"
 			'''
 	}
 
@@ -254,16 +234,6 @@ Items: {
 			'''
 			Grants a food and happiness buffs at all times
 			"Yummers"
-			'''
-	}
-
-	DeadDove: {
-		DisplayName: Dead Dove
-		Tooltip:
-			'''
-			Increases flight time by 50%
-			Grants 8% flight acceleration
-			"Freedom is a blessing. One you have to fight for"
 			'''
 	}
 
