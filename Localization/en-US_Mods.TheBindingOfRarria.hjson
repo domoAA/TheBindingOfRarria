@@ -31,8 +31,8 @@ Items: {
 		DisplayName: Armor Conversion
 		Tooltip:
 			'''
+			+80 max life
 			Reduces defense by 8
-			Increases max health by 80
 			You regenerate additional 2 hp/s
 			"Literally too healthy to die"
 			'''
@@ -52,7 +52,7 @@ Items: {
 		DisplayName: Valiant Armor
 		Tooltip:
 			'''
-			Increases max health by 50
+			+50 max life
 			Enemies are more likely to target you
 			"Resilience befitting of a hero"
 			'''
@@ -82,7 +82,7 @@ Items: {
 		Tooltip:
 			'''
 			Gain immunity to damage for the next hit
-			Cooldown 50 seconds
+			Cooldown: 1 minute
 			"Holy shield!"
 			'''
 	}
@@ -176,7 +176,7 @@ Items: {
 		Tooltip:
 			'''
 			Gain a temporary immunity to a debuff after being afflicted with it for 5 seconds
-			Spawn Shadow Hands every time you get hit
+			Shadow spirits attack enemies when you get hit
 			"What doesn't kill you, makes you... Crazier?"
 			'''
 	}
@@ -196,6 +196,7 @@ Items: {
 		Tooltip:
 			'''
 			Press {0} to slow down or speed up nearby projectiles and creatures
+			Cooldown: 20 seconds
 			"To never be late again..."
 			'''
 	}
