@@ -265,6 +265,16 @@ Items: {
 			"Titanic might too great to control"
 			'''
 	}
+
+	TinyPlanet: {
+		DisplayName: Tiny Planet
+		Tooltip: ""
+	}
+
+	WeaverSong: {
+		DisplayName: Weaver Song
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -307,6 +317,4 @@ Projectiles: {
 	Cleave.DisplayName: Cleave
 }
 
-Keybinds: {
-	BrokenWatch.DisplayName: Broken Watch
-}
+Keybinds.BrokenWatch.DisplayName: Broken Watch
