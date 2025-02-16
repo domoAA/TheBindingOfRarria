@@ -275,6 +275,12 @@ Items: {
 		DisplayName: Weaver Song
 		Tooltip: ""
 	}
+	TheLastFinger: {
+		'''
+		Max mana increased by 100
+		Enemies are less likely to target you
+		'''
+	}
 }
 
 Buffs: {
