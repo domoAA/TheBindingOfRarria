@@ -44,6 +44,7 @@ namespace TheBindingOfRarria
             ProjectileReflection,
             EntitySlow,
             DustSpawn,
+            OrbitInfo,
             Default
         }
         public enum State
