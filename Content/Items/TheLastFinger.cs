@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+
+namespace BindingTest.Content.Accessories
+{
+
+    public class TheLastFinger : ModItem
+    {
+        public override void SetDefaults()
+        {
+            Item.height = 30;
+            Item.width = 30;
+            Item.accessory = true;
+
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.statManaMax2 += 100;
+            player.aggro -= 400;
+        }
+    }
+}
+
+
