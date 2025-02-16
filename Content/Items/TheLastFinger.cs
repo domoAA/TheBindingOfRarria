@@ -11,7 +11,6 @@ using Terraria.ID;
 
 namespace TheBindingOfRarria.Content.Items
 {
-
     public class TheLastFinger : ModItem
     {
         public override void SetDefaults()
@@ -19,7 +18,6 @@ namespace TheBindingOfRarria.Content.Items
             Item.height = 30;
             Item.width = 30;
             Item.accessory = true;
-
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
