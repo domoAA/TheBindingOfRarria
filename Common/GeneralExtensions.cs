@@ -183,6 +183,9 @@ namespace TheBindingOfRarria.Content
         }
         public static void GetSlowed(this NPC npc, TheBindingOfRarria.State state, int duration)
         {
+            if (npc.GetGlobalNPC<SlowedGlobalNPC>().Slowed.Item1 == state)
+                return;
+
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
