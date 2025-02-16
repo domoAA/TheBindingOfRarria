@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 
-namespace BindingTest.Content.Accessories
+namespace TheBindingOfRarria.Content.Items
 {
 
     public class TheLastFinger : ModItem
