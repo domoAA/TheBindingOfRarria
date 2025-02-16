@@ -140,6 +140,9 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static void GetSlowed(this Projectile projectile, TheBindingOfRarria.State state, int duration)
         {
+            if (projectile.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed.Item1 == state)
+                return;
+
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
@@ -294,7 +297,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             foreach (var projectile in Main.ActiveProjectiles)
             {
-                var predicate = proj.hostile ? new Predicate<Projectile>(p => p != null && p.aiStyle != ProjAIStyleID.Spear && p.active && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect())) : new Predicate<Projectile>(p => p != null && p.active && p.hostile && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect()));
+                var predicate = proj.hostile ? new Predicate<Projectile>(p => p != null && p.CanBeReflected() && p.Colliding(p.getRect(), proj.getRect())) : new Predicate<Projectile>(p => p != null && p.active && p.hostile && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect()));
                 if (proj.ReflectCheck(projectile, predicate))
                 {
                     projectile.velocity += proj.hostile ? projectile.Center.DirectionFrom(proj.Center) * 4 : projectile.Center.DirectionFrom(proj.Center);

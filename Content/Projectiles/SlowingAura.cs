@@ -34,7 +34,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 if (target == null || target.friendly)
                     continue;
 
-                if (Projectile.Colliding(target.getRect(), Projectile.getRect())) // add a check for if the proj is already slowed
+                if (Projectile.Colliding(target.getRect(), Projectile.getRect()))
                     target?.GetSlowed(TheBindingOfRarria.State.Slow, 60);
             }
 
