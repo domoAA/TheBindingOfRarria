@@ -38,4 +38,28 @@ namespace TheBindingOfRarria.Content.Items
             }
         }
     }
+    public class SpiderDropNPC : GlobalNPC
+    {
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            if (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluse)
+            {
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<WeaverSong>(), 50));
+            }
+            base.ModifyNPCLoot(npc, npcLoot);
+        }
+    }
+    public class SpiderDropCodweb : GlobalTile
+    {
+        public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            if (Main.expertMode && type == TileID.Cobweb && Main.rand.NextFloat() < 0.001f)
+            {
+                Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), new Point(i, j).ToWorldCoordinates(), ModContent.ItemType<WeaverSong>());
+                noItem = true;
+            }
+            else
+                base.KillTile(i, j, type, ref fail, ref effectOnly, ref noItem);
+        }
+    }
 }
