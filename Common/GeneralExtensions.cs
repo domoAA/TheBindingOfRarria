@@ -27,7 +27,7 @@ namespace TheBindingOfRarria.Content
         }
         public static void DrawPixellated(this Texture2D texture, Vector2 position, float scale, float rotation, Color color, PixellationSystem.RenderType renderType)
         {
-            scale *= Main.GameZoomTarget;
+            //scale *= Main.GameZoomTarget;
 
             PixellationSystem.QueuePixelationAction(() =>
             {
@@ -36,7 +36,7 @@ namespace TheBindingOfRarria.Content
         }
         public static void DrawPixellated(this Texture2D texture, Vector2 position, Vector2 scale, float rotation, Color color, PixellationSystem.RenderType renderType)
         {
-            scale *= Main.GameZoomTarget;
+            //scale *= Main.GameZoomTarget;
 
             PixellationSystem.QueuePixelationAction(() =>
             {
@@ -308,12 +308,6 @@ namespace TheBindingOfRarria.Content
         private static RenderTarget2D AlphaBlendTarget { get; set; }
         private static RenderTarget2D AdditiveTarget { get; set; }
         private static RenderTarget2D PrimitiveTarget { get; set; }
-        public static Matrix World { get => _world; }
-        public static Matrix View { get => _view; }
-        public static Matrix Projection { get => _projection; }
-        private static Matrix _world;
-        private static Matrix _view;
-        private static Matrix _projection;
         //private static RenderTarget2D NonPremultipliedTarget { get; set; }
         public override void Load()
         {
@@ -324,7 +318,7 @@ namespace TheBindingOfRarria.Content
                 Main.RunOnMainThread(() => {
                     AlphaBlendTarget = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
                     AdditiveTarget = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
-                    PrimitiveTarget = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
+                    PrimitiveTarget = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
                 });
             }
             On_Main.DrawProjectiles += On_Main_DrawProjectiles;
@@ -333,9 +327,6 @@ namespace TheBindingOfRarria.Content
 
         private void DrawToRT(On_Main.orig_CheckMonoliths orig)
         {
-            _world = Matrix.CreateTranslation(new Vector3(-Main.screenPosition, 0));
-            _view = Main.GameViewMatrix.TransformationMatrix;
-            _projection = Matrix.CreateOrthographicOffCenter(0, Main.screenWidth, Main.screenHeight, 0, 0, 1);
             orig.Invoke();
             // has to go here bc order of execution
             var gd = Main.graphics.GraphicsDevice;
