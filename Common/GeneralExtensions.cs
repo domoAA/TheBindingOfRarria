@@ -387,8 +387,8 @@ namespace TheBindingOfRarria.Content
         }
         private void On_Main_DrawProjectiles(On_Main.orig_DrawProjectiles orig, Main self)
         {
-            DrawRT();
             orig.Invoke(self);
+            DrawRT();
         }
         /// <summary>
         /// Queues a draw action to the pixelation system.
