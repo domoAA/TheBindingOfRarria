@@ -23,8 +23,9 @@ namespace TheBindingOfRarria.Content.Items
         public override void ResetEffects()
         {
             if (IsTuna && Player.timeSinceLastDashStarted <= 1)
-                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, new Microsoft.Xna.Framework.Vector2(0, 0), ModContent.ProjectileType<FloppingFish>(), 10, 6, Player.whoAmI);
-            IsTuna = false;
+                // Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, new Microsoft.Xna.Framework.Vector2(0, 0), ModContent.ProjectileType<FloppingFish>(), 10, 6, Player.whoAmI);
+                // Commented ^^^ this out so I could test it.
+                IsTuna = false;
         }
     }
 }

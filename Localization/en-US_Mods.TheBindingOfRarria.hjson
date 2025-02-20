@@ -295,6 +295,45 @@ Items: {
 			"Now his remains serve to protect the weak, how ironic"
 			'''
 	}
+
+	DeadDove: {
+		DisplayName: Dead Dove
+		Tooltip: ""
+	}
+
+	FishTank: {
+		DisplayName: Fish Tank
+		Tooltip: ""
+	}
+
+	HolyMantle: {
+		DisplayName: Holy Mantle
+		Tooltip: ""
+	}
+
+	PioneersShield: {
+		DisplayName: Pioneers Shield
+		Tooltip: ""
+	}
+
+	HeavyBlow: {
+		DisplayName: Heavy Blow
+		Tooltip:
+			'''
+			30% more knockback
+			You deal additional damage based on knockback
+			" "The WORST charm in Hollow Knight" "
+			'''
+	}
+
+	GoldenCape: {
+		DisplayName: Golden Cape
+		Tooltip:
+			'''
+			Grants immunity to fall damage and spikes
+			"Something something Spelunky reference"
+			'''
+	}
 }
 
 Buffs: {
@@ -335,6 +374,7 @@ Projectiles: {
 	MirrorCrack.DisplayName: Mirror Crack
 	CarefreePower.DisplayName: Carefree Power
 	Cleave.DisplayName: Cleave
+	HivePulse.DisplayName: Hive Pulse
 }
 
 Keybinds.BrokenWatch.DisplayName: Broken Watch
