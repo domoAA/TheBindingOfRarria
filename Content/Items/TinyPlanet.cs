@@ -15,10 +15,23 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.width = 28;
             Item.height = 28;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(0, 0, 77, 49);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<PlanetPlayer>().planet = true;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.Meteorite, 100)
+                .AddIngredient(ItemID.Hellstone, 100)
+                .AddIngredient(ItemID.IceBlock, 200)
+                .AddTile(TileID.SkyMill)
+                .Register();
+
+            base.AddRecipes();
         }
     }
     public class PlanetPlayer : ModPlayer
@@ -36,7 +49,7 @@ namespace TheBindingOfRarria.Content.Items
         public override bool InstancePerEntity => true;
         public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
         {
-            return entity.CanBeReflected();
+            return base.AppliesToEntity(entity, lateInstantiation);
         }
 
         // individual direction
@@ -47,17 +60,20 @@ namespace TheBindingOfRarria.Content.Items
         public float IndividualOffset = 0;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet && Main.netMode != NetmodeID.Server)
+            if (!projectile.CanBeReflected())
+                base.OnSpawn(projectile, source);
+            else if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet && Main.netMode != NetmodeID.Server)
             {
                 Orbiting = Main.netMode == NetmodeID.SinglePlayer ? true : null;
 
                 if (Main.myPlayer == projectile.owner)
                 {
+                    projectile.timeLeft = 300;
+                    projectile.damage = (int)(0.85f * projectile.damage);
                     IndividualOffset = (Main.rand.NextFloat() - 0.5f) * 128;
                     projectile.netUpdate = true;
                 }
             }
-            base.OnSpawn(projectile, source);
         }
         public override void PostAI(Projectile projectile)
         {
@@ -101,6 +117,7 @@ namespace TheBindingOfRarria.Content.Items
             speed += speed < 0.98f ? 0.005f : 0;
 
             projectile.velocity *= speed;
+            projectile.netUpdate = true;
         }
         public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
         {

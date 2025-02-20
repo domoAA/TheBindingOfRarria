@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using TheBindingOfRarria.Common;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -161,7 +162,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public static void DrawPixellated(this Projectile projectile, Color color, byte alpha, SpriteEffects effects, PixellationSystem.RenderType renderType)
         {
             var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
-            var scale = projectile.scale * Main.GameZoomTarget;
+            var scale = projectile.scale;
             color.A += alpha;
 
             PixellationSystem.QueuePixelationAction(() => {
@@ -171,7 +172,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public static void DrawPixellated(this Projectile projectile)
         {
             var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
-            var scale = projectile.scale * Main.GameZoomTarget;
+            var scale = projectile.scale;
 
             PixellationSystem.QueuePixelationAction(() => {
                 Main.EntitySpriteDraw(texture, (projectile.Center - Main.screenPosition) / 2, texture.Bounds, Color.White, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);

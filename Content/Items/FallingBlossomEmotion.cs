@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using TheBindingOfRarria.Common;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Common.Config;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -31,6 +32,9 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            if (ModContent.GetInstance<ClientConfig>().FallingBLossomEmotionChanceInInventory)
+                chance = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().chance;
+
             base.ModifyTooltips(tooltips);
             var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.FallingBlossomEmotion.Tooltip"), $"{(int)(chance * 100)}%");
             for (int i = 10; i > 0; i--)
