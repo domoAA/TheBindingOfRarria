@@ -8,17 +8,6 @@ using TheBindingOfRarria.Common;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
-    public class GlobalProjectileReflectionBlacklist : GlobalProjectile
-    {
-        public override bool InstancePerEntity => true;
-        public override bool PreDraw(Projectile projectile, ref Color lightColor)
-        {
-            if (projectile.reflected)
-                lightColor.A = 70;
-
-            return base.PreDraw(projectile, ref lightColor);
-        }
-    }
     public class SlowedGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
@@ -70,7 +59,6 @@ namespace TheBindingOfRarria.Content.Projectiles
                 if (target != null)
                 {
                     target.velocity = -target.velocity;
-
                     target.reflected = true;
                 }
             }
@@ -97,8 +85,8 @@ namespace TheBindingOfRarria.Content.Projectiles
                     else if (reflected)
                     {
                         target.GetReflected(friendly, false);
-                        target.reflected = true;
                     }
+
 
 
                     if (!reflected)
@@ -225,7 +213,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 color.A += layerAlphaStep;
                 scale -= layerScaleStep;
 
-                Main.spriteBatch.Draw(texture, (projectile.Center + drawOffset - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), rect, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture, (projectile.Center + drawOffset - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), rect, color, projectile.rotation, rect.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();
