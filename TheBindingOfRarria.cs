@@ -84,6 +84,7 @@ namespace TheBindingOfRarria
                     packet.Write(id);
                     packet.Write(friendly);
                     packet.Send();
+
                     foreach (var proj in Main.ActiveProjectiles)
                     {
                         if (proj.identity == id)
@@ -157,9 +158,66 @@ namespace TheBindingOfRarria
                 }
                 return;
             }
-            
-            base.HandlePacket(reader, whoAmI);
-            return;
+            else if (type == ((int)PacketTypes.OrbitInfo))
+            {
+                var state = reader.Read();
+                var id = reader.Read();
+                float offset;
+                int rotation;
+
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    Projectile p = null;
+                    foreach (var proj in Main.ActiveProjectiles)
+                    {
+                        if (proj.identity == id)
+                        {
+                            p = proj;
+                            proj.GetGlobalProjectile<OrbitingGlobalProjectile>().state = (OrbitingGlobalProjectile.State)state;
+                        }
+                    }
+
+                    ModPacket packet = GetPacket();
+                    packet.Write(type);
+                    packet.Write(state);
+                    packet.Write(id);
+
+                    if (state == (int)OrbitingGlobalProjectile.State.Orbiting && p != null)
+                    {
+                        offset = reader.ReadSingle();
+                        rotation = reader.ReadInt32();
+
+                        p.GetGlobalProjectile<OrbitingGlobalProjectile>().IndividualOffset = offset;
+                        p.GetGlobalProjectile<OrbitingGlobalProjectile>().rotation = rotation;
+                            
+                        packet.Write(offset);
+                        packet.Write(rotation);
+                    }
+
+                    packet.Send();
+                }
+                else
+                {
+                    Projectile p = null;
+                    foreach (var proj in Main.ActiveProjectiles)
+                    {
+                        if (proj.identity == id)
+                        {
+                            p = proj;
+                            proj.GetGlobalProjectile<OrbitingGlobalProjectile>().state = (OrbitingGlobalProjectile.State)state;
+                        }
+                    }
+
+                    if (state == (int)OrbitingGlobalProjectile.State.Orbiting && p != null)
+                    {
+                        offset = reader.ReadSingle();
+                        rotation = reader.ReadInt32();
+
+                        p.GetGlobalProjectile<OrbitingGlobalProjectile>().IndividualOffset = offset;
+                        p.GetGlobalProjectile<OrbitingGlobalProjectile>().rotation = rotation;
+                    }
+                }
+            }
         }
     }
 }
