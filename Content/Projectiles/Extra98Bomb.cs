@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Items;
+using TheBindingOfRarria.Common;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {

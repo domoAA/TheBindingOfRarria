@@ -10,10 +10,7 @@
 
 	<!-- References -->
 	<ItemGroup>
-	  <AdditionalFiles Remove="Content\Projectiles\RepellingPulse.png" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="Content\Projectiles\RepellingPulse.png" />
+		
 	</ItemGroup>
 
 </Project>

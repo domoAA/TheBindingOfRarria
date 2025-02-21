@@ -17,113 +17,127 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.width = 28;
             Item.height = 28;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(0, 0, 77, 49);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<PlanetPlayer>().planet = true;
         }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.Meteorite, 100)
+                .AddIngredient(ItemID.Hellstone, 100)
+                .AddIngredient(ItemID.IceBlock, 200)
+                .AddTile(TileID.SkyMill)
+                .Register();
+
+            base.AddRecipes();
+        }
+    }
+    public class PlanetPlayer : ModPlayer
+    {
+        public bool planet = false;
+        public override void ResetEffects()
+        {
+            planet = false;
+        }
+    }
+    public class OrbitingGlobalProjectile : GlobalProjectile
+    {
+        // null state will indicate that it needs to be sent across the network
+        public bool? Orbiting = false;
+        public override bool InstancePerEntity => true;
+        public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
+        {
+            return base.AppliesToEntity(entity, lateInstantiation);
+        }
 
         public class PlanetPlayer : ModPlayer
         {
-            public bool planet = false;
-            public override void ResetEffects()
+            if (!projectile.CanBeReflected())
+                base.OnSpawn(projectile, source);
+            else if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet && Main.netMode != NetmodeID.Server)
             {
                 planet = false;
             }
-        }
-        public class OrbitingGlobalProjectile : GlobalProjectile
+    }
+    public class OrbitingGlobalProjectile : GlobalProjectile
+    {
+        // null state will indicate that it needs to be sent across the network
+        public bool? Orbiting = false;
+        public override bool InstancePerEntity => true;
+        public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
         {
-            // null state will indicate that it needs to be sent across the network
-            public bool? Orbiting = false;
-            public override bool InstancePerEntity => true;
-            public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
+            return entity.CanBeReflected();
+        }
+
+        // individual direction
+        public float rotation = Main.rand.NextBool() ? MathHelper.PiOver2 : -MathHelper.PiOver2;
+
+        // tracking speed
+        public float speed = 0.9f;
+        public float IndividualOffset = 0;
+        public override void OnSpawn(Projectile projectile, IEntitySource source)
+        {
+            if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet && Main.netMode != NetmodeID.Server)
             {
-                return entity.CanBeReflected();
+                projectile.timeLeft = 300;
+                projectile.damage = (int)(0.85f * projectile.damage);
+                IndividualOffset = (Main.rand.NextFloat() - 0.5f) * 128;
+                projectile.netUpdate = true;
             }
+        }
+        }
+        public override void PostAI(Projectile projectile)
+        {
+            base.PostAI(projectile);
+            if (Orbiting == false)
+                return;
 
-            // individual direction
-            public float rotation = Main.rand.NextBool() ? MathHelper.PiOver2 : -MathHelper.PiOver2;
+            projectile.tileCollide = false;
 
-            // tracking speed
-            public float speed = 0.9f;
-            public float IndividualOffset = 0;
-            public override void OnSpawn(Projectile projectile, IEntitySource source)
-            {
-                if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet && Main.netMode != NetmodeID.Server)
-                {
-                    Orbiting = Main.netMode == NetmodeID.SinglePlayer ? true : null;
+            var owner = Main.player[projectile.owner];
 
-                    if (Main.myPlayer == projectile.owner)
-                    {
-                        IndividualOffset = (Main.rand.NextFloat() - 0.5f) * 128;
-                        projectile.netUpdate = true;
-                    }
-                }
-                base.OnSpawn(projectile, source);
-            }
-            public override void PostAI(Projectile projectile)
-            {
-                base.PostAI(projectile);
-                if (Orbiting == false)
-                    return;
+            var r = projectile.Center.Distance(owner.Center);
 
-                projectile.tileCollide = false;
+            var velocity = projectile.velocity.RotatedBy(rotation);
+            velocity.Normalize();
 
-                var owner = Main.player[projectile.owner];
+            if (r < 32)
+                return;
 
-                var r = projectile.Center.Distance(owner.Center);
+            projectile.velocity += velocity * projectile.velocity.LengthSquared() / r;
 
-                var velocity = projectile.velocity.RotatedBy(rotation);
-                velocity.Normalize();
-
-                if (r < 32)
-                    return;
-
-                projectile.velocity += velocity * projectile.velocity.LengthSquared() / r;
-
-                var gravity = 0.01f * projectile.Center.DirectionTo(owner.Center) * r;
+            var gravity = 0.01f * projectile.Center.DirectionTo(owner.Center) * r;
 
 
-                var offset = (projectile.Center.DirectionTo(owner.Center).ToRotation() + rotation) - projectile.velocity.ToRotation();
+            var offset = (projectile.Center.DirectionTo(owner.Center).ToRotation() + rotation) - projectile.velocity.ToRotation();
 
-                projectile.velocity = projectile.velocity.RotatedBy(offset);
+            projectile.velocity = projectile.velocity.RotatedBy(offset);
 
 
-                // making sure it stays at a certain distance
-                if (r > 270 + IndividualOffset)
-                    projectile.velocity += gravity;
+            // making sure it stays at a certain distance
+            if (r > 270 + IndividualOffset)
+                projectile.velocity += gravity;
 
-                else if (r < 250 + IndividualOffset)
-                    projectile.velocity -= gravity;
+            else if (r < 250 + IndividualOffset)
+                projectile.velocity -= gravity;
 
-                else
-                    projectile.velocity *= 1.03f;
+            else
+                projectile.velocity *= 1.03f;
 
-                // acceleration
-                speed += speed < 0.98f ? 0.005f : 0;
+            // acceleration
+            speed += speed < 0.98f ? 0.005f : 0;
 
-                projectile.velocity *= speed;
-            }
-            public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
-            {
-                base.SendExtraAI(projectile, bitWriter, binaryWriter);
-                if (Orbiting == null)
-                {
-                    if (Main.myPlayer == projectile.owner && Main.netMode == NetmodeID.MultiplayerClient)
-                    {
-                        binaryWriter.Write((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
-                        binaryWriter.Write(IndividualOffset);
-                        Orbiting = true;
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        binaryWriter.Write((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
-                        binaryWriter.Write(IndividualOffset);
-                        Orbiting = true;
-                    }
-                }
-            }
-            public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+            projectile.velocity *= speed;
+            projectile.netUpdate = true;
+        }
+        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+        {
+            base.SendExtraAI(projectile, bitWriter, binaryWriter);
+            if (Orbiting == null)
             {
                 base.ReceiveExtraAI(projectile, bitReader, binaryReader);
                 int type = binaryReader.Read();

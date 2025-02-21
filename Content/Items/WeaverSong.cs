@@ -1,6 +1,8 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Microsoft.Xna.Framework;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -55,7 +57,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (Main.expertMode && type == TileID.Cobweb && Main.rand.NextFloat() < 0.001f)
             {
-                Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), new Point(i, j).ToWorldCoordinates(), ModContent.ItemType<WeaverSong>());
+                Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), new Point(i, j).ToWorldCoordinates(), ModContent.ItemType<WeaverSong>(), 1, false, Main.rand.Next(0, PrefixID.Count));
                 noItem = true;
             }
             else
