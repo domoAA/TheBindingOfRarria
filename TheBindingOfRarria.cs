@@ -55,14 +55,14 @@ namespace TheBindingOfRarria
         }
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            var type = reader.ReadInt32();
+            var type = reader.Read7BitEncodedInt();
 
             if (type == ((int)PacketTypes.ProjectileReflection))
             {
 
 
                 var reflected = reader.ReadBoolean();
-                var id = reader.ReadInt32();
+                var id = reader.Read7BitEncodedInt();
                 var friendly = reader.ReadBoolean();
 
                 if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -79,9 +79,9 @@ namespace TheBindingOfRarria
                 else
                 {
                     ModPacket packet = GetPacket();
-                    packet.Write(type);
+                    packet.Write7BitEncodedInt(type);
                     packet.Write(reflected);
-                    packet.Write(id);
+                    packet.Write7BitEncodedInt(id);
                     packet.Write(friendly);
                     packet.Send();
 
@@ -100,19 +100,19 @@ namespace TheBindingOfRarria
             }
             else if (type == ((int)PacketTypes.EntitySlow))
             {
-                var slow = reader.ReadInt32();
-                var duration = reader.ReadInt32();
+                var slow = reader.Read7BitEncodedInt();
+                var duration = reader.Read7BitEncodedInt();
                 var entityType = reader.ReadBoolean();
-                var id = reader.ReadInt32();
+                var id = reader.Read7BitEncodedInt();
 
                 if (Main.netMode == NetmodeID.Server)
                 {
                     ModPacket packet = GetPacket();
-                    packet.Write(type);
-                    packet.Write(slow);
-                    packet.Write(duration);
+                    packet.Write7BitEncodedInt(type);
+                    packet.Write7BitEncodedInt(slow);
+                    packet.Write7BitEncodedInt(duration);
                     packet.Write(entityType);
-                    packet.Write(id);
+                    packet.Write7BitEncodedInt(id);
                     packet.Send();
                 }
 
@@ -145,7 +145,7 @@ namespace TheBindingOfRarria
                 if (Main.netMode == NetmodeID.Server)
                 {
                     ModPacket packet = GetPacket();
-                    packet.Write(type);
+                    packet.Write7BitEncodedInt(type);
                     packet.WriteVector2(position);
                     packet.WriteVector2(direction);
                     packet.Send();
@@ -160,8 +160,8 @@ namespace TheBindingOfRarria
             }
             else if (type == ((int)PacketTypes.OrbitInfo))
             {
-                var state = reader.Read();
-                var id = reader.Read();
+                var state = reader.Read7BitEncodedInt();
+                var id = reader.Read7BitEncodedInt();
                 float offset;
                 int rotation;
 
@@ -178,20 +178,20 @@ namespace TheBindingOfRarria
                     }
 
                     ModPacket packet = GetPacket();
-                    packet.Write(type);
-                    packet.Write(state);
-                    packet.Write(id);
+                    packet.Write7BitEncodedInt(type);
+                    packet.Write7BitEncodedInt(state);
+                    packet.Write7BitEncodedInt(id);
 
                     if (state == (int)OrbitingGlobalProjectile.State.Orbiting && p != null)
                     {
                         offset = reader.ReadSingle();
-                        rotation = reader.ReadInt32();
+                        rotation = reader.Read7BitEncodedInt();
 
                         p.GetGlobalProjectile<OrbitingGlobalProjectile>().IndividualOffset = offset;
                         p.GetGlobalProjectile<OrbitingGlobalProjectile>().rotation = rotation;
                             
                         packet.Write(offset);
-                        packet.Write(rotation);
+                        packet.Write7BitEncodedInt(rotation);
                     }
 
                     packet.Send();
@@ -211,7 +211,7 @@ namespace TheBindingOfRarria
                     if (state == (int)OrbitingGlobalProjectile.State.Orbiting && p != null)
                     {
                         offset = reader.ReadSingle();
-                        rotation = reader.ReadInt32();
+                        rotation = reader.Read7BitEncodedInt();
 
                         p.GetGlobalProjectile<OrbitingGlobalProjectile>().IndividualOffset = offset;
                         p.GetGlobalProjectile<OrbitingGlobalProjectile>().rotation = rotation;
