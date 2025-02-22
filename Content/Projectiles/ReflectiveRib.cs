@@ -33,7 +33,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             var rotation = (MathHelper.TwoPi / 360 * Projectile.ai[0]);
             Projectile.OrbitingPlayer(1.6f, 40, rotation);
-            Projectile.ReflectProjectiles(true, 1f);
+            Projectile.ReflectProjectiles();
 
             if (Projectile.ai[0] % 5 == 6)
             {
