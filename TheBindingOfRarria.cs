@@ -44,7 +44,6 @@ namespace TheBindingOfRarria
             ProjectileReflection,
             EntitySlow,
             DustSpawn,
-            OrbitInfo,
             Default
         }
         public enum State
@@ -55,15 +54,12 @@ namespace TheBindingOfRarria
         }
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            var type = reader.Read7BitEncodedInt();
+            var type = reader.ReadInt32();
 
             if (type == ((int)PacketTypes.ProjectileReflection))
             {
-
-
+                var id = reader.ReadInt32();
                 var reflected = reader.ReadBoolean();
-                var id = reader.Read7BitEncodedInt();
-                var friendly = reader.ReadBoolean();
 
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
@@ -71,7 +67,7 @@ namespace TheBindingOfRarria
                     {
                         if (proj.identity == id)
                         {
-                            proj.reflected = true;
+                            proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect = true;
                         }
                     }
                     return;
@@ -79,20 +75,19 @@ namespace TheBindingOfRarria
                 else
                 {
                     ModPacket packet = GetPacket();
-                    packet.Write7BitEncodedInt(type);
+                    packet.Write(type);
+                    packet.Write(id);
                     packet.Write(reflected);
-                    packet.Write7BitEncodedInt(id);
-                    packet.Write(friendly);
                     packet.Send();
 
                     foreach (var proj in Main.ActiveProjectiles)
                     {
                         if (proj.identity == id)
                         {
-                            if (reflected && !proj.reflected)
-                                proj.GetReflected(friendly);
+                            if (reflected && !proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect)
+                                proj.GetReflected();
 
-                            proj.reflected = true;
+                            proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect = true;
                         }
                     }
                     return;
@@ -100,19 +95,19 @@ namespace TheBindingOfRarria
             }
             else if (type == ((int)PacketTypes.EntitySlow))
             {
-                var slow = reader.Read7BitEncodedInt();
-                var duration = reader.Read7BitEncodedInt();
+                var slow = reader.ReadInt32();
+                var duration = reader.ReadInt32();
                 var entityType = reader.ReadBoolean();
-                var id = reader.Read7BitEncodedInt();
+                var id = reader.ReadInt32();
 
                 if (Main.netMode == NetmodeID.Server)
                 {
                     ModPacket packet = GetPacket();
-                    packet.Write7BitEncodedInt(type);
-                    packet.Write7BitEncodedInt(slow);
-                    packet.Write7BitEncodedInt(duration);
+                    packet.Write(type);
+                    packet.Write(slow);
+                    packet.Write(duration);
                     packet.Write(entityType);
-                    packet.Write7BitEncodedInt(id);
+                    packet.Write(id);
                     packet.Send();
                 }
 
@@ -145,7 +140,7 @@ namespace TheBindingOfRarria
                 if (Main.netMode == NetmodeID.Server)
                 {
                     ModPacket packet = GetPacket();
-                    packet.Write7BitEncodedInt(type);
+                    packet.Write(type);
                     packet.WriteVector2(position);
                     packet.WriteVector2(direction);
                     packet.Send();
@@ -157,66 +152,6 @@ namespace TheBindingOfRarria
                     Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().direction = direction;
                 }
                 return;
-            }
-            else if (type == ((int)PacketTypes.OrbitInfo))
-            {
-                var state = reader.Read7BitEncodedInt();
-                var id = reader.Read7BitEncodedInt();
-                float offset;
-                int rotation;
-
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    Projectile p = null;
-                    foreach (var proj in Main.ActiveProjectiles)
-                    {
-                        if (proj.identity == id)
-                        {
-                            p = proj;
-                            proj.GetGlobalProjectile<OrbitingGlobalProjectile>().state = (OrbitingGlobalProjectile.State)state;
-                        }
-                    }
-
-                    ModPacket packet = GetPacket();
-                    packet.Write7BitEncodedInt(type);
-                    packet.Write7BitEncodedInt(state);
-                    packet.Write7BitEncodedInt(id);
-
-                    if (state == (int)OrbitingGlobalProjectile.State.Orbiting && p != null)
-                    {
-                        offset = reader.ReadSingle();
-                        rotation = reader.Read7BitEncodedInt();
-
-                        p.GetGlobalProjectile<OrbitingGlobalProjectile>().IndividualOffset = offset;
-                        p.GetGlobalProjectile<OrbitingGlobalProjectile>().rotation = rotation;
-                            
-                        packet.Write(offset);
-                        packet.Write7BitEncodedInt(rotation);
-                    }
-
-                    packet.Send();
-                }
-                else
-                {
-                    Projectile p = null;
-                    foreach (var proj in Main.ActiveProjectiles)
-                    {
-                        if (proj.identity == id)
-                        {
-                            p = proj;
-                            proj.GetGlobalProjectile<OrbitingGlobalProjectile>().state = (OrbitingGlobalProjectile.State)state;
-                        }
-                    }
-
-                    if (state == (int)OrbitingGlobalProjectile.State.Orbiting && p != null)
-                    {
-                        offset = reader.ReadSingle();
-                        rotation = reader.Read7BitEncodedInt();
-
-                        p.GetGlobalProjectile<OrbitingGlobalProjectile>().IndividualOffset = offset;
-                        p.GetGlobalProjectile<OrbitingGlobalProjectile>().rotation = rotation;
-                    }
-                }
             }
         }
     }
