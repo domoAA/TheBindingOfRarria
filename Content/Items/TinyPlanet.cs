@@ -49,13 +49,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             return base.AppliesToEntity(entity, lateInstantiation);
         }
-        public enum State
-        {
-            Default,
-            Orbiting,
-            No
-        }
-        public State state = State.Default;
+        public bool orbit = false;
 
         // individual direction
         public int rotation = 1;
@@ -66,40 +60,40 @@ namespace TheBindingOfRarria.Content.Items
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             if (!projectile.CanBeReflected())
-                base.OnSpawn(projectile, source);
+                orbit = false;
 
-            if (Main.myPlayer == projectile.owner)
+            else if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet)
             {
-                if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet)
-                {
-                    projectile.tileCollide = false;
-                    projectile.timeLeft = 300;
+                projectile.tileCollide = false;
+                projectile.timeLeft = 300;
 
-                    projectile.damage = (int)(0.85f * projectile.damage);
-                    IndividualOffset = (Main.rand.NextFloat() - 0.5f);
-                    rotation = Main.rand.NextBool() ? 1 : -1;
-
-                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                    packet.Write7BitEncodedInt((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
-                    packet.Write7BitEncodedInt((int)State.Orbiting);
-                    packet.Write7BitEncodedInt(projectile.identity);
-                    packet.Write(IndividualOffset);
-                    packet.Write7BitEncodedInt(rotation);
-                    packet.Send();
-                }
-                else
-                {
-                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                    packet.Write7BitEncodedInt((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
-                    packet.Write7BitEncodedInt((int)State.No);
-                    packet.Write7BitEncodedInt(projectile.identity);
-                    packet.Send();
-                }
+                orbit = true;
+                projectile.damage = (int)(0.85f * projectile.damage);
+                IndividualOffset = (Main.rand.NextFloat() - 0.5f);
+                rotation = Main.rand.NextBool() ? 1 : -1;
+            }
+        }
+        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+        {
+            bitWriter.WriteBit(orbit);
+            if (orbit)
+            {
+                binaryWriter.Write(IndividualOffset);
+                binaryWriter.Write(rotation);
+            }
+        }
+        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+        {
+            orbit = bitReader.ReadBit();
+            if (orbit)
+            {
+                IndividualOffset = binaryReader.ReadSingle();
+                rotation = binaryReader.ReadInt32();
             }
         }
         public override void PostAI(Projectile projectile)
         {
-            if (state == State.Orbiting)
+            if (orbit)
             {
                 projectile.tileCollide = false;
 
@@ -125,18 +119,19 @@ namespace TheBindingOfRarria.Content.Items
 
                 // making sure it stays at a certain distance
                 if (r > 270 + IndividualOffset * 128)
-                    projectile.velocity += gravity;
+                    projectile.velocity += gravity / 2;
 
                 else if (r < 250 + IndividualOffset * 128)
                     projectile.velocity -= gravity;
 
                 else
-                    projectile.velocity *= 1.03f;
+                    projectile.velocity *= 1.01f;
 
                 // acceleration
-                speed += speed < 0.98f ? 0.005f : 0;
+                speed += speed < 0.98f ? 0.001f : 0;
 
                 projectile.velocity *= speed;
+                projectile.velocity *= projectile.velocity.Length().AngleLerp(IndividualOffset + r / 30, 0.3f);
             }
         }
     }

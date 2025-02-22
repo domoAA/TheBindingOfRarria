@@ -50,7 +50,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
         {
-            if (Mirror == null || proj.reflected)
+            if (Mirror == null)
             {
                 base.ModifyHitByProjectile(proj, ref modifiers);
             }
@@ -61,13 +61,18 @@ namespace TheBindingOfRarria.Content.Items
                 if (!reflected)
                     return;
 
-                //modifiers.Cancel();
-                //Player.immune = true;
-                //Player.immuneTime = 70;
-
                 Projectile.NewProjectileDirect(Player.GetSource_Accessory_OnHurt(Mirror, modifiers.DamageSource), proj.Center, Vector2.Zero, ModContent.ProjectileType<MirrorCrack>(), 0, 0, Player.whoAmI, proj.velocity.ToRotation() + MathHelper.Pi, 0, Main.rand.Next(0, 2));
 
-                proj.GetReflected(true, true);
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
+                    packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflection);
+                    packet.Write(proj.identity);
+                    packet.Write(true);
+                    packet.Send();
+                }
+                else
+                    proj.GetReflected();
 
                 var sound = SoundID.Shatter;
                 sound.Volume *= 0.4f;
