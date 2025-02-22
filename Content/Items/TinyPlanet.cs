@@ -80,19 +80,19 @@ namespace TheBindingOfRarria.Content.Items
                     rotation = Main.rand.NextBool() ? 1 : -1;
 
                     ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                    packet.Write((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
-                    packet.Write((int)State.Orbiting);
-                    packet.Write(projectile.identity);
+                    packet.Write7BitEncodedInt((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
+                    packet.Write7BitEncodedInt((int)State.Orbiting);
+                    packet.Write7BitEncodedInt(projectile.identity);
                     packet.Write(IndividualOffset);
-                    packet.Write(rotation);
+                    packet.Write7BitEncodedInt(rotation);
                     packet.Send();
                 }
                 else
                 {
                     ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                    packet.Write((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
-                    packet.Write((int)State.No);
-                    packet.Write(projectile.identity);
+                    packet.Write7BitEncodedInt((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
+                    packet.Write7BitEncodedInt((int)State.No);
+                    packet.Write7BitEncodedInt(projectile.identity);
                     packet.Send();
                 }
             }
