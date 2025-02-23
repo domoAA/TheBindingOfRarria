@@ -22,7 +22,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public override void AI()
         {
             if (Projectile.timeLeft > 100)
-                Projectile.ReflectProjectiles(true, 1);
+                Projectile.ReflectProjectiles();
 
             Projectile.ai[1]++;
             Projectile.rotation = Projectile.ai[0];

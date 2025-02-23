@@ -50,7 +50,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             else if (Projectile.timeLeft == 12 && bomba != null)
             {
                 var color = Color.White;
-                Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixelatedDustParticle>(), 2, Main.rand.NextFloat(0.7f, 1.1f), color, 2, -1.12f, MathHelper.PiOver4);
+                Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixelatedDustParticle>(), 2.2f, Main.rand.NextFloat(0.8f, 1.6f), color, 2, -1.12f, MathHelper.PiOver4);
                 
                 var sound = SoundID.Item14;
                 sound.Pitch += 0.8f;

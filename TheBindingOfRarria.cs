@@ -44,7 +44,6 @@ namespace TheBindingOfRarria
             ProjectileReflection,
             EntitySlow,
             DustSpawn,
-            OrbitInfo,
             Default
         }
         public enum State
@@ -59,11 +58,8 @@ namespace TheBindingOfRarria
 
             if (type == ((int)PacketTypes.ProjectileReflection))
             {
-
-
-                var reflected = reader.ReadBoolean();
                 var id = reader.ReadInt32();
-                var friendly = reader.ReadBoolean();
+                var reflected = reader.ReadBoolean();
 
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
@@ -71,7 +67,7 @@ namespace TheBindingOfRarria
                     {
                         if (proj.identity == id)
                         {
-                            proj.reflected = true;
+                            proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect = true;
                         }
                     }
                     return;
@@ -80,18 +76,18 @@ namespace TheBindingOfRarria
                 {
                     ModPacket packet = GetPacket();
                     packet.Write(type);
-                    packet.Write(reflected);
                     packet.Write(id);
-                    packet.Write(friendly);
+                    packet.Write(reflected);
                     packet.Send();
+
                     foreach (var proj in Main.ActiveProjectiles)
                     {
                         if (proj.identity == id)
                         {
-                            if (reflected && !proj.reflected)
-                                proj.GetReflected(friendly);
+                            if (reflected && !proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect)
+                                proj.GetReflected();
 
-                            proj.reflected = true;
+                            proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect = true;
                         }
                     }
                     return;
@@ -157,9 +153,6 @@ namespace TheBindingOfRarria
                 }
                 return;
             }
-            
-            base.HandlePacket(reader, whoAmI);
-            return;
         }
     }
 }
