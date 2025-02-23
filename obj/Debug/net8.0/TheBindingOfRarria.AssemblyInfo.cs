@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TheBindingOfRarria")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+538bf81e4320d21797be51d434539bacf8841013")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d5b988d23aafa4ec1c94579d6bfbde557ef617a4")]
 [assembly: System.Reflection.AssemblyProductAttribute("TheBindingOfRarria")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TheBindingOfRarria")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
