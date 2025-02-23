@@ -15,10 +15,23 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.width = 28;
             Item.height = 28;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(0, 0, 77, 49);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<PlanetPlayer>().planet = true;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.Meteorite, 100)
+                .AddIngredient(ItemID.Hellstone, 100)
+                .AddIngredient(ItemID.IceBlock, 200)
+                .AddTile(TileID.SkyMill)
+                .Register();
+
+            base.AddRecipes();
         }
     }
     public class PlanetPlayer : ModPlayer
@@ -31,116 +44,94 @@ namespace TheBindingOfRarria.Content.Items
     }
     public class OrbitingGlobalProjectile : GlobalProjectile
     {
-        // null state will indicate that it needs to be sent across the network
-        public bool? Orbiting = false;
         public override bool InstancePerEntity => true;
         public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
         {
-            return entity.CanBeReflected();
+            return base.AppliesToEntity(entity, lateInstantiation);
         }
+        public bool orbit = false;
 
         // individual direction
-        public float rotation = Main.rand.NextBool() ? MathHelper.PiOver2 : -MathHelper.PiOver2;
+        public int rotation = 1;
 
         // tracking speed
         public float speed = 0.9f;
         public float IndividualOffset = 0;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet && Main.netMode != NetmodeID.Server)
+            if (!projectile.CanBeReflected())
+                orbit = false;
+
+            else if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet)
             {
-                Orbiting = Main.netMode == NetmodeID.SinglePlayer ? true : null;
+                projectile.tileCollide = false;
+                projectile.timeLeft = 300;
 
-                if (Main.myPlayer == projectile.owner)
-                {
-                    IndividualOffset = (Main.rand.NextFloat() - 0.5f) * 128;
-                    projectile.netUpdate = true;
-                }
+                orbit = true;
+                projectile.damage = (int)(0.85f * projectile.damage);
+                IndividualOffset = (Main.rand.NextFloat() - 0.5f);
+                rotation = Main.rand.NextBool() ? 1 : -1;
             }
-            base.OnSpawn(projectile, source);
-        }
-        public override void PostAI(Projectile projectile)
-        {
-            base.PostAI(projectile);
-            if (Orbiting == false)
-                return;
-
-            projectile.tileCollide = false;
-
-            var owner = Main.player[projectile.owner];
-
-            var r = projectile.Center.Distance(owner.Center);
-
-            var velocity = projectile.velocity.RotatedBy(rotation);
-            velocity.Normalize();
-
-            if (r < 32)
-                return;
-
-            projectile.velocity += velocity * projectile.velocity.LengthSquared() / r;
-
-            var gravity = 0.01f * projectile.Center.DirectionTo(owner.Center) * r;
-
-
-            var offset = (projectile.Center.DirectionTo(owner.Center).ToRotation() + rotation) - projectile.velocity.ToRotation();
-            
-            projectile.velocity = projectile.velocity.RotatedBy(offset);
-
-
-            // making sure it stays at a certain distance
-            if (r > 270 + IndividualOffset)
-                projectile.velocity += gravity;
-
-            else if (r < 250 + IndividualOffset)
-                projectile.velocity -= gravity;
-
-            else
-                projectile.velocity *= 1.03f;
-
-            // acceleration
-            speed += speed < 0.98f ? 0.005f : 0;
-
-            projectile.velocity *= speed;
         }
         public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
-            base.SendExtraAI(projectile, bitWriter, binaryWriter);
-            if (Orbiting == null) 
+            bitWriter.WriteBit(orbit);
+            if (orbit)
             {
-                if (Main.myPlayer == projectile.owner && Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    binaryWriter.Write((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
-                    binaryWriter.Write(IndividualOffset);
-                    Orbiting = true;
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    binaryWriter.Write((int)TheBindingOfRarria.PacketTypes.OrbitInfo);
-                    binaryWriter.Write(IndividualOffset);
-                    Orbiting = true;
-                }
-            } 
+                binaryWriter.Write(IndividualOffset);
+                binaryWriter.Write(rotation);
+            }
         }
         public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
         {
-            base.ReceiveExtraAI(projectile, bitReader, binaryReader);
-            int type = binaryReader.Read();
-            
-            if (type == (int)TheBindingOfRarria.PacketTypes.OrbitInfo)
+            orbit = bitReader.ReadBit();
+            if (orbit)
             {
-                float offset = binaryReader.ReadSingle();
+                IndividualOffset = binaryReader.ReadSingle();
+                rotation = binaryReader.ReadInt32();
+            }
+        }
+        public override void PostAI(Projectile projectile)
+        {
+            if (orbit)
+            {
+                projectile.tileCollide = false;
 
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    IndividualOffset = offset;
-                    Orbiting = null;
-                    projectile.netUpdate = true;
-                }
+                var owner = Main.player[projectile.owner];
+
+                var r = projectile.Center.Distance(owner.Center);
+
+                var velocity = projectile.velocity.RotatedBy(rotation);
+                velocity.Normalize();
+
+                if (r < 32)
+                    return;
+
+                projectile.velocity += velocity * projectile.velocity.LengthSquared() / r;
+
+                var gravity = 0.01f * projectile.Center.DirectionTo(owner.Center) * r;
+
+
+                var offset = (projectile.Center.DirectionTo(owner.Center).ToRotation() + rotation * MathHelper.PiOver2) - projectile.velocity.ToRotation();
+
+                projectile.velocity = projectile.velocity.RotatedBy(offset);
+
+
+                // making sure it stays at a certain distance
+                if (r > 270 + IndividualOffset * 128)
+                    projectile.velocity += gravity / 2;
+
+                else if (r < 250 + IndividualOffset * 128)
+                    projectile.velocity -= gravity;
+
                 else
-                {
-                    IndividualOffset = offset;
-                    Orbiting = true;
-                }
+                    projectile.velocity *= 1.01f;
+
+                // acceleration
+                speed += speed < 0.98f ? 0.001f : 0;
+
+                projectile.velocity *= speed;
+                projectile.velocity *= projectile.velocity.Length().AngleLerp(IndividualOffset + r / 30, 0.3f);
             }
         }
     }

@@ -2,6 +2,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Buffs;
+using TheBindingOfRarria.Content.Projectiles;
+using Microsoft.Xna.Framework;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -17,7 +19,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<ProtectedPlayer>().IsProtected = true;
+            player.GetModPlayer<ProtectedPlayer>().protection = Item;
         }
         public override void AddRecipes()
         {
@@ -33,29 +35,30 @@ namespace TheBindingOfRarria.Content.Items
     }
     public class ProtectedPlayer : ModPlayer
     {
-        public bool IsProtected = false;
+        public Item protection = null;
         public int CD = 0;
         public override void ResetEffects()
         {
-            IsProtected = false;
+            protection = null;
         }
         public override void PostUpdateEquips()
         {
             if (!Player.HasBuff(ModContent.BuffType<HolyProtection>()))
             CD--;
 
-            if (CD <= 0 && IsProtected){
+            if (CD <= 0 && protection != null)
+            {
                 Player.AddBuff(ModContent.BuffType<HolyProtection>(), 2);
-                CD = 3000; }
+                CD = 3600; }
         }
         public override bool FreeDodge(Player.HurtInfo info)
         {
-            var should = Player.HasBuff(ModContent.BuffType<HolyProtection>());
-            if (should) {
+            if (Player.HasBuff(ModContent.BuffType<HolyProtection>())) {
                 Player.immune = true;
                 int time = Player.longInvince ? 150 : 90;
                 Player.SetImmuneTimeForAllTypes(time);
                 Player.ClearBuff(ModContent.BuffType<HolyProtection>());
+                Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(protection, info.DamageSource), Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyMantleBurst>(), 0, 0, Player.whoAmI);
                 return true; }
             else 
                 return base.FreeDodge(info);

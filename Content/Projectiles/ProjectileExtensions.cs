@@ -4,31 +4,33 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using TheBindingOfRarria.Common;
+using Terraria.ModLoader.IO;
+using System.IO;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
-    public class GlobalProjectileReflectionBlacklist : GlobalProjectile
+    public class ReflectableGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
-        public override bool PreDraw(Projectile projectile, ref Color lightColor)
-        {
-            if (projectile.reflected)
-                lightColor.A = 70;
-
-            return base.PreDraw(projectile, ref lightColor);
-        }
+        public bool AttemptedToReflect = false;
     }
     public class SlowedGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
         public (TheBindingOfRarria.State, int) Slowed = (TheBindingOfRarria.State.Default, 0);
-        public override void PostAI(Projectile projectile)
+        public override void AI(Projectile projectile)
         {
-            if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
-                projectile.velocity *= 0.97f;
-            else if (Slowed.Item1 == TheBindingOfRarria.State.Fast)
-                projectile.velocity *= 1.03f;
-            projectile.netUpdate = true;
+            if (Slowed.Item1 != TheBindingOfRarria.State.Default)
+            {
+                if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
+                    projectile.velocity *= 0.97f;
+
+                else if (Slowed.Item1 == TheBindingOfRarria.State.Fast)
+                    projectile.velocity *= 1.03f;
+
+                projectile.netUpdate = true;
+            }
         }
         public override bool PreDraw(Projectile projectile, ref Color lightColor)
         {
@@ -54,27 +56,11 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static bool ReflectCheck(this Projectile projectile, Projectile target)
         {
-            var predicate = new Predicate<Projectile>(proj => proj.velocity.LengthSquared() > 1 && !proj.reflected && proj.type != projectile.type && proj.hostile && projectile.Colliding(proj.getRect(), projectile.getRect()));
+            var predicate = new Predicate<Projectile>(proj => proj.velocity.LengthSquared() > 1 && !proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect && proj.type != projectile.type && proj.hostile && projectile.Colliding(proj.getRect(), projectile.getRect()));
 
             return predicate(target);
         }
-        public static void ReflectProjectiles(this Projectile projectile)
-        {
-            foreach (var proj in Main.ActiveProjectiles)
-            {
-                Projectile target = null;
-                if (projectile.ReflectCheck(proj))
-                    target = proj;
-
-                if (target != null)
-                {
-                    target.velocity = -target.velocity;
-
-                    target.reflected = true;
-                }
-            }
-        }
-        public static void ReflectProjectiles(this Projectile projectile, bool friendly, float chance)
+        public static void ReflectProjectiles(this Projectile projectile, float chance = 1f)
         {
             foreach (var proj in Main.ActiveProjectiles)
             {
@@ -89,16 +75,12 @@ namespace TheBindingOfRarria.Content.Projectiles
                     if (Main.netMode == NetmodeID.MultiplayerClient){
                         ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
                         packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflection);
-                        packet.Write(reflected);
                         packet.Write(target.identity);
-                        packet.Write(friendly);
+                        packet.Write(reflected);
                         packet.Send(); }
-                    else if (reflected)
-                    {
-                        target.GetReflected(friendly, false);
-                        target.reflected = true;
-                    }
 
+                    else if (reflected)
+                        target.GetReflected();
 
                     if (!reflected)
                         return;
@@ -108,38 +90,17 @@ namespace TheBindingOfRarria.Content.Projectiles
                 }
             }
         }
-        public static void GetReflected(this Projectile projectile, bool friendly, bool Directly = false)
+        public static void GetReflected(this Projectile projectile)
         {
-            if (!Directly)
-            {
-                projectile.velocity = -projectile.velocity;
-                if (friendly)
-                {
-                    projectile.hostile = false;
-                    projectile.friendly = true;
-                    projectile.reflected = true;
-                }
-            }
-            else
-            {
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                    packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflection);
-                    packet.Write(true);
-                    packet.Write(projectile.identity);
-                    packet.Write(friendly);
-                    packet.Send();
-                }
-                else
-                {
-                    projectile.GetReflected(friendly, false);
-                    projectile.reflected = true;
-                }
-            }
+            projectile.velocity = -projectile.velocity;
+            projectile.hostile = false;
+            projectile.friendly = true;
         }
         public static void GetSlowed(this Projectile projectile, TheBindingOfRarria.State state, int duration)
         {
+            if (projectile.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed.Item1 == state)
+                return;
+
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
@@ -158,7 +119,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public static void DrawPixellated(this Projectile projectile, Color color, byte alpha, SpriteEffects effects, PixellationSystem.RenderType renderType)
         {
             var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
-            var scale = projectile.scale * Main.GameZoomTarget;
+            var scale = projectile.scale;
             color.A += alpha;
 
             PixellationSystem.QueuePixelationAction(() => {
@@ -168,7 +129,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public static void DrawPixellated(this Projectile projectile)
         {
             var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
-            var scale = projectile.scale * Main.GameZoomTarget;
+            var scale = projectile.scale;
 
             PixellationSystem.QueuePixelationAction(() => {
                 Main.EntitySpriteDraw(texture, (projectile.Center - Main.screenPosition) / 2, texture.Bounds, Color.White, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
@@ -221,7 +182,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 color.A += layerAlphaStep;
                 scale -= layerScaleStep;
 
-                Main.spriteBatch.Draw(texture, (projectile.Center + drawOffset - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), rect, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture, (projectile.Center + drawOffset - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), rect, color, projectile.rotation, rect.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();
@@ -294,7 +255,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             foreach (var projectile in Main.ActiveProjectiles)
             {
-                var predicate = proj.hostile ? new Predicate<Projectile>(p => p != null && p.aiStyle != ProjAIStyleID.Spear && p.active && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect())) : new Predicate<Projectile>(p => p != null && p.active && p.hostile && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect()));
+                var predicate = proj.hostile ? new Predicate<Projectile>(p => p != null && p.CanBeReflected() && p.Colliding(p.getRect(), proj.getRect())) : new Predicate<Projectile>(p => p != null && p.active && p.hostile && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect()));
                 if (proj.ReflectCheck(projectile, predicate))
                 {
                     projectile.velocity += proj.hostile ? projectile.Center.DirectionFrom(proj.Center) * 4 : projectile.Center.DirectionFrom(proj.Center);

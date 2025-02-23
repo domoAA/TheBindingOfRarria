@@ -4,7 +4,7 @@ namespace TheBindingOfRarria.Common.Config
 {
     public class KeybindSystem : ModSystem
     {
-        public static ModKeybind StonedKey { get; private set; }
+        //public static ModKeybind StonedKey { get; private set; }
         public static ModKeybind ZaWardoKey { get; private set; }
         public override void Load()
         {

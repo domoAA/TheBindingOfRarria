@@ -24,7 +24,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.height = (int)(110 * Projectile.scale);
 
             Projectile.CenteredOnPlayer();
-            Projectile.ReflectProjectiles(true, 0.12f);
+            Projectile.ReflectProjectiles(0.12f);
 
             if (Projectile.ai[0] != 0)
                 shining = true;

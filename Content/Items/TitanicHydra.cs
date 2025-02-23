@@ -57,7 +57,7 @@ namespace TheBindingOfRarria.Content.Items
     }
     public class TitanicPlayer : ModPlayer
     {
-        public int counter = 360;
+        public int counter = 0;
         public Item Hydra = null;
         public override void ResetEffects()
         {
@@ -71,7 +71,7 @@ namespace TheBindingOfRarria.Content.Items
             if (counter < 0 && Hydra != null)
             {
                 modifiers.FlatBonusDamage += Player.statLifeMax2 / 5;
-            
+
                 counter = 360;
 
                 var position = target.Center + target.Center.DirectionTo(Player.Center) * target.Hitbox.Size() / 2;
@@ -84,8 +84,9 @@ namespace TheBindingOfRarria.Content.Items
             if (counter < 0 && Hydra != null)
             {
                 modifiers.FlatBonusDamage += Player.statLifeMax2 / 5;
-                
+
                 counter = 360;
+
                 var direction = target.Center + proj.velocity * 150 / proj.velocity.Length();
                 var position = proj.Center + proj.Center.DirectionTo(target.Center) * proj.Hitbox.Size() / 2;
                 if (proj.aiStyle == ProjAIStyleID.Flail || proj.aiStyle == ProjAIStyleID.SolarEffect || position.Distance(direction) > 250 || proj.aiStyle == ProjAIStyleID.Whip || proj.velocity.LengthSquared() < 1)

@@ -268,18 +268,32 @@ Items: {
 
 	TinyPlanet: {
 		DisplayName: Tiny Planet
-		Tooltip: ""
+		Tooltip:
+			'''
+			Your projectiles orbit you
+			Orbiting projectiles deal 15% less damage
+			"Technically a celestial body"
+			'''
 	}
 
 	WeaverSong: {
 		DisplayName: Weaver Song
-		Tooltip: ""
+		Tooltip:
+			'''
+			+2 max minions
+			Minions' hits slow enemies down
+			"Silken charm containing a song of farewell"
+			'''
 	}
+
 	TheLastFinger: {
-		'''
-		Max mana increased by 100
-		Enemies are less likely to target you
-		'''
+		DisplayName: The Last Finger
+		Tooltip:
+			'''
+			Max mana increased by 100
+			Enemies are less likely to target you
+			"Now his remains serve to protect the weak, how ironic"
+			'''
 	}
 }
 
