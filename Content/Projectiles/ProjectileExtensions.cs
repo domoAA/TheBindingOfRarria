@@ -15,14 +15,13 @@ namespace TheBindingOfRarria.Content.Projectiles
         public override bool InstancePerEntity => true;
         public bool AttemptedToReflect = false;
         public bool Reflected = false;
-        public bool Synced = false;
         public override void PostAI(Projectile projectile)
         {
             if (Reflected)
             {
                 projectile.GetReflected();
 
-                if (!Synced)
+                if (Main.myPlayer == projectile.owner)
                 {
                     projectile.velocity = -projectile.velocity;
                     projectile.netUpdate = true;
@@ -31,22 +30,15 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
-            if (!Synced)
-            {
-                bitWriter.WriteBit(Reflected);
-                bitWriter.WriteBit(AttemptedToReflect);
-            }
+            bitWriter.WriteBit(Reflected);
+            bitWriter.WriteBit(AttemptedToReflect);
+
             Reflected = false;
-            Synced = true;
         }
         public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
         {
-            if (!Synced)
-            {
-                Reflected = bitReader.ReadBit();
-                AttemptedToReflect = bitReader.ReadBit();
-            }
-            Synced = true;
+            Reflected = bitReader.ReadBit();
+            AttemptedToReflect = bitReader.ReadBit();
         }
     }
     public class SlowedGlobalProjectile : GlobalProjectile
