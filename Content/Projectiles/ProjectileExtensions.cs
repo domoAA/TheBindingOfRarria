@@ -14,6 +14,40 @@ namespace TheBindingOfRarria.Content.Projectiles
     {
         public override bool InstancePerEntity => true;
         public bool AttemptedToReflect = false;
+        public bool Reflected = false;
+        public bool Synced = false;
+        public override void PostAI(Projectile projectile)
+        {
+            if (Reflected)
+            {
+                projectile.GetReflected();
+
+                if (!Synced) { 
+                    projectile.velocity = -projectile.velocity;
+
+                    projectile.netUpdate = true;
+                }
+            }
+        }
+        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+        {
+            if (!Synced)
+            {
+                if (Reflected)
+                    bitWriter.WriteBit(true);
+                else if (AttemptedToReflect)
+                    bitWriter.WriteBit(false);
+
+                Synced = true;
+            }
+        }
+        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+        {
+            Reflected = bitReader.ReadBit();
+
+            Synced = true;
+            AttemptedToReflect = true;
+        }
     }
     public class SlowedGlobalProjectile : GlobalProjectile
     {
@@ -72,18 +106,13 @@ namespace TheBindingOfRarria.Content.Projectiles
                 {
                     var reflected = Main.rand.NextFloat() < chance;
 
-                    if (Main.netMode == NetmodeID.MultiplayerClient){
-                        ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                        packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflection);
-                        packet.Write(target.identity);
-                        packet.Write(reflected);
-                        packet.Send(); }
+                    target.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect = true;
 
-                    else if (reflected)
-                        target.GetReflected();
+                    if (reflected)
+                        target.GetGlobalProjectile<ReflectableGlobalProjectile>().Reflected = true;
 
                     if (!reflected)
-                        return;
+                        continue;
 
                     if (projectile.type == ModContent.ProjectileType<CircleOfLight>())
                         projectile.ai[0] = 1;
@@ -92,9 +121,9 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static void GetReflected(this Projectile projectile)
         {
-            projectile.velocity = -projectile.velocity;
             projectile.hostile = false;
             projectile.friendly = true;
+            //projectile.netUpdate = true;
         }
         public static void GetSlowed(this Projectile projectile, TheBindingOfRarria.State state, int duration)
         {
