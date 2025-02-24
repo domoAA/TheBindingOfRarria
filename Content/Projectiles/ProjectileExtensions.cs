@@ -22,9 +22,9 @@ namespace TheBindingOfRarria.Content.Projectiles
             {
                 projectile.GetReflected();
 
-                if (!Synced) { 
+                if (!Synced)
+                {
                     projectile.velocity = -projectile.velocity;
-
                     projectile.netUpdate = true;
                 }
             }
@@ -33,20 +33,20 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             if (!Synced)
             {
-                if (Reflected)
-                    bitWriter.WriteBit(true);
-                else if (AttemptedToReflect)
-                    bitWriter.WriteBit(false);
-
-                Synced = true;
+                bitWriter.WriteBit(Reflected);
+                bitWriter.WriteBit(AttemptedToReflect);
             }
+            Reflected = false;
+            Synced = true;
         }
         public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
         {
-            Reflected = bitReader.ReadBit();
-
+            if (!Synced)
+            {
+                Reflected = bitReader.ReadBit();
+                AttemptedToReflect = bitReader.ReadBit();
+            }
             Synced = true;
-            AttemptedToReflect = true;
         }
     }
     public class SlowedGlobalProjectile : GlobalProjectile
