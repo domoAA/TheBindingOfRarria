@@ -7,38 +7,35 @@ using Terraria.ID;
 using TheBindingOfRarria.Common;
 using Terraria.ModLoader.IO;
 using System.IO;
+using Terraria.DataStructures;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
     public class ReflectableGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
-        public bool AttemptedToReflect = false;
+        public float ReflectableSeed = 0;
         public bool Reflected = false;
+        public override void OnSpawn(Projectile projectile, IEntitySource source)
+        {
+            if (Main.myPlayer == projectile.owner)
+                ReflectableSeed = Main.rand.NextFloat();
+        }
+        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+        {
+            binaryWriter.Write(ReflectableSeed);
+        }
+        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+        {
+            ReflectableSeed = binaryReader.ReadSingle();
+        }
         public override void PostAI(Projectile projectile)
         {
             if (Reflected)
             {
                 projectile.GetReflected();
-
-                if (Main.myPlayer == projectile.owner)
-                {
-                    projectile.velocity = -projectile.velocity;
-                    projectile.netUpdate = true;
-                }
+                Reflected = false;
             }
-        }
-        public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
-        {
-            bitWriter.WriteBit(Reflected);
-            bitWriter.WriteBit(AttemptedToReflect);
-
-            Reflected = false;
-        }
-        public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
-        {
-            Reflected = bitReader.ReadBit();
-            AttemptedToReflect = bitReader.ReadBit();
         }
     }
     public class SlowedGlobalProjectile : GlobalProjectile
@@ -82,7 +79,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static bool ReflectCheck(this Projectile projectile, Projectile target)
         {
-            var predicate = new Predicate<Projectile>(proj => proj.velocity.LengthSquared() > 1 && !proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect && proj.type != projectile.type && proj.hostile && projectile.Colliding(proj.getRect(), projectile.getRect()));
+            var predicate = new Predicate<Projectile>(proj => proj.velocity.LengthSquared() > 1 && proj.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed > 0 && proj.type != projectile.type && proj.hostile && projectile.Colliding(proj.getRect(), projectile.getRect()));
 
             return predicate(target);
         }
@@ -94,17 +91,16 @@ namespace TheBindingOfRarria.Content.Projectiles
                 if (projectile.ReflectCheck(proj))
                     target = proj;
 
-                if (target != null && Main.myPlayer == projectile.owner)
+                if (target != null)
                 {
-                    var reflected = Main.rand.NextFloat() < chance;
+                    var reflected = target.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed < chance;
 
-                    target.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect = true;
-
-                    if (reflected)
-                        target.GetGlobalProjectile<ReflectableGlobalProjectile>().Reflected = true;
+                    projectile.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed = 0;
 
                     if (!reflected)
                         continue;
+
+                    target.GetReflected();
 
                     if (projectile.type == ModContent.ProjectileType<CircleOfLight>())
                         projectile.ai[0] = 1;
@@ -113,9 +109,9 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static void GetReflected(this Projectile projectile)
         {
+            projectile.velocity = -projectile.velocity;
             projectile.hostile = false;
             projectile.friendly = true;
-            //projectile.netUpdate = true;
         }
         public static void GetSlowed(this Projectile projectile, TheBindingOfRarria.State state, int duration)
         {
