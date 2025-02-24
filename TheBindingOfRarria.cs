@@ -41,6 +41,7 @@ namespace TheBindingOfRarria
         }
         public enum PacketTypes
         {
+            ProjectileReflect,
             EntitySlow,
             DustSpawn,
             Default
@@ -54,7 +55,24 @@ namespace TheBindingOfRarria
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             var type = reader.ReadInt32();
-            if (type == ((int)PacketTypes.EntitySlow))
+            if (type == ((int)PacketTypes.ProjectileReflect))
+            {
+                var id = reader.ReadInt32();
+
+                foreach (var proj in Main.ActiveProjectiles)
+                {
+                    if (proj.identity == id)
+                        proj.GetReflected();
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    ModPacket packet = GetPacket();
+                    packet.Write(type);
+                    packet.Write(id);
+                    packet.Send();
+                }
+            }
+            else if (type == ((int)PacketTypes.EntitySlow))
             {
                 var slow = reader.ReadInt32();
                 var duration = reader.ReadInt32();
