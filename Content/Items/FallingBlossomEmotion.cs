@@ -32,8 +32,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (ModContent.GetInstance<ClientConfig>().FallingBLossomEmotionChanceInInventory)
-                chance = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().chance;
+            chance = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().chance;
 
             base.ModifyTooltips(tooltips);
             var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.FallingBlossomEmotion.Tooltip"), $"{(int)(chance * 100)}%");

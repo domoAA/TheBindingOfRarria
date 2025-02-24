@@ -45,10 +45,6 @@ namespace TheBindingOfRarria.Content.Items
     public class OrbitingGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
-        public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
-        {
-            return base.AppliesToEntity(entity, lateInstantiation);
-        }
         public bool orbit = false;
 
         // individual direction
@@ -131,7 +127,7 @@ namespace TheBindingOfRarria.Content.Items
                 speed += speed < 0.98f ? 0.001f : 0;
 
                 projectile.velocity *= speed;
-                projectile.velocity *= projectile.velocity.Length().AngleLerp(IndividualOffset + r / 30, 0.3f);
+                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.Zero) * MathHelper.Lerp(projectile.velocity.Length(), 8, 0.2f);
             }
         }
     }
