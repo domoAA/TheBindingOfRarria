@@ -235,7 +235,7 @@ namespace TheBindingOfRarria.Content
             Projectile proj = null;
             if (!player.OwnsProjectile(type) && Main.myPlayer == player.whoAmI)
                 Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, 0, 0, player.whoAmI);
-            else
+            else if (player.OwnsProjectile(type))
                 proj = Main.ActiveProjectiles.Find(proj => proj.type == type && proj.active && proj.owner == player.whoAmI);
             if (proj != null)
             {

@@ -41,7 +41,6 @@ namespace TheBindingOfRarria
         }
         public enum PacketTypes
         {
-            ProjectileReflection,
             EntitySlow,
             DustSpawn,
             Default
@@ -55,45 +54,7 @@ namespace TheBindingOfRarria
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             var type = reader.ReadInt32();
-
-            if (type == ((int)PacketTypes.ProjectileReflection))
-            {
-                var id = reader.ReadInt32();
-                var reflected = reader.ReadBoolean();
-
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    foreach (var proj in Main.ActiveProjectiles)
-                    {
-                        if (proj.identity == id)
-                        {
-                            proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect = true;
-                        }
-                    }
-                    return;
-                }
-                else
-                {
-                    ModPacket packet = GetPacket();
-                    packet.Write(type);
-                    packet.Write(id);
-                    packet.Write(reflected);
-                    packet.Send();
-
-                    foreach (var proj in Main.ActiveProjectiles)
-                    {
-                        if (proj.identity == id)
-                        {
-                            if (reflected && !proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect)
-                                proj.GetReflected();
-
-                            proj.GetGlobalProjectile<ReflectableGlobalProjectile>().AttemptedToReflect = true;
-                        }
-                    }
-                    return;
-                }
-            }
-            else if (type == ((int)PacketTypes.EntitySlow))
+            if (type == ((int)PacketTypes.EntitySlow))
             {
                 var slow = reader.ReadInt32();
                 var duration = reader.ReadInt32();
