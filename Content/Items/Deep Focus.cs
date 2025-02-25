@@ -1,15 +1,7 @@
 using Terraria.ModLoader;
 using Terraria;
-using Terraria.ID;
-using Terraria.DataStructures;
-using System;
-using Humanizer;
-using System.Security.Cryptography.X509Certificates;
-// using TheBindingOfRarria.Content.Projectiles;
 
-// Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
-
-namespace BindingTest.Content.Accessories
+namespace TheBindingOfRarria.Content.Items
 {
     public class DeepFocus : ModItem
     {
@@ -19,18 +11,15 @@ namespace BindingTest.Content.Accessories
             Item.height = 30;
             Item.width = 30;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<FocusedPlayer>().IsFocused = true;
 
-            // Manualy multiplied the ticks by 1.2; Is there a better way?
-            player.potionDelayTime = 4320;
-            player.mushroomDelayTime = 2160;
-            player.restorationDelayTime = 3240;
+            player.potionDelayTime = (int)(player.potionDelayTime * 1.2f);
+            player.mushroomDelayTime = (int)(player.mushroomDelayTime * 1.2f);
+            player.restorationDelayTime = (int)(player.restorationDelayTime * 1.2f);
         }
     }
-
     public class FocusedPlayer : ModPlayer
     {
         public bool IsFocused;
@@ -45,9 +34,6 @@ namespace BindingTest.Content.Accessories
             {
                 healValue *= 2;
             }
-            base.GetHealLife(item, quickHeal, ref healValue);
         }
     }
-
-
 }
