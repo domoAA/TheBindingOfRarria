@@ -16,12 +16,12 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.damage = 0;
             Projectile.ignoreWater = true;
             Projectile.light = 0.3f;
-            Projectile.timeLeft = 12;
+            Projectile.timeLeft = 22;
         }
         public override void AI()
         {
-            Projectile.ai[0] += 10;
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.ai[0] += 6;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
         public override bool ShouldUpdatePosition()
         {
@@ -30,7 +30,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             var texture = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
-            var scale = Projectile.scale / 4;
+            var scale = Projectile.scale / 9;
             var color = Color.White;
             color.A -= (byte)Projectile.ai[0];
 
