@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-using System;
 using Terraria;
 
 namespace TheBindingOfRarria.Content.Buffs
@@ -8,7 +7,7 @@ namespace TheBindingOfRarria.Content.Buffs
     {
         public override void SetStaticDefaults()
         {
-            Main.debuff[ModContent.BuffType<AnubisCurse>()] = true;
+            Main.debuff[Type] = true;
         }
     }
     public class MummyPlayer : ModPlayer

@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Buffs
 {
@@ -7,11 +8,12 @@ namespace TheBindingOfRarria.Content.Buffs
     {
         public override void SetStaticDefaults()
         {
-            Main.buffNoTimeDisplay[ModContent.BuffType<HolyProtection>()] = true;
+            Main.buffNoTimeDisplay[Type] = true;
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.buffTime[buffIndex] = 2;
+            if (player.GetModPlayer<ProtectedPlayer>().protection != null)
+                player.buffTime[buffIndex] = 2;
         }
     }
 }

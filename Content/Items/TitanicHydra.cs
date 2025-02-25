@@ -67,7 +67,6 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)
         {
-            base.ModifyHitNPCWithItem(item, target, ref modifiers);
             if (counter < 0 && Hydra != null)
             {
                 modifiers.FlatBonusDamage += Player.statLifeMax2 / 5;
