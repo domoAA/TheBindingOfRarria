@@ -1,21 +1,17 @@
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BindingTest.Content.Accessories
+namespace TheBindingOfRarria.Content.Items
 {
-
     public class GoldenCape : ModItem
     {
-
         public override void SetDefaults()
         {
             Item.height = 30;
             Item.width = 30;
             Item.accessory = true;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.noFallDmg = true;
@@ -23,7 +19,6 @@ namespace BindingTest.Content.Accessories
 
         }
     }
-
     public class SpikeImmunePlayer : ModPlayer
     {
         public bool SpikeImmune;
@@ -31,13 +26,12 @@ namespace BindingTest.Content.Accessories
         {
             SpikeImmune = false;
         }
-
         public override bool ImmuneTo(PlayerDeathReason damageSource, int cooldownCounter, bool dodgeable)
         {
-            if (damageSource.SourceOtherIndex == 3 && SpikeImmune && Player == Main.LocalPlayer)
+            if (damageSource.SourceOtherIndex == 3 && SpikeImmune)
                 return true;
-            return false;
 
+            return false;
         }
     }
 }
