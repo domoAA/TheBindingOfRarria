@@ -35,7 +35,7 @@ namespace TheBindingOfRarria.Content.Items
                 modifiers.FinalDamage += modifiers.Knockback.ApplyTo(0.67f);
 
                 var position = target.Center + target.Center.DirectionTo(Player.Center) * target.Hitbox.Size() / 2;
-                Projectile.NewProjectile(Player.GetSource_Accessory(KnockbackItem), position, Player.Center.DirectionTo(position), ModContent.ProjectileType<HeavyBlowThing>(), 0, 0, Player.whoAmI);
+                Projectile.NewProjectile(Player.GetSource_Accessory(KnockbackItem), position, Player.Center.DirectionTo(position), ModContent.ProjectileType<HeavyBlowThing>(), 0, 0, Player.whoAmI, modifiers.Knockback.ApplyTo(1) / 2);
             }
             base.ModifyHitNPCWithItem(item, target, ref modifiers);
         }
@@ -46,14 +46,14 @@ namespace TheBindingOfRarria.Content.Items
                 modifiers.Knockback += 1.5f;
                 modifiers.FinalDamage += modifiers.Knockback.ApplyTo(0.67f);
 
-                var direction = target.Center + proj.velocity / proj.velocity.Length();
+                var direction = proj.velocity / proj.velocity.Length();
                 var position = proj.Center + proj.Center.DirectionTo(target.Center) * proj.Hitbox.Size() / 2;
-                if (proj.aiStyle == ProjAIStyleID.Flail || proj.aiStyle == ProjAIStyleID.SolarEffect || position.Distance(direction) > 250 || proj.aiStyle == ProjAIStyleID.Whip || proj.velocity.LengthSquared() < 1)
+                if (proj.aiStyle == ProjAIStyleID.Flail || proj.aiStyle == ProjAIStyleID.SolarEffect || proj.aiStyle == ProjAIStyleID.Whip || proj.velocity.LengthSquared() < 1)
                 {
                     direction = target.Center.DirectionFrom(proj.Center);
                     position = target.Center + target.Center.DirectionTo(proj.Center) * target.Hitbox.Size() / 2;
                 }
-                Projectile.NewProjectile(Player.GetSource_Accessory(KnockbackItem), position, direction, ModContent.ProjectileType<HeavyBlowThing>(), 0, 0, proj.owner);
+                Projectile.NewProjectile(Player.GetSource_Accessory(KnockbackItem), position, direction, ModContent.ProjectileType<HeavyBlowThing>(), 0, 0, proj.owner, modifiers.Knockback.ApplyTo(1) / 2);
             }
             base.ModifyHitNPCWithProj(proj, target, ref modifiers);
         }

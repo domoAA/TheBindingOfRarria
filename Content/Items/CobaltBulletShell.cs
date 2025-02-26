@@ -1,11 +1,11 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using Terraria.DataStructures;
-using System;
-using Microsoft.Xna.Framework;
-using TheBindingOfRarria.Content.Projectiles;
 using TheBindingOfRarria.Content.Buffs;
+using Terraria.ModLoader.IO;
+using System.IO;
+using Terraria.DataStructures;
+using System.Collections.Generic;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -21,61 +21,34 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MagnetoPlayer>().MagneticBullets = true;
+            player.GetModPlayer<FerromagneticPlayer>().Ferromagnetic = true;
         }
     }
-    public class MagnetoPlayer : ModPlayer
+    public class FerromagneticPlayer : ModPlayer
     {
-        public bool MagneticBullets = false;
+        public bool Ferromagnetic = false;
         public override void ResetEffects()
         {
-            MagneticBullets = false;
+            Ferromagnetic = false;
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (proj.GetGlobalProjectile<GlobalTypeProjectile>().bullet)
-                target.AddBuff(ModContent.BuffType<MagneticPower>(), 300);
+            if (Ferromagnetic && BulletGlobalProjectile.Bullet.Contains(proj.type))
+            {
+                target.AddBuff(ModContent.BuffType<MagneticField>(), 180);
+            }
         }
     }
-    public class GlobalTypeProjectile : GlobalProjectile
+    public class BulletGlobalProjectile : GlobalProjectile
     {
+        public static HashSet<int> Bullet = [];
         public override bool InstancePerEntity => true;
-        public bool bullet = false;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (projectile.aiStyle == ProjAIStyleID.Arrow && projectile.friendly && Main.myPlayer == projectile.owner && !Main.LocalPlayer.HeldItem.IsAir && Main.LocalPlayer.HeldItem != null && Main.LocalPlayer.ChooseAmmo(Main.LocalPlayer.HeldItem).ammo == AmmoID.Bullet)
-                bullet = true;
-        }
-    }
-    public class MagnetizedNPC : GlobalNPC
-    {
-        public override bool InstancePerEntity => true;
-        public float power = 0;
-        public Projectile MagneticField = null;
-        public override void PostAI(NPC npc)
-        {
-            power = Math.Clamp(power, 0, 1);
-
-            if (!npc.HasBuff(ModContent.BuffType<MagneticPower>()))
-                power = 0;
-
-            if (power > 0)
-            {
-                if (MagneticField != null)
-                {
-                    MagneticField.ai[0] = npc.Hitbox.Size().LengthSquared() / (100 * 100);
-                    MagneticField.ai[1] = power;
-                    MagneticField.Center = npc.Center;
-                    MagneticField.timeLeft = 300;
-                }
-                else if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    MagneticField = Projectile.NewProjectileDirect(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ModContent.ProjectileType<MagneticField>(), 0, 0, Main.myPlayer, npc.Size.Length() / 20f, power);
-                }
-            }
-
-            else if (MagneticField != null && MagneticField.active)
-                MagneticField.Kill();
+            var owner = Main.player[projectile.owner];
+            if (!Bullet.Contains(projectile.type) && projectile.aiStyle == ProjAIStyleID.Arrow && projectile.friendly && !owner.HeldItem.IsAir && owner.HeldItem != null && owner.ChooseAmmo(owner.HeldItem).ammo == AmmoID.Bullet)
+                Bullet.Add(projectile.type);
+            
         }
     }
 }

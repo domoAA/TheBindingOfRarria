@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
+    [AutoloadEquip(EquipType.Back, EquipType.Front)]
     public class GoldenCape : ModItem
     {
         public override void SetDefaults()

@@ -63,7 +63,7 @@ namespace TheBindingOfRarria.Content.Items
 
                 Projectile.NewProjectileDirect(Player.GetSource_Accessory_OnHurt(Mirror, modifiers.DamageSource), proj.Center, Vector2.Zero, ModContent.ProjectileType<MirrorCrack>(), 0, 0, Player.whoAmI, proj.velocity.ToRotation() + MathHelper.Pi, 0, Main.rand.Next(0, 2));
 
-                //proj.GetReflected();
+                
 
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
@@ -72,7 +72,9 @@ namespace TheBindingOfRarria.Content.Items
                     packet.Write(proj.identity);
                     packet.Send();
                 }
-                
+                else
+                    proj.GetReflected();
+
                 var sound = SoundID.Shatter;
                 sound.Volume *= 0.4f;
                 sound.Pitch -= 0.6f;
