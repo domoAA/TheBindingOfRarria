@@ -4,6 +4,7 @@ using Terraria;
 using System;
 using TheBindingOfRarria.Content.Projectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TheBindingOfRarria.Content.Buffs
 {
@@ -13,38 +14,36 @@ namespace TheBindingOfRarria.Content.Buffs
         {
             Main.debuff[Type] = true;
         }
-        public float power = 0.2f;
         public override void Update(NPC npc, ref int buffIndex)
         {
-            power = Math.Clamp(power, 0, 1);
-
+            var distance = 128 * (1 + npc.Size.Length() / 100);
 
             foreach (var proj in Main.ActiveProjectiles)
             {
-                if (proj != null && proj.Center.DistanceSQ(npc.Center) < 169 * 169 && power > 0 && proj.CanBeReflected())
+                if (proj != null && proj.Center.DistanceSQ(npc.Center) < distance * distance && proj.CanBeReflected())
                 {
-                    proj.velocity *= 0.97f;
-                    proj.velocity += proj.Center.DirectionTo(npc.Center) * 3 * power;
+                    proj.velocity *= 0.99f;
+                    proj.velocity = proj.velocity.RotatedBy(proj.velocity.ToRotation().AngleLerp(proj.Center.DirectionTo(npc.Center).ToRotation(), 0.1f) - proj.velocity.ToRotation());
                 }
             }
         }
         public override bool ReApply(NPC npc, int time, int buffIndex)
         {
-            power += 0.2f;
             return base.ReApply(npc, time, buffIndex);
         }
     }
     public class FerromagneticGlobalNPC : GlobalNPC
     {
         public override bool InstancePerEntity => true;
-        public override void DrawBehind(NPC npc, int index)
+        public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (npc.HasBuff(ModContent.BuffType<MagneticField>()))
             {
                 var texture = Terraria.GameContent.TextureAssets.Projectile[ModContent.ProjectileType<RepellingPulse>()].Value;
-
-                Main.EntitySpriteDraw(texture, npc.Center, texture.Bounds, Color.Red, npc.rotation, texture.Size() / 2, npc.scale * 8, Microsoft.Xna.Framework.Graphics.SpriteEffects.None);
+                texture.DrawWithTransparency(npc.Center - Main.screenPosition, 1 + npc.Size.Length() / 100, Color.SteelBlue, 90);
+                Lighting.AddLight(npc.Center, Color.SteelBlue.ToVector3() * (npc.Size.Length() / 100));
             }
+            return base.PreDraw(npc, spriteBatch, screenPos, drawColor);
         }
     }
 }
