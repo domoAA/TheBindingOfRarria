@@ -296,15 +296,6 @@ Items: {
 			'''
 	}
 
-	Backstab: {
-		DisplayName: Backstab
-		Tooltip:
-			'''
-			Your attacks have increased damage and apply a bleed effect on enemies when hitting them in the back
-			""
-			'''
-	}
-
 	HolyMantle: {
 		DisplayName: Holy Mantle
 		Tooltip:
@@ -320,7 +311,7 @@ Items: {
 		Tooltip:
 			'''
 			Your bullets magnetize enemies, making them attract projectiles
-			""
+			"It is impractical, they said"
 			'''
 	}
 
@@ -338,7 +329,7 @@ Items: {
 		Tooltip:
 			'''
 			Healing potions heal twice the amount, but give a 20% longer potion sickness
-			""
+			"Contains some strange power deep within..."
 			'''
 	}
 
@@ -356,7 +347,7 @@ Items: {
 		Tooltip:
 			'''
 			Your melee swings recover 6 mana on hit
-			""
+			"Forgotten shaman artifact, used to draw soul from still-living creatures"
 			'''
 	}
 
@@ -367,6 +358,11 @@ Items: {
 			Your attacks ignore 1/4 of enemy's defense
 			"7:3 ratio is where a weakness lies"
 			'''
+	}
+
+	PaleOre: {
+		DisplayName: Pale Ore
+		Tooltip: Rare, pale metal that emanates an icy chill
 	}
 }
 
@@ -396,11 +392,6 @@ Buffs: {
 		Description: Increased max life
 	}
 
-	BleedDOT: {
-		DisplayName: Bleed DOT
-		Description: Bleeding...
-	}
-
 	MagneticField: {
 		DisplayName: Magnetic Field
 		Description: Extra attractive
@@ -423,3 +414,5 @@ Projectiles: {
 }
 
 Keybinds.BrokenWatch.DisplayName: Broken Watch
+Tiles.PaleOreTile.MapEntry: Pale Ore
+WorldGen.WorldGenTutorialOresPassMessage: Who up paling they ore
