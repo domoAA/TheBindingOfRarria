@@ -1,6 +1,7 @@
 using Terraria.ModLoader;
 using Terraria;
 using System;
+using Terraria.ID;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -11,10 +12,22 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.height = 30;
             Item.width = 30;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(0, 0, 60);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<SoulPlayer>().IsSoul = true;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ModContent.ItemType<PaleOre>(), 24)
+                .AddIngredient(ItemID.ManaCrystal)
+                .AddTile(TileID.Furnaces)
+                .Register();
+
+            base.AddRecipes();
         }
     }
     public class SoulPlayer : ModPlayer

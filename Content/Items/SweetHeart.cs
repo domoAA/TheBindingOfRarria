@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -52,6 +53,17 @@ namespace TheBindingOfRarria.Content.Items
             if (Sweetie)
                 Player.lifeRegen -= 4;
             base.UpdateBadLifeRegen();
+        }
+    }
+    public class CrateLootSweetHeart : GlobalItem
+    {
+        public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+        {
+            if (item.type == ItemID.CrimsonFishingCrateHard)
+            {
+                var rule = ItemDropRule.Common(ModContent.ItemType<SweetHeart>(), 6);
+                itemLoot.Add(rule);
+            }
         }
     }
 }

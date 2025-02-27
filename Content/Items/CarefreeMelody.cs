@@ -26,12 +26,14 @@ namespace TheBindingOfRarria.Content.Items
             Recipe.Create(Item.type)
                 .AddIngredient(ItemID.DontStarveShaderItem)
                 .AddIngredient(ItemID.WormScarf)
+                .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
 
             Recipe.Create(Item.type)
                 .AddIngredient(ItemID.DontStarveShaderItem)
                 .AddIngredient(ItemID.BrainOfConfusion)
+                .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
             base.AddRecipes();

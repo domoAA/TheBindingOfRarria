@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -45,6 +46,17 @@ namespace TheBindingOfRarria.Content.Items
                 var time = target.buffTime[index];
                 target.DelBuff(index);
                 target.AddBuff(BuffID.Venom, time);
+            }
+        }
+    }
+    public class CrateLootDevilsTrumpet : GlobalItem
+    {
+        public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+        {
+            if (item.type == ItemID.JungleFishingCrateHard)
+            {
+                var rule = ItemDropRule.Common(ModContent.ItemType<DevilsTrumpet>(), 6);
+                itemLoot.Add(rule);
             }
         }
     }

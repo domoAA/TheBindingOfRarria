@@ -76,7 +76,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (npc.type == NPCID.GraniteGolem)
             {
-                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<GolemsHeart>(), 100)); // apparently mm drop??? bestiary
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<GolemsHeart>(), 100)); 
             }
             base.ModifyNPCLoot(npc, npcLoot);
         }

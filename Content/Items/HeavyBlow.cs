@@ -19,6 +19,22 @@ namespace TheBindingOfRarria.Content.Items
         {
             player.GetModPlayer<KnockbackAccessoryPlayer>().KnockbackItem = Item;
         }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.IronBroadsword, 7)
+                .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
+                .AddTile(TileID.Anvils)
+                .Register();
+
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.LeadBroadsword, 7)
+                .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
+                .AddTile(TileID.Anvils)
+                .Register();
+
+            base.AddRecipes();
+        }
     }
     public class KnockbackAccessoryPlayer : ModPlayer
     {

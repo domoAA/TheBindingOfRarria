@@ -2,8 +2,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using TheBindingOfRarria.Content.Buffs;
-using Terraria.ModLoader.IO;
-using System.IO;
 using Terraria.DataStructures;
 using System.Collections.Generic;
 
@@ -17,11 +15,21 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 18;
             Item.height = 36;
             Item.rare = ItemRarityID.LightRed;
-            Item.value = Item.buyPrice(0, 0, 69);
+            Item.value = Item.buyPrice(0, 0, 22, 8);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<FerromagneticPlayer>().Ferromagnetic = true;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.CobaltBar)
+                .AddIngredient(ItemID.EmptyBullet)
+                .AddTile(TileID.Anvils)
+                .Register();
+
+            base.AddRecipes();
         }
     }
     public class FerromagneticPlayer : ModPlayer
@@ -35,7 +43,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (Ferromagnetic && BulletGlobalProjectile.Bullet.Contains(proj.type))
             {
-                target.AddBuff(ModContent.BuffType<MagneticField>(), 180);
+                target.AddBuff(ModContent.BuffType<MagneticField>(), 240);
             }
         }
     }
