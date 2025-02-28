@@ -15,7 +15,7 @@ namespace TheBindingOfRarria.Content.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             if (player.GetModPlayer<GeneThiefPlayer>().genePool == 0)
-                player.ClearBuff(ModContent.BuffType<LifePool>());
+                player.ClearBuff(Type);
 
             life = player.GetModPlayer<GeneThiefPlayer>().genePool;
             base.Update(player, ref buffIndex);

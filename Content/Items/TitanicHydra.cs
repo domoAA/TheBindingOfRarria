@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Projectiles;
@@ -67,7 +68,6 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)
         {
-            base.ModifyHitNPCWithItem(item, target, ref modifiers);
             if (counter < 0 && Hydra != null)
             {
                 modifiers.FlatBonusDamage += Player.statLifeMax2 / 5;
@@ -97,6 +97,17 @@ namespace TheBindingOfRarria.Content.Items
                 Projectile.NewProjectile(Player.GetSource_Accessory(Hydra), direction, Vector2.Zero, ModContent.ProjectileType<Cleave>(), Player.statLifeMax2 / 5, 5, proj.owner, 0, position.X, position.Y);
             }
             base.ModifyHitNPCWithProj(proj, target, ref modifiers);
+        }
+    }
+    public class CrateLootTitanicHydra : GlobalItem
+    {
+        public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+        {
+            if (item.type == ItemID.GoldenCrateHard)
+            {
+                var rule = ItemDropRule.Common(ModContent.ItemType<TitanicHydra>(), 6);
+                itemLoot.Add(rule);
+            }
         }
     }
 }

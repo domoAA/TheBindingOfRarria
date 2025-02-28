@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common;
@@ -21,15 +22,21 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override void AI()
         {
-            if (Projectile.timeLeft > 100)
+            if (Projectile.timeLeft > 90 && Projectile.timeLeft < 110)
                 Projectile.ReflectProjectiles();
 
-            Projectile.ai[1]++;
+            Projectile.ai[1] += 1.5f;
             Projectile.rotation = Projectile.ai[0];
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
+            Main.instance.DrawCacheNPCsOverPlayers.Add(index);
+            overPlayers.Add(index);
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            byte dimming = (byte)(180 - (byte)Projectile.ai[1]);
+            byte dimming = (byte)(220 - (byte)Projectile.ai[1]);
             var effect = Projectile.ai[2] == 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
             Projectile.DrawPixellated(lightColor, dimming, effect, PixellationSystem.RenderType.Additive);
             return false;

@@ -68,6 +68,17 @@ namespace TheBindingOfRarria.Content.Items
                 return buffTime;
         }
     }
+    public class CrateLootMedicalIceBag : GlobalItem
+    {
+        public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+        {
+            if (item.type == ItemID.FrozenCrate || item.type == ItemID.FrozenCrateHard)
+            {
+                var rule = ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<MedicalIceBag>(), 5);
+                itemLoot.Add(rule);
+            }
+        }
+    }
     public class MedicatedAndCoolNPC : GlobalNPC
     {
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)

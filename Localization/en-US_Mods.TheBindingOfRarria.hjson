@@ -296,33 +296,40 @@ Items: {
 			'''
 	}
 
-	DeadDove: {
-		DisplayName: Dead Dove
-		Tooltip: ""
-	}
-
-	FishTank: {
-		DisplayName: Fish Tank
-		Tooltip: ""
-	}
-
 	HolyMantle: {
 		DisplayName: Holy Mantle
-		Tooltip: ""
+		Tooltip:
+			'''
+			Gain immunity to damage for the next hit
+			Cooldown: 1 minute
+			"Holy shield"
+			'''
 	}
 
-	PioneersShield: {
-		DisplayName: Pioneers Shield
-		Tooltip: ""
+	CobaltBulletShell: {
+		DisplayName: Cobalt Bullet Shell
+		Tooltip:
+			'''
+			Your bullets magnetize enemies, making them attract projectiles
+			"It is impractical, they said"
+			'''
 	}
 
 	HeavyBlow: {
 		DisplayName: Heavy Blow
 		Tooltip:
 			'''
-			30% more knockback
-			You deal additional damage based on knockback
-			" "The WORST charm in Hollow Knight" "
+			Your attacks gain increased knockback and deal additional damage based on knockback
+			"Formed from the weapons of fallen warriors"
+			'''
+	}
+
+	DeepFocus: {
+		DisplayName: Deep Focus
+		Tooltip:
+			'''
+			Healing potions heal twice the amount, but give a 20% longer potion sickness
+			"Contains some strange power deep within..."
 			'''
 	}
 
@@ -330,9 +337,32 @@ Items: {
 		DisplayName: Golden Cape
 		Tooltip:
 			'''
-			Grants immunity to fall damage and spikes
-			"Something something Spelunky reference"
+			Grants immunity to spikes and fall damage
+			"It doesn't make sense but I love it"
 			'''
+	}
+
+	SoulCatcher: {
+		DisplayName: Soul Catcher
+		Tooltip:
+			'''
+			Your melee swings recover 6 mana on hit
+			"Forgotten shaman artifact, used to draw soul from still-living creatures"
+			'''
+	}
+
+	LoupesForWeakness: {
+		DisplayName: Loupes For Weakness
+		Tooltip:
+			'''
+			Your attacks ignore 1/4 of enemy's defense
+			"7:3 ratio is where a weakness lies"
+			'''
+	}
+
+	PaleOre: {
+		DisplayName: Pale Ore
+		Tooltip: Rare, pale metal that emanates an icy chill
 	}
 }
 
@@ -361,6 +391,11 @@ Buffs: {
 		DisplayName: Life Pool
 		Description: Increased max life
 	}
+
+	MagneticField: {
+		DisplayName: Magnetic Field
+		Description: Extra attractive
+	}
 }
 
 Projectiles: {
@@ -374,7 +409,10 @@ Projectiles: {
 	MirrorCrack.DisplayName: Mirror Crack
 	CarefreePower.DisplayName: Carefree Power
 	Cleave.DisplayName: Cleave
-	HivePulse.DisplayName: Hive Pulse
+	HolyMantleBurst.DisplayName: Holy Mantle Burst
+	HeavyBlowThing.DisplayName: Heavy Blow Thing
 }
 
 Keybinds.BrokenWatch.DisplayName: Broken Watch
+Tiles.PaleOreTile.MapEntry: Pale Ore
+WorldGen.WorldGenTutorialOresPassMessage: Who up paling they ore

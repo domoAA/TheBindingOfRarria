@@ -23,8 +23,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (Main.myPlayer == player.whoAmI)
-                player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<RepellingPulse>(), player.GetSource_Accessory(Item));
+            player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<RepellingPulse>(), player.GetSource_Accessory(Item));
         }
         public override int ChoosePrefix(UnifiedRandom rand)
         {
@@ -77,7 +76,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (npc.type == NPCID.GraniteGolem)
             {
-                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<GolemsHeart>(), 100)); // apparently mm drop??? bestiary
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<GolemsHeart>(), 100)); 
             }
             base.ModifyNPCLoot(npc, npcLoot);
         }

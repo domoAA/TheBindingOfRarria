@@ -55,7 +55,7 @@ namespace TheBindingOfRarria.Content.Items
     {
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            if (Main.expertMode && type == TileID.Cobweb && Main.rand.NextFloat() < 0.001f)
+            if (Main.expertMode && Main.hardMode && type == TileID.Cobweb && Main.rand.NextFloat() < 0.001f)
             {
                 Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), new Point(i, j).ToWorldCoordinates(), ModContent.ItemType<WeaverSong>(), 1, false, Main.rand.Next(0, PrefixID.Count));
                 noItem = true;

@@ -87,8 +87,9 @@ namespace TheBindingOfRarria.Content.Items
 
                 // borrowing code from EM, yessir
 
+                projectile.timeLeft = (int)(projectile.timeLeft * 0.8f);
                 projectile.timeLeft -= 60;
-                projectile.velocity *= 0.9f;
+                projectile.velocity *= 0.7f;
                 return false;
             }
 

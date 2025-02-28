@@ -38,6 +38,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             else if (Projectile.ai[1] <= 0)
                 shining = null;
 
+            Projectile.netUpdate = true;
         }
         public override bool PreDraw(ref Color lightColor)
         {
