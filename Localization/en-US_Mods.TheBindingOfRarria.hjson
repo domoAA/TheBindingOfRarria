@@ -12,6 +12,7 @@ Items: {
 		Tooltip:
 			'''
 			You will survive a fatal hit with half health
+			Cooldown: 1 minute
 			"Eternal life"
 			'''
 		DisplayName: Ankh
@@ -72,7 +73,7 @@ Items: {
 		DisplayName: Button Bomb
 		Tooltip:
 			'''
-			Every hit leaves a button bomb on the enemy
+			Your projectiles leave a button bomb on the enemy
 			"A little bit of tomfoolery"
 			'''
 	}
@@ -364,6 +365,16 @@ Items: {
 		DisplayName: Pale Ore
 		Tooltip: Rare, pale metal that emanates an icy chill
 	}
+
+	HornOfTheRoundDeer: {
+		DisplayName: Horn Of The Round Deer
+		Tooltip:
+			'''
+			Upon falling below 33% life, you gain rapid life regeneration
+			Cooldown: 1 minute
+			"Born from shadows, sacrificed to kill a god"
+			'''
+	}
 }
 
 Buffs: {
@@ -395,6 +406,11 @@ Buffs: {
 	MagneticField: {
 		DisplayName: Magnetic Field
 		Description: Extra attractive
+	}
+
+	ReverseCT: {
+		DisplayName: Reverse Cursed Technique
+		Description: Gain unnatural life regeneration
 	}
 }
 
