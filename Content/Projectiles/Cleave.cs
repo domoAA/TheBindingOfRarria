@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Items;
+using TheBindingOfRarria.Content.Dusts;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -48,7 +49,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 cleaved = true;
                 var color = Color.DarkGray;
 
-                a.SpawnDust(ModContent.DustType<PixelatedDustParticle>(), 8f * Projectile.scale, 0.7f * Projectile.scale, color, 7, 35, 0.9f, a.DirectionFrom(Projectile.Center).ToRotation() + MathHelper.PiOver2, 2, -0.05f);
+                a.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 8f * Projectile.scale, 0.7f * Projectile.scale, color, 7, 35, 0.9f, a.DirectionFrom(Projectile.Center).ToRotation() + MathHelper.PiOver2, 2, -0.05f);
 
                 var sound = SoundID.Item14;
                 sound.Pitch -= 0.4f;

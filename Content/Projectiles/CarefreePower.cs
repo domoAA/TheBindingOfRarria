@@ -4,6 +4,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Items;
+using TheBindingOfRarria.Content.Dusts;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -39,7 +40,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             exploded = true;
             var color = Color.Red;
 
-            Projectile.Center.SpawnDust(edges, ModContent.DustType<PixelatedDustParticle>(), 1, 0.95f * Main.rand.NextFloat(1.12f, 2.2f), color, 5, -0.09f, MathHelper.PiOver4, 96);
+            Projectile.Center.SpawnDust(edges, ModContent.DustType<PixellatedDustE98>(), 1, 0.95f * Main.rand.NextFloat(1.12f, 2.2f), color, 5, -0.09f, MathHelper.PiOver4, 96);
 
             var sound = SoundID.Item74;
             sound.Pitch += 0.7f;

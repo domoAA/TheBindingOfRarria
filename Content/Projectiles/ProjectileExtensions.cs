@@ -109,6 +109,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static void GetReflected(this Projectile projectile)
         {
+            projectile.damage *= 2;
             projectile.velocity = -projectile.velocity;
             projectile.hostile = false;
             projectile.friendly = true;
