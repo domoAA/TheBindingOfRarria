@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using TheBindingOfRarria.Common.UI;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -14,7 +13,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<ChargeUIElement.ChargePlayer>().Faith = Item;
+            
         }
     }
 }
