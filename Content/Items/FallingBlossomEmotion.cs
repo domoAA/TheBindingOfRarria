@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Content.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -74,7 +75,7 @@ namespace TheBindingOfRarria.Content.Items
             base.PostUpdate();
             if (blocked)
             {
-                position.SpawnDust(ModContent.DustType<PixelatedDustParticle>(), 1.6f, 0.36f, Color.LightSeaGreen, 7, 25, 0.7f, direction.ToRotation() + MathHelper.PiOver2);
+                position.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 1.6f, 0.36f, Color.LightSeaGreen, 7, 25, 0.7f, direction.ToRotation() + MathHelper.PiOver2);
                 blocked = false;
                 direction = Vector2.UnitX;
                 position = Vector2.Zero;
@@ -126,36 +127,6 @@ namespace TheBindingOfRarria.Content.Items
             {
                 base.ModifyHitByProjectile(proj, ref modifiers);
             }
-        }
-    }
-    public class PixelatedDustParticle : ModDust
-    {
-        public override void OnSpawn(Dust dust)
-        {
-            dust.noGravity = true;
-            dust.noLight = true;
-        }
-        public override bool Update(Dust dust)
-        {
-            dust.position += dust.velocity;
-            dust.rotation = dust.velocity.ToRotation();
-            dust.velocity *= 0.9f;
-            dust.color.A -= 8;
-            float light = 0.002f * dust.color.A;
-
-            Lighting.AddLight(dust.position, light, light, light);
-
-            if (dust.color.A < 100)
-            {
-                dust.active = false;
-            }
-
-            return false;
-        }
-        public override bool PreDraw(Dust dust)
-        {
-            Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale * new Vector2(0.9f, 0.015f * dust.color.A), dust.rotation + MathHelper.PiOver2, dust.color, PixellationSystem.RenderType.Additive);
-            return false;
         }
     }
 }

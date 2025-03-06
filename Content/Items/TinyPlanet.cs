@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -55,7 +56,7 @@ namespace TheBindingOfRarria.Content.Items
         public float IndividualOffset = 0;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (!projectile.CanBeReflected())
+            if (!projectile.CanBeReflected() && projectile.type != ModContent.ProjectileType<FlyingKunai>())
                 orbit = false;
 
             else if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet)

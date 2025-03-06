@@ -7,11 +7,6 @@ namespace TheBindingOfRarria.Content.Items
 {
     public class UdjatEye : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            ItemTrader.ChlorophyteExtractinator.AddOption_FromAny(ModContent.ItemType<UdjatEye>(), ItemID.DesertFossil);
-            base.SetStaticDefaults();
-        }
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -24,6 +19,30 @@ namespace TheBindingOfRarria.Content.Items
         {
             player.dangerSense = true;
             player.findTreasure = true;
+        }
+        public override void AddRecipes()
+        {
+            Recipe.Create(Item.type)
+                .AddIngredient(ItemID.FossilOre, 40)
+                .AddIngredient(ItemID.SpelunkerPotion, 8)
+                .AddTile(TileID.Solidifier)
+                .Register();
+
+            base.AddRecipes();
+        }
+    }
+    public class UdjatExtractinatorDrop : GlobalItem
+    {
+        public override bool InstancePerEntity => true;
+        public override void ExtractinatorUse(int extractType, int extractinatorBlockType, ref int resultType, ref int resultStack)
+        {
+            if (extractType == ItemID.DesertFossil && Main.rand.NextFloat() < 0.005) 
+            {
+                resultStack = 1;
+                resultType = ModContent.ItemType<UdjatEye>();
+            }
+            else
+                base.ExtractinatorUse(extractType, extractinatorBlockType, ref resultType, ref resultStack);
         }
     }
 }

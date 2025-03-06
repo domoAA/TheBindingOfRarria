@@ -11,7 +11,6 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 28;
             Item.height = 28;
             Item.accessory = true;
-            Item.defense = 8;
             Item.value = Item.buyPrice(0, 9);
             Item.rare = ItemRarityID.LightPurple;
         }
@@ -19,6 +18,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             player.statLifeMax2 += 50;
             player.aggro += 500;
+            player.endurance += 0.1f;
         }
         public override void AddRecipes()
         {
