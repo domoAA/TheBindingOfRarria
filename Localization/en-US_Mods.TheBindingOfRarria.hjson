@@ -54,6 +54,7 @@ Items: {
 		Tooltip:
 			'''
 			+50 max life
+			+10% damage reduction
 			Enemies are more likely to target you
 			"Resilience befitting of a hero"
 			'''
@@ -375,6 +376,20 @@ Items: {
 			"Born from shadows, sacrificed to kill a god"
 			'''
 	}
+
+	PhoenixKunai: {
+		DisplayName: Phoenix Kunai
+		Tooltip:
+			'''
+			You throw a kunai every 3rd shot
+			"It is not the weapon, YOU are the weapon"
+			'''
+	}
+
+	WheelOfHarmony: {
+		DisplayName: Wheel Of Harmony
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -427,6 +442,7 @@ Projectiles: {
 	Cleave.DisplayName: Cleave
 	HolyMantleBurst.DisplayName: Holy Mantle Burst
 	HeavyBlowThing.DisplayName: Heavy Blow Thing
+	FlyingKunai.DisplayName: Flying Kunai
 }
 
 Keybinds.BrokenWatch.DisplayName: Broken Watch

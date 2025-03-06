@@ -8,6 +8,7 @@ using Terraria.ID;
 using MonoMod.Cil;
 using TheBindingOfRarria.Content.Items;
 using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Content.Dusts;
 
 namespace TheBindingOfRarria.Content
 {
@@ -282,7 +283,7 @@ namespace TheBindingOfRarria.Content
             c.EmitLdarg3();
             c.EmitDelegate((bool Intersects, int Type) =>
             {
-                if (Type == ModContent.DustType<PixelatedDustParticle>())
+                if (Type == ModContent.DustType<PixellatedDustE98>())
                     return true;
                 return Intersects;
             });
