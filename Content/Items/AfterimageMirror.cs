@@ -1,10 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Audio;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -19,19 +12,15 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 2);
             Item.expert = true;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<PlatedPlayer>().Mirror = Item;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<PlatedPlayer>().Mirror = Item;
+        
     }
     public class PlatedPlayer : ModPlayer
     {
         public Item Mirror = null;
         public bool reflected = false;
-        public override void ResetEffects()
-        {
-            Mirror = null;
-        }
+        public override void ResetEffects() =>Mirror = null;
+        
         public override bool FreeDodge(Player.HurtInfo info)
         {
             if (Mirror != null && reflected)

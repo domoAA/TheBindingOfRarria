@@ -1,6 +1,3 @@
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -21,7 +18,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.Grapefruit)
                 .AddIngredient(ItemID.Pineapple)
                 .AddTile(TileID.CookingPots)

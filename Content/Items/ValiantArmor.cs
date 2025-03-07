@@ -1,6 +1,3 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -22,7 +19,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.ShieldStatue)
                 .AddIngredient(ItemID.HeroShield)
                 .AddIngredient(ItemID.AegisFruit)
@@ -31,7 +28,7 @@ namespace TheBindingOfRarria.Content.Items
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
 
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.ShieldStatue)
                 .AddIngredient(ItemID.HeroShield)
                 .AddIngredient(ItemID.AegisFruit)

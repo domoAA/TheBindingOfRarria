@@ -1,17 +1,9 @@
-using Terraria;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
+
 
 namespace TheBindingOfRarria.Content.Items
 {
     public class SlippedRib : ModItem
     {
-        //public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
-        //{
-        //    return !equippedItem.HasTag(TheBindingOfRarria.reflectItems) || !incomingItem.HasTag(TheBindingOfRarria.reflectItems);
-        //}
         public override void SetDefaults()
         {
             Item.width = 22;
@@ -21,10 +13,8 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 2);
             Item.expert = true;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<ReflectiveRib>(), player.GetSource_Accessory(Item), new Microsoft.Xna.Framework.Vector2(player.Center.X, player.Center.Y - 40));
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<ReflectiveRib>(), player.GetSource_Accessory(Item), new Microsoft.Xna.Framework.Vector2(player.Center.X, player.Center.Y - 40));
+        
     }
     public class BoneLootNPC : GlobalNPC
     {

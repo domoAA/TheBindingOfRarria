@@ -1,8 +1,3 @@
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using TheBindingOfRarria.Content.Projectiles;
-using Terraria.ID;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -23,14 +18,14 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.DontStarveShaderItem)
                 .AddIngredient(ItemID.WormScarf)
                 .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
 
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.DontStarveShaderItem)
                 .AddIngredient(ItemID.BrainOfConfusion)
                 .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
@@ -43,10 +38,8 @@ namespace TheBindingOfRarria.Content.Items
     {
         public int Hits = 0;
         public Item Melody = null;
-        public override void ResetEffects()
-        {
-            Melody = null;
-        }
+        public override void ResetEffects() => Melody = null;
+        
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
             base.OnHitByNPC(npc, hurtInfo);

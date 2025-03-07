@@ -1,9 +1,3 @@
-using System;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Buffs;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -25,7 +19,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.AnkhCharm)
                 .AddIngredient(ItemID.AnkhBanner)
                 .AddIngredient(ItemID.LifeCrystal)

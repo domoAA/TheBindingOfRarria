@@ -1,7 +1,4 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-
+ 
 namespace TheBindingOfRarria.Content.Items
 {
     public class ArmorConversion : ModItem
@@ -22,7 +19,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.PaladinsShield)
                 .AddIngredient(ItemID.AegisCrystal)
                 .AddIngredient(ItemID.LifeCrystal, 2)

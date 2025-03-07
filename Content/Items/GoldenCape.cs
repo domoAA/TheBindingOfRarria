@@ -1,9 +1,3 @@
-using System.Linq;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -27,10 +21,8 @@ namespace TheBindingOfRarria.Content.Items
     public class SpikeImmunePlayer : ModPlayer
     {
         public bool SpikeImmune;
-        public override void ResetEffects()
-        {
-            SpikeImmune = false;
-        }
+        public override void ResetEffects() => SpikeImmune = false;
+        
         public override bool ImmuneTo(PlayerDeathReason damageSource, int cooldownCounter, bool dodgeable)
         {
             if (damageSource.SourceOtherIndex == 3 && SpikeImmune)

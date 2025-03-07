@@ -1,12 +1,3 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using Terraria;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.IO;
-using Terraria.Localization;
-using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 namespace TheBindingOfRarria.Content.Items

@@ -1,7 +1,3 @@
-using Terraria;
-using Terraria.GameContent;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -22,7 +18,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.FossilOre, 40)
                 .AddIngredient(ItemID.SpelunkerPotion, 8)
                 .AddTile(TileID.Solidifier)

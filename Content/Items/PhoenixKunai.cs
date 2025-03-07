@@ -1,8 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -14,19 +9,15 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 18;
             Item.height = 30;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<KunaiPlayer>().kunai = Item;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<KunaiPlayer>().kunai = Item;
+        
     }
     public class KunaiPlayer : ModPlayer
     {
         public Item kunai = null;
         public int counter = -1;
-        public override void ResetEffects()
-        {
-            kunai = null;
-        }
+        public override void ResetEffects() => kunai = null;
+        
         public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (kunai != null)

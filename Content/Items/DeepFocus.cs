@@ -1,7 +1,3 @@
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -25,7 +21,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.ArcaneCrystal)
                 .AddIngredient(ItemID.StarinaBottle)
                 .AddIngredient(ModContent.ItemType<PaleOre>(), 18)
@@ -39,10 +35,7 @@ namespace TheBindingOfRarria.Content.Items
     public class FocusedPlayer : ModPlayer
     {
         public bool IsFocused;
-        public override void ResetEffects()
-        {
-            IsFocused = false;
-        }
+        public override void ResetEffects() => IsFocused = false;
 
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {

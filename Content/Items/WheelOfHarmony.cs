@@ -1,11 +1,3 @@
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
-using TheBindingOfRarria.Content.Projectiles;
-using System;
-using Terraria.WorldBuilding;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -24,17 +16,15 @@ namespace TheBindingOfRarria.Content.Items
             player.GetModPlayer<MakoraPlayer>().AltFunc = Frame == 1;
         }
         public override bool CanRightClick() => true;
-        public override void RightClick(Player player)
-        {
-            Frame = Frame == 0 ? 1 : 0;
-        }
+        public override void RightClick(Player player) => Frame = Frame == 0 ? 1 : 0;
+        
         public override bool ConsumeItem(Player player) => false;
         
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             frame = new Rectangle(0, Frame * frame.Height / 2, frame.Width, frame.Height / 2);
             origin = frame.Size() / 2;
-            var texture = Terraria.GameContent.TextureAssets.Item[Item.type].Value;
+            var texture = TextureAssets.Item[Item.type].Value;
             spriteBatch.Draw(texture, position, frame, drawColor, 0, origin, scale * 2, SpriteEffects.None, 0);
             return false;
         }
@@ -45,6 +35,24 @@ namespace TheBindingOfRarria.Content.Items
             var origin = frame.Size() / 2;
             spriteBatch.Draw(texture, Item.Bottom - Main.screenPosition - new Vector2(0, origin.Y), frame, lightColor, rotation, origin, scale, SpriteEffects.None, 0);
             return false;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var index = tooltips.FindIndex(t => t.Name.Contains("Tooltip"));
+            if (index == -1)
+                return;
+
+            tooltips.RemoveAt(index);
+            tooltips.RemoveAt(index);
+
+            var alt = Frame == 0 ? "" : "Alt";
+            var line = new TooltipLine(Mod, "Tooltip0", Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip{alt}"));
+
+            var change = new TooltipLine(Mod, "Tooltip1", Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.TooltipChange"));
+            change.OverrideColor = Color.LightSkyBlue;
+
+            tooltips.Insert(index, change);
+            tooltips.Insert(index, line);
         }
     }
     public class MakoraPlayer : ModPlayer
@@ -72,6 +80,10 @@ namespace TheBindingOfRarria.Content.Items
                 {
                     hits = 0;
                     Player.Heal(Math.Max(1, hurtInfo.Damage / 2));
+                    var sound = TheBindingOfRarria.AdaptedSoundLoud;
+                    sound.Volume = 0.2f;
+                    sound.Pitch = -0.5f;
+                    SoundEngine.PlaySound(sound, Player.Center);
                 }
             }
         }
@@ -92,6 +104,11 @@ namespace TheBindingOfRarria.Content.Items
                 {
                     hits = 0;
                     Player.Heal(Math.Max(1, hurtInfo.Damage / 2));
+                    var sound = TheBindingOfRarria.AdaptedSoundLoud;
+                    sound.Volume = 0.3f;
+                    //sound.Pitch = -0.6f;
+                    //sound.PitchVariance = 0.05f;
+                    SoundEngine.PlaySound(sound, Player.Center);
                 }
             }
         }
@@ -123,6 +140,7 @@ namespace TheBindingOfRarria.Content.Items
                 if (adaptable && hits >= 2)
                 {
                     npc.SimpleStrikeNPC(112, -modifiers.HitDirection, false, modifiers.Knockback.ApplyTo(8), DamageClass.Melee, true, Player.luck);
+                    SoundEngine.PlaySound(TheBindingOfRarria.AdaptedSound, Player.Center);
                 }
             }
             else if (!adaptable)
@@ -152,6 +170,7 @@ namespace TheBindingOfRarria.Content.Items
                     }
                     else
                         proj.GetReflected();
+                    SoundEngine.PlaySound(TheBindingOfRarria.AdaptedSound, Player.Center);
                 }
             }
             else if (!adaptable)

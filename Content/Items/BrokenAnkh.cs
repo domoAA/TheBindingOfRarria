@@ -1,7 +1,3 @@
-using Terraria.ModLoader;
-using Terraria;
-using TheBindingOfRarria.Content.Buffs;
-using Terraria.ID;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -20,13 +16,9 @@ namespace TheBindingOfRarria.Content.Items
             if (!player.HasBuff(ModContent.BuffType<AnubisCurse>()))
                 Item.type = ModContent.ItemType<Ankh>();
         }
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-            Item.type = ModContent.ItemType<Ankh>();
-        }
-        public override void UpdateInventory(Player player)
-        {
-            Item.type = ModContent.ItemType<Ankh>();
-        }
+        public override void Update(ref float gravity, ref float maxFallSpeed) => Item.type = ModContent.ItemType<Ankh>();
+        
+        public override void UpdateInventory(Player player) => Item.type = ModContent.ItemType<Ankh>();
+        
     }
 }

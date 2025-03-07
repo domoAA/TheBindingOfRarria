@@ -1,11 +1,3 @@
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -19,18 +11,14 @@ namespace TheBindingOfRarria.Content.Items
             Item.rare = ItemRarityID.LightRed;
             Item.value = Item.buyPrice(0, 1, 12);
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<CementosPlayer>().Cementos = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<CementosPlayer>().Cementos = true;
+        
     }
     public class CementosPlayer : ModPlayer
     {
         public bool Cementos = false;
-        public override void ResetEffects()
-        {
-            Cementos = false;
-        }
+        public override void ResetEffects() => Cementos = false;
+        
     }
     public class QSBagLoot : GlobalItem
     {

@@ -1,7 +1,3 @@
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
 
 namespace TheBindingOfRarria.Content.Items
 {

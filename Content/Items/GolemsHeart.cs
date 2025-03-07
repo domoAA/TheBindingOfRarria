@@ -1,11 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Utilities;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -21,10 +13,8 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 6, 66);
             Item.expert = true;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<RepellingPulse>(), player.GetSource_Accessory(Item));
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<RepellingPulse>(), player.GetSource_Accessory(Item));
+        
         public override int ChoosePrefix(UnifiedRandom rand)
         {
             var chance = rand.NextFloat() / 2;
@@ -41,10 +31,8 @@ namespace TheBindingOfRarria.Content.Items
     public class PulsingGolem : GlobalNPC
     {
         public override bool InstancePerEntity => true;
-        public override bool AppliesToEntity(NPC entity, bool lateInstantiation)
-        {
-            return entity.type == NPCID.GraniteGolem;
-        }
+        public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => return entity.type == NPCID.GraniteGolem;
+        
         public Projectile HeartBeat = null;
         public override void OnSpawn(NPC npc, IEntitySource source)
         {

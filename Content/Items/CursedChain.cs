@@ -1,6 +1,6 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+ 
+ 
+ 
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -15,13 +15,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 9);
             Item.rare = ItemRarityID.LightPurple;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<RiskyHealPlayer>().HasChoker = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<RiskyHealPlayer>().HasChoker = true;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.CrossNecklace)
                 .AddIngredient(ItemID.SoulofMight, 20)
                 .AddIngredient(ItemID.SoulofNight, 10)
@@ -40,10 +38,8 @@ namespace TheBindingOfRarria.Content.Items
         public int totalHeal = 0;
         public float currentHeal = 0.24f;
         public int CD = 60;
-        public override void ResetEffects()
-        {
-            HasChoker = false;
-        }
+        public override void ResetEffects() => HasChoker = false;
+        
         public override void PostUpdateEquips()
         {
             if (!HasChoker)
@@ -72,10 +68,8 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers) => ModifyHitByAnything(ref modifiers); 
         public override void ModifyHitByProjectile(Projectile projectile, ref Player.HurtModifiers modifiers) => ModifyHitByAnything(ref modifiers); 
-        public override void UpdateDead()
-        {
-            totalHeal = 0;
-        }
+        public override void UpdateDead() => totalHeal = 0;
+        
         public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo) => OnHitByAnything(hurtInfo);
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo) => OnHitByAnything(hurtInfo); 
         public void OnHitByAnything(Player.HurtInfo hurtInfo) {

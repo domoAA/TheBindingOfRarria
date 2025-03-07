@@ -1,13 +1,13 @@
-using System.Collections.Generic;
-using System.Linq;
-using Terraria;
-using Terraria.Audio;
+ 
+
+ 
+
 using Terraria.GameInput;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Common.Config;
-using TheBindingOfRarria.Content.Projectiles;
+ 
+ 
+ 
+ 
+ 
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -28,7 +28,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.FastClock)
                 .AddIngredient(ItemID.StoneBlock)
                 .AddTile(TileID.MythrilAnvil)
@@ -59,11 +59,7 @@ namespace TheBindingOfRarria.Content.Items
     {
         public int counter = 0;
         public bool ZaWardo = false;
-        public override void ResetEffects()
-        {
-            ZaWardo = false;
-            base.ResetEffects();
-        }
+        public override void ResetEffects() => ZaWardo = false;
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if ((KeybindSystem.ZaWardoKey.JustPressed || (KeybindSystem.ZaWardoKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.P))) && Main.myPlayer == Player.whoAmI && counter <= 0 && ZaWardo)
