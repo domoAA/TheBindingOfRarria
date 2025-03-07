@@ -1,9 +1,3 @@
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System;
-using Terraria.ModLoader;
-using Terraria;
 
 namespace TheBindingOfRarria.Common
 {

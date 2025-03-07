@@ -292,7 +292,7 @@ Items: {
 		DisplayName: The Last Finger
 		Tooltip:
 			'''
-			Max mana increased by 100
+			+100 max mana
 			Enemies are less likely to target you
 			"Now his remains serve to protect the weak, how ironic"
 			'''
@@ -388,7 +388,35 @@ Items: {
 
 	WheelOfHarmony: {
 		DisplayName: Wheel Of Harmony
-		Tooltip: ""
+		Tooltip:
+			'''
+			You heal for 1/2 of an attack's damage after getting hit by it 2 times in a row
+			"The ability to adapt to any and all phenomena"
+			'''
+		TooltipAlt:
+			'''
+			You reflect every attack of the same type that hits you 2 times in a row within a short period of time
+			"The ability to adapt to any and all phenomena"
+			'''
+		TooltipChange: You can switch this item's function by right-clicking it in inventory
+	}
+
+	AdamantineTalisman: {
+		DisplayName: Adamantine Talisman
+		Tooltip:
+			'''
+			Hits against you always deal the lowest damage possible
+			""
+			'''
+	}
+
+	Revelation: {
+		DisplayName: Revelation
+		Tooltip:
+			'''
+			Press {0} to place a mini-star that charges up a beam of light
+			""
+			'''
 	}
 }
 
@@ -443,8 +471,13 @@ Projectiles: {
 	HolyMantleBurst.DisplayName: Holy Mantle Burst
 	HeavyBlowThing.DisplayName: Heavy Blow Thing
 	FlyingKunai.DisplayName: Flying Kunai
+	LightBeam.DisplayName: Light Beam
 }
 
-Keybinds.BrokenWatch.DisplayName: Broken Watch
+Keybinds: {
+	BrokenWatch.DisplayName: Broken Watch
+	Revelation.DisplayName: Revelation
+}
+
 Tiles.PaleOreTile.MapEntry: Pale Ore
 WorldGen.WorldGenTutorialOresPassMessage: Who up paling they ore
