@@ -1,11 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Items;
-using TheBindingOfRarria.Content.Dusts;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -26,14 +18,10 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.idStaticNPCHitCooldown = 15;
         }
         public bool cleaved = false;
-        public override bool ShouldUpdatePosition()
-        {
-            return false;
-        }
-        public override bool? CanHitNPC(NPC target)
-        {
-            return false;
-        }
+        public override bool ShouldUpdatePosition() => false;
+        
+        public override bool? CanHitNPC(NPC target) => false;
+        
         public override void AI()
         {
             if (Projectile.ai[0] < 4)

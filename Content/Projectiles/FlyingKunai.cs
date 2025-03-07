@@ -1,11 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Common;
-using TheBindingOfRarria.Content.Dusts;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -43,7 +35,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             Main.EntitySpriteDraw(texture, p.Center - Main.screenPosition, null, darkColor, p.rotation, texture.Size() / 2, p.scale, SpriteEffects.None);
 
-            PixellationSystem.QueuePixelationAction(() =>
+            QueuePixelationAction(() =>
             {
                 for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[p.type] - 1; i++)
                 {
@@ -53,7 +45,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                         Main.EntitySpriteDraw(texture, (p.oldPos[i] + (p.Size / 2) - Main.screenPosition) / 2, new Rectangle(0, 8, 14, 2), brightColor * (0.5f - ((i - 1) / (float)ProjectileID.Sets.TrailCacheLength[p.type])), p.oldPos[i].DirectionFrom(p.oldPos[i + 1]).ToRotation() + MathHelper.PiOver2, new Vector2(7, 0), new Vector2((1f - (i / (float)ProjectileID.Sets.TrailCacheLength[p.type])) * p.scale, p.oldPos[i].Distance(p.oldPos[i + 1]) / 2) / 2, SpriteEffects.None);
                     }
                 }
-            }, PixellationSystem.RenderType.Additive);
+            }, RenderType.Additive);
 
 
             Main.EntitySpriteDraw(texture, p.Center - Main.screenPosition, null, brightColor, p.rotation, texture.Size() / 2, p.scale, SpriteEffects.None);

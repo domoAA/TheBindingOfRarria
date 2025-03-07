@@ -1,6 +1,3 @@
-using Terraria;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Buffs
 {

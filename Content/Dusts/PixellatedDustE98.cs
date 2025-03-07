@@ -1,8 +1,3 @@
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
-using Terraria;
-using TheBindingOfRarria.Common;
 
 namespace TheBindingOfRarria.Content.Dusts
 {
@@ -32,7 +27,7 @@ namespace TheBindingOfRarria.Content.Dusts
         }
         public override bool PreDraw(Dust dust)
         {
-            Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale * new Vector2(0.9f, 0.015f * dust.color.A), dust.rotation + MathHelper.PiOver2, dust.color, PixellationSystem.RenderType.Additive);
+            Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale * new Vector2(0.9f, 0.015f * dust.color.A), dust.rotation + MathHelper.PiOver2, dust.color, RenderType.Additive);
             return false;
         }
     }

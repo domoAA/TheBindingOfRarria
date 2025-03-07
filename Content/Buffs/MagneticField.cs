@@ -1,11 +1,4 @@
 
-using Terraria.ModLoader;
-using Terraria;
-using System;
-using TheBindingOfRarria.Content.Projectiles;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace TheBindingOfRarria.Content.Buffs
 {
     public class MagneticField : ModBuff
