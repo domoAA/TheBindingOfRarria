@@ -1,17 +1,10 @@
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using Terraria;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
     public class HolyMantleBurst : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            Main.projFrames[Type] = 4;
-        }
+        public override void SetStaticDefaults() => Main.projFrames[Type] = 4;
+        
         public override void SetDefaults()
         {
             Projectile.penetrate = -1;
@@ -35,7 +28,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var texture = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
+            var texture = TextureAssets.Projectile[Type].Value;
 
             int frame = Math.Max(0, 3 - Projectile.timeLeft / 4);
             var rect = texture.Frame(1, 4, 0, frame, 0, -2);
