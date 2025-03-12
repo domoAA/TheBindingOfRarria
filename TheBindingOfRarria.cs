@@ -1,42 +1,26 @@
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using ReLogic.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using System.Collections;
-using TheBindingOfRarria.Content;
-using TheBindingOfRarria.Content.Items;
-using Terraria.Graphics.Shaders;
-using System.IO;
-using TheBindingOfRarria.Content.Projectiles;
-using System.Diagnostics;
 
 namespace TheBindingOfRarria
 {
-    // Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
     public class TheBindingOfRarria : Mod
     {
-        //public static int[] reflectItems = [ModContent.ItemType<GodHead>(), ModContent.ItemType<AfterimageMirror>(), ModContent.ItemType<SlippedRib>()];
-        //public static int[] dodgeItems = [ModContent.ItemType<AnemoiBracelet>(), ModContent.ItemType<CarefreeMelody>(), ItemID.BrainOfConfusion, ItemID.MasterNinjaGear, ItemID.BlackBelt];
-        //public static int[] invulItems = [ModContent.ItemType<ToothAndNail>(), ModContent.ItemType<GnawedLeaf>()];
+        public static Asset<Texture2D> BeamBody;
+        public static Asset<Texture2D> BeamEnd;
+        public static SoundStyle AdaptedSound = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheel");
+        public static SoundStyle WheelCreak = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheelCreak");
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                
+                BeamEnd = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamEnd");
+                BeamBody = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamBody");
             }
         }
         public override void Unload()
         {
             if (Main.netMode != NetmodeID.Server)
             {
-
+                BeamEnd = null;
+                BeamBody = null;
             }
         }
         public enum PacketTypes
