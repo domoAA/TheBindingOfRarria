@@ -406,7 +406,7 @@ Items: {
 		Tooltip:
 			'''
 			Damage for hits against you is always rolled in your favour
-			""
+			"Proficiency on saving throws"
 			'''
 	}
 
@@ -424,7 +424,7 @@ Items: {
 		Tooltip:
 			'''
 			Damage for hits against you is rolled twice, and the damage is set to the lower result
-			""
+			"A saving throw with an advantage"
 			'''
 	}
 }
