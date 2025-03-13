@@ -424,7 +424,7 @@ Items: {
 		Tooltip:
 			'''
 			Damage for hits against you is rolled twice, and the damage is set to the lower result
-			"A saving throw with an advantage"
+			"A saving throw with advantage"
 			'''
 	}
 }
