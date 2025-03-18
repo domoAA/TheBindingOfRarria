@@ -1,6 +1,3 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -11,7 +8,6 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 28;
             Item.height = 28;
             Item.accessory = true;
-            Item.defense = 8;
             Item.value = Item.buyPrice(0, 9);
             Item.rare = ItemRarityID.LightPurple;
         }
@@ -19,10 +15,11 @@ namespace TheBindingOfRarria.Content.Items
         {
             player.statLifeMax2 += 50;
             player.aggro += 500;
+            player.endurance += 0.1f;
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.ShieldStatue)
                 .AddIngredient(ItemID.HeroShield)
                 .AddIngredient(ItemID.AegisFruit)
@@ -31,7 +28,7 @@ namespace TheBindingOfRarria.Content.Items
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
 
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.ShieldStatue)
                 .AddIngredient(ItemID.HeroShield)
                 .AddIngredient(ItemID.AegisFruit)

@@ -1,8 +1,3 @@
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.GameContent.ItemDropRules;
-using Microsoft.Xna.Framework;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -26,10 +21,8 @@ namespace TheBindingOfRarria.Content.Items
     public class SpooderPlayer : ModPlayer
     {
         public bool Spooder = false;
-        public override void ResetEffects()
-        {
-            Spooder = false;
-        }
+        public override void ResetEffects() => Spooder = false;
+        
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
         {
             base.ModifyHitNPCWithProj(proj, target, ref modifiers);

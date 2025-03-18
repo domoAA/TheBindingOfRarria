@@ -1,0 +1,21 @@
+This is a content mod that has the main goal of adding reference items from other franchises to Terraria.
+
+The franchises this mod aims to reference include, but are not limited to:
+The Binding of Isaac
+Jujutsu Kaisen
+Otherworld Legends
+Hollow Knight
+Dungeons and Dragons
+
+
+The total planned size of the mod is about 60-80 items, and a few small changes and additions, like NPCs and status effects.
+
+The current version includes:
+* 39 accessories
+* 7 status effects
+* 1 unique ore
+
+Big thanks for contributing to: pil, sungle, zen
+
+This mod is fully compatible with multiplayer, and was mostly tested with some other mods.
+If you find any issues, provide detailed information about it on the workshop page or in tmodloader discord.

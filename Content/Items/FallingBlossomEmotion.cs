@@ -1,21 +1,8 @@
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using TheBindingOfRarria.Common;
-using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Common.Config;
 
 namespace TheBindingOfRarria.Content.Items
 {
     public class FallingBlossomEmotion : ModItem
     {
-        //public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
-        //{
-        //    return !equippedItem.HasTag(TheBindingOfRarria.dodgeItems) || !incomingItem.HasTag(TheBindingOfRarria.dodgeItems);
-        //}
         public override void SetDefaults()
         {
             Item.width = 26;
@@ -35,10 +22,10 @@ namespace TheBindingOfRarria.Content.Items
             chance = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().chance;
 
             base.ModifyTooltips(tooltips);
-            var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.FallingBlossomEmotion.Tooltip"), $"{(int)(chance * 100)}%");
+            var text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{(int)(chance * 100)}%");
             for (int i = 10; i > 0; i--)
             {
-                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue("Mods.TheBindingOfRarria.Items.FallingBlossomEmotion.Tooltip").Remove(5)));
+                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip").Remove(5)));
                 if (index != -1) {
                     tooltips[index].Text = text.Remove(text.IndexOf($"\n"));
                     break; }
@@ -46,7 +33,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.AnkletoftheWind)
                 .AddIngredient(ItemID.Wood, 50)
                 .AddIngredient(ItemID.JungleSpores, 12)
@@ -64,17 +51,15 @@ namespace TheBindingOfRarria.Content.Items
         public bool blocked = false;
         public Vector2 direction = Vector2.UnitY;
         public Vector2 position = Vector2.Zero;
-        public override void ResetEffects()
-        {
-            IsFromAGreatClan = false;
-        }
+        public override void ResetEffects() => IsFromAGreatClan = false;
+        
         public override void PostUpdate()
         {
             chance = Math.Min(Math.Max(0.07f + (Player.moveSpeed - 1f) / 5, 0.07f), 0.21f);
             base.PostUpdate();
             if (blocked)
             {
-                position.SpawnDust(ModContent.DustType<PixelatedDustParticle>(), 1.6f, 0.36f, Color.LightSeaGreen, 7, 25, 0.7f, direction.ToRotation() + MathHelper.PiOver2);
+                position.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 1.6f, 0.36f, Color.LightSeaGreen, 7, 25, 0.7f, direction.ToRotation() + MathHelper.PiOver2);
                 blocked = false;
                 direction = Vector2.UnitX;
                 position = Vector2.Zero;
@@ -126,36 +111,6 @@ namespace TheBindingOfRarria.Content.Items
             {
                 base.ModifyHitByProjectile(proj, ref modifiers);
             }
-        }
-    }
-    public class PixelatedDustParticle : ModDust
-    {
-        public override void OnSpawn(Dust dust)
-        {
-            dust.noGravity = true;
-            dust.noLight = true;
-        }
-        public override bool Update(Dust dust)
-        {
-            dust.position += dust.velocity;
-            dust.rotation = dust.velocity.ToRotation();
-            dust.velocity *= 0.9f;
-            dust.color.A -= 8;
-            float light = 0.002f * dust.color.A;
-
-            Lighting.AddLight(dust.position, light, light, light);
-
-            if (dust.color.A < 100)
-            {
-                dust.active = false;
-            }
-
-            return false;
-        }
-        public override bool PreDraw(Dust dust)
-        {
-            Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale * new Vector2(0.9f, 0.015f * dust.color.A), dust.rotation + MathHelper.PiOver2, dust.color, PixellationSystem.RenderType.Additive);
-            return false;
         }
     }
 }

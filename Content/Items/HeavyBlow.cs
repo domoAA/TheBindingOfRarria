@@ -1,8 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -15,19 +10,17 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 30;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<KnockbackAccessoryPlayer>().KnockbackItem = Item;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<KnockbackAccessoryPlayer>().KnockbackItem = Item;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.IronBroadsword, 7)
                 .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
                 .AddTile(TileID.Anvils)
                 .Register();
 
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.LeadBroadsword, 7)
                 .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
                 .AddTile(TileID.Anvils)
@@ -39,10 +32,8 @@ namespace TheBindingOfRarria.Content.Items
     public class KnockbackAccessoryPlayer : ModPlayer
     {
         public Item KnockbackItem = null;
-        public override void ResetEffects()
-        {
-            KnockbackItem = null;
-        }
+        public override void ResetEffects() => KnockbackItem = null;
+        
         public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)
         {
             if (KnockbackItem != null)

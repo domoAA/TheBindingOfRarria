@@ -1,10 +1,3 @@
-using Microsoft.Xna.Framework;
-using System.IO;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -18,13 +11,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.rare = ItemRarityID.Orange;
             Item.value = Item.buyPrice(0, 0, 77, 49);
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<PlanetPlayer>().planet = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<PlanetPlayer>().planet = true;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.Meteorite, 100)
                 .AddIngredient(ItemID.Hellstone, 100)
                 .AddIngredient(ItemID.IceBlock, 200)
@@ -37,10 +28,8 @@ namespace TheBindingOfRarria.Content.Items
     public class PlanetPlayer : ModPlayer
     {
         public bool planet = false;
-        public override void ResetEffects()
-        {
-            planet = false;
-        }
+        public override void ResetEffects() => planet = false;
+        
     }
     public class OrbitingGlobalProjectile : GlobalProjectile
     {
@@ -55,7 +44,7 @@ namespace TheBindingOfRarria.Content.Items
         public float IndividualOffset = 0;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (!projectile.CanBeReflected())
+            if (!projectile.CanBeReflected() && projectile.type != ModContent.ProjectileType<FlyingKunai>())
                 orbit = false;
 
             else if (Main.player[projectile.owner].GetModPlayer<PlanetPlayer>().planet)
