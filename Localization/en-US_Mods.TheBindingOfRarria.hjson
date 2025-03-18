@@ -12,6 +12,7 @@ Items: {
 		Tooltip:
 			'''
 			You will survive a fatal hit with half health
+			Cooldown: 1 minute
 			"Eternal life"
 			'''
 		DisplayName: Ankh
@@ -53,6 +54,7 @@ Items: {
 		Tooltip:
 			'''
 			+50 max life
+			+10% damage reduction
 			Enemies are more likely to target you
 			"Resilience befitting of a hero"
 			'''
@@ -72,7 +74,7 @@ Items: {
 		DisplayName: Button Bomb
 		Tooltip:
 			'''
-			Every hit leaves a button bomb on the enemy
+			Your projectiles leave a button bomb on the enemy
 			"A little bit of tomfoolery"
 			'''
 	}
@@ -290,7 +292,7 @@ Items: {
 		DisplayName: The Last Finger
 		Tooltip:
 			'''
-			Max mana increased by 100
+			+100 max mana
 			Enemies are less likely to target you
 			"Now his remains serve to protect the weak, how ironic"
 			'''
@@ -364,6 +366,67 @@ Items: {
 		DisplayName: Pale Ore
 		Tooltip: Rare, pale metal that emanates an icy chill
 	}
+
+	HornOfTheRoundDeer: {
+		DisplayName: Horn Of The Round Deer
+		Tooltip:
+			'''
+			Upon falling below 33% life, you gain rapid life regeneration
+			Cooldown: 1 minute
+			"Born from shadows, sacrificed to kill a god"
+			'''
+	}
+
+	PhoenixKunai: {
+		DisplayName: Phoenix Kunai
+		Tooltip:
+			'''
+			You throw a kunai every 3rd shot
+			"It is not the weapon, YOU are the weapon"
+			'''
+	}
+
+	WheelOfHarmony: {
+		DisplayName: Wheel Of Harmony
+		Tooltip:
+			'''
+			You heal for 1/2 of an attack's damage after getting hit by it 2 times in a row
+			"The ability to adapt to any and all phenomena"
+			'''
+		TooltipAlt:
+			'''
+			You reflect every attack of the same type that hits you 2 times in a row within a short period of time
+			"The ability to adapt to any and all phenomena"
+			'''
+		TooltipChange: You can switch this item's function by right-clicking it in inventory
+	}
+
+	AdamantineTalisman: {
+		DisplayName: Adamantine Talisman
+		Tooltip:
+			'''
+			Damage for hits against you is always rolled in your favour
+			"Proficiency on saving throws"
+			'''
+	}
+
+	Revelation: {
+		DisplayName: Revelation
+		Tooltip:
+			'''
+			Press {0} to place a mini-star that charges up a beam of light
+			""
+			'''
+	}
+
+	WoodenDice: {
+		DisplayName: Lucky Dice
+		Tooltip:
+			'''
+			Damage for hits against you is rolled twice, and the damage is set to the lower result
+			"A saving throw with advantage"
+			'''
+	}
 }
 
 Buffs: {
@@ -396,6 +459,11 @@ Buffs: {
 		DisplayName: Magnetic Field
 		Description: Extra attractive
 	}
+
+	ReverseCT: {
+		DisplayName: Reverse Cursed Technique
+		Description: Gain unnatural life regeneration
+	}
 }
 
 Projectiles: {
@@ -411,8 +479,14 @@ Projectiles: {
 	Cleave.DisplayName: Cleave
 	HolyMantleBurst.DisplayName: Holy Mantle Burst
 	HeavyBlowThing.DisplayName: Heavy Blow Thing
+	FlyingKunai.DisplayName: Flying Kunai
+	LightBeam.DisplayName: Light Beam
 }
 
-Keybinds.BrokenWatch.DisplayName: Broken Watch
+Keybinds: {
+	BrokenWatch.DisplayName: Broken Watch
+	Revelation.DisplayName: Revelation
+}
+
 Tiles.PaleOreTile.MapEntry: Pale Ore
 WorldGen.WorldGenTutorialOresPassMessage: Who up paling they ore

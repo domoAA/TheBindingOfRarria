@@ -28,7 +28,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (item.type == ItemID.FrozenCrate || item.type == ItemID.FrozenCrateHard)
             {
-                var rule = ItemDropRule.Common(ModContent.ItemType<PaleOre>(), 6, 7, 14);
+                var rule = ItemDropRule.Common(ModContent.ItemType<PaleOre>(), 9, 2, 5);
                 itemLoot.Add(rule);
             }
         }
@@ -69,7 +69,10 @@ namespace TheBindingOfRarria.Content.Items
             var pos = XY + new Point(x, y);
             var neighbor = Main.tile[pos];
 
-            if (WorldGen.SolidOrSlopedTile(neighbor) && neighbor.TileType == TileID.IceBlock)
+            if (neighbor.TileType == ModContent.TileType<PaleOreTile>())
+                neighbor = Main.tile[x + Main.rand.Next(-1, 2), y + Main.rand.Next(-1, 2)];
+
+            else if (WorldGen.SolidOrSlopedTile(neighbor) && neighbor.TileType == TileID.IceBlock)
             {
                 neighbor.ResetToType((ushort)ModContent.TileType<PaleOreTile>());
                 WorldGen.SquareTileFrame(pos.X, pos.Y);
@@ -116,9 +119,9 @@ namespace TheBindingOfRarria.Content.Items
         {
             progress.Message = WorldGenTutorialSystem.WorldGenTutorialOresPassMessage.Value;
 
-            for (int a = 2; a > 0; a--)
+            for (int a = 3; a > 1; a--)
             {
-                for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 0.00001); k++)
+                for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 0.000003 * a); k++)
                 {
                     int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                     int y = WorldGen.genRand.Next((int)GenVars.rockLayerLow, Main.UnderworldLayer - 100);
@@ -136,7 +139,7 @@ namespace TheBindingOfRarria.Content.Items
 
                     Dictionary<ushort, int> WhiteList = [];
                     WorldUtils.Gen(point, new Shapes.Rectangle(20, 20), new Actions.TileScanner(TileID.Stone, TileID.IceBlock).Output(WhiteList));
-                    int WhitelistedBlocksCount = a == 1 ? WhiteList[TileID.Stone] + WhiteList[TileID.IceBlock] : WhiteList[TileID.IceBlock];
+                    int WhitelistedBlocksCount = a == 2 ? WhiteList[TileID.Stone] + WhiteList[TileID.IceBlock] : WhiteList[TileID.IceBlock];
 
                     if (WhitelistedBlocksCount < 250)
                     {
@@ -145,7 +148,7 @@ namespace TheBindingOfRarria.Content.Items
                     }
 
 
-                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(2, 6), ModContent.TileType<PaleOreTile>());
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 5), WorldGen.genRand.Next(2, 6), ModContent.TileType<PaleOreTile>());
                 }
             }
         }

@@ -13,4 +13,50 @@
 		
 	</ItemGroup>
 
+	<!-- Global usings -->
+	<ItemGroup>
+		<Using Include="System" />
+		<Using Include="System.Linq" />
+		<Using Include="System.IO" />
+		<Using Include="System.Text" />
+		<Using Include="System.Collections" />
+		<Using Include="System.Collections.Generic" />
+		<Using Include="System.Collections.ObjectModel" />
+
+		<Using Include="Microsoft.Xna.Framework" />
+		<Using Include="Microsoft.Xna.Framework.Graphics" />
+		<Using Include="Microsoft.Xna.Framework.Content" />
+		<Using Include="Microsoft.Xna.Framework.Audio" />
+		<Using Include="Microsoft.Xna.Framework.Input" />
+		<Using Include="Microsoft.Xna.Framework.MathHelper" Static="True" />
+
+		<Using Include="Terraria" />
+		<Using Include="Terraria.Audio" />
+		<Using Include="Terraria.DataStructures" />
+		<Using Include="Terraria.ID" />
+		<Using Include="Terraria.IO" />
+		<Using Include="Terraria.GameContent" />
+		<Using Include="Terraria.Localization" />
+		<Using Include="Terraria.ModLoader" />
+		<Using Include="Terraria.ModLoader.IO" />
+		<Using Include="Terraria.GameContent.ItemDropRules" />
+		<Using Include="Terraria.Utilities" />
+		
+
+		<Using Include="ReLogic.Content" />
+		<Using Include="ReLogic.Graphics" />
+
+		<Using Include="TheBindingOfRarria" />
+		<Using Include="TheBindingOfRarria.Common" />
+		<Using Include="TheBindingOfRarria.Common.GeneralExtensions"  Static="True" />
+		<Using Include="TheBindingOfRarria.Common.PixellationSystem"  Static="True" />
+		<Using Include="TheBindingOfRarria.Common.Config"/>
+		<Using Include="TheBindingOfRarria.Content" />
+		<Using Include="TheBindingOfRarria.Content.Items" />
+		<Using Include="TheBindingOfRarria.Content.Projectiles" />
+		<Using Include="TheBindingOfRarria.Content.Projectiles.ProjectileExtensions"  Static="True" />
+		<Using Include="TheBindingOfRarria.Content.Buffs" />
+		<Using Include="TheBindingOfRarria.Content.Dusts" />
+	</ItemGroup>
+
 </Project>

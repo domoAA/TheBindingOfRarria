@@ -1,10 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -25,14 +18,10 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.idStaticNPCHitCooldown = 15;
         }
         public bool cleaved = false;
-        public override bool ShouldUpdatePosition()
-        {
-            return false;
-        }
-        public override bool? CanHitNPC(NPC target)
-        {
-            return false;
-        }
+        public override bool ShouldUpdatePosition() => false;
+        
+        public override bool? CanHitNPC(NPC target) => false;
+        
         public override void AI()
         {
             if (Projectile.ai[0] < 4)
@@ -48,7 +37,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 cleaved = true;
                 var color = Color.DarkGray;
 
-                a.SpawnDust(ModContent.DustType<PixelatedDustParticle>(), 8f * Projectile.scale, 0.7f * Projectile.scale, color, 7, 35, 0.9f, a.DirectionFrom(Projectile.Center).ToRotation() + MathHelper.PiOver2, 2, -0.05f);
+                a.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 8f * Projectile.scale, 0.7f * Projectile.scale, color, 7, 35, 0.9f, a.DirectionFrom(Projectile.Center).ToRotation() + MathHelper.PiOver2, 2, -0.05f);
 
                 var sound = SoundID.Item14;
                 sound.Pitch -= 0.4f;

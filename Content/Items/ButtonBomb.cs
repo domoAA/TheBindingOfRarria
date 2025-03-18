@@ -19,7 +19,7 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 30;
             Item.height = 32;
             Item.accessory = true;
-            Item.value = Item.buyPrice(0, 1);
+            Item.value = Item.buyPrice(0, 0, 60);
             Item.rare = ItemRarityID.Green;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)

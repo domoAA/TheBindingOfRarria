@@ -1,6 +1,3 @@
-using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
