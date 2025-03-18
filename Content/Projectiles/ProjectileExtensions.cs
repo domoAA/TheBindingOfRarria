@@ -1,13 +1,3 @@
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using TheBindingOfRarria.Common;
-using Terraria.ModLoader.IO;
-using System.IO;
-using Terraria.DataStructures;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -69,20 +59,18 @@ namespace TheBindingOfRarria.Content.Projectiles
     }
     public static class ProjectileExtensions
     {
-        public static Texture2D MyTexture(this Projectile projectile) 
-        { 
-            return Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
-        }
-        public static bool ReflectCheck(this Projectile projectile, Projectile target, Predicate<Projectile> predicate)
-        {
-            return predicate(target);
-        }
-        public static bool ReflectCheck(this Projectile projectile, Projectile target)
-        {
-            var predicate = new Predicate<Projectile>(proj => proj.velocity.LengthSquared() > 1 && proj.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed > 0 && proj.type != projectile.type && proj.hostile && projectile.Colliding(proj.getRect(), projectile.getRect()));
-
-            return predicate(target);
-        }
+        public static Texture2D MyTexture(this Projectile projectile) => TextureAssets.Projectile[projectile.type].Value;
+        
+        public static bool ReflectCheck(this Projectile projectile, Projectile target, Predicate<Projectile> predicate) => predicate(target);
+        
+        public static bool ReflectCheck(this Projectile projectile, Projectile target) =>  new Predicate<Projectile>(
+            proj => 
+            proj.velocity.LengthSquared() > 1 
+            && proj.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed > 0 
+            && proj.type != projectile.type 
+            && proj.hostile 
+            && projectile.Colliding(proj.getRect(), projectile.getRect()))(target);
+        
         public static void ReflectProjectiles(this Projectile projectile, float chance = 1f)
         {
             foreach (var proj in Main.ActiveProjectiles)
@@ -109,6 +97,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static void GetReflected(this Projectile projectile)
         {
+            projectile.damage *= 2;
             projectile.velocity = -projectile.velocity;
             projectile.hostile = false;
             projectile.friendly = true;
@@ -133,31 +122,31 @@ namespace TheBindingOfRarria.Content.Projectiles
                 projectile.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = (state, duration);
             }
         }
-        public static void DrawPixellated(this Projectile projectile, Color color, byte alpha, SpriteEffects effects, PixellationSystem.RenderType renderType)
+        public static void DrawPixellated(this Projectile projectile, Color color, byte alpha, SpriteEffects effects, RenderType renderType)
         {
-            var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
+            var texture = TextureAssets.Projectile[projectile.type].Value;
             var scale = projectile.scale;
             color.A += alpha;
 
-            PixellationSystem.QueuePixelationAction(() => {
+            QueuePixelationAction(() => {
                 Main.EntitySpriteDraw(texture, (projectile.Center - Main.screenPosition) / 2, texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, effects, 0);
             }, renderType);
         }
         public static void DrawPixellated(this Projectile projectile)
         {
-            var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
+            var texture = TextureAssets.Projectile[projectile.type].Value;
             var scale = projectile.scale;
 
-            PixellationSystem.QueuePixelationAction(() => {
+            QueuePixelationAction(() => {
                 Main.EntitySpriteDraw(texture, (projectile.Center - Main.screenPosition) / 2, texture.Bounds, Color.White, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
-            }, PixellationSystem.RenderType.AlphaBlend);
+            }, RenderType.AlphaBlend);
         }
         public static void DrawWithTransparency(this Projectile projectile, Color color, byte alpha)
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
             Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
-            var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
+            var texture = TextureAssets.Projectile[projectile.type].Value;
             var scale = projectile.scale * Main.GameZoomTarget;
             color.A += alpha;
             Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
@@ -171,7 +160,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
             Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
-            var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
+            var texture = TextureAssets.Projectile[projectile.type].Value;
             color.A += alpha;
             var scale = projectile.scale * Main.GameZoomTarget;
             for (int i = 0; i < layers; i++)
@@ -191,7 +180,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
             Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
-            var texture = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
+            var texture = TextureAssets.Projectile[projectile.type].Value;
             color.A += alpha;
             var scale = projectile.scale * Main.GameZoomTarget;
             for (int i = 0; i < layers; i++)
@@ -213,11 +202,10 @@ namespace TheBindingOfRarria.Content.Projectiles
             //Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
 
             color.A += alpha;
-            scale *= Main.GameZoomTarget;
 
-            var rotation = projectile.rotation;
+            var rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2 * 3;
             var texture = textureEnd;
-            var position = (projectile.Center + projectile.Center.DirectionFrom(Main.player[projectile.owner].Center) * 30 * Main.GameZoomTarget - Main.screenPosition) / 2;
+            var position = (projectile.Center  - Main.screenPosition) / 2 + projectile.velocity.SafeNormalize(Vector2.Zero) * 7;
 
             for (int parts = 2; parts > -1; parts--)
             {
@@ -234,14 +222,14 @@ namespace TheBindingOfRarria.Content.Projectiles
                 scale += scaleStep * layers;
                 color.A = alpha;
 
-                position += new Vector2(projectile.height * 15f, 0).RotatedBy(rotation + MathHelper.PiOver2) / 2;
+                position += projectile.velocity;
                 rotation += MathHelper.Pi;
 
                 if (parts == 1)
                 {
                     texture = textureBody;
-                    position += new Vector2(projectile.height * 15f, 0).RotatedBy(rotation + MathHelper.PiOver2) * 0.5f / 2;
-                    scale.Y = (new Vector2(projectile.height * 15f, 0).RotatedBy(rotation + MathHelper.PiOver2).Length() / 2 - textureEnd.Height * Main.GameZoomTarget) / textureBody.Height;
+                    position -= projectile.velocity * 1.5f;
+                    scale.Y = (projectile.velocity.Length() - textureEnd.Height * Main.GameZoomTarget) / textureBody.Height;
                     scaleStep.Y = 0;
                     layers--;
                 }

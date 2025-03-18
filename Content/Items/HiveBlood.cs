@@ -1,9 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -27,10 +21,8 @@ namespace TheBindingOfRarria.Content.Items
     public class HiveBloodPlayer : ModPlayer
     {
         public bool RespectsBees = false;
-        public override void ResetEffects()
-        {
-            RespectsBees = false;
-        }
+        public override void ResetEffects() => RespectsBees = false;
+        
         public void BeeHeal(int damage)
         {
             if (!RespectsBees || Main.myPlayer != Player.whoAmI)
@@ -43,16 +35,10 @@ namespace TheBindingOfRarria.Content.Items
             // Those they don't sting
             // Those they bring honey for
         }
-        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
-        {
-            BeeHeal(hurtInfo.Damage);
-            base.OnHitByProjectile(proj, hurtInfo);
-        }
-        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
-        {
-            BeeHeal(hurtInfo.Damage);
-            base.OnHitByNPC(npc, hurtInfo);
-        }
+        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo) => BeeHeal(hurtInfo.Damage);
+
+        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo) => BeeHeal(hurtInfo.Damage);
+
     }
     public class QBBagLoot : GlobalItem
     {

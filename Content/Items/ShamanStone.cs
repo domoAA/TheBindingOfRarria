@@ -1,8 +1,3 @@
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -37,10 +32,8 @@ namespace TheBindingOfRarria.Content.Items
     public class ShamanSnailPlayer : ModPlayer
     {
         public bool ShamanStone = false;
-        public override void ResetEffects()
-        {
-            ShamanStone = false;
-        }
+        public override void ResetEffects() => ShamanStone = false;
+        
     }
     public class ShamanSnailGlobalProjectile : GlobalProjectile 
     {
@@ -48,10 +41,8 @@ namespace TheBindingOfRarria.Content.Items
         public override bool InstancePerEntity => true;
         public bool CastByShaman = false;
 
-        public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
-        {
-            return entity.friendly && entity.DamageType == DamageClass.Magic;
-        }
+        public override bool AppliesToEntity(Projectile entity, bool lateInstantiation) => entity.friendly && entity.DamageType == DamageClass.Magic;
+        
         public override bool PreAI(Projectile projectile)
         {
             if (!CastByShaman && Main.player[projectile.owner].GetModPlayer<ShamanSnailPlayer>().ShamanStone)

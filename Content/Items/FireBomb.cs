@@ -1,8 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -16,13 +11,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 0, 80);
             Item.rare = ItemRarityID.LightRed;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<ExplotaroPlayer>().Bomboclat = Item;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ExplotaroPlayer>().Bomboclat = Item;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.Bomb)
                 .AddIngredient(ItemID.LivingFireBlock, 8)
                 .AddIngredient(ItemID.ExplosivePowder, 13)
@@ -35,10 +28,8 @@ namespace TheBindingOfRarria.Content.Items
     public class ExplotaroPlayer : ModPlayer
     {
         public Item Bomboclat = null;
-        public override void ResetEffects()
-        {
-            Bomboclat = null;
-        }
+        public override void ResetEffects() => Bomboclat = null;
+        
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Bomboclat != null)

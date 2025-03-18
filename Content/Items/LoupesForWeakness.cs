@@ -1,6 +1,3 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -14,13 +11,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 1);
             Item.rare = ItemRarityID.Pink;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<RatioPlayer>().Nanamin = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<RatioPlayer>().Nanamin = true;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.HoneyedGoggles)
                 .AddIngredient(ItemID.SoulofSight, 20)
                 .AddTile(TileID.MythrilAnvil)
@@ -32,10 +27,8 @@ namespace TheBindingOfRarria.Content.Items
     public class RatioPlayer : ModPlayer
     {
         public bool Nanamin = false;
-        public override void ResetEffects()
-        {
-            Nanamin = false;
-        }
+        public override void ResetEffects() => Nanamin = false;
+        
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Nanamin)

@@ -1,10 +1,3 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Items;
-using TheBindingOfRarria.Common;
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
@@ -50,7 +43,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             else if (Projectile.timeLeft == 12 && bomba != null)
             {
                 var color = Color.White;
-                Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixelatedDustParticle>(), 2.2f, Main.rand.NextFloat(0.8f, 1.6f), color, 2, -1.12f, MathHelper.PiOver4);
+                Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixellatedDustE98>(), 2.2f, Main.rand.NextFloat(0.8f, 1.6f), color, 2, -1.12f, MathHelper.PiOver4);
                 
                 var sound = SoundID.Item14;
                 sound.Pitch += 0.8f;
@@ -69,7 +62,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             Projectile.scale = 0.5f;
             if (Projectile.timeLeft > 12)
-                Projectile.DrawPixellated(lightColor, 220, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, PixellationSystem.RenderType.Additive);
+                Projectile.DrawPixellated(lightColor, 220, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, RenderType.Additive);
             
             return false;
         }

@@ -1,11 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -30,7 +22,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             frame = new Rectangle(0, Frame * frame.Height / 2, frame.Width, frame.Height / 2);
             origin = frame.Size() / 2;
-            var texture = Terraria.GameContent.TextureAssets.Item[Item.type].Value;
+            var texture = TextureAssets.Item[Item.type].Value;
             spriteBatch.Draw(texture, position, frame, drawColor, 0, origin, scale * 2, SpriteEffects.None, 0);
             return false;
         }
@@ -44,7 +36,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.PowerGlove)
                 .AddIngredient(ItemID.TitanGlove)
                 .AddIngredient(ItemID.LifeCrystal, 3)

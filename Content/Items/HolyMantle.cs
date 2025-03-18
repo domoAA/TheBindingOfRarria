@@ -1,9 +1,3 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Buffs;
-using TheBindingOfRarria.Content.Projectiles;
-using Microsoft.Xna.Framework;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -17,13 +11,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 5);
             Item.rare = ItemRarityID.LightRed;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<ProtectedPlayer>().protection = Item;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ProtectedPlayer>().protection = Item;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.CrossNecklace)
                 .AddIngredient(ItemID.ShimmerCloak)
                 .AddIngredient(ItemID.SoulofLight, 3)
@@ -37,10 +29,8 @@ namespace TheBindingOfRarria.Content.Items
     {
         public Item protection = null;
         public int CD = 0;
-        public override void ResetEffects()
-        {
-            protection = null;
-        }
+        public override void ResetEffects() => protection = null;
+        
         public override void PostUpdateEquips()
         {
             if (!Player.HasBuff(ModContent.BuffType<HolyProtection>()))

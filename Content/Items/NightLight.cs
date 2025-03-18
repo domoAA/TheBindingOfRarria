@@ -1,7 +1,3 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -15,13 +11,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 8);
             Item.rare = ItemRarityID.Pink;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<LightCone>(), player.GetSource_Accessory(Item));
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<LightCone>(), player.GetSource_Accessory(Item));
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.FastClock)
                 .AddIngredient(ItemID.SoulofLight, 10)
                 .AddIngredient(ItemID.Glass, 20)
@@ -29,7 +23,7 @@ namespace TheBindingOfRarria.Content.Items
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
 
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.FastClock)
                 .AddIngredient(ItemID.SoulofLight, 10)
                 .AddIngredient(ItemID.Glass, 20)

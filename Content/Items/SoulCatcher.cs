@@ -1,7 +1,3 @@
-using Terraria.ModLoader;
-using Terraria;
-using System;
-using Terraria.ID;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -15,13 +11,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.rare = ItemRarityID.Green;
             Item.value = Item.buyPrice(0, 0, 60);
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<SoulPlayer>().IsSoul = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SoulPlayer>().IsSoul = true;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ModContent.ItemType<PaleOre>(), 24)
                 .AddIngredient(ItemID.ManaCrystal)
                 .AddTile(TileID.Furnaces)

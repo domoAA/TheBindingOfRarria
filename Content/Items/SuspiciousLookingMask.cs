@@ -1,8 +1,3 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -38,7 +33,7 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.BoneHelm)
                 .AddIngredient(ModContent.ItemType<MedicalIceBag>())
                 .AddIngredient(ItemID.Vitamins)
@@ -52,10 +47,8 @@ namespace TheBindingOfRarria.Content.Items
     public class CrazyPlayer : ModPlayer
     {
         public Item Insanity = null;
-        public override void ResetEffects()
-        {
-            Insanity = null;
-        }
+        public override void ResetEffects() => Insanity = null;
+        
         public void OnHitByAnything(Player.HurtInfo info, Vector2 target)
         {
             for (int i = Main.rand.Next(1, 3); i > 0; i--)

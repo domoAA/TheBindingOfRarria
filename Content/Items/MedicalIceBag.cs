@@ -1,9 +1,3 @@
-using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria;
-using TheBindingOfRarria.Content.Buffs;
-using System;
-using Terraria.GameContent.ItemDropRules;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -36,16 +30,10 @@ namespace TheBindingOfRarria.Content.Items
     public class MedicatedPlayer : ModPlayer
     {
         public bool Cool = false;
-        public override void ResetEffects()
-        {
-            base.ResetEffects();
-            Cool = false;
-        }
-        public override void Load()
-        {
-            base.Load();
-            Terraria.On_Player.AddBuff_DetermineBuffTimeToAdd += CoolBuffTime;
-        }
+        public override void ResetEffects() => Cool = false;
+        
+        public override void Load() => On_Player.AddBuff_DetermineBuffTimeToAdd += CoolBuffTime;
+        
 
         private int CoolBuffTime(On_Player.orig_AddBuff_DetermineBuffTimeToAdd orig, Player self, int type, int time1)
         {

@@ -1,7 +1,3 @@
-using Terraria;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -15,13 +11,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.rare = ItemRarityID.LightRed;
             Item.value = Item.buyPrice(0, 1, 33, 33);
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<SweetPlayer>().Sweetie = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SweetPlayer>().Sweetie = true;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.CrimsonHeart)
                 .AddIngredient(ItemID.LifeCrystal, 2)
                 .AddIngredient(ItemID.SoulofLight, 8)
@@ -34,11 +28,8 @@ namespace TheBindingOfRarria.Content.Items
     public class SweetPlayer : ModPlayer
     {
         public bool Sweetie = false;
-        public override void ResetEffects()
-        {
-            Sweetie = false;
-            base.ResetEffects();
-        }
+        public override void ResetEffects() => Sweetie = false;
+        
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             base.OnHitNPC(target, hit, damageDone);

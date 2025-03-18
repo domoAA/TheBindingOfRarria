@@ -1,9 +1,3 @@
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Projectiles;
-using Microsoft.Xna.Framework;
 
 namespace TheBindingOfRarria.Content.Items
 {
@@ -19,16 +13,14 @@ namespace TheBindingOfRarria.Content.Items
             Item.width = 30;
             Item.height = 32;
             Item.accessory = true;
-            Item.value = Item.buyPrice(0, 1);
+            Item.value = Item.buyPrice(0, 0, 60);
             Item.rare = ItemRarityID.Green;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<ButtonBombPlayer>().Button = Item;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ButtonBombPlayer>().Button = Item;
+        
         public override void AddRecipes()
         {
-            Recipe.Create(Item.type)
+            CreateRecipe()
                 .AddIngredient(ItemID.Grenade, 10)
                 .AddIngredient(ItemID.CopperBar, 4)
                 .AddIngredient(ItemID.RedDye, 2)
@@ -41,10 +33,8 @@ namespace TheBindingOfRarria.Content.Items
     public class ButtonBombPlayer : ModPlayer
     {
         public Item Button = null;
-        public override void ResetEffects()
-        {
-            Button = null;
-        }
+        public override void ResetEffects() => Button = null;
+        
         public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Button == null || proj.type == ModContent.ProjectileType<Extra98Bomb>() || proj.type == ModContent.ProjectileType<FireExplotaro>())
