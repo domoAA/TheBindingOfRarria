@@ -143,57 +143,57 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static void DrawWithTransparency(this Projectile projectile, Color color, byte alpha)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
             var texture = TextureAssets.Projectile[projectile.type].Value;
             var scale = projectile.scale * Main.GameZoomTarget;
-            color.A += alpha;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+            color *= (alpha * (1f / 255f));
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, texture.Bounds, color with { A = 0 }, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
         public static void DrawWithTransparency(this Projectile projectile, Rectangle rect, Color color, byte alpha, int layers, byte layerAlphaStep, float layerScaleStep)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
             var texture = TextureAssets.Projectile[projectile.type].Value;
-            color.A += alpha;
+            color *= (alpha * (1f / 255f));
             var scale = projectile.scale * Main.GameZoomTarget;
             for (int i = 0; i < layers; i++)
             {
                 color.A += layerAlphaStep;
                 scale -= layerScaleStep;
 
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, rect, color, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, rect, color with { A = 0 }, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
         public static void DrawWithTransparency(this Projectile projectile, Vector2 drawOffset, Rectangle rect, Color color, byte alpha, int layers, byte layerAlphaStep, float layerScaleStep)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
             var texture = TextureAssets.Projectile[projectile.type].Value;
-            color.A += alpha;
+            color *= (alpha * (1 / 255f));
             var scale = projectile.scale * Main.GameZoomTarget;
             for (int i = 0; i < layers; i++)
             {
                 color.A += layerAlphaStep;
                 scale -= layerScaleStep;
 
-                Main.spriteBatch.Draw(texture, (projectile.Center + drawOffset - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), rect, color, projectile.rotation, rect.Size() / 2, scale / 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture, (projectile.Center + drawOffset - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), rect, color with { A = 0 }, projectile.rotation, rect.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
         public static void DrawLightBeam(this Projectile projectile, Texture2D textureEnd, Texture2D textureBody, Color color, byte alpha, byte alphaStep, Vector2 scale, Vector2 scaleStep, int layers)
         {
@@ -223,7 +223,7 @@ namespace TheBindingOfRarria.Content.Projectiles
                 color.A = alpha;
 
                 position += projectile.velocity;
-                rotation += MathHelper.Pi;
+                rotation += Pi;
 
                 if (parts == 1)
                 {

@@ -1,4 +1,5 @@
 
+
 namespace TheBindingOfRarria.Content.Projectiles
 {
     public class LightBeam : ModProjectile
@@ -29,6 +30,13 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.width = (int)(24 * Projectile.scale);
             Projectile.height = (int)(24 * Projectile.scale);
 
+            if (Projectile.timeLeft == 330)
+            {
+                var sound = SoundID.DD2_WitherBeastAuraPulse;
+                sound.Volume = 185f;
+                sound.Pitch = -0.5f;
+                SoundEngine.PlaySound(sound);
+            }
 
             CD--;
             if (CD < 0)
@@ -62,6 +70,12 @@ namespace TheBindingOfRarria.Content.Projectiles
             target.StrikeNPC(info);
             NetMessage.SendStrikeNPC(target, info);
         }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
+            Main.instance.DrawCacheNPCsOverPlayers.Add(index);
+            overPlayers.Add(index);
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             var time = 400 - Projectile.timeLeft;
@@ -69,16 +83,17 @@ namespace TheBindingOfRarria.Content.Projectiles
             if (Projectile.timeLeft <= 360)
             {
 
-                byte alpha = 50;
+                byte alpha = 30;
 
                 QueuePixelationAction(() =>
                 {
-                    Projectile.DrawLightBeam(TheBindingOfRarria.BeamEnd.Value, TheBindingOfRarria.BeamBody.Value, Color.LightYellow, alpha, 1, new Vector2(power, 1), new Vector2(0.04f, 0f), 15);
+                    Projectile.DrawLightBeam(TheBindingOfRarria.BeamEnd.Value, TheBindingOfRarria.BeamBody.Value, Color.LightYellow, alpha, 1, new Vector2(power, 1), new Vector2(0.04f, 0f), 13);
                 }, RenderType.Additive);
             }
-                var texture = Terraria.GameContent.TextureAssets.Projectile[ModContent.ProjectileType<Extra98Bomb>()].Value;
-                texture.DrawWithTransparency((Projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, Color.LightYellow, 30, 3, Projectile.scale * 2 * float.Sin(power), 0.02f, 4);
-            
+                var texture = TextureAssets.Projectile[ModContent.ProjectileType<Extra98Bomb>()].Value;
+                texture.DrawWithTransparency((Projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, power * float.Sin(power), Color.LightYellow, 10, 3, Projectile.scale * (float.Sin(power) * float.Sqrt(Math.Abs(float.Sin(power))) + 1f), 0.02f, 4);
+                //texture.DrawWithTransparency((Projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, power * float.Cos(power), Color.LightYellow, 10, 3, Projectile.scale * (float.Sin(power) * float.Sqrt(Math.Abs(float.Sin(power))) + 0.7f), 0.02f, 4);
+
             return false;
         }
     }

@@ -41,7 +41,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             var color = Projectile.friendly ? Color.DeepSkyBlue : Color.DarkBlue;
-            Projectile.DrawWithTransparency(color, 100);
+            Projectile.DrawWithTransparency(color, 150);
             Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3() * Projectile.ai[0] / 3);
             return false;
         }

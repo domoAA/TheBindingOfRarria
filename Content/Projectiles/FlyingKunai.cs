@@ -25,12 +25,12 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var texture = Terraria.GameContent.TextureAssets.Projectile[ProjectileID.ThrowingKnife].Value;
+            var texture = TextureAssets.Projectile[ProjectileID.ThrowingKnife].Value;
             var color = lightColor;
             var darkColor = color.MultiplyRGB(Color.DarkGray);
-            darkColor.A = 200;
-            var brightColor = color.MultiplyRGB(Color.GhostWhite);
-            brightColor.A = 200;
+            darkColor.A = 150;
+            var brightColor = color.MultiplyRGB(Color.Gray);
+            brightColor.A = 150;
             var p = Projectile;
 
             Main.EntitySpriteDraw(texture, p.Center - Main.screenPosition, null, darkColor, p.rotation, texture.Size() / 2, p.scale, SpriteEffects.None);

@@ -32,7 +32,7 @@ namespace TheBindingOfRarria.Content.Buffs
         {
             if (npc.HasBuff(ModContent.BuffType<MagneticField>()))
             {
-                var texture = Terraria.GameContent.TextureAssets.Projectile[ModContent.ProjectileType<RepellingPulse>()].Value;
+                var texture = TextureAssets.Projectile[ModContent.ProjectileType<RepellingPulse>()].Value;
                 texture.DrawWithTransparency(npc.Center - Main.screenPosition, 1 + npc.Size.Length() / 100, Color.SteelBlue, 90);
                 Lighting.AddLight(npc.Center, Color.SteelBlue.ToVector3() * (npc.Size.Length() / 100));
             }

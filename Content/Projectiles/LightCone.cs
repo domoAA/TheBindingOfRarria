@@ -66,7 +66,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Projectile.scale = 3;
-            Projectile.DrawWithTransparency(Projectile.Center.DirectionTo(Main.player[Projectile.owner].Center) * Projectile.Center.Distance(Main.player[Projectile.owner].Center) / 2, Projectile.MyTexture().Bounds, Color.LightYellow, 2, 13, 1, 0.04f);
+            Projectile.DrawWithTransparency(Projectile.Center.DirectionTo(Main.player[Projectile.owner].Center) * Projectile.Center.Distance(Main.player[Projectile.owner].Center) / 2, Projectile.MyTexture().Bounds, Color.LightYellow, 50, 1, 1, 0.04f);
             return false;
         }
         public static bool IsPointInTriangle(Vector2 point, Vector2 a, Vector2 b, Vector2 c)
