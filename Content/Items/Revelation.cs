@@ -27,7 +27,7 @@ namespace TheBindingOfRarria.Content.Items
             if ((KeybindSystem.LightBeamKey.JustPressed || (KeybindSystem.LightBeamKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.L))) && Main.myPlayer == Player.whoAmI && counter <= 0 && revelation != null)
             {
                 counter = 60;
-                Projectile.NewProjectile(Player.GetSource_Accessory(revelation), Player.Center, (Player.Center - Main.screenPosition).DirectionTo(new(Main.mouseX, Main.mouseY)) * 500, ModContent.ProjectileType<LightBeam>(), 28, 2, Player.whoAmI);
+                Projectile.NewProjectile(Player.GetSource_Accessory(revelation), Player.Center - new Vector2(12, 12), (Player.Center - Main.screenPosition).DirectionTo(new(Main.mouseX, Main.mouseY)) * 500, ModContent.ProjectileType<LightBeam>(), 28, 2, Player.whoAmI);
             }
         }
     }

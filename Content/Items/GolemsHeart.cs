@@ -31,7 +31,7 @@ namespace TheBindingOfRarria.Content.Items
     public class PulsingGolem : GlobalNPC
     {
         public override bool InstancePerEntity => true;
-        public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => return entity.type == NPCID.GraniteGolem;
+        public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => entity.type == NPCID.GraniteGolem;
         
         public Projectile HeartBeat = null;
         public override void OnSpawn(NPC npc, IEntitySource source)

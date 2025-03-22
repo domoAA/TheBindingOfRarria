@@ -21,8 +21,28 @@ namespace TheBindingOfRarria.Content.Items
     public class SpikeImmunePlayer : ModPlayer
     {
         public bool SpikeImmune;
+        public bool Immune = false;
         public override void ResetEffects() => SpikeImmune = false;
         
+        public override bool FreeDodge(Player.HurtInfo info)
+        {
+            if (Immune)
+            {
+                Player.immune = true;
+                Player.immuneTime = 40;
+                Immune = false;
+                return true;
+            }
+            return base.FreeDodge(info);
+        }
+        public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
+        {
+            if (SpikeImmune)
+            {
+                if (proj.type == ProjectileID.Boulder || proj.type == ProjectileID.PoisonDartTrap || proj.type == ProjectileID.SpearTrap || proj.type == ProjectileID.SpikyBallTrap || proj.type == ProjectileID.GeyserTrap || proj.type == ProjectileID.PoisonDart || proj.type == ProjectileID.FlamethrowerTrap || proj.type == ProjectileID.Explosives || proj.type == ProjectileID.GasTrap || proj.type == ProjectileID.FlamesTrap || proj.type == ProjectileID.TNTBarrel || proj.type == ProjectileID.LifeCrystalBoulder || proj.type == ProjectileID.RollingCactus || proj.type == ProjectileID.MiniBoulder)
+                    Immune = true;
+            }
+        }
         public override bool ImmuneTo(PlayerDeathReason damageSource, int cooldownCounter, bool dodgeable)
         {
             if (damageSource.SourceOtherIndex == 3 && SpikeImmune)

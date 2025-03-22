@@ -1,4 +1,8 @@
 
+
+
+using System.IO;
+
 namespace TheBindingOfRarria.Content.Items
 {
     public class TheLastFinger : ModItem
@@ -12,11 +16,82 @@ namespace TheBindingOfRarria.Content.Items
             Item.value = Item.buyPrice(0, 1, 12);
             Item.expert = true;
         }
-
+        public int counter = 0;
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statManaMax2 += 100;
             player.aggro -= 500;
+            counter--;
+            if (counter <= 0 && Main.myPlayer == player.whoAmI)
+            {
+                var distance = 400f * 400;
+                var pos = Vector2.Zero;
+                foreach (var target in Main.ActiveNPCs)
+                {
+                    if (target.Center.DistanceSQ(player.Center) < distance && !target.friendly)
+                    {
+                        distance = target.Center.DistanceSQ(player.Center);
+                        pos = target.Center;
+                    }
+                }
+                if (pos != Vector2.Zero)
+                {
+                    counter = 40;
+                    var vel = new Vector2(11f, 11f).RotatedByRandom(TwoPi);
+                    Projectile.NewProjectile(player.GetSource_Accessory(Item, "Thukuna accessory"), pos - vel * 9, vel, ProjectileID.Muramasa, 30, 1, player.whoAmI, 0, 0, 0);
+                }
+            }
+        }
+        public class MuraProj : GlobalProjectile
+        {
+            public override bool InstancePerEntity => true;
+            public override bool AppliesToEntity(Projectile entity, bool lateInstantiation) => entity.type == ProjectileID.Muramasa;
+            public override void OnSpawn(Projectile projectile, IEntitySource source)
+            {
+                if (source != null && source.Context != null && source.Context == "Thukuna accessory")
+                {
+                    projectile.penetrate = -1;
+                    projectile.timeLeft = 30;
+                    projectile.scale *= 1.3f;
+                    SpawnUpdate = true;
+                }
+            }
+            public bool SpawnUpdate = false;
+            public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+            {
+                bitWriter.WriteBit(SpawnUpdate);
+                if (SpawnUpdate)
+                {
+                    binaryWriter.Write(projectile.penetrate);
+                    binaryWriter.Write(projectile.timeLeft);
+                    binaryWriter.Write(projectile.scale);
+                }
+                SpawnUpdate = false;
+            }
+            public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+            {
+                SpawnUpdate = bitReader.ReadBit();
+                if (SpawnUpdate)
+                {
+                    projectile.penetrate = binaryReader.ReadInt32();
+                    projectile.timeLeft = binaryReader.ReadInt32();
+                    projectile.scale = binaryReader.ReadSingle();
+                    SpawnUpdate = false;
+                }
+            }
+            public override void PostAI(Projectile projectile)
+            {
+
+            }
+            public override bool PreDraw(Projectile projectile, ref Color lightColor)
+            {
+                projectile.scale = 2.6f;
+                lightColor.B = 120;
+                lightColor.G = 120;
+                lightColor.R = 240;
+                projectile.DrawWithTransparency(lightColor, 250);
+                return false;
+            }
         }
     }
     public class CrateLootThukunaFinger : GlobalItem

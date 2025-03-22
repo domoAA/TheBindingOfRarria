@@ -41,7 +41,7 @@ namespace TheBindingOfRarria.Content.Items
             if (IsSoul && !SoulTook)
             {
                 SoulTook = true;
-                Player.statMana = Math.Min(Player.statMana + 6, Player.statManaMax2);
+                Player.statMana = Math.Min(Player.statMana + 9, Player.statManaMax2);
                 Player.ManaEffect(6);
             }
         }

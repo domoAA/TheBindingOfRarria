@@ -55,25 +55,13 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void RandomUpdate(int x, int y)
         {
-            if (Main.LocalPlayer.HasBuff(BuffID.Spelunker)) 
-            {
-                int count = 0;
-                for (int X = 100; X < Main.tile.Width - 100; X++)
-                {
-                    for (int Y = 100; Y < Main.tile.Height - 100; Y++)
-                    {
-                        if (Main.tile[X, Y].TileType == ModContent.TileType<PaleOreTile>())
-                            count++;
-                    }
-                }
-                Main.NewText(count);
-            }
+            
             Point XY = new(Main.rand.Next(-1, 2), Main.rand.Next(-1, 2));
 
             var pos = XY + new Point(x, y);
             var neighbor = Main.tile[pos];
 
-            if (Main.rand.NextFloat() < 0.001f)
+            if (Main.rand.NextFloat() < 0.0005f)
             {
                 if (WorldGen.SolidOrSlopedTile(neighbor) && neighbor.TileType == TileID.IceBlock)
                 {
@@ -123,7 +111,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             progress.Message = WorldGenTutorialSystem.WorldGenTutorialOresPassMessage.Value;
 
-                for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 0.00002); k++)
+                for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 0.00001); k++)
                 {
                     int x = WorldGen.genRand.Next(150, Main.maxTilesX - 150);
                     int y = WorldGen.genRand.Next((int)GenVars.rockLayerLow, Main.UnderworldLayer - 100);

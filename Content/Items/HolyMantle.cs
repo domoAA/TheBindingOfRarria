@@ -33,13 +33,13 @@ namespace TheBindingOfRarria.Content.Items
         
         public override void PostUpdateEquips()
         {
-            if (!Player.HasBuff(ModContent.BuffType<HolyProtection>()))
-            CD--;
-
-            if (CD <= 0 && protection != null)
-            {
-                Player.AddBuff(ModContent.BuffType<HolyProtection>(), 2);
-                CD = 3600; }
+            if (protection != null) {
+                if (CD <= 0)
+                {
+                    Player.AddBuff(ModContent.BuffType<HolyProtection>(), 2);
+                }
+                CD--;
+            }
         }
         public override bool FreeDodge(Player.HurtInfo info)
         {
@@ -48,6 +48,7 @@ namespace TheBindingOfRarria.Content.Items
                 int time = Player.longInvince ? 150 : 90;
                 Player.SetImmuneTimeForAllTypes(time);
                 Player.ClearBuff(ModContent.BuffType<HolyProtection>());
+                CD = 3600;
                 Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(protection, info.DamageSource), Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyMantleBurst>(), 0, 0, Player.whoAmI);
                 return true; }
             else 

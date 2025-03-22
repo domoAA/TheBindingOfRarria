@@ -22,10 +22,10 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (kunai != null)
             {
-                counter = counter < 3 ? counter + 1 : 0;
+                counter = counter < 2 ? counter + 1 : 0;
                 if (counter == 0)
                 {
-                    var pos = Player.Center + new Vector2(30, 30).RotatedByRandom(MathHelper.TwoPi);
+                    var pos = Player.Center + new Vector2(30, 30).RotatedByRandom(TwoPi);
 
                     Projectile.NewProjectile(Player.GetSource_Accessory(kunai), pos, (pos - Main.screenPosition).DirectionTo(new Vector2(Main.mouseX, Main.mouseY)) * 14, ModContent.ProjectileType<FlyingKunai>(), damage / 2, 1, Player.whoAmI);
                 }

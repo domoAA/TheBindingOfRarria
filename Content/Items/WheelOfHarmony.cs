@@ -38,21 +38,15 @@ namespace TheBindingOfRarria.Content.Items
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var index = tooltips.FindIndex(t => t.Name.Contains("Tooltip"));
-            if (index == -1)
-                return;
+            var index = tooltips.FindIndex(t => t.Name == $"Tooltip{Frame % 2}");
+            if (index != -1)
+                tooltips.RemoveAt(index);
 
-            tooltips.RemoveAt(index);
-            tooltips.RemoveAt(index);
 
-            var alt = Frame == 0 ? "" : "Alt";
-            var line = new TooltipLine(Mod, "Tooltip0", Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip{alt}"));
+            var change = tooltips.Find(t => t.Name == "Tooltip2");
+            if (change != null)
+                change.OverrideColor = Color.LightSkyBlue;
 
-            var change = new TooltipLine(Mod, "Tooltip1", Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.TooltipChange"));
-            change.OverrideColor = Color.LightSkyBlue;
-
-            tooltips.Insert(index, change);
-            tooltips.Insert(index, line);
         }
     }
     public class MakoraPlayer : ModPlayer
@@ -62,7 +56,45 @@ namespace TheBindingOfRarria.Content.Items
         
         public bool AltFunc = false;
         public int hits = 0;
-        public (bool, int) adaptationType = (false, 0);
+        public (int time, int heal) counter = (30, 0);
+        public (bool proj, int ai) adaptationType = (false, 0);
+        public override void PostUpdate()
+        {
+            if (!AltFunc && adaptable && hits >= 2)
+            {
+                if (counter.time > 0)
+                {
+                    counter.time--;
+                    if (counter.time == 10)
+                    {
+                        var sound = TheBindingOfRarria.AdaptedSound;
+                        sound.Volume = 0.4f;
+                        sound.Pitch = -0.2f;
+                        SoundEngine.PlaySound(sound, Player.Center);
+                    }
+                }
+                else
+                {
+                    Player.Heal(counter.heal);
+                    hits = 0;
+                    counter = (30, 0);
+                }
+            }
+            else if (adaptable && AltFunc)
+            {
+                counter.time--;
+            }
+            else
+                counter = (20, 0);
+        }
+        public static void Creak(Player player)
+        {
+            var sound = TheBindingOfRarria.WheelCreak;
+            sound.Volume = 0.4f;
+            sound.Pitch = -0.6f;
+            sound.PitchVariance = 0.1f;
+            SoundEngine.PlaySound(sound, player.Center);
+        }
         public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
         {
             if (adaptable && !AltFunc)
@@ -76,14 +108,11 @@ namespace TheBindingOfRarria.Content.Items
                     adaptationType = modded ? (false, npc.type) : (false, npc.aiStyle);
                 }
 
-                if (adaptable && hits >= 2)
+                if (adaptable)
                 {
-                    hits = 0;
-                    Player.Heal(Math.Max(1, hurtInfo.Damage / 2));
-                    var sound = TheBindingOfRarria.AdaptedSoundLoud;
-                    sound.Volume = 0.2f;
-                    sound.Pitch = -0.5f;
-                    SoundEngine.PlaySound(sound, Player.Center);
+                    Creak(Player);
+                    if (hits >= 2)
+                        counter.heal += Math.Max(1, hurtInfo.Damage / 2);
                 }
             }
         }
@@ -100,15 +129,11 @@ namespace TheBindingOfRarria.Content.Items
                     adaptationType = modded ? (true, proj.type) : (true, proj.aiStyle);
                 }
 
-                if (adaptable && hits >= 2)
+                if (adaptable)
                 {
-                    hits = 0;
-                    Player.Heal(Math.Max(1, hurtInfo.Damage / 2));
-                    var sound = TheBindingOfRarria.AdaptedSoundLoud;
-                    sound.Volume = 0.3f;
-                    //sound.Pitch = -0.6f;
-                    //sound.PitchVariance = 0.05f;
-                    SoundEngine.PlaySound(sound, Player.Center);
+                    Creak(Player);
+                    if (hits >= 2)
+                        counter.heal += Math.Max(1, hurtInfo.Damage / 2);
                 }
             }
         }
@@ -137,10 +162,16 @@ namespace TheBindingOfRarria.Content.Items
                     adaptationType = modded ? (false, npc.type) : (false, npc.aiStyle);
                 }
 
-                if (adaptable && hits >= 2)
+                if (adaptable && hits >= 2 && counter.time > 0)
                 {
-                    npc.SimpleStrikeNPC(112, -modifiers.HitDirection, false, modifiers.Knockback.ApplyTo(8), DamageClass.Melee, true, Player.luck);
-                    SoundEngine.PlaySound(TheBindingOfRarria.AdaptedSound, Player.Center);
+                    npc.SimpleStrikeNPC(50, -modifiers.HitDirection, false, modifiers.Knockback.ApplyTo(9), DamageClass.Melee, true, Player.luck);
+
+                    Creak(Player);
+                }
+                else
+                {
+                    counter.time = 240;
+                    hits = 1;
                 }
             }
             else if (!adaptable)
@@ -170,7 +201,8 @@ namespace TheBindingOfRarria.Content.Items
                     }
                     else
                         proj.GetReflected();
-                    SoundEngine.PlaySound(TheBindingOfRarria.AdaptedSound, Player.Center);
+
+                    Creak(Player);
                 }
             }
             else if (!adaptable)
