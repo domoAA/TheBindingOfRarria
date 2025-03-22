@@ -5,8 +5,8 @@ namespace TheBindingOfRarria
     {
         public static Asset<Texture2D> BeamBody;
         public static Asset<Texture2D> BeamEnd;
-        public static SoundStyle AdaptedSound = new SoundStyle("TheBindingOfRarria/Common/Assets/mahoragawheel");
-        public static SoundStyle AdaptedSoundLoud = new SoundStyle("TheBindingOfRarria/Common/Assets/mahoragawheel (1)");
+        public static SoundStyle AdaptedSound = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheel");
+        public static SoundStyle WheelCreak = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheelCreak");
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)

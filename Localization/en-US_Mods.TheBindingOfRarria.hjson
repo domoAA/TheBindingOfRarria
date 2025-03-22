@@ -293,6 +293,7 @@ Items: {
 		Tooltip:
 			'''
 			+100 max mana
+			Nearby enemies are constantly slashed
 			Enemies are less likely to target you
 			"Now his remains serve to protect the weak, how ironic"
 			'''
@@ -339,7 +340,7 @@ Items: {
 		DisplayName: Golden Cape
 		Tooltip:
 			'''
-			Grants immunity to spikes and fall damage
+			Grants immunity to fall damage, naturally occuring traps and similar hazards
 			"It doesn't make sense but I love it"
 			'''
 	}
@@ -348,7 +349,7 @@ Items: {
 		DisplayName: Soul Catcher
 		Tooltip:
 			'''
-			Your melee swings recover 6 mana on hit
+			Your melee swings recover 9 mana on hit
 			"Forgotten shaman artifact, used to draw soul from still-living creatures"
 			'''
 	}
@@ -390,23 +391,19 @@ Items: {
 		DisplayName: Wheel Of Harmony
 		Tooltip:
 			'''
-			You heal for 1/2 of an attack's damage after getting hit by it 2 times in a row
-			"The ability to adapt to any and all phenomena"
-			'''
-		TooltipAlt:
-			'''
 			You reflect every attack of the same type that hits you 2 times in a row within a short period of time
+			You heal for 1/2 of an attack's damage after getting hit by it 2 times in a row
+			You can switch this item's function by right-clicking it in inventory
 			"The ability to adapt to any and all phenomena"
 			'''
-		TooltipChange: You can switch this item's function by right-clicking it in inventory
 	}
 
 	AdamantineTalisman: {
 		DisplayName: Adamantine Talisman
 		Tooltip:
 			'''
-			Hits against you always deal the lowest damage possible
-			""
+			Damage for hits against you is always rolled in your favour
+			"Shift the statistics"
 			'''
 	}
 
@@ -416,6 +413,25 @@ Items: {
 			'''
 			Press {0} to place a mini-star that charges up a beam of light
 			""
+			'''
+	}
+
+	WoodenDice: {
+		DisplayName: Lucky Dice
+		Tooltip:
+			'''
+			Damage for hits against you is rolled an additional time, and the damage is set to the lower result
+			"The difference between no luck and max luck"
+			'''
+	}
+
+	TojiNullWeapon: {
+		DisplayName: Inverted pear of Heaven
+		Tooltip: 
+			'''
+			Your melee swings temporarily nullify enemy's contact damage on hit
+			Cooldown: 15 seconds
+			"Would it work on Mahoraga though..."
 			'''
 	}
 }
@@ -454,6 +470,11 @@ Buffs: {
 	ReverseCT: {
 		DisplayName: Reverse Cursed Technique
 		Description: Gain unnatural life regeneration
+	}
+
+	NullifiedPowers: {
+		DisplayName: Nullified Powers
+		Description: Cannot deal damage
 	}
 }
 

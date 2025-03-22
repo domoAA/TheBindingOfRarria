@@ -31,11 +31,11 @@ namespace TheBindingOfRarria.Common
                 Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }, renderType);
         }
-        public static void DrawWithTransparency(this Texture2D texture, Vector2 center, Rectangle? rect, Color color, byte alpha, byte alphaStep, float scale, float scaleStep, int layers)
+        public static void DrawWithTransparency(this Texture2D texture, Vector2 center, Rectangle? rect, float rotation, Color color, byte alpha, byte alphaStep, float scale, float scaleStep, int layers)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
             color.A += alpha;
             scale *= Main.GameZoomTarget;
             for (int i = 0; i < layers; i++)
@@ -43,52 +43,52 @@ namespace TheBindingOfRarria.Common
                 color.A += alphaStep;
                 scale -= scaleStep;
 
-                Main.spriteBatch.Draw(texture, center, rect, color, 0, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture, center, rect, color with { A = 0 }, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
         public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, Color color, byte alpha)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
             color.A += alpha;
             scale *= Main.GameZoomTarget;
-            Main.spriteBatch.Draw(texture, center, texture.Bounds, color, 0, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, 0, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
         public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, float rotation, Color color, byte alpha)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
             color.A += alpha;
             scale *= Main.GameZoomTarget;
-            Main.spriteBatch.Draw(texture, center, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
         public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, float rotation, Color color, byte alpha, SpriteEffects effect, bool apply)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.Additive;
             color.A += alpha;
             scale *= Main.GameZoomTarget;
             effect = apply ? effect : SpriteEffects.None;
-            Main.spriteBatch.Draw(texture, center, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, effect, 0);
+            Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, rotation, texture.Size() / 2, scale / 2, effect, 0);
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
         public static void SpawnDust(this Vector2 center, Vector2 totalRect, int type, float speed, float scale, Color color, int amount, float distance = 1, float rectRotation = 0)
         {
