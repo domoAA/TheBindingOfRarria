@@ -3,7 +3,7 @@ Items: {
 		Tooltip:
 			'''
 			With 22.22% chance, you will suvrive a fatal hit with 100 health
-			"Eternal life?"
+			'Eternal life?'
 			'''
 		DisplayName: Broken Ankh
 	}
@@ -13,7 +13,7 @@ Items: {
 			'''
 			You will survive a fatal hit with half health
 			Cooldown: 1 minute
-			"Eternal life"
+			'Eternal life'
 			'''
 		DisplayName: Ankh
 	}
@@ -24,7 +24,7 @@ Items: {
 			'''
 			Grants a {0} chance to dodge attacks
 			The chance scales with movement speed bonuses
-			"Contains traces of a secret anti-domain technique"
+			'Contains traces of a secret anti-domain technique'
 			'''
 	}
 
@@ -35,7 +35,7 @@ Items: {
 			+80 max life
 			Reduces defense by 8
 			You regenerate additional 2 hp/s
-			"Literally too healthy to die"
+			'Literally too healthy to die'
 			'''
 	}
 
@@ -45,7 +45,7 @@ Items: {
 			'''
 			On Fire! and Poison get converted to buffs
 			Reduces the duration of debuffs on you by 20%
-			"Makes you feel cooler"
+			'Makes you feel cooler'
 			'''
 	}
 
@@ -56,7 +56,7 @@ Items: {
 			+50 max life
 			+10% damage reduction
 			Enemies are more likely to target you
-			"Resilience befitting of a hero"
+			'Resilience befitting of a hero'
 			'''
 	}
 
@@ -66,7 +66,7 @@ Items: {
 			'''
 			Damage taken is increased by 50%
 			You heal for 50% of damage taken over 6 seconds
-			"Calculated risk"
+			'Calculated risk'
 			'''
 	}
 
@@ -75,7 +75,7 @@ Items: {
 		Tooltip:
 			'''
 			Your projectiles leave a button bomb on the enemy
-			"A little bit of tomfoolery"
+			'A little bit of tomfoolery'
 			'''
 	}
 
@@ -84,7 +84,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants a 16% chance to reflect projectiles
-			"Reflect (on) your mistakes"
+			'Reflect (on) your mistakes'
 			'''
 	}
 
@@ -93,7 +93,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants a repelling aura
-			"It's still beating?"
+			'It's still beating?'
 			'''
 	}
 
@@ -102,7 +102,7 @@ Items: {
 		Tooltip:
 			'''
 			You gain a bone that orbits you and reflects projectiles
-			"Does the identity of its previous owner matter?"
+			'Does the identity of its previous owner matter?'
 			'''
 	}
 
@@ -111,7 +111,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants a slowing aura
-			"Slowpokes, all of them."
+			'Slowpokes, all of them.'
 			'''
 	}
 
@@ -120,7 +120,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants a halo that has a 12% chance to reflect projectiles
-			"A protective halo from dimensions unkown"
+			'A protective halo from dimensions unkown'
 			'''
 	}
 
@@ -129,7 +129,7 @@ Items: {
 		Tooltip:
 			'''
 			Your attacks convert Poison on enemies into Venom
-			"No, not that Venom"
+			'No, not that Venom'
 			'''
 	}
 
@@ -139,7 +139,7 @@ Items: {
 			'''
 			Non-critical attacks set enemies on fire
 			Critical attacks against burning enemies make them explode
-			"Let's commit some arson!"
+			'Let's commit some arson!'
 			'''
 	}
 
@@ -149,7 +149,7 @@ Items: {
 			'''
 			Your attacks apply poison on enemies
 			Enemies that attack you get poisoned
-			"Deadly love"
+			'Deadly love'
 			'''
 	}
 
@@ -159,7 +159,7 @@ Items: {
 			'''
 			Gain a temporary immunity to a debuff after being afflicted with it for 5 seconds
 			Shadow spirits attack enemies when you get hit
-			"What doesn't kill you, makes you... Crazier?"
+			'What doesn't kill you, makes you... Crazier?'
 			'''
 	}
 
@@ -169,7 +169,7 @@ Items: {
 			'''
 			Grants Honey buff at all times
 			You heal for 10% of damage taken
-			"Respect existence or expect resistance"
+			'Respect existence or expect resistance'
 			'''
 	}
 
@@ -179,7 +179,7 @@ Items: {
 			'''
 			Press {0} to slow down or speed up nearby projectiles and creatures
 			Cooldown: 20 seconds
-			"To never be late again..."
+			'To never be late again...'
 			'''
 	}
 
@@ -188,7 +188,7 @@ Items: {
 		Tooltip:
 			'''
 			Your projectiles become bouncy
-			"It tastes funny"
+			'It tastes funny'
 			'''
 	}
 
@@ -198,7 +198,7 @@ Items: {
 			'''
 			Grants lifesteal on your attacks
 			Reduces your life regeneration by 2 hp/s
-			"The guilt weighs heavier with each heartbeat"
+			'The guilt weighs heavier with each heartbeat'
 			'''
 	}
 
@@ -207,7 +207,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants you the vision of traps and treasures
-			"Spelunky?"
+			'Spelunky?'
 			'''
 	}
 
@@ -216,7 +216,7 @@ Items: {
 		Tooltip:
 			'''
 			You emit a cone of light that slows enemies and projectiles
-			"Scared of the dark?"
+			'Scared of the dark?'
 			'''
 	}
 
@@ -226,7 +226,7 @@ Items: {
 			'''
 			You gain 1 max life every time you kill an enemy, up to 150
 			The bonus is reduced by 1 every 5 seconds
-			"Reap the fruits of evolution"
+			'Reap the fruits of evolution'
 			'''
 	}
 
@@ -235,7 +235,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants a food and happiness buffs at all times
-			"Yummers"
+			'Yummers'
 			'''
 	}
 
@@ -245,7 +245,7 @@ Items: {
 			'''
 			Increases magic damage by 10%
 			Increases size of your magic projectiles
-			"Said to contain the knowledge of past generations of shaman"
+			'Said to contain the knowledge of past generations of shaman'
 			'''
 	}
 
@@ -254,7 +254,7 @@ Items: {
 		Tooltip:
 			'''
 			You dodge every 6th attack
-			"Contains a song of protection"
+			'Contains a song of protection'
 			'''
 	}
 
@@ -264,7 +264,7 @@ Items: {
 			'''
 			+60 max life 
 			Your attacks cause a shockwave that deals 20% of your max life every 6 seconds.
-			"Titanic might too great to control"
+			'Titanic might too great to control'
 			'''
 	}
 
@@ -274,7 +274,7 @@ Items: {
 			'''
 			Your projectiles orbit you
 			Orbiting projectiles deal 15% less damage
-			"Technically a celestial body"
+			'Technically a celestial body'
 			'''
 	}
 
@@ -284,7 +284,7 @@ Items: {
 			'''
 			+2 max minions
 			Minions' hits slow enemies down
-			"Silken charm containing a song of farewell"
+			'Silken charm containing a song of farewell'
 			'''
 	}
 
@@ -295,7 +295,7 @@ Items: {
 			+100 max mana
 			Nearby enemies are constantly slashed
 			Enemies are less likely to target you
-			"Now his remains serve to protect the weak, how ironic"
+			'Now his remains serve to protect the weak, how ironic'
 			'''
 	}
 
@@ -305,7 +305,7 @@ Items: {
 			'''
 			Gain immunity to damage for the next hit
 			Cooldown: 1 minute
-			"Holy shield"
+			'Holy shield'
 			'''
 	}
 
@@ -314,7 +314,7 @@ Items: {
 		Tooltip:
 			'''
 			Your bullets magnetize enemies, making them attract projectiles
-			"It is impractical, they said"
+			'It is impractical, they said'
 			'''
 	}
 
@@ -323,7 +323,7 @@ Items: {
 		Tooltip:
 			'''
 			Your attacks gain increased knockback and deal additional damage based on knockback
-			"Formed from the weapons of fallen warriors"
+			'Formed from the weapons of fallen warriors'
 			'''
 	}
 
@@ -332,7 +332,7 @@ Items: {
 		Tooltip:
 			'''
 			Healing potions heal twice the amount, but give a 20% longer potion sickness
-			"Contains some strange power deep within..."
+			'Contains some strange power deep within...'
 			'''
 	}
 
@@ -341,7 +341,7 @@ Items: {
 		Tooltip:
 			'''
 			Grants immunity to fall damage, naturally occuring traps and similar hazards
-			"It doesn't make sense but I love it"
+			'It doesn't make sense but I love it'
 			'''
 	}
 
@@ -350,7 +350,7 @@ Items: {
 		Tooltip:
 			'''
 			Your melee swings recover 9 mana on hit
-			"Forgotten shaman artifact, used to draw soul from still-living creatures"
+			'Forgotten shaman artifact, used to draw soul from still-living creatures'
 			'''
 	}
 
@@ -359,7 +359,7 @@ Items: {
 		Tooltip:
 			'''
 			Your attacks ignore 1/4 of enemy's defense
-			"7:3 ratio is where a weakness lies"
+			'7:3 ratio is where a weakness lies'
 			'''
 	}
 
@@ -374,7 +374,7 @@ Items: {
 			'''
 			Upon falling below 33% life, you gain rapid life regeneration
 			Cooldown: 1 minute
-			"Born from shadows, sacrificed to kill a god"
+			'Born from shadows, sacrificed to kill a god'
 			'''
 	}
 
@@ -383,7 +383,7 @@ Items: {
 		Tooltip:
 			'''
 			You throw a kunai every 3rd shot
-			"It is not the weapon, YOU are the weapon"
+			'It is not the weapon, YOU are the weapon'
 			'''
 	}
 
@@ -394,7 +394,7 @@ Items: {
 			You reflect every attack of the same type that hits you 2 times in a row within a short period of time
 			You heal for 1/2 of an attack's damage after getting hit by it 2 times in a row
 			You can switch this item's function by right-clicking it in inventory
-			"The ability to adapt to any and all phenomena"
+			'The ability to adapt to any and all phenomena'
 			'''
 	}
 
@@ -403,7 +403,7 @@ Items: {
 		Tooltip:
 			'''
 			Damage for hits against you is always rolled in your favour
-			"Shift the statistics"
+			'Shift the statistics'
 			'''
 	}
 
@@ -412,7 +412,7 @@ Items: {
 		Tooltip:
 			'''
 			Press {0} to place a mini-star that charges up a beam of light
-			""
+			''
 			'''
 	}
 
@@ -421,17 +421,48 @@ Items: {
 		Tooltip:
 			'''
 			Damage for hits against you is rolled an additional time, and the damage is set to the lower result
-			"The difference between no luck and max luck"
+			'The difference between no luck and max luck'
 			'''
 	}
 
 	TojiNullWeapon: {
-		DisplayName: Inverted pear of Heaven
-		Tooltip: 
+		DisplayName: Inverted Spear of Heaven
+		Tooltip:
 			'''
 			Your melee swings temporarily nullify enemy's contact damage on hit
 			Cooldown: 15 seconds
-			"Would it work on Mahoraga though..."
+			'Would it work on Mahoraga though...'
+			'''
+	}
+
+	CullingBlade: {
+		DisplayName: Culling Blade
+		Tooltip:
+			'''
+			Your attacks heal you and drop coins on hit
+			'Cool... Cull?'
+			'''
+	}
+
+	SanguineGift: {
+		DisplayName: Sanguine Gift
+		Tooltip:
+			'''
+			Stores 20% of damage taken
+			When stored damage exceeds 10% of your maximum life {0}, you are healed for the amount stored
+			The healing is shared with a teammate if one is nearby
+			Current stored damage: {1}
+			'Bound by blood'
+			'''
+	}
+
+	UnendingDespair: {
+		DisplayName: Unending Despair
+		Tooltip:
+			'''
+			Drains life from up to 4 nearby enemies, dealing 10% of your maximum life {0}
+			You heal for 20% of the damage dealt by this item
+			'Waiter! More healing please'
 			'''
 	}
 }
@@ -493,6 +524,7 @@ Projectiles: {
 	HeavyBlowThing.DisplayName: Heavy Blow Thing
 	FlyingKunai.DisplayName: Flying Kunai
 	LightBeam.DisplayName: Light Beam
+	LifeSucker.DisplayName: Life Sucker
 }
 
 Keybinds: {

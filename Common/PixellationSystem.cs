@@ -1,4 +1,6 @@
 
+using Terraria.UI;
+
 namespace TheBindingOfRarria.Common
 {
     public class PixellationSystem : ModSystem
@@ -25,7 +27,8 @@ namespace TheBindingOfRarria.Common
             if (!Main.dedServ)
             {
                 Main.OnResolutionChanged += InitializeRT;
-                Main.RunOnMainThread(() => {
+                Main.RunOnMainThread(() =>
+                {
                     AlphaBlendTarget = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
                     AdditiveTarget = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
                     PrimitiveTarget = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);

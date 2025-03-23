@@ -5,12 +5,17 @@ namespace TheBindingOfRarria
     {
         public static Asset<Texture2D> BeamBody;
         public static Asset<Texture2D> BeamEnd;
+        public static Dictionary<string, Asset<Texture2D>> BloodStorage = [];
         public static SoundStyle AdaptedSound = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheel");
         public static SoundStyle WheelCreak = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheelCreak");
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
             {
+                BloodStorage["orb"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BloodOrb"));
+                BloodStorage["orbsmol"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BloodOrbSmol"));
+                BloodStorage["cd"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CDTex"));
+                BloodStorage["cdfiller"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CDFiller"));
                 BeamEnd = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamEnd");
                 BeamBody = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamBody");
             }
@@ -19,6 +24,7 @@ namespace TheBindingOfRarria
         {
             if (Main.netMode != NetmodeID.Server)
             {
+                BloodStorage = null;
                 BeamEnd = null;
                 BeamBody = null;
             }
