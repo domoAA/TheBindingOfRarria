@@ -9,7 +9,7 @@ namespace TheBindingOfRarria.Content.Buffs
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.damage = 0;
+            //npc.damage = 0;
         }
     }
 }
