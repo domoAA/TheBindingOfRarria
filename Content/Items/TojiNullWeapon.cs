@@ -40,15 +40,29 @@ namespace TheBindingOfRarria.Content.Items
         public int dmg = 0;
         public override bool PreAI(NPC npc)
         {
-            if (dmg != 0) 
+            /*if (dmg != 0) 
             {
                 if (!npc.HasBuff(ModContent.BuffType<NullifiedPowers>()))
                 {
                     npc.damage = dmg;
                     dmg = 0;
                 }
-            }
+            }*/
             return base.PreAI(npc);
+        }
+        public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
+        {
+            if (npc.HasBuff(ModContent.BuffType<NullifiedPowers>()))
+                return false;
+
+            return base.CanHitPlayer(npc, target, ref cooldownSlot);
+        }
+        public override bool CanHitNPC(NPC npc, NPC target)
+        {
+            if (npc.HasBuff(ModContent.BuffType<NullifiedPowers>()))
+                return false;
+
+            return base.CanHitNPC(npc, target);
         }
     }
 }
