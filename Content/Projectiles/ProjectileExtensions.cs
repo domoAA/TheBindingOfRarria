@@ -203,7 +203,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             color.A += alpha;
 
-            var rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2 * 3;
+            var rotation = projectile.velocity.ToRotation() + PiOver2 * 3;
             var texture = textureEnd;
             var position = (projectile.Center  - Main.screenPosition) / 2 + projectile.velocity.SafeNormalize(Vector2.Zero) * 7;
 
