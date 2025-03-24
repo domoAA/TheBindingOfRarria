@@ -43,16 +43,15 @@ namespace TheBindingOfRarria.Content.Items
                 key = "P";
 
             var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.BrokenWatch.Tooltip"), key);
-            base.ModifyTooltips(tooltips);
-            for (int i = 10; i > 0; i--)
+
+            var index = tooltips.FindIndex(line => line.Name == "Tooltip0");
+            if (index != -1)
             {
-                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue("Mods.TheBindingOfRarria.Items.BrokenWatch.Tooltip").Remove(7)));
-                if (index != -1)
-                {
-                    tooltips[index].Text = text.Remove(text.IndexOf($"\n"));
-                    break;
-                }
+                text = text.Remove(text.LastIndexOf($"\n"));
+                text = text.Remove(text.LastIndexOf($"\n"));
+                tooltips[index].Text = text;
             }
+
         }
     }
     public class ZaWardoPlayer : ModPlayer
@@ -62,7 +61,7 @@ namespace TheBindingOfRarria.Content.Items
         public override void ResetEffects() => ZaWardo = false;
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if ((KeybindSystem.ZaWardoKey.JustPressed || (KeybindSystem.ZaWardoKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.P))) && Main.myPlayer == Player.whoAmI && counter <= 0 && ZaWardo)
+            if ((KeybindSystem.ZaWardoKey.JustPressed || (KeybindSystem.ZaWardoKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Keys.P))) && Main.myPlayer == Player.whoAmI && counter <= 0 && ZaWardo)
             {
                 var rand = (TheBindingOfRarria.State)Main.rand.Next(1, 3);
                 foreach (var target in Main.ActiveNPCs)
