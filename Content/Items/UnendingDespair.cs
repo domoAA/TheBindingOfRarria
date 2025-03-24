@@ -23,7 +23,7 @@ namespace TheBindingOfRarria.Content.Items
                 List<int> victims = [];
                 for (int i = 0; i < 4; i++)
                 {
-                    float dist = 300 * 300;
+                    float dist = 325 * 325;
                     victims.Add(-1);
                     foreach (var t in Main.ActiveNPCs)
                     {
@@ -37,7 +37,7 @@ namespace TheBindingOfRarria.Content.Items
                     if (victims.Count == i + 1 && victims[i] != -1)
                     {
                         counter = 0;
-                        Projectile.NewProjectile(player.GetSource_Accessory(Item, "Unending Despair sucking"), Main.npc[victims[i]].Center, Main.npc[victims[i]].Center - player.Center, ModContent.ProjectileType<LifeSucker>(), player.statLifeMax2 / 10, 0, player.whoAmI, victims[i], i);
+                        Projectile.NewProjectile(player.GetSource_Accessory(Item, "Unending Despair sucking"), Main.npc[victims[i]].Center, Main.npc[victims[i]].Center - player.Center, ModContent.ProjectileType<LifeSucker>(), player.statLifeMax2 / 10, 0, player.whoAmI, victims[i]);
                     }
                 }
             }

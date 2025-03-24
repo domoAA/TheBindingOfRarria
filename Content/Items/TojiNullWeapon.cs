@@ -8,12 +8,26 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.width = 34;
             Item.height = 40;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.buyPrice(0, 2, 80);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<TojiNullPlayer>().counter--;
             if (player.GetModPlayer<TojiNullPlayer>().counter <= 0)
                 player.GetModPlayer<TojiNullPlayer>().CanNullify = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.SoulofMight, 10)
+                .AddIngredient(ItemID.Ichor, 20)
+                .AddIngredient(ModContent.ItemType<PaleOre>(), 40)
+                .AddIngredient(ItemID.RedString, 4)
+                .AddTile(TileID.SkyMill)
+                .Register();
+
+            base.AddRecipes();
         }
     }
     public class TojiNullPlayer : ModPlayer

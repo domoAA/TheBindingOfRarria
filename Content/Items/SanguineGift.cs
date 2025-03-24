@@ -1,5 +1,7 @@
 
 
+using TheBindingOfRarria.Common.UI;
+
 namespace TheBindingOfRarria.Content.Items
 {
     public class SanguineGift : ModItem
@@ -18,24 +20,26 @@ namespace TheBindingOfRarria.Content.Items
             p.Sanguine = true;
             if (p.Stored >= player.statLifeMax2 / 10)
             {
-                Player teammate = null;
-                float dist = 700 * 700;
+                int teammate = -1;
+                float dist = 800 * 800;
                 foreach (var pl in Main.ActivePlayers)
                 {
-                    if (pl.whoAmI != player.whoAmI && !pl.dead && pl.statLife > 0 && pl.Center.DistanceSQ(player.Center) < dist)
+                    if (pl.team == player.team && pl.whoAmI != player.whoAmI && !pl.dead && pl.statLife > 0 && pl.Center.DistanceSQ(player.Center) < dist)
                     {
                         dist = pl.Center.DistanceSQ(player.Center);
-                        teammate = pl;
+                        teammate = pl.whoAmI;
                     }
                 }
-                if (teammate != null)
+                if (teammate != -1)
                 {
                     p.Stored /= 2;
-                    teammate.Heal(p.Stored);
+                   Main.player[teammate].Heal(p.Stored);
                 }
                 player.Heal(p.Stored);
                 p.Stored = 0;
             }
+            if (Main.LocalPlayer.whoAmI == player.whoAmI)
+                ModContent.GetInstance<SanguineGiftUI.BloodStorageUISystem>()?.Show();
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
@@ -48,10 +52,11 @@ namespace TheBindingOfRarria.Content.Items
                 var cur = text[(text.LastIndexOf($"\n") + 1)..];
                 text = text.Remove(text.LastIndexOf($"\n"));
                 text = text.Remove(text.LastIndexOf($"\n"));
-                text = text.Remove(0, text.IndexOf($"\n")+1);
+                text = text.Remove(0, text.IndexOf($"\n") + 1);
                 tooltips[index].Text = text;
-                tooltips[index + 2].Text = cur;
-                tooltips[index + 2].OverrideColor = Color.Gray;
+                tooltips[index + 2].Hide();
+                //tooltips[index + 2].Text = cur;
+                //tooltips[index + 2].OverrideColor = Color.Gray;
             } 
         }
     }
@@ -61,8 +66,12 @@ namespace TheBindingOfRarria.Content.Items
         public bool Sanguine = false;
         public override void ResetEffects()
         {
-            if (!Sanguine)
+            if (!Sanguine) 
+            { 
                 Stored = 0;
+                if (Main.LocalPlayer.whoAmI == Player.whoAmI)
+                    ModContent.GetInstance<SanguineGiftUI.BloodStorageUISystem>()?.Hide();
+            }
             Sanguine = false;
         }
         public void OnHit(Player.HurtInfo info)
@@ -71,8 +80,19 @@ namespace TheBindingOfRarria.Content.Items
                 Stored += info.Damage / 5;
         }
 
-        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo) => OnHit(hurtInfo);
-        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo) => OnHit(hurtInfo);
+        //public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo) => OnHit(hurtInfo);
+        //public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo) => OnHit(hurtInfo);
+        public override void PostHurt(Player.HurtInfo info) => OnHit(info);
+        public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
+        {
+            if (attempt.fishingLevel > 69 && attempt.legendary && Main.bloodMoon && Main.hardMode && Main.expertMode && Main.rand.NextBool(3))
+            {
+                npcSpawn = -1;
+                sonar.Color = Color.Red;
+                sonar.Text = Language.GetTextValue("Mods.TheBindingOfRarria.Items.SanguineGift.DisplayName");
+                itemDrop = ModContent.ItemType<SanguineGift>();
+            }
+        }
     }
     public class SanguineDropNPC : GlobalNPC
     {

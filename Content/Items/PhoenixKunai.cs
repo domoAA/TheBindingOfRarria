@@ -8,9 +8,11 @@ namespace TheBindingOfRarria.Content.Items
             Item.accessory = true;
             Item.width = 18;
             Item.height = 30;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(0, 0, 20);
         }
         public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<KunaiPlayer>().kunai = Item;
-        
+
     }
     public class KunaiPlayer : ModPlayer
     {
@@ -32,6 +34,28 @@ namespace TheBindingOfRarria.Content.Items
             }
             
             return base.Shoot(item, source, position, velocity, type, damage, knockback);
+        }
+    }
+    public class KSBagLoot : GlobalItem
+    {
+        public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+        {
+            if (item.type == ItemID.KingSlimeBossBag)
+            {
+                var rule = ItemDropRule.Common(ModContent.ItemType<PhoenixKunai>(), 6);
+                itemLoot.Add(rule);
+            }
+        }
+    }
+    public class KunaiLootNPC : GlobalNPC
+    {
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            if (npc.type == NPCID.KingSlime)
+                {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PhoenixKunai>(), 6));
+            }
+            base.ModifyNPCLoot(npc, npcLoot);
         }
     }
 }
