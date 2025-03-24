@@ -460,7 +460,7 @@ Items: {
 		DisplayName: Unending Despair
 		Tooltip:
 			'''
-			Drains life from up to 4 nearby enemies, dealing 10% of your maximum life {0}
+			Drains life from up to 4 nearby enemies, dealing 10% of your maximum life {0} magic damage
 			You heal for 20% of the damage dealt by this item
 			'Waiter! More healing please'
 			'''
@@ -534,3 +534,24 @@ Keybinds: {
 
 Tiles.PaleOreTile.MapEntry: Pale Ore
 WorldGen.WorldGenTutorialOresPassMessage: Who up paling they ore
+
+Configs: {
+	ClientConfig: {
+		DisplayName: Client Config
+
+		SanguineGiftUIDraggable: {
+			Label: Sanguine Gift UI Draggable
+			Tooltip: Makes the Sanguine Gift's ui draggable. Don't forget to turn this off after you're done!
+		}
+
+		SanguineGiftUIPosition: {
+			Label: Sanguine Gift UI Position
+			Tooltip: The position of Sanguine Gift's ui, relatively to screen coordinates
+		}
+
+		SanguineGiftUIColor: {
+			Label: Sanguine Gift UI Color
+			Tooltip: Sets the color of the filler in Sanguine Gift's ui to a new value
+		}
+	}
+}
