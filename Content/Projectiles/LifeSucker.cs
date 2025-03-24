@@ -29,8 +29,6 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             Projectile.velocity = Projectile.Center - Main.player[Projectile.owner].Center;
 
-            Projectile.Center -= Projectile.velocity;
-
             Projectile.scale += Projectile.ai[2] == 0 ? 0.05f : -0.08f;
 
             foreach (var proj in Main.ActiveProjectiles)
@@ -39,10 +37,16 @@ namespace TheBindingOfRarria.Content.Projectiles
                     proj.Kill();
                 
             }
+
+            Projectile.netUpdate = true;
+        }
+        public override bool ShouldUpdatePosition()
+        {
+            return false;
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (target.whoAmI != Projectile.ai[0] || Projectile.scale < 1.2f)
+            if (target.whoAmI != Projectile.ai[0] || Projectile.scale < 1.2f || target.immortal)
                 return false;
 
             return base.CanHitNPC(target);
