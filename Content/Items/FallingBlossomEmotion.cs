@@ -21,15 +21,16 @@ namespace TheBindingOfRarria.Content.Items
         {
             chance = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().chance;
 
-            base.ModifyTooltips(tooltips);
             var text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{(int)(chance * 100)}%");
-            for (int i = 10; i > 0; i--)
+
+            var index = tooltips.FindIndex(line => line.Name == "Tooltip0");
+            if (index != -1)
             {
-                var index = tooltips.FindIndex(line => line.Text.Contains(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip").Remove(5)));
-                if (index != -1) {
-                    tooltips[index].Text = text.Remove(text.IndexOf($"\n"));
-                    break; }
-            } 
+                text = text.Remove(text.LastIndexOf($"\n"));
+                text = text.Remove(text.LastIndexOf($"\n"));
+                tooltips[index].Text = text;
+
+            }
         }
         public override void AddRecipes()
         {
@@ -59,7 +60,7 @@ namespace TheBindingOfRarria.Content.Items
             base.PostUpdate();
             if (blocked)
             {
-                position.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 1.6f, 0.36f, Color.LightSeaGreen, 7, 25, 0.7f, direction.ToRotation() + MathHelper.PiOver2);
+                position.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 1.6f, 0.36f, Color.LightSeaGreen, 7, 25, 0.7f, direction.ToRotation() + PiOver2);
                 blocked = false;
                 direction = Vector2.UnitX;
                 position = Vector2.Zero;

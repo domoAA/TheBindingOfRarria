@@ -1,8 +1,4 @@
 
-
-
-using System.IO;
-
 namespace TheBindingOfRarria.Content.Items
 {
     public class TheLastFinger : ModItem
@@ -28,7 +24,7 @@ namespace TheBindingOfRarria.Content.Items
                 var pos = Vector2.Zero;
                 foreach (var target in Main.ActiveNPCs)
                 {
-                    if (target.Center.DistanceSQ(player.Center) < distance && !target.friendly)
+                    if (target.Center.DistanceSQ(player.Center) < distance && !target.friendly && !target.immortal)
                     {
                         distance = target.Center.DistanceSQ(player.Center);
                         pos = target.Center;
@@ -48,7 +44,7 @@ namespace TheBindingOfRarria.Content.Items
             public override bool AppliesToEntity(Projectile entity, bool lateInstantiation) => entity.type == ProjectileID.Muramasa;
             public override void OnSpawn(Projectile projectile, IEntitySource source)
             {
-                if (source != null && source.Context != null && source.Context == "Thukuna accessory")
+                if (source != null && source.Context != null && (source.Context == "Thukuna accessory" || source.Context == "SlasherHalberd"))
                 {
                     projectile.penetrate = -1;
                     projectile.timeLeft = 30;
@@ -57,6 +53,7 @@ namespace TheBindingOfRarria.Content.Items
                 }
             }
             public bool SpawnUpdate = false;
+            public bool Slash = false;
             public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
             {
                 bitWriter.WriteBit(SpawnUpdate);
@@ -77,6 +74,7 @@ namespace TheBindingOfRarria.Content.Items
                     projectile.timeLeft = binaryReader.ReadInt32();
                     projectile.scale = binaryReader.ReadSingle();
                     SpawnUpdate = false;
+                    Slash = true;
                 }
             }
             public override void PostAI(Projectile projectile)
@@ -85,12 +83,17 @@ namespace TheBindingOfRarria.Content.Items
             }
             public override bool PreDraw(Projectile projectile, ref Color lightColor)
             {
-                projectile.scale = 2.6f;
-                lightColor.B = 120;
-                lightColor.G = 120;
-                lightColor.R = 240;
-                projectile.DrawWithTransparency(lightColor, 250);
-                return false;
+                if (Slash)
+                {
+                    projectile.scale = 2.6f;
+                    lightColor.B = 120;
+                    lightColor.G = 120;
+                    lightColor.R = 240;
+                    projectile.DrawWithTransparency(lightColor, 250);
+                    return false;
+                }
+
+                return base.PreDraw(projectile, ref lightColor);
             }
         }
     }

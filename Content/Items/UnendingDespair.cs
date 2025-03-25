@@ -27,7 +27,7 @@ namespace TheBindingOfRarria.Content.Items
                     victims.Add(-1);
                     foreach (var t in Main.ActiveNPCs)
                     {
-                        if (!victims.Contains(t.whoAmI) && !t.friendly && t.Center.DistanceSQ(player.Center) < dist)
+                        if (!victims.Contains(t.whoAmI) && !t.friendly && !t.immortal && !t.CountsAsACritter && t.Center.DistanceSQ(player.Center) < dist)
                         {
                             dist = t.Center.DistanceSQ(player.Center);
                             

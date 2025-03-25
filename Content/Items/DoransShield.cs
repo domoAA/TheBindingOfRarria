@@ -27,7 +27,7 @@ namespace TheBindingOfRarria.Content.Items
                 Player.lifeRegen += (Player.statLifeMax2 - Player.statLife) / 50;
         }
     }
-    class ExampleNPCShop : GlobalNPC
+    class DoranItemsNPCShop : GlobalNPC
     {
         public override void ModifyShop(NPCShop shop)
         {

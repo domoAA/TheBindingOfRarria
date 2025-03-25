@@ -50,7 +50,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (Main.expertMode && Main.hardMode && type == TileID.Cobweb && Main.rand.NextFloat() < 0.001f)
             {
-                Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), new Point(i, j).ToWorldCoordinates(), ModContent.ItemType<WeaverSong>(), 1, false, Main.rand.Next(0, PrefixID.Count));
+                Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), new Point(i, j).ToWorldCoordinates(), ModContent.ItemType<WeaverSong>());
                 noItem = true;
             }
             else
