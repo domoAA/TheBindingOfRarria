@@ -16,7 +16,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.idStaticNPCHitCooldown = 30;
             for (int i = 9; i > 0; i--)
             {
-                bomba[i] = Vector2.One.RotatedBy(MathHelper.PiOver4 * (i + 1) + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10));
+                bomba[i] = Vector2.One.RotatedBy(PiOver4 * (i + 1) + Main.rand.NextFloat(-Pi / 10, Pi / 10));
             }
         }
         public bool exploded = false;
@@ -33,7 +33,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             exploded = true;
             var color = Color.OrangeRed;
 
-            Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixellatedDustE98>(), 7, 0.45f * Main.rand.NextFloat(1.12f, 2.1f), color, 5, -0.05f, MathHelper.PiOver4);
+            Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixellatedDustE98>(), 7, 0.45f * Main.rand.NextFloat(1.12f, 2.1f), color, 5, -0.05f, PiOver4);
 
             var sound = SoundID.Item14;
             sound.Pitch += 0.7f;

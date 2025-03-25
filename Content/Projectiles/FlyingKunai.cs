@@ -18,7 +18,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + PiOver2;
 
             if (Projectile.oldPos.Last() != Vector2.Zero)
                 Projectile.tileCollide = true;
@@ -41,8 +41,8 @@ namespace TheBindingOfRarria.Content.Projectiles
                 {
                     if (p.oldPos[i + 1] != Vector2.Zero)
                     {
-                        Main.EntitySpriteDraw(texture, (p.oldPos[i] + (p.Size / 2) - Main.screenPosition) / 2, new Rectangle(0, 8, 14, 2), darkColor * (1 - ((i - 1) / (float)ProjectileID.Sets.TrailCacheLength[p.type])), p.oldPos[i].DirectionFrom(p.oldPos[i + 1]).ToRotation() + MathHelper.PiOver2, new Vector2(7, 0), new Vector2((1f - (i / (float)ProjectileID.Sets.TrailCacheLength[p.type])) * p.scale * 0.75f, p.oldPos[i].Distance(p.oldPos[i + 1]) / 2) / 2, SpriteEffects.None);
-                        Main.EntitySpriteDraw(texture, (p.oldPos[i] + (p.Size / 2) - Main.screenPosition) / 2, new Rectangle(0, 8, 14, 2), brightColor * (0.5f - ((i - 1) / (float)ProjectileID.Sets.TrailCacheLength[p.type])), p.oldPos[i].DirectionFrom(p.oldPos[i + 1]).ToRotation() + MathHelper.PiOver2, new Vector2(7, 0), new Vector2((1f - (i / (float)ProjectileID.Sets.TrailCacheLength[p.type])) * p.scale, p.oldPos[i].Distance(p.oldPos[i + 1]) / 2) / 2, SpriteEffects.None);
+                        Main.EntitySpriteDraw(texture, (p.oldPos[i] + (p.Size / 2) - Main.screenPosition) / 2, new Rectangle(0, 8, 14, 2), darkColor * (1 - ((i - 1) / (float)ProjectileID.Sets.TrailCacheLength[p.type])), p.oldPos[i].DirectionFrom(p.oldPos[i + 1]).ToRotation() + PiOver2, new Vector2(7, 0), new Vector2((1f - (i / (float)ProjectileID.Sets.TrailCacheLength[p.type])) * p.scale * 0.75f, p.oldPos[i].Distance(p.oldPos[i + 1]) / 2) / 2, SpriteEffects.None);
+                        Main.EntitySpriteDraw(texture, (p.oldPos[i] + (p.Size / 2) - Main.screenPosition) / 2, new Rectangle(0, 8, 14, 2), brightColor * (0.5f - ((i - 1) / (float)ProjectileID.Sets.TrailCacheLength[p.type])), p.oldPos[i].DirectionFrom(p.oldPos[i + 1]).ToRotation() + PiOver2, new Vector2(7, 0), new Vector2((1f - (i / (float)ProjectileID.Sets.TrailCacheLength[p.type])) * p.scale, p.oldPos[i].Distance(p.oldPos[i + 1]) / 2) / 2, SpriteEffects.None);
                     }
                 }
             }, RenderType.Additive);

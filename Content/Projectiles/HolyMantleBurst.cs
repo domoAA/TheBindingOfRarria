@@ -33,12 +33,9 @@ namespace TheBindingOfRarria.Content.Projectiles
             int frame = Math.Max(0, 3 - Projectile.timeLeft / 4);
             var rect = texture.Frame(1, 4, 0, frame, 0, -2);
 
-            byte dimming = (byte)(255 - Projectile.timeLeft * 0);
+            var color = Color.White;
 
-            var color = Color.SlateBlue;
-
-            Projectile.scale = 2;
-            Projectile.DrawWithTransparency(new Vector2(0, rect.Height + 2) * 0, rect, color, dimming, 1, 0, 0);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition - Projectile.Size / 2, rect, color);
 
             return false;
         }

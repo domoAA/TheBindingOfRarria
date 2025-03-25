@@ -270,7 +270,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public static void OrbitingPlayer(this Projectile projectile, float visualRotation, float r, float rotation)
         {
-            projectile.rotation = rotation - MathHelper.PiOver2 * visualRotation;
+            projectile.rotation = rotation - PiOver2 * visualRotation;
 
             var desiredPosition = rotation.ToRotationVector2() * r;
 

@@ -17,7 +17,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             Projectile.timeLeft = 132;
             for (int i = 7; i > 0; i--)
             {
-                bomba[i] = Vector2.One.RotatedBy(MathHelper.PiOver4 * (i + 1) + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10));
+                bomba[i] = Vector2.One.RotatedBy(PiOver4 * (i + 1) + Main.rand.NextFloat(-Pi / 10, Pi / 10));
             }
         }
         private NPC Target
@@ -43,7 +43,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             else if (Projectile.timeLeft == 12 && bomba != null)
             {
                 var color = Color.White;
-                Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixellatedDustE98>(), 2.2f, Main.rand.NextFloat(0.8f, 1.6f), color, 2, -1.12f, MathHelper.PiOver4);
+                Projectile.Center.SpawnDust(bomba, ModContent.DustType<PixellatedDustE98>(), 2.2f, Main.rand.NextFloat(0.8f, 1.6f), color, 2, -1.12f, PiOver4);
                 
                 var sound = SoundID.Item14;
                 sound.Pitch += 0.8f;

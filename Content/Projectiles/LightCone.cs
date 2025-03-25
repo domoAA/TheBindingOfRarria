@@ -26,22 +26,22 @@ namespace TheBindingOfRarria.Content.Projectiles
             var basePos = new Vector2(360, 0);
             if (owner.velocity.LengthSquared() <= 1)
                 vel = new Vector2(owner.direction, 0);
-            Projectile.Center = owner.Center + basePos.RotatedBy(Projectile.Center.DirectionFrom(owner.Center).ToRotation().AngleTowards(basePos.RotatedBy(vel.ToRotation()).ToRotation(), MathHelper.Pi / 20));
+            Projectile.Center = owner.Center + basePos.RotatedBy(Projectile.Center.DirectionFrom(owner.Center).ToRotation().AngleTowards(basePos.RotatedBy(vel.ToRotation()).ToRotation(), Pi / 20));
 
             Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 220 + Projectile.Center, Color.LightYellow.ToVector3() / 5);
             Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 170 + Projectile.Center, Color.LightYellow.ToVector3() / 4);
             Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 120 + Projectile.Center, Color.LightYellow.ToVector3() / 3);
             Lighting.AddLight(Projectile.Center.DirectionTo(owner.Center) * 70 + Projectile.Center, Color.LightYellow.ToVector3() / 2);
 
-            Projectile.rotation = owner.Center.DirectionTo(Projectile.Center).ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = owner.Center.DirectionTo(Projectile.Center).ToRotation() + PiOver2;
 
             foreach (var target in Main.ActiveNPCs)
             {
                 if (target.CanBeChasedBy() && !target.friendly)
                 {
                     var a = owner.Center - Main.screenPosition;
-                    var b = Projectile.Center + Projectile.Center.DirectionFrom(a).RotatedBy(MathHelper.PiOver2) * 113 * Main.GameZoomTarget - Main.screenPosition;
-                    var c = Projectile.Center + Projectile.Center.DirectionFrom(a).RotatedBy(-MathHelper.PiOver2) * 113 * Main.GameZoomTarget - Main.screenPosition;
+                    var b = Projectile.Center + Projectile.Center.DirectionFrom(a).RotatedBy(PiOver2) * 113 * Main.GameZoomTarget - Main.screenPosition;
+                    var c = Projectile.Center + Projectile.Center.DirectionFrom(a).RotatedBy(-PiOver2) * 113 * Main.GameZoomTarget - Main.screenPosition;
                     if (IsPointInTriangle(target.Center - Main.screenPosition, a, b, c))
                     {
                         target?.GetSlowed(TheBindingOfRarria.State.Slow, 30);
@@ -53,8 +53,8 @@ namespace TheBindingOfRarria.Content.Projectiles
                 if (target.hostile)
                 {
                     var a = (owner.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-                    var b = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(MathHelper.PiOver2) * 113 - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-                    var c = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(-MathHelper.PiOver2) * 113 - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+                    var b = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(PiOver2) * 113 - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+                    var c = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(-PiOver2) * 113 - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
                     if (IsPointInTriangle(target.Center - Main.screenPosition, a, b, c))
                     {
                         target?.GetSlowed(TheBindingOfRarria.State.Slow, 3000);

@@ -15,7 +15,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             for (int i = 19; i > 0; i--)
             {
-                edges[i] = Vector2.One.RotatedBy(MathHelper.PiOver4 * (i + 1) + Main.rand.NextFloat(-MathHelper.Pi / 20, MathHelper.Pi / 20));
+                edges[i] = Vector2.One.RotatedBy(PiOver4 * (i + 1) + Main.rand.NextFloat(-Pi / 20, Pi / 20));
             }
         }
         public bool exploded = false;
@@ -33,7 +33,7 @@ namespace TheBindingOfRarria.Content.Projectiles
             exploded = true;
             var color = Color.Red;
 
-            Projectile.Center.SpawnDust(edges, ModContent.DustType<PixellatedDustE98>(), 1, 0.95f * Main.rand.NextFloat(1.12f, 2.2f), color, 5, -0.09f, MathHelper.PiOver4, 96);
+            Projectile.Center.SpawnDust(edges, ModContent.DustType<PixellatedDustE98>(), 1, 0.95f * Main.rand.NextFloat(1.12f, 2.2f), color, 5, -0.09f, PiOver4, 96);
 
             var sound = SoundID.Item74;
             sound.Pitch += 0.7f;
@@ -42,7 +42,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Projectile.scale = 0.75f;
+            Projectile.scale = 1.5f;
             Projectile.DrawWithTransparency(Color.Red, (byte)(40 * Projectile.ai[0]));
             return false;
         }

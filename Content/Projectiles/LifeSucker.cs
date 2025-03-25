@@ -58,11 +58,12 @@ namespace TheBindingOfRarria.Content.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var color = Color.Red;
+            var color = Color.DeepSkyBlue;
+            color.A = 210;
             if (Projectile.timeLeft < 38)
             {
-                color = Color.DeepSkyBlue;
-                color.A = 210;
+                color = Color.Red;
+                //color.A = 210;
             }
 
             QueuePixelationAction(() => {

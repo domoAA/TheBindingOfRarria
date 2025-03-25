@@ -30,22 +30,22 @@ namespace TheBindingOfRarria.Content.Projectiles
                 Projectile.Kill();
 
             var a = new Vector2(Projectile.ai[1], Projectile.ai[2]);
-            Projectile.rotation = Projectile.Center.DirectionFrom(a).ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.Center.DirectionFrom(a).ToRotation() + PiOver2;
 
             if (!cleaved) {
                 Projectile.scale = float.Sqrt(Projectile.Center.Distance(a)) / 12;
                 cleaved = true;
                 var color = Color.DarkGray;
 
-                a.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 8f * Projectile.scale, 0.7f * Projectile.scale, color, 7, 35, 0.9f, a.DirectionFrom(Projectile.Center).ToRotation() + MathHelper.PiOver2, 2, -0.05f);
+                a.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 8f * Projectile.scale, 0.7f * Projectile.scale, color, 7, 35, 0.9f, a.DirectionFrom(Projectile.Center).ToRotation() + PiOver2, 2, -0.05f);
 
                 var sound = SoundID.Item14;
                 sound.Pitch -= 0.4f;
                 sound.Volume *= 0.5f;
                 SoundEngine.PlaySound(sound, a);
             }
-            var b = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(MathHelper.PiOver2) * 66 * Projectile.scale - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-            var c = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(-MathHelper.PiOver2) * 66 * Projectile.scale - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+            var b = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(PiOver2) * 66 * Projectile.scale - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+            var c = (Projectile.Center - Main.screenPosition + Projectile.Center.DirectionFrom(a).RotatedBy(-PiOver2) * 66 * Projectile.scale - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
 
             foreach (var target in Main.ActiveNPCs)
             {

@@ -27,7 +27,7 @@ namespace TheBindingOfRarria.Content.Projectiles
         {
             Projectile.ai[0]++;
 
-            var rotation = (MathHelper.TwoPi / 360 * Projectile.ai[0]);
+            var rotation = (TwoPi / 360 * Projectile.ai[0]);
             Projectile.OrbitingPlayer(1.6f, 40, rotation);
             Projectile.ReflectProjectiles();
 
@@ -36,13 +36,13 @@ namespace TheBindingOfRarria.Content.Projectiles
                 var owner = Main.player[Projectile.owner];
                 for (int i = stripe.Length - 1; i > 1; i--)
                 {
-                    stripe[i] = Projectile.Center + Projectile.Center.DirectionTo(owner.Center) * Projectile.Center.Distance(owner.Center) * (i - 1) / stripe.Length + Projectile.Center.DirectionTo(owner.Center).RotatedBy(Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10));
+                    stripe[i] = Projectile.Center + Projectile.Center.DirectionTo(owner.Center) * Projectile.Center.Distance(owner.Center) * (i - 1) / stripe.Length + Projectile.Center.DirectionTo(owner.Center).RotatedBy(Main.rand.NextFloat(-Pi / 10, Pi / 10));
                 }
                 stripe[0] = Projectile.Center;
             }
 
             //var pull = Projectile.Center.DirectionTo(owner.Center);//(Projectile.velocity.LengthSquared() * 40);
-            //Projectile.velocity = pull.RotatedBy(MathHelper.PiOver2) * 3;
+            //Projectile.velocity = pull.RotatedBy(PiOver2) * 3;
         }
     }
 }
