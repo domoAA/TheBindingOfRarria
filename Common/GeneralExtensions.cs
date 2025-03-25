@@ -94,11 +94,11 @@ namespace TheBindingOfRarria.Common
         {
             for (int i = amount; i > 0; i--)
             {
-                var direction = totalRect.RotatedBy(rectRotation) * Vector2.One.RotatedBy(MathHelper.TwoPi / amount * i + Main.rand.NextFloat(-MathHelper.Pi / 10, MathHelper.Pi / 10));
+                var direction = totalRect.RotatedBy(rectRotation) * Vector2.One.RotatedBy(TwoPi / amount * i + Main.rand.NextFloat(-Pi / 10, Pi / 10));
                 Dust.NewDustPerfect(center + direction * distance, type, direction * speed, 0, color, scale);
             }
         }
-        public static void SpawnDust(this Vector2 center, int type, float speed, float scale, Color color, int amount, float distance = 1, float totalSize = 1, float rotation = -MathHelper.PiOver4 * 3, int layers = 1, float scaleStep = 0f)
+        public static void SpawnDust(this Vector2 center, int type, float speed, float scale, Color color, int amount, float distance = 1, float totalSize = 1, float rotation = -PiOver4 * 3, int layers = 1, float scaleStep = 0f)
         {
             for (int x = layers; x > 0; x--)
             {

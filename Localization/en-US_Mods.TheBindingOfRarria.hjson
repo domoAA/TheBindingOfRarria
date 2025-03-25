@@ -89,7 +89,7 @@ Items: {
 	}
 
 	GolemsHeart: {
-		DisplayName: Golems Heart
+		DisplayName: Golem's Heart
 		Tooltip:
 			'''
 			Grants a repelling aura
@@ -125,7 +125,7 @@ Items: {
 	}
 
 	DevilsTrumpet: {
-		DisplayName: Devils Trumpet
+		DisplayName: Devil's Trumpet
 		Tooltip:
 			'''
 			Your attacks convert Poison on enemies into Venom
@@ -369,7 +369,7 @@ Items: {
 	}
 
 	HornOfTheRoundDeer: {
-		DisplayName: Horn Of The Round Deer
+		DisplayName: Horn of The Round Deer
 		Tooltip:
 			'''
 			Upon falling below 33% life, you gain rapid life regeneration
@@ -388,7 +388,7 @@ Items: {
 	}
 
 	WheelOfHarmony: {
-		DisplayName: Wheel Of Harmony
+		DisplayName: Wheel of Harmony
 		Tooltip:
 			'''
 			You reflect every attack of the same type that hits you 2 times in a row within a short period of time
@@ -465,6 +465,55 @@ Items: {
 			'Waiter! More healing please'
 			'''
 	}
+
+	CursedBlood: {
+		DisplayName: Cursed Blood
+		Tooltip:
+			'''
+			Press {0} to start bleeding
+			Press it again to cancel the bleed
+			Temporarily grants defense for the health you lose to the bleed
+			Cooldown: 20 seconds
+			'A sacrifice made to protect'
+			'''
+	}
+
+	AbsorbingLiquid: {
+		DisplayName: Absorbing Liquid
+		Tooltip:
+			'''
+			Press {0} shortly after taking a hit to heal for 1/2 of the damage taken
+			Cooldown: 20 seconds
+			'Some say tattoos made with this hold great power...'
+			'''
+	}
+
+	DoransShield: {
+		DisplayName: Doran's Shield
+		Tooltip:
+			'''
+			You regenerate 1% of your missing health every second
+			'A great choice if you're up against a ranged opponent'
+			'''
+	}
+
+	CrystalHeart: {
+		DisplayName: Crystal Heart
+		Tooltip:
+			'''
+			Hold {0} to charge up an infinite horizontal dash
+			'The energy core used in old mining golems'
+			'''
+	}
+
+	DivergentsFist: {
+		DisplayName: Divergents Fist
+		Tooltip: 
+			'''
+			Your melee swings deliver a follow-up hit after a delay
+			'One step closer to hitting a black flash'
+			'''
+	}
 }
 
 Buffs: {
@@ -507,6 +556,16 @@ Buffs: {
 		DisplayName: Nullified Powers
 		Description: Cannot deal damage
 	}
+
+	BloodShield: {
+		DisplayName: Blood Shield
+		Description: Uses sacrificed health as defense
+	}
+
+	BloodShieldBleed: {
+		DisplayName: Blood Shield Bleed
+		Description: Sacrifices your health for defense
+	}
 }
 
 Projectiles: {
@@ -525,11 +584,16 @@ Projectiles: {
 	FlyingKunai.DisplayName: Flying Kunai
 	LightBeam.DisplayName: Light Beam
 	LifeSucker.DisplayName: Life Sucker
+	CursedBloodEffect.DisplayName: Cursed Blood Effect
+	AbsorbingLiquidEffect.DisplayName: Absorbing Liquid Effect
+	CrystalDashTrail.DisplayName: Crystal Dash Trail
+	CEFist.DisplayName: C E Fist
 }
 
 Keybinds: {
 	BrokenWatch.DisplayName: Broken Watch
 	Revelation.DisplayName: Revelation
+	CursedBlood.DisplayName: Cursed Blood
 }
 
 Tiles.PaleOreTile.MapEntry: Pale Ore

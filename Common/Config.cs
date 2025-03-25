@@ -9,11 +9,18 @@ namespace TheBindingOfRarria.Common.Config
         //public static ModKeybind StonedKey { get; private set; }
         public static ModKeybind ZaWardoKey { get; private set; }
         public static ModKeybind LightBeamKey { get; private set; }
+        public static ModKeybind BloodDripKey { get; private set; }
+        public static ModKeybind AbsorbingKey { get; private set; }
+        public static ModKeybind CrystalDashKey { get; private set; }
         public override void Load()
         {
-            //StonedKey = KeybindLoader.RegisterKeybind(Mod, "StonedInvul", Microsoft.Xna.Framework.Input.Keys.LeftShift);
-            ZaWardoKey = KeybindLoader.RegisterKeybind(Mod, "BrokenWatch", Microsoft.Xna.Framework.Input.Keys.P);
-            LightBeamKey = KeybindLoader.RegisterKeybind(Mod, "Revelation", Microsoft.Xna.Framework.Input.Keys.L);
+            //StonedKey = KeybindLoader.RegisterKeybind(Mod, "StonedInvul", Keys.LeftShift);
+            ZaWardoKey = KeybindLoader.RegisterKeybind(Mod, "BrokenWatch", Keys.P);
+            LightBeamKey = KeybindLoader.RegisterKeybind(Mod, "Revelation", Keys.L);
+            BloodDripKey = KeybindLoader.RegisterKeybind(Mod, "CursedBlood", Keys.K);
+            AbsorbingKey = KeybindLoader.RegisterKeybind(Mod, "CursedBlood", Keys.O);
+            CrystalDashKey = KeybindLoader.RegisterKeybind(Mod, "CursedBlood", Keys.V);
+
             base.Load();
         }
         public override void Unload()
@@ -21,6 +28,9 @@ namespace TheBindingOfRarria.Common.Config
             //StonedKey = null;
             ZaWardoKey = null;
             LightBeamKey = null;
+            BloodDripKey = null;
+            AbsorbingKey = null;
+            CrystalDashKey = null;
             base.Unload();
         }
     }
