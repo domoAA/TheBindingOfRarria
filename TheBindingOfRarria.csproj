@@ -41,6 +41,7 @@
 		<Using Include="Terraria.ModLoader.IO" />
 		<Using Include="Terraria.GameContent.ItemDropRules" />
 		<Using Include="Terraria.Utilities" />
+		<Using Include="Terraria.GameInput" />
 		
 
 		<Using Include="ReLogic.Content" />

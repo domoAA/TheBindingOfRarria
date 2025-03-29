@@ -507,12 +507,31 @@ Items: {
 	}
 
 	DivergentsFist: {
-		DisplayName: Divergents Fist
-		Tooltip: 
+		DisplayName: Divergent Fist
+		Tooltip:
 			'''
 			Your melee swings deliver a follow-up hit after a delay
 			'One step closer to hitting a black flash'
 			'''
+	}
+
+	SlasherHalberd: {
+		DisplayName: Broken Slasher Halberd
+		Tooltip:
+			'''
+			When your melee swing hits an enemy, another nearby enemy is slashed
+			'It's like Muramasa, except it's not'
+			'''
+	}
+
+	GnawedLeaf: {
+		DisplayName: Gnawed Leaf
+		Tooltip: ""
+	}
+
+	ToothAndNail: {
+		DisplayName: Tooth And Nail
+		Tooltip: ""
 	}
 }
 
@@ -588,6 +607,7 @@ Projectiles: {
 	AbsorbingLiquidEffect.DisplayName: Absorbing Liquid Effect
 	CrystalDashTrail.DisplayName: Crystal Dash Trail
 	CEFist.DisplayName: C E Fist
+	BlockBoulder.DisplayName: Block Boulder
 }
 
 Keybinds: {

@@ -18,8 +18,8 @@ namespace TheBindingOfRarria.Common.Config
             ZaWardoKey = KeybindLoader.RegisterKeybind(Mod, "BrokenWatch", Keys.P);
             LightBeamKey = KeybindLoader.RegisterKeybind(Mod, "Revelation", Keys.L);
             BloodDripKey = KeybindLoader.RegisterKeybind(Mod, "CursedBlood", Keys.K);
-            AbsorbingKey = KeybindLoader.RegisterKeybind(Mod, "CursedBlood", Keys.O);
-            CrystalDashKey = KeybindLoader.RegisterKeybind(Mod, "CursedBlood", Keys.V);
+            AbsorbingKey = KeybindLoader.RegisterKeybind(Mod, "AbsorbingLiquid", Keys.O);
+            CrystalDashKey = KeybindLoader.RegisterKeybind(Mod, "CrystalHeart", Keys.V);
 
             base.Load();
         }
