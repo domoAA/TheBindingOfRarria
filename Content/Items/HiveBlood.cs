@@ -35,9 +35,7 @@ namespace TheBindingOfRarria.Content.Items
             // Those they don't sting
             // Those they bring honey for
         }
-        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo) => BeeHeal(hurtInfo.Damage);
-
-        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo) => BeeHeal(hurtInfo.Damage);
+        public override void OnHurt(Player.HurtInfo info) => BeeHeal(info.Damage);
 
     }
     public class QBBagLoot : GlobalItem

@@ -66,12 +66,10 @@ namespace TheBindingOfRarria.Content.Items
             if (HasChoker)
                 modifiers.FinalDamage *= 1.5f;
         }
-        public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers) => ModifyHitByAnything(ref modifiers); 
-        public override void ModifyHitByProjectile(Projectile projectile, ref Player.HurtModifiers modifiers) => ModifyHitByAnything(ref modifiers); 
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers) => ModifyHitByAnything(ref modifiers);
         public override void UpdateDead() => totalHeal = 0;
-        
-        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo) => OnHitByAnything(hurtInfo);
-        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo) => OnHitByAnything(hurtInfo); 
+
+        public override void OnHurt(Player.HurtInfo info) => OnHitByAnything(info);
         public void OnHitByAnything(Player.HurtInfo hurtInfo) {
             if (HasChoker)
                 totalHeal += (int)(hurtInfo.Damage * 0.5f); }

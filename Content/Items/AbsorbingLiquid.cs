@@ -69,7 +69,7 @@ namespace TheBindingOfRarria.Content.Items
                 counter = (1200, 0);
             }
         }
-        public override void PostHurt(Player.HurtInfo info) => Absorb(info);
+        public override void OnHurt(Player.HurtInfo info) => Absorb(info);
         public void Absorb(Player.HurtInfo info)
         {
             if (counter.timer <= 0)

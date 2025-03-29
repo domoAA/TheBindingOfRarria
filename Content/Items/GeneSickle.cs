@@ -30,7 +30,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (npc.type == NPCID.GoblinShark)
             {
-                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<GeneSickle>(), 5));
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<GeneSickle>(), 15));
             }
             base.ModifyNPCLoot(npc, npcLoot);
         }

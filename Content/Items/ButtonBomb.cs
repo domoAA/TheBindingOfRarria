@@ -54,7 +54,7 @@ namespace TheBindingOfRarria.Content.Items
 
                 if (Main.myPlayer != Player.whoAmI)
                     return;
-                Projectile.NewProjectileDirect(Player.GetSource_Accessory(Button), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 3, 1, Player.whoAmI, target.whoAmI, offset.X, offset.Y).rotation = Main.rand.NextFloat() * MathHelper.TwoPi;
+                Projectile.NewProjectileDirect(Player.GetSource_Accessory(Button), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 3, 1, Player.whoAmI, target.whoAmI, offset.X, offset.Y).rotation = Main.rand.NextFloat() * TwoPi;
                 target.GetGlobalNPC<ButtonedNPC>().ButtonCD = 20; }
         }
     }

@@ -51,7 +51,7 @@ namespace TheBindingOfRarria.Content.Items
                 Item.NewItem(Player.GetSource_Accessory(PlayedTheseGamesBefore), target.Center, ItemID.CopperCoin, (int)(Math.Max(0, Player.luck) * 10 + 1));
             }
 
-            if (target.life <= 0)
+            if (target.life <= 0 && Main.expertMode)
             {
                 counter += 70;
                 if (counter >= 1000)

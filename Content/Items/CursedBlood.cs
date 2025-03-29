@@ -80,7 +80,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (npc.type == NPCID.GoblinShark)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CursedBlood>(), 6));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CursedBlood>(), 10));
             }
             base.ModifyNPCLoot(npc, npcLoot);
         }

@@ -27,13 +27,17 @@ namespace TheBindingOfRarria.Content.Items
                 Player.lifeRegen += (Player.statLifeMax2 - Player.statLife) / 50;
         }
     }
-    class DoranItemsNPCShop : GlobalNPC
+    public class DoranItemsNPCShop : GlobalNPC
     {
         public override void ModifyShop(NPCShop shop)
         {
-            if (shop.NpcType == NPCID.TravellingMerchant)
+            if (shop.NpcType == NPCID.Merchant)
             {
-                shop.Add(new Item(ModContent.ItemType<DoransShield>()) { shopCustomPrice = Item.buyPrice(0, 4, 50) }, Condition.InMasterMode);
+                if (shop.TryGetEntry(ItemID.IronAnvil, out var entry))
+                    shop.InsertAfter(entry, new Item(ModContent.ItemType<DoransShield>()), Condition.InMasterMode);
+
+                else if (shop.TryGetEntry(ItemID.LeadAnvil, out entry))
+                    shop.InsertAfter(entry, new Item(ModContent.ItemType<DoransShield>()), Condition.InMasterMode);
             }
         }
     }
