@@ -97,7 +97,7 @@ namespace TheBindingOfRarria.Content.Items
                 var gravity = 0.01f * projectile.Center.DirectionTo(owner.Center) * r;
 
 
-                var offset = (projectile.Center.DirectionTo(owner.Center).ToRotation() + rotation * MathHelper.PiOver2) - projectile.velocity.ToRotation();
+                var offset = (projectile.Center.DirectionTo(owner.Center).ToRotation() + rotation * PiOver2) - projectile.velocity.ToRotation();
 
                 projectile.velocity = projectile.velocity.RotatedBy(offset);
 
@@ -116,7 +116,7 @@ namespace TheBindingOfRarria.Content.Items
                 speed += speed < 0.98f ? 0.001f : 0;
 
                 projectile.velocity *= speed;
-                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.Zero) * MathHelper.Lerp(projectile.velocity.Length(), 8, 0.2f);
+                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.Zero) * Lerp(projectile.velocity.Length(), 8, 0.2f);
             }
         }
     }

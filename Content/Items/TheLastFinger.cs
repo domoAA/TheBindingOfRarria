@@ -50,6 +50,11 @@ namespace TheBindingOfRarria.Content.Items
                     projectile.timeLeft = 30;
                     projectile.scale *= 1.3f;
                     SpawnUpdate = true;
+                    if (Main.netMode == NetmodeID.SinglePlayer)
+                    {
+                        SpawnUpdate = false;
+                        Slash = true;
+                    }
                 }
             }
             public bool SpawnUpdate = false;

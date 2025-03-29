@@ -24,7 +24,11 @@ namespace TheBindingOfRarria.Content.Items
         {
             if (shop.NpcType == NPCID.Merchant)
             {
-                shop.Add(new Item(ModContent.ItemType<SlasherHalberd>()), Condition.Hardmode);
+                if (shop.TryGetEntry(ItemID.IronAnvil, out var entry))
+                    shop.InsertAfter(entry, new Item(ModContent.ItemType<SlasherHalberd>()), Condition.Hardmode);
+
+                else if (shop.TryGetEntry(ItemID.LeadAnvil, out entry))
+                    shop.InsertAfter(entry, new Item(ModContent.ItemType<SlasherHalberd>()), Condition.Hardmode);
             }
         }
     }
@@ -34,16 +38,14 @@ namespace TheBindingOfRarria.Content.Items
         public bool Slashed = false;
         public override void ResetEffects()
         {
+            if (Slashed && Player.ItemAnimationEndingOrEnded)
+                Slashed = false;
+
             Halberd = null;
-        }
-        public override bool CanUseItem(Item item)
-        {
-            Slashed = true;
-            return base.CanUseItem(item);
         }
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Halberd != null && !Slashed && Player.whoAmI == Main.myPlayer)
+            if (Halberd != null && !Slashed && Player.whoAmI == Main.myPlayer && !target.immortal)
             {
                 var distance = 400f * 400;
                 var pos = Vector2.Zero;
@@ -51,16 +53,16 @@ namespace TheBindingOfRarria.Content.Items
                 {
                     if (target.Center.DistanceSQ(Player.Center) < distance && !t.friendly && t.whoAmI != target.whoAmI && !t.immortal)
                     {
-                        distance = target.Center.DistanceSQ(Player.Center);
-                        pos = target.Center;
+                        distance = t.Center.DistanceSQ(Player.Center);
+                        pos = t.Center;
                     }
                 }
                 if (pos != Vector2.Zero)
                 {
                     var vel = new Vector2(11f, 11f).RotatedByRandom(TwoPi);
                     Projectile.NewProjectile(Player.GetSource_Accessory(Halberd, "SlasherHalberd"), pos - vel * 9, vel, ProjectileID.Muramasa, 30, 1, Player.whoAmI, Main.rand.NextFloat() - 0.5f, 0, 0);
-                    Slashed = true;
                 }
+                Slashed = true;
             }
         }
     }
