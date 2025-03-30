@@ -1,0 +1,127 @@
+namespace TheBindingOfRarria.Content.Items;
+
+[AutoloadEquip(EquipType.Waist)]
+public class FocusCrystal : ModItem
+{
+    public override void SetDefaults()
+    {
+        Item.width = 22;
+        Item.height = 22;
+        Item.value = Item.sellPrice(silver: 15);
+        Item.rare = ItemRarityID.Green;
+        Item.accessory = true;
+    }
+
+    public override void UpdateAccessory(Player player, bool hideVisual)
+    {
+        player.GetModPlayer<FocusCrystalPlayer>().Active = true;
+        player.GetModPlayer<FocusCrystalPlayer>().Visuals = !hideVisual;
+    }
+}
+
+public class FocusCrystalPlayer : ModPlayer
+{
+    private const float Range = 12f * 16f;
+    private const float DamageMultiplier = 1.2f;
+    
+    public bool Active;
+    public bool Visuals;
+    
+    public override void ResetEffects()
+    {
+        Active = false;
+        Visuals = false;
+    }
+
+    public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+    {
+        if (!Active || !target.WithinRange(Player.Center, Range))
+        {
+            return;
+        }
+        
+        modifiers.SourceDamage *= DamageMultiplier;
+
+        for (int i = 0; i < 4; i++) {
+            Dust newDust = Dust.NewDustDirect(target.position, target.width, target.height, ModContent.DustType<FocusCrystalAuraDust>());
+            newDust.velocity = Main.rand.NextVector2Circular(5f, 5f);
+        }
+    }
+
+    public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+    {
+        if (!Visuals)
+        {
+            return;
+        }
+        
+        
+        int numDust = Main.rand.Next(3, 8);
+        for (int i = 0; i < numDust; i++) {
+            Vector2 dustPositionOffset = Main.rand.NextVector2CircularEdge(Range, Range);
+            Vector2 dustPosition = drawInfo.drawPlayer.MountedCenter + dustPositionOffset;
+            Point dustTileCoordinates = dustPosition.ToTileCoordinates();
+
+            Tile tile = Framing.GetTileSafely(dustTileCoordinates);
+            if (tile.HasTile && WorldGen.SolidTile(dustTileCoordinates.X, dustTileCoordinates.Y)) {
+                continue;
+            }
+
+            Dust newDust = Dust.NewDustPerfect(dustPosition, ModContent.DustType<FocusCrystalAuraDust>());
+
+            // 1/2 chance of being edge dust or zoomy dust
+            Vector2 dustVelocity = Main.rand.NextBool() ? Vector2.Zero : dustPosition.DirectionTo(drawInfo.drawPlayer.MountedCenter) * Main.rand.NextFloat(0.4f, 1.8f);
+            newDust.velocity = dustVelocity;
+            newDust.customData = drawInfo.drawPlayer.whoAmI;
+
+            drawInfo.DustCache.Add(newDust.dustIndex);
+        }
+    }
+}
+
+public class FocusCrystalAuraDust : ModDust
+{
+    // Use vanilla texture
+    public override string Texture => null;
+
+    public override void OnSpawn(Dust dust) {
+        dust.frame = FrameVanillaDust(DustID.RedTorch);
+        dust.noGravity = true;
+    }
+
+    public override bool Update(Dust dust) {
+        base.Update(dust);
+
+        dust.rotation += 0.1f;
+        dust.scale -= 0.03f;
+        dust.position += dust.velocity;
+
+        if (dust.scale < 0.25f) {
+            dust.active = false;
+        }
+
+        return false;
+    }
+}
+
+public class FocusCrystalGlobalProjectile : GlobalProjectile
+{
+    public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
+    {
+        return entity.type == ProjectileID.Geode;
+    }
+
+    public override void OnKill(Projectile projectile, int timeLeft)
+    {
+        if (Main.myPlayer != projectile.owner || Main.rand.NextBool(29, 30))
+        {
+            return;
+        }
+        
+        int itemIndex = Item.NewItem(projectile.GetSource_Loot(), projectile.Hitbox, ModContent.ItemType<FocusCrystal>());
+        if (Main.netMode == NetmodeID.MultiplayerClient)
+        {
+            NetMessage.SendData(MessageID.SyncItem, number: itemIndex, number2: 1f);
+        }
+    }
+}
