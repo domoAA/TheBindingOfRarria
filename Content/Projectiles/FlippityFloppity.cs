@@ -1,45 +1,25 @@
-// MISSING: projectile picture?
-// Putting Bass picture...
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
     public class FlippityFloppity : ModProjectile
     {
-        List<int> fishID = new();
-        Texture2D fish;
-
+        public int fish = 0;
         public override void SetDefaults()
         {
             Projectile.width = 40;
             Projectile.height = 40;
-            Projectile.scale = .6f;
+            Projectile.scale = 0.6f;
             Projectile.timeLeft = 300;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
+            Projectile.damage = 10;
 
-            // Fish texture List
-            for (int i = 2297; i <= 2321; i++)
-            {
-                fishID.Add(i);
-            }
-            for (int j = 2450; j <= 2488; j++)
-            {
-                fishID.Add(j);
-            }
-            fishID.Add(2290);
-            fishID.Add(4401);
-            fishID.Add(4402);
-
-            if (fish == null)
-            {
-                int index = Main.rand.Next(fishID);
-                fish = TextureAssets.Item[index].Value;
-            }
+            fish = Main.rand.Next(FishID);
         }
 
         public override void AI()
         {
-            Projectile.ai[1] += .4f;
+            Projectile.ai[1] += 0.4f;
 
 
             // Caps X velocity
@@ -94,7 +74,8 @@ namespace TheBindingOfRarria.Content.Projectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Main.EntitySpriteDraw(fish, Projectile.Center - Main.screenPosition, fish.Bounds, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), fish.Size() / 2, 1, (SpriteEffects)(1 - Projectile.direction));
+            var texture = FishTextures[fish].Value;
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Bounds, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), texture.Size() / 2, 1, (SpriteEffects)(1 - Projectile.direction));
             return false;
         }
     }

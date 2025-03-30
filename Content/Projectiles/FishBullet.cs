@@ -1,13 +1,9 @@
-// MISSING: projectile picture?
-// Putting Bass picture...
 
 namespace TheBindingOfRarria.Content.Projectiles
 {
-
     public class FishBullet : ModProjectile
     {
-        List<int> fishID = new();
-        Texture2D fish;
+        public int fish = 0;
         public override void SetDefaults()
         {
             Projectile.width = 40;
@@ -19,25 +15,7 @@ namespace TheBindingOfRarria.Content.Projectiles
 
             Projectile.DamageType = DamageClass.Ranged;
 
-            // All fishes
-            for (int i = 2297; i <= 2321; i++)
-            {
-                fishID.Add(i);
-            }
-            for (int j = 2450; j <= 2488; j++)
-            {
-                fishID.Add(j);
-            }
-            fishID.Add(2290);
-            fishID.Add(4401);
-            fishID.Add(4402);
-
-            if (fish == null)
-            {
-                int index = Main.rand.Next(fishID);
-                fish = TextureAssets.Item[index].Value;
-            }
-
+            fish = Main.rand.Next(FishID);
         }
 
         public override void AI()
@@ -69,7 +47,8 @@ namespace TheBindingOfRarria.Content.Projectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Main.EntitySpriteDraw(fish, Projectile.Center - Main.screenPosition, fish.Bounds, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), fish.Size() / 2, 1, (SpriteEffects)(1 - Projectile.direction), 0);
+            var texture = FishTextures[fish].Value;
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Bounds, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), texture.Size() / 2, 1, (SpriteEffects)(1 - Projectile.direction), 0);
             return false;
         }
     }
