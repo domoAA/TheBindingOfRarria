@@ -22,12 +22,12 @@ public class BerserkersPauldronPlayer : ModPlayer
     private const int EffectTimeframeMax = 5 * 60;
     private const int NumEnemiesToKillForEffect = 3;
     private const int BerserkBuffTime = 6 * 60;
-    
+
     public bool Active;
 
     private int _effectTimeFrame;
     private int _killedEnemiesCount;
-    
+
     public override void ResetEffects()
     {
         Active = false;
@@ -48,7 +48,7 @@ public class BerserkersPauldronPlayer : ModPlayer
         {
             return;
         }
-        
+
         _effectTimeFrame = EffectTimeframeMax;
         _killedEnemiesCount++;
 
@@ -60,17 +60,6 @@ public class BerserkersPauldronPlayer : ModPlayer
         }
     }
 }
-
-public class BerserkersPauldronBuff : ModBuff
-{
-    public override string Texture => $"{nameof(TheBindingOfRarria)}/Content/Items/BerserkersPauldron_Buff";
-
-    public override void Update(Player player, ref int buffIndex)
-    {
-        player.GetDamage(DamageClass.Generic) += 0.25f;
-    }
-}
-
 public class BerserkersPauldronDropRule : GlobalNPC
 {
     public override bool AppliesToEntity(NPC entity, bool lateInstantiation)

@@ -22,9 +22,9 @@ public class BrilliantBehemothPlayer : ModPlayer
     private const float ExplosionRadius = 8f * 16f;
     private const float ExplosionDamageMult = 0.2f;
     private const float ExplosionKnockbackMult = 0.2f;
-    
+
     public bool Active;
-    
+
     public override void ResetEffects()
     {
         Active = false;
@@ -36,18 +36,19 @@ public class BrilliantBehemothPlayer : ModPlayer
         {
             return;
         }
-        
+
         foreach (var npc in Main.ActiveNPCs)
         {
             if (npc.WithinRange(target.Center, ExplosionRadius) && npc.whoAmI != target.whoAmI)
             {
-                int direction = float.Sign(target.DirectionTo(npc.Center).X);
-                npc.SimpleStrikeNPC((int)(hit.Damage * ExplosionDamageMult), direction, knockBack: hit.Knockback * ExplosionKnockbackMult);
+                //int direction = float.Sign(target.DirectionTo(npc.Center).X);
+                //npc.SimpleStrikeNPC((int)(hit.Damage * ExplosionDamageMult), direction, knockBack: hit.Knockback * ExplosionKnockbackMult);
             }
         }
-        
+
         // Fiery dust explosion
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 15; i++)
+        {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Torch);
             fireDust.velocity = Main.rand.NextVector2Circular(10f, 10f);
             fireDust.scale = Main.rand.NextFloat(1.3f, 2f);
@@ -55,14 +56,16 @@ public class BrilliantBehemothPlayer : ModPlayer
         }
 
         // Smoke explosion
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++)
+        {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Smoke);
             fireDust.velocity = Main.rand.NextVector2Circular(10f, 10f);
             fireDust.noGravity = true;
         }
 
         // Fiery dust on the enemy
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Torch);
             fireDust.scale = Main.rand.NextFloat(1.8f, 2.5f);
             fireDust.noGravity = true;

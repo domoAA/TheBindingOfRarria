@@ -23,10 +23,10 @@ public class FocusCrystalPlayer : ModPlayer
 {
     private const float Range = 12f * 16f;
     private const float DamageMultiplier = 1.2f;
-    
+
     public bool Active;
     public bool Visuals;
-    
+
     public override void ResetEffects()
     {
         Active = false;
@@ -39,10 +39,11 @@ public class FocusCrystalPlayer : ModPlayer
         {
             return;
         }
-        
+
         modifiers.SourceDamage *= DamageMultiplier;
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             Dust newDust = Dust.NewDustDirect(target.position, target.width, target.height, ModContent.DustType<FocusCrystalAuraDust>());
             newDust.velocity = Main.rand.NextVector2Circular(5f, 5f);
             newDust.scale = Main.rand.NextFloat(1f, 1.5f);
@@ -55,14 +56,16 @@ public class FocusCrystalPlayer : ModPlayer
         {
             return;
         }
-        
-        for (int i = 0; i < 3; i++) {
+
+        for (int i = 0; i < 3; i++)
+        {
             Vector2 dustPositionOffset = Main.rand.NextVector2CircularEdge(Range, Range);
             Vector2 dustPosition = drawInfo.drawPlayer.MountedCenter + dustPositionOffset;
             Point dustTileCoordinates = dustPosition.ToTileCoordinates();
 
             Tile tile = Framing.GetTileSafely(dustTileCoordinates);
-            if (tile.HasTile && WorldGen.SolidTile(dustTileCoordinates.X, dustTileCoordinates.Y)) {
+            if (tile.HasTile && WorldGen.SolidTile(dustTileCoordinates.X, dustTileCoordinates.Y))
+            {
                 continue;
             }
 
@@ -78,37 +81,6 @@ public class FocusCrystalPlayer : ModPlayer
         }
     }
 }
-
-public class FocusCrystalAuraDust : ModDust
-{
-    // Use vanilla texture
-    public override string Texture => null;
-
-    public override void OnSpawn(Dust dust) {
-        dust.frame = FrameVanillaDust(DustID.RedTorch);
-        dust.noGravity = true;
-    }
-
-    public override bool Update(Dust dust) {
-        base.Update(dust);
-
-        dust.rotation += 0.1f;
-        dust.scale -= 0.03f;
-        dust.position += dust.velocity;
-
-        if (dust.customData is Player player)
-        {
-            dust.position += player.position - player.oldPosition;
-        }
-
-        if (dust.scale < 0.25f) {
-            dust.active = false;
-        }
-
-        return false;
-    }
-}
-
 public class FocusCrystalGlobalProjectile : GlobalProjectile
 {
     public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
@@ -122,7 +94,7 @@ public class FocusCrystalGlobalProjectile : GlobalProjectile
         {
             return;
         }
-        
+
         int itemIndex = Item.NewItem(projectile.GetSource_Loot(), projectile.Hitbox, ModContent.ItemType<FocusCrystal>());
         if (Main.netMode == NetmodeID.MultiplayerClient)
         {

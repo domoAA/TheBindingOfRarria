@@ -9,6 +9,7 @@ namespace TheBindingOfRarria.Content.Items
             Item.height = 36;
             Item.width = 34;
             Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(0, 0, 70, 7);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -23,7 +24,7 @@ namespace TheBindingOfRarria.Content.Items
         public override void ResetEffects()
         {
             if (Player.timeSinceLastDashStarted <= 1 && Main.myPlayer == Player.whoAmI && IsTuna)
-                Projectile.NewProjectile(Player.GetSource_FromThis(), new Vector2(Player.Center.X + (Player.direction * Player.velocity.X), Player.Center.Y), new Vector2(Player.velocity.X, Player.velocity.Y - 2f), ModContent.ProjectileType<FlippityFloppity>(), 200, 2, Main.myPlayer);
+                Projectile.NewProjectile(Player.GetSource_FromThis(), new Vector2(Player.Center.X + (Player.direction * Player.velocity.X), Player.Center.Y), new Vector2(Player.velocity.X, Player.velocity.Y - 2f), ModContent.ProjectileType<FlippityFloppity>(), 20, 2, Main.myPlayer);
             IsTuna = false;
         }
 
@@ -31,7 +32,7 @@ namespace TheBindingOfRarria.Content.Items
         {
             bool inWater = !attempt.inLava && !attempt.inHoney;
             // Only made the ocean require 1k water instead of location for Skyblock players
-            if (Main.rand.NextBool(25) && inWater && attempt.heightLevel == 1 && attempt.waterTilesCount >= 1000 && !attempt.veryrare && !attempt.legendary && attempt.rare)
+            if (Main.rand.NextBool(25) && inWater && attempt.heightLevel == 1 && attempt.waterTilesCount >= 1000 && attempt.veryrare)
             {
                 itemDrop = ModContent.ItemType<FishTank>();
                 return;
