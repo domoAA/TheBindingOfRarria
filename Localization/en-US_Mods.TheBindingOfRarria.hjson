@@ -531,27 +531,57 @@ Items: {
 
 	ToothAndNail: {
 		DisplayName: Tooth And Nail
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Taking a hit makes you shoot out nails
+			With a 10% chance, you will be encased in a protective boulder instead
+			'You feel prickly'
+			'''
 	}
 
 	BerserkersPauldron: {
 		DisplayName: Berserker's Pauldron
-		Tooltip: "Killing a few enemies in a short time grants 25% increased damage for 6 seconds"
+		Tooltip: 
+			'''
+			Killing a few enemies in a short time grants 25% increased damage for 6 seconds
+			''
+			'''
 	}
 
 	BrilliantBehemoth: {
 		DisplayName: Brilliant Behemoth
-		Tooltip: "Hitting an enemy damages surrounding enemies with an explosion"
+		Tooltip: 
+			'''
+			Hitting an enemy damages surrounding enemies with an explosion
+			''
+			'''
 	}
 
 	FishTank: {
 		DisplayName: Fish Tank
-		Tooltip: ""
+		Tooltip: 
+			'''
+			You throw out a flopping fish every time you dash
+			''
+			'''
 	}
 
 	FocusCrystal: {
 		DisplayName: Focus Crystal
-		Tooltip: "20% increased damage to enemies that are close to you"
+		Tooltip: 
+			'''
+			You deal 20% increased damage to enemies that are close to you
+			''
+			'''
+	}
+
+	FunnyFish: {
+		DisplayName: Funny Fish
+		Tooltip: 
+			'''
+			You shoot fish instead of bullets
+			'Don't cry, I am just a FISH'
+			'''
 	}
 }
 
@@ -633,12 +663,16 @@ Projectiles: {
 	CrystalDashTrail.DisplayName: Crystal Dash Trail
 	CEFist.DisplayName: C E Fist
 	BlockBoulder.DisplayName: Block Boulder
+	FishBullet.DisplayName: Fish Bullet
+	FlippityFloppity.DisplayName: Flippity Floppity
 }
 
 Keybinds: {
 	BrokenWatch.DisplayName: Broken Watch
 	Revelation.DisplayName: Revelation
 	CursedBlood.DisplayName: Cursed Blood
+	AbsorbingLiquid.DisplayName: Absorbing Liquid
+	CrystalHeart.DisplayName: Crystal Heart
 }
 
 Tiles.PaleOreTile.MapEntry: Pale Ore

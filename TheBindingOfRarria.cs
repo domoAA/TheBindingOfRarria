@@ -1,4 +1,7 @@
 
+using System;
+using Terraria.ID;
+
 namespace TheBindingOfRarria
 {
     public class TheBindingOfRarria : Mod
@@ -6,6 +9,10 @@ namespace TheBindingOfRarria
         public static Asset<Texture2D> BeamBody;
         public static Asset<Texture2D> BeamEnd;
         public static Dictionary<string, Asset<Texture2D>> BloodStorage = [];
+
+        public static List<int> FishID = [];
+        public static Dictionary<int, Asset<Texture2D>> FishTextures = [];
+
         public static SoundStyle AdaptedSound = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheel");
         public static SoundStyle WheelCreak = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheelCreak");
         public override void Load()
@@ -16,9 +23,36 @@ namespace TheBindingOfRarria
                 BloodStorage["orbsmol"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BloodOrbSmol"));
                 BloodStorage["cd"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CDTex"));
                 BloodStorage["cdfiller"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CDFiller"));
+
                 BeamEnd = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamEnd");
                 BeamBody = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamBody");
+
+
+                // Fish texture List
+                for (int i = 2297; i <= 2321; i++)
+                {
+                    FishID.Add(i);
+                }
+                for (int j = 2450; j <= 2488; j++)
+                {
+                    FishID.Add(j);
+                }
+                FishID.Add(2290);
+                FishID.Add(4401);
+                FishID.Add(4402);
+
+                foreach (var fish in FishID)
+                {
+                    FishTextures.Add(fish, TextureAssets.Item[fish]);
+                }
             }
+        }
+        public override void PostSetupContent()
+        {
+            //foreach (var fish in FishID)
+            //{
+                //FishTextures.Add(TextureAssets.Item[fish]);
+            //}
         }
         public override void Unload()
         {
@@ -27,6 +61,9 @@ namespace TheBindingOfRarria
                 BloodStorage = null;
                 BeamEnd = null;
                 BeamBody = null;
+
+                FishID = null;
+                FishTextures = null;
             }
         }
         public enum PacketTypes

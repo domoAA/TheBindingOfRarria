@@ -130,7 +130,6 @@ namespace TheBindingOfRarria.Common
                 }
             }
         }
-
         /// <summary>
         /// Frames dust properly based on the passed vanilla dust type. Automatically picks between the 3 available dust sprites.
         /// </summary>
@@ -143,7 +142,7 @@ namespace TheBindingOfRarria.Common
         {
             int frameX = dustType * 10 % 1000;
             int frameY = dustType * 10 / 1000 * 30 + Main.rand.Next(3) * 10;
-            return new Rectangle(frameX, frameY, 8, 8);     
+            return new Rectangle(frameX, frameY, 8, 8);
         }
     }
     public static class NPCExtensions

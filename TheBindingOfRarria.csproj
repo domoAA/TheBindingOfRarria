@@ -7,4 +7,11 @@
 	<PropertyGroup>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 	</PropertyGroup>
+
+	<!-- References -->
+	<ItemGroup>
+		
+	</ItemGroup>
+
+
 </Project>
