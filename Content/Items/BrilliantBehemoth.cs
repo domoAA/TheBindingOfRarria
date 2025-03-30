@@ -39,7 +39,7 @@ public class BrilliantBehemothPlayer : ModPlayer
         
         foreach (var npc in Main.ActiveNPCs)
         {
-            if (npc.WithinRange(target.Center, ExplosionRadius))
+            if (npc.WithinRange(target.Center, ExplosionRadius) && npc.whoAmI != target.whoAmI)
             {
                 int direction = float.Sign(target.DirectionTo(npc.Center).X);
                 npc.SimpleStrikeNPC((int)(hit.Damage * ExplosionDamageMult), direction, knockBack: hit.Knockback * ExplosionKnockbackMult);
@@ -47,7 +47,7 @@ public class BrilliantBehemothPlayer : ModPlayer
         }
         
         // Fiery dust explosion
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 15; i++) {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Torch);
             fireDust.velocity = Main.rand.NextVector2Circular(10f, 10f);
             fireDust.scale = Main.rand.NextFloat(1.3f, 2f);
@@ -55,16 +55,16 @@ public class BrilliantBehemothPlayer : ModPlayer
         }
 
         // Smoke explosion
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Smoke);
             fireDust.velocity = Main.rand.NextVector2Circular(10f, 10f);
             fireDust.noGravity = true;
         }
 
         // Fiery dust on the enemy
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Torch);
-            fireDust.scale = Main.rand.NextFloat(2.3f, 3f);
+            fireDust.scale = Main.rand.NextFloat(1.8f, 2.5f);
             fireDust.noGravity = true;
             fireDust.alpha = 120;
         }

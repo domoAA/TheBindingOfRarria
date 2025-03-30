@@ -45,6 +45,7 @@ public class FocusCrystalPlayer : ModPlayer
         for (int i = 0; i < 4; i++) {
             Dust newDust = Dust.NewDustDirect(target.position, target.width, target.height, ModContent.DustType<FocusCrystalAuraDust>());
             newDust.velocity = Main.rand.NextVector2Circular(5f, 5f);
+            newDust.scale = Main.rand.NextFloat(1f, 1.5f);
         }
     }
 
@@ -55,9 +56,7 @@ public class FocusCrystalPlayer : ModPlayer
             return;
         }
         
-        
-        int numDust = Main.rand.Next(3, 8);
-        for (int i = 0; i < numDust; i++) {
+        for (int i = 0; i < 3; i++) {
             Vector2 dustPositionOffset = Main.rand.NextVector2CircularEdge(Range, Range);
             Vector2 dustPosition = drawInfo.drawPlayer.MountedCenter + dustPositionOffset;
             Point dustTileCoordinates = dustPosition.ToTileCoordinates();
@@ -72,7 +71,8 @@ public class FocusCrystalPlayer : ModPlayer
             // 1/2 chance of being edge dust or zoomy dust
             Vector2 dustVelocity = Main.rand.NextBool() ? Vector2.Zero : dustPosition.DirectionTo(drawInfo.drawPlayer.MountedCenter) * Main.rand.NextFloat(0.4f, 1.8f);
             newDust.velocity = dustVelocity;
-            newDust.customData = drawInfo.drawPlayer.whoAmI;
+            newDust.alpha = 100;
+            newDust.customData = drawInfo.drawPlayer;
 
             drawInfo.DustCache.Add(newDust.dustIndex);
         }
@@ -95,6 +95,11 @@ public class FocusCrystalAuraDust : ModDust
         dust.rotation += 0.1f;
         dust.scale -= 0.03f;
         dust.position += dust.velocity;
+
+        if (dust.customData is Player player)
+        {
+            dust.position += player.position - player.oldPosition;
+        }
 
         if (dust.scale < 0.25f) {
             dust.active = false;
