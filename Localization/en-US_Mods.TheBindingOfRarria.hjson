@@ -533,6 +533,26 @@ Items: {
 		DisplayName: Tooth And Nail
 		Tooltip: ""
 	}
+
+	BerserkersPauldron: {
+		DisplayName: Berserker's Pauldron
+		Tooltip: "Killing a few enemies in a short time grants 25% increased damage for 6 seconds"
+	}
+
+	BrilliantBehemoth: {
+		DisplayName: Brilliant Behemoth
+		Tooltip: "Hitting an enemy damages surrounding enemies with an explosion"
+	}
+
+	FishTank: {
+		DisplayName: Fish Tank
+		Tooltip: ""
+	}
+
+	FocusCrystal: {
+		DisplayName: Focus Crystal
+		Tooltip: "20% increased damage to enemies that are close to you"
+	}
 }
 
 Buffs: {
@@ -584,6 +604,11 @@ Buffs: {
 	BloodShieldBleed: {
 		DisplayName: Blood Shield Bleed
 		Description: Sacrifices your health for defense
+	}
+
+	BerserkersPauldronBuff: {
+		DisplayName: Berserk
+		Description: 25% increased damage
 	}
 }
 
