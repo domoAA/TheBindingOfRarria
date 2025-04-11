@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 

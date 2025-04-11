@@ -1,15 +1,16 @@
-
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Common.Registries;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class FishBullet : ModProjectile
 {
-    public int fish = 0;
+    private const int FishFrames = 66;
+
     public override void SetDefaults()
     {
         Projectile.width = 40;
@@ -21,9 +22,10 @@ public class FishBullet : ModProjectile
 
         Projectile.DamageType = DamageClass.Ranged;
 
-        fish = Main.rand.Next(TheBindingOfRarria.FishID);
+        Projectile.frame = Main.rand.Next(FishFrames);
     }
 
+        // Archaic.
     public override void AI()
     {
         Projectile.ai[0] += 1f;
@@ -51,10 +53,17 @@ public class FishBullet : ModProjectile
         }
     }
 
+        // God help me kain.
     public override bool PreDraw(ref Color lightColor)
     {
-        var texture = TheBindingOfRarria.FishTextures[fish].Value;
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Bounds, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), texture.Size() / 2, 1, (SpriteEffects)(1 - Projectile.direction), 0);
+        Texture2D texture = Textures.Fish.Value;
+
+        Rectangle frame = texture.Frame(1, FishFrames, 0, Projectile.frame);
+
+        SpriteEffects flip = (SpriteEffects)(1 - Projectile.direction);
+
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), frame.Size() * 0.5f, 1, flip, 0);
+
         return false;
     }
 }

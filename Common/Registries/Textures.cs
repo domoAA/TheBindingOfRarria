@@ -18,6 +18,8 @@ public static class Textures
         // I'm gonna pretend I know what this is.
     public static readonly Asset<Texture2D>[] CD = LoadTexture2Ds("CD", 2);
 
+    public static readonly Asset<Texture2D> Fish = LoadTexture2D("Fish");
+
     private static Asset<Texture2D> LoadTexture2D(string TexturePath)
     {
         if (Main.dedServ)

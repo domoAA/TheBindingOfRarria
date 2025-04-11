@@ -1,7 +1,7 @@
 
 using Terraria;
 using Terraria.ModLoader;
-using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Common.Helpers;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 

@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
 using TheBindingOfRarria.Common.Config;
+using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Common.Registries;
 using TheBindingOfRarria.Content.Items;
 
@@ -16,49 +17,38 @@ namespace TheBindingOfRarria.Common.UI;
 
 public class SanguineGiftUI
 {
+    private static readonly Vector2 GiftOffset = new(25f);
 
     public class BloodStorageUIElement : UIElement
     {
         public override void Draw(SpriteBatch spriteBatch)
         {
-                // base.Draw(spriteBatch);
-            if (Main.dedServ)
-                return;
-
-            var center = ModContent.GetInstance<ClientConfig>().SanguineGiftUIPosition * new Vector2(Main.screenWidth, Main.screenHeight) + new Vector2(25f, 25f);
+            Vector2 center = ModContent.GetInstance<ClientConfig>().SanguineGiftUIPosition * Helper.ScreenSize + GiftOffset;
 
             Texture2D texture = Textures.CD[0].Value;
-            var origin = texture.Size() / 2;
-            var color = Color.White;
-            color *= (150 * (1 / 255f));
+            Vector2 origin = texture.Size() * 0.5f;
+            Color color = Color.White;
+            color *= 150 * (1 / 255f);
 
             spriteBatch.Draw(texture, (center), null, color with { A = 150, R = 70 }, 0, origin, 0.2f, SpriteEffects.None, 0);
-
-
 
             texture = Textures.CD[1].Value;
             origin = texture.Size() / 2;
 
-            var rect = texture.Bounds;
+            Rectangle rect = texture.Bounds;
             rect.Height = (int)(rect.Height * (Main.LocalPlayer.GetModPlayer<SanguinePlayer>().Stored * (1f / (Main.LocalPlayer.statLifeMax2 / 10))));
-
-            //color = Color.SpringGreen;
-            //color *= (150 * (1 / 255f));
 
             color = ModContent.GetInstance<ClientConfig>().SanguineGiftUIColor;
 
             spriteBatch.Draw(texture, (center), rect, color with { A = 150 }, Pi, origin, 0.195f, SpriteEffects.None, 0);
             
-
-
             texture = Textures.CD[0].Value;
-            var offset = new Vector2(texture.Width / 12.5f, 0);
-            Utils.DrawBorderString(spriteBatch, $"{Main.LocalPlayer.GetModPlayer<SanguinePlayer>().Stored}", (center + offset.RotatedBy(PiOver2)), Color.White, 1f, 0.5f, 0.5f);
+            Vector2 offset = new(texture.Width / 12.5f, 0);
+            Utils.DrawBorderString(spriteBatch, $"{Main.LocalPlayer.GetModPlayer<SanguinePlayer>().Stored}", center + offset.RotatedBy(PiOver2), Color.White, 1f, 0.5f, 0.5f);
 
             texture = Textures.BloodOrbs[1].Value;
-            origin = texture.Size() / 2;
+            origin = texture.Size() * 0.5f;
             spriteBatch.Draw(texture, center, null, Color.White, 0, origin, 1, SpriteEffects.None, 0);
-
         }
     }
     public class BloodStorageUIState : UIState

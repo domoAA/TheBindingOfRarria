@@ -8,19 +8,4 @@
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 	</PropertyGroup>
 
-	<!-- References -->
-	<ItemGroup>
-	  <None Remove="Assets\BeamBody.png" />
-	  <None Remove="Assets\BeamEnd.png" />
-	  <None Remove="Assets\BloodOrb.png" />
-	  <None Remove="Assets\BloodOrbSmol.png" />
-	  <None Remove="Assets\CDFiller.png" />
-	  <None Remove="Assets\CDTex.png" />
-	  <None Remove="Assets\WheelExtra.png" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Content\Items\Acessories\" />
-	</ItemGroup>
-
-
 </Project>

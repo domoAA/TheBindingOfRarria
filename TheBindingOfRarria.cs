@@ -1,59 +1,15 @@
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent;
-using Terraria.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
-using System.Collections.Generic;
 using System.IO;
 using TheBindingOfRarria.Content.Projectiles;
-using TheBindingOfRarria.Common;
 using TheBindingOfRarria.Content.Items;
+using TheBindingOfRarria.Common.Helpers;
 
 namespace TheBindingOfRarria;
 
 public class TheBindingOfRarria : Mod
 {
-    public static List<int> FishID = [];
-    public static Dictionary<int, Asset<Texture2D>> FishTextures = [];
-
-    public static SoundStyle AdaptedSound = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheel");
-    public static SoundStyle WheelCreak = new SoundStyle("TheBindingOfRarria/Common/Assets/ModifiedMahoragaWheelCreak");
-    public override void Load()
-    {
-        if (Main.netMode != NetmodeID.Server)
-        {
-            
-            // Fish texture List
-            for (int i = 2297; i <= 2321; i++)
-            {
-                FishID.Add(i);
-            }
-            for (int j = 2450; j <= 2488; j++)
-            {
-                FishID.Add(j);
-            }
-            FishID.Add(2290);
-            FishID.Add(4401);
-            FishID.Add(4402);
-
-            foreach (var fish in FishID)
-            {
-                FishTextures.Add(fish, TextureAssets.Item[fish]);
-            }
-        }
-    }
-
-    public override void Unload()
-    {
-        if (Main.netMode != NetmodeID.Server)
-        {
-            FishID = null;
-            FishTextures = null;
-        }
-    }
-
         // fine
     public enum PacketTypes : int
     {

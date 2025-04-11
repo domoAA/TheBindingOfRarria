@@ -4,7 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Content.Dusts;
 using TheBindingOfRarria.Content.Items;
 
