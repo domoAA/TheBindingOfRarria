@@ -1,16 +1,15 @@
 
-namespace TheBindingOfRarria.Content.Buffs
+namespace TheBindingOfRarria.Content.Buffs;
+
+public class HolyProtection : ModBuff
 {
-    public class HolyProtection : ModBuff
+    public override void SetStaticDefaults()
     {
-        public override void SetStaticDefaults()
-        {
-            Main.buffNoTimeDisplay[Type] = true;
-        }
-        public override void Update(Player player, ref int buffIndex)
-        {
-            if (player.GetModPlayer<ProtectedPlayer>().protection != null)
-                player.buffTime[buffIndex] = 2;
-        }
+        Main.buffNoTimeDisplay[Type] = true;
+    }
+    public override void Update(Player player, ref int buffIndex)
+    {
+        if (player.GetModPlayer<ProtectedPlayer>().protection != null)
+            player.buffTime[buffIndex] = 2;
     }
 }

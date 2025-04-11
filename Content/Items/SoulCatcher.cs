@@ -1,49 +1,48 @@
 
-namespace TheBindingOfRarria.Content.Items
+namespace TheBindingOfRarria.Content.Items;
+
+public class SoulCatcher : ModItem
 {
-    public class SoulCatcher : ModItem
+    public override void SetDefaults()
     {
-        public override void SetDefaults()
-        {
-            Item.accessory = true;
-            Item.height = 30;
-            Item.width = 30;
-            Item.rare = ItemRarityID.Green;
-            Item.value = Item.buyPrice(0, 0, 60);
-        }
-        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SoulPlayer>().IsSoul = true;
-        
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddIngredient(ModContent.ItemType<PaleOre>(), 24)
-                .AddIngredient(ItemID.ManaCrystal)
-                .AddTile(TileID.Furnaces)
-                .Register();
-
-            base.AddRecipes();
-        }
+        Item.accessory = true;
+        Item.height = 30;
+        Item.width = 30;
+        Item.rare = ItemRarityID.Green;
+        Item.value = Item.buyPrice(0, 0, 60);
     }
-    public class SoulPlayer : ModPlayer
+    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SoulPlayer>().IsSoul = true;
+    
+    public override void AddRecipes()
     {
-        public bool IsSoul;
-        public bool SoulTook;
-        public override void ResetEffects()
-        {
-            if (SoulTook && Player.ItemAnimationEndingOrEnded)
-                SoulTook = false;
+        CreateRecipe()
+            .AddIngredient(ModContent.ItemType<PaleOre>(), 24)
+            .AddIngredient(ItemID.ManaCrystal)
+            .AddTile(TileID.Furnaces)
+            .Register();
 
-            IsSoul = false;
-        }
+        base.AddRecipes();
+    }
+}
+public class SoulPlayer : ModPlayer
+{
+    public bool IsSoul;
+    public bool SoulTook;
+    public override void ResetEffects()
+    {
+        if (SoulTook && Player.ItemAnimationEndingOrEnded)
+            SoulTook = false;
 
-        public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
+        IsSoul = false;
+    }
+
+    public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
+    {
+        if (IsSoul && !SoulTook)
         {
-            if (IsSoul && !SoulTook)
-            {
-                SoulTook = true;
-                Player.statMana = Math.Min(Player.statMana + 9, Player.statManaMax2);
-                Player.ManaEffect(6);
-            }
+            SoulTook = true;
+            Player.statMana = Math.Min(Player.statMana + 9, Player.statManaMax2);
+            Player.ManaEffect(6);
         }
     }
 }

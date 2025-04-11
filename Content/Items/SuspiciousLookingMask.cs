@@ -1,87 +1,86 @@
 
-namespace TheBindingOfRarria.Content.Items
+namespace TheBindingOfRarria.Content.Items;
+
+[AutoloadEquip(EquipType.Face)]
+public class SuspiciousLookingMask : ModItem
 {
-    [AutoloadEquip(EquipType.Face)]
-    public class SuspiciousLookingMask : ModItem
+    public override void SetDefaults()
     {
-        public override void SetDefaults()
-        {
-            Item.height = 30;
-            Item.width = 28;
-            Item.accessory = true;
-            Item.rare = ItemRarityID.Expert;
-            Item.value = Item.buyPrice(0, 3);
-            Item.expert = true;
-        }
-        public Dictionary<int, int> immunities = [];
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.GetModPlayer<CrazyPlayer>().Insanity = Item;
+        Item.height = 30;
+        Item.width = 28;
+        Item.accessory = true;
+        Item.rare = ItemRarityID.Expert;
+        Item.value = Item.buyPrice(0, 3);
+        Item.expert = true;
+    }
+    public Dictionary<int, int> immunities = [];
+    public override void UpdateAccessory(Player player, bool hideVisual)
+    {
+        player.GetModPlayer<CrazyPlayer>().Insanity = Item;
 
-            foreach (var buff in player.buffType) {
-                if (Main.debuff[buff] && !immunities.ContainsKey(buff))
-                    immunities.Add(buff, 300); }
+        foreach (var buff in player.buffType) {
+            if (Main.debuff[buff] && !immunities.ContainsKey(buff))
+                immunities.Add(buff, 300); }
 
-            foreach (var immunity in immunities)
-            {
-                immunities[immunity.Key] -= 1;
-                if (immunity.Value < -600 || (!player.HasBuff(immunity.Key) && immunity.Value > 0))
-                    immunities.Remove(immunity.Key);
-                else if (immunity.Value < 0)
-                    player.buffImmune[immunity.Key] = true;
-            }
-        }
-        public override void AddRecipes()
+        foreach (var immunity in immunities)
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.BoneHelm)
-                .AddIngredient(ModContent.ItemType<MedicalIceBag>())
-                .AddIngredient(ItemID.Vitamins)
-                .AddIngredient(ItemID.SoulofNight, 20)
-                .AddTile(TileID.ImbuingStation)
-                .Register();
-
-            base.AddRecipes();
+            immunities[immunity.Key] -= 1;
+            if (immunity.Value < -600 || (!player.HasBuff(immunity.Key) && immunity.Value > 0))
+                immunities.Remove(immunity.Key);
+            else if (immunity.Value < 0)
+                player.buffImmune[immunity.Key] = true;
         }
     }
-    public class CrazyPlayer : ModPlayer
+    public override void AddRecipes()
     {
-        public Item Insanity = null;
-        public override void ResetEffects() => Insanity = null;
-        
-        public void OnHitByAnything(Player.HurtInfo info, Vector2 target)
+        CreateRecipe()
+            .AddIngredient(ItemID.BoneHelm)
+            .AddIngredient(ModContent.ItemType<MedicalIceBag>())
+            .AddIngredient(ItemID.Vitamins)
+            .AddIngredient(ItemID.SoulofNight, 20)
+            .AddTile(TileID.ImbuingStation)
+            .Register();
+
+        base.AddRecipes();
+    }
+}
+public class CrazyPlayer : ModPlayer
+{
+    public Item Insanity = null;
+    public override void ResetEffects() => Insanity = null;
+    
+    public void OnHitByAnything(Player.HurtInfo info, Vector2 target)
+    {
+        for (int i = Main.rand.Next(1, 3); i > 0; i--)
         {
-            for (int i = Main.rand.Next(1, 3); i > 0; i--)
-            {
-                var offset = new Vector2(Main.screenWidth * Main.rand.NextFloat(0.2f, 0.8f), Main.screenHeight * Main.rand.NextFloat(0.2f, 0.8f));
-                var pos = Main.screenPosition + offset;
-                pos += pos.DirectionTo(target) * (pos.Distance(target) / 2 - 50);
-                Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(Insanity, info.DamageSource), pos, pos.DirectionTo(target) * 6, ProjectileID.InsanityShadowFriendly, info.SourceDamage / 5 + 5, 3, Player.whoAmI);
-            }
+            var offset = new Vector2(Main.screenWidth * Main.rand.NextFloat(0.2f, 0.8f), Main.screenHeight * Main.rand.NextFloat(0.2f, 0.8f));
+            var pos = Main.screenPosition + offset;
+            pos += pos.DirectionTo(target) * (pos.Distance(target) / 2 - 50);
+            Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(Insanity, info.DamageSource), pos, pos.DirectionTo(target) * 6, ProjectileID.InsanityShadowFriendly, info.SourceDamage / 5 + 5, 3, Player.whoAmI);
         }
-        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
+    }
+    public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
+    {
+        if (Insanity != null)
+            OnHitByAnything(hurtInfo, npc.Center);
+        base.OnHitByNPC(npc, hurtInfo);
+    }
+    public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
+    {
+        if (Insanity != null)
         {
-            if (Insanity != null)
-                OnHitByAnything(hurtInfo, npc.Center);
-            base.OnHitByNPC(npc, hurtInfo);
-        }
-        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
-        {
-            if (Insanity != null)
+            var pos = Player.Center;
+            var distance = 800f * 800;
+            foreach (var target in Main.ActiveNPCs)
             {
-                var pos = Player.Center;
-                var distance = 800f * 800;
-                foreach (var target in Main.ActiveNPCs)
+                if (!target.friendly && target.Center.DistanceSQ(Player.Center) < distance)
                 {
-                    if (!target.friendly && target.Center.DistanceSQ(Player.Center) < distance)
-                    {
-                        distance = target.Center.DistanceSQ(Player.Center);
-                        pos = target.Center;
-                    }
+                    distance = target.Center.DistanceSQ(Player.Center);
+                    pos = target.Center;
                 }
-                OnHitByAnything(hurtInfo, pos);
             }
-            base.OnHitByProjectile(proj, hurtInfo);
+            OnHitByAnything(hurtInfo, pos);
         }
+        base.OnHitByProjectile(proj, hurtInfo);
     }
 }

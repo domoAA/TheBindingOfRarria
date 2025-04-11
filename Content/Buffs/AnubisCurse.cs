@@ -1,19 +1,18 @@
 
-namespace TheBindingOfRarria.Content.Buffs
+namespace TheBindingOfRarria.Content.Buffs;
+
+public class AnubisCurse : ModBuff
 {
-    public class AnubisCurse : ModBuff
+    public override void SetStaticDefaults()
     {
-        public override void SetStaticDefaults()
-        {
-            Main.debuff[Type] = true;
-        }
+        Main.debuff[Type] = true;
     }
-    public class MummyPlayer : ModPlayer
+}
+public class MummyPlayer : ModPlayer
+{
+    public override void PostUpdate()
     {
-        public override void PostUpdate()
-        {
-            if (Player.HasBuff(ModContent.BuffType<AnubisCurse>()))
-                Player.lifeRegen -= 2;
-        }
+        if (Player.HasBuff(ModContent.BuffType<AnubisCurse>()))
+            Player.lifeRegen -= 2;
     }
 }

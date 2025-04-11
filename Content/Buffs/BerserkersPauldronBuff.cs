@@ -1,10 +1,9 @@
-namespace TheBindingOfRarria.Content.Buffs
+namespace TheBindingOfRarria.Content.Buffs;
+
+public class BerserkersPauldronBuff : ModBuff
 {
-    public class BerserkersPauldronBuff : ModBuff
+    public override void Update(Player player, ref int buffIndex)
     {
-        public override void Update(Player player, ref int buffIndex)
-        {
-            player.GetDamage(DamageClass.Generic) += 0.25f;
-        }
+        player.GetDamage(DamageClass.Generic) += 0.25f;
     }
 }
