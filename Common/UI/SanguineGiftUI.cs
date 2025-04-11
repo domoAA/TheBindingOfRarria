@@ -1,8 +1,16 @@
 using Humanizer;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
+using TheBindingOfRarria.Common.Config;
+using TheBindingOfRarria.Common.Registries;
+using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Common.UI;
 
@@ -13,31 +21,27 @@ public class SanguineGiftUI
     {
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+                // base.Draw(spriteBatch);
             if (Main.dedServ)
                 return;
 
-            //spriteBatch.End();
-            //spriteBatch.Begin();
-
-
             var center = ModContent.GetInstance<ClientConfig>().SanguineGiftUIPosition * new Vector2(Main.screenWidth, Main.screenHeight) + new Vector2(25f, 25f);
 
-            var texture = TheBindingOfRarria.BloodStorage["cd"].Value;
+            Texture2D texture = Textures.CD[0].Value;
             var origin = texture.Size() / 2;
             var color = Color.White;
             color *= (150 * (1 / 255f));
 
-            spriteBatch.Draw(texture, (center ), null, color with { A = 150, R = 70 }, 0, origin, 0.2f, SpriteEffects.None, 0); 
-            
+            spriteBatch.Draw(texture, (center), null, color with { A = 150, R = 70 }, 0, origin, 0.2f, SpriteEffects.None, 0);
 
 
-            texture = TheBindingOfRarria.BloodStorage["cdfiller"].Value;
+
+            texture = Textures.CD[1].Value;
             origin = texture.Size() / 2;
 
             var rect = texture.Bounds;
-            rect.Height = (int)(rect.Height * (Main.LocalPlayer.GetModPlayer<SanguinePlayer>().Stored * (1f / (Main.LocalPlayer.statLifeMax2 / 10)))); 
-            
+            rect.Height = (int)(rect.Height * (Main.LocalPlayer.GetModPlayer<SanguinePlayer>().Stored * (1f / (Main.LocalPlayer.statLifeMax2 / 10))));
+
             //color = Color.SpringGreen;
             //color *= (150 * (1 / 255f));
 
@@ -47,11 +51,11 @@ public class SanguineGiftUI
             
 
 
-            texture = TheBindingOfRarria.BloodStorage["cd"].Value;
+            texture = Textures.CD[0].Value;
             var offset = new Vector2(texture.Width / 12.5f, 0);
             Utils.DrawBorderString(spriteBatch, $"{Main.LocalPlayer.GetModPlayer<SanguinePlayer>().Stored}", (center + offset.RotatedBy(PiOver2)), Color.White, 1f, 0.5f, 0.5f);
 
-            texture = TheBindingOfRarria.BloodStorage["orbsmol"].Value;
+            texture = Textures.BloodOrbs[1].Value;
             origin = texture.Size() / 2;
             spriteBatch.Draw(texture, center, null, Color.White, 0, origin, 1, SpriteEffects.None, 0);
 
@@ -61,10 +65,10 @@ public class SanguineGiftUI
     {
         public BloodStorageUIElement element;
         public StolenDraggableUIPanel panel;
+
         public override void OnInitialize()
         {
-            base.OnInitialize();
-            element = new BloodStorageUIElement();
+            element = new();
             element.IgnoresMouseInteraction = true;
             //element.Height.Set(26, 0);
             //element.Width.Set(22, 0);
@@ -95,29 +99,25 @@ public class SanguineGiftUI
     {
         internal BloodStorageUIState state;
         private UserInterface Interface;
-        public void Show()
-        {
-            Interface?.SetState(state);
-        }
-        public void Hide()
-        {
-            Interface?.SetState(null);
-        }
+
+        public void Show() => Interface?.SetState(state);
+
+        public void Hide() => Interface?.SetState(null);
+
         public override void Load()
         {
-            base.Load();
             state = new BloodStorageUIState();
             Interface = new UserInterface();
             state.Activate();
         }
+
         public override void UpdateUI(GameTime gameTime)
         {
-            base.UpdateUI(gameTime);
             Interface?.Update(gameTime);
         }
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            base.ModifyInterfaceLayers(layers);
             int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Entity Health Bars"));
             if (index == -1)
                 return;

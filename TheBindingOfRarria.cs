@@ -1,15 +1,20 @@
-
-using System;
 using Terraria.ID;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.GameContent;
+using Terraria.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System.Collections.Generic;
+using System.IO;
+using TheBindingOfRarria.Content.Projectiles;
+using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria;
 
 public class TheBindingOfRarria : Mod
 {
-    public static Asset<Texture2D> BeamBody;
-    public static Asset<Texture2D> BeamEnd;
-    public static Dictionary<string, Asset<Texture2D>> BloodStorage = [];
-
     public static List<int> FishID = [];
     public static Dictionary<int, Asset<Texture2D>> FishTextures = [];
 
@@ -19,15 +24,7 @@ public class TheBindingOfRarria : Mod
     {
         if (Main.netMode != NetmodeID.Server)
         {
-            BloodStorage["orb"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BloodOrb"));
-            BloodStorage["orbsmol"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BloodOrbSmol"));
-            BloodStorage["cd"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CDTex"));
-            BloodStorage["cdfiller"] = (ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/CDFiller"));
-
-            BeamEnd = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamEnd");
-            BeamBody = ModContent.Request<Texture2D>("TheBindingOfRarria/Common/Assets/BeamBody");
-
-
+            
             // Fish texture List
             for (int i = 2297; i <= 2321; i++)
             {
@@ -47,44 +44,40 @@ public class TheBindingOfRarria : Mod
             }
         }
     }
-    public override void PostSetupContent()
-    {
-        //foreach (var fish in FishID)
-        //{
-            //FishTextures.Add(TextureAssets.Item[fish]);
-        //}
-    }
+
     public override void Unload()
     {
         if (Main.netMode != NetmodeID.Server)
         {
-            BloodStorage = null;
-            BeamEnd = null;
-            BeamBody = null;
-
             FishID = null;
             FishTextures = null;
         }
     }
-    public enum PacketTypes
+
+        // fine
+    public enum PacketTypes : int
     {
         ProjectileReflect,
         EntitySlow,
         DustSpawn,
         Default
     }
+
+        // move to other file
     public enum State
     {
         Default,
         Slow,
         Fast
     }
+
+        // rewrite this mess
     public override void HandlePacket(BinaryReader reader, int whoAmI)
     {
         var type = reader.ReadInt32();
-        if (type == ((int)PacketTypes.ProjectileReflect))
+        if (type == (int)PacketTypes.ProjectileReflect)
         {
-            var id = reader.ReadInt32();
+            int id = reader.ReadInt32();
 
             foreach (var proj in Main.ActiveProjectiles)
             {
@@ -99,12 +92,12 @@ public class TheBindingOfRarria : Mod
                 packet.Send();
             }
         }
-        else if (type == ((int)PacketTypes.EntitySlow))
+        else if (type == (int)PacketTypes.EntitySlow)
         {
-            var slow = reader.ReadInt32();
-            var duration = reader.ReadInt32();
-            var entityType = reader.ReadBoolean();
-            var id = reader.ReadInt32();
+            int slow = reader.ReadInt32();
+            int duration = reader.ReadInt32();
+            bool entityType = reader.ReadBoolean();
+            int id = reader.ReadInt32();
 
             if (Main.netMode == NetmodeID.Server)
             {
@@ -119,30 +112,30 @@ public class TheBindingOfRarria : Mod
 
             if (entityType)
             {
-                foreach (var proj in Main.ActiveProjectiles)
+                foreach (Projectile p in Main.ActiveProjectiles)
                 {
-                    if (proj.identity == id)
+                    if (p.identity == id)
                     {
-                        proj.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = ((State)slow, duration);
+                        p.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = ((State)slow, duration);
                     }
                 }
             }
             else
             {
-                foreach (var npc in Main.ActiveNPCs)
+                foreach (NPC n in Main.ActiveNPCs)
                 {
-                    if (npc.whoAmI == id)
+                    if (n.whoAmI == id)
                     {
-                        npc.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = ((State)slow, duration);
+                        n.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = ((State)slow, duration);
                     }
                 }
             }
             return;
         }
-        else if (type == ((int)PacketTypes.DustSpawn))
+        else if (type == (int)PacketTypes.DustSpawn)
         {
-            var position = reader.ReadVector2();
-            var direction = reader.ReadVector2();
+            Vector2 position = reader.ReadVector2();
+            Vector2 direction = reader.ReadVector2();
             if (Main.netMode == NetmodeID.Server)
             {
                 ModPacket packet = GetPacket();
@@ -153,9 +146,11 @@ public class TheBindingOfRarria : Mod
             }
             else
             {
-                Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().blocked = true;
-                Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().position = position;
-                Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().direction = direction;
+                NatureDodgePlayer natureplayer = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>();
+
+                natureplayer.blocked = true;
+                natureplayer.position = position;
+                natureplayer.direction = direction;
             }
             return;
         }

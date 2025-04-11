@@ -1,0 +1,36 @@
+﻿namespace TheBindingOfRarria.Common.Registries;
+
+    // [Autoload(Side = ModSide.Client)]
+public static class Textures
+{
+    private const string prefix = "TheBindingOfRarria/Assets/Textures/";
+
+    public static readonly Asset<Texture2D> BeamBody = LoadTexture2D("BeamBody");
+    public static readonly Asset<Texture2D> BeamEnd = LoadTexture2D("BeamEnd");
+
+    public static readonly Asset<Texture2D>[] BloodOrbs = LoadTexture2Ds("BloodOrb", 2);
+
+        // I'm gonna pretend I know what this is.
+    public static readonly Asset<Texture2D>[] CD = LoadTexture2Ds("CD", 2);
+
+    private static Asset<Texture2D> LoadTexture2D(string TexturePath)
+    {
+        if (Main.dedServ)
+            return null;
+
+        return ModContent.Request<Texture2D>(prefix + TexturePath);
+    }
+
+    private static Asset<Texture2D>[] LoadTexture2Ds(string TexturePath, int count)
+    {
+        if (Main.dedServ)
+            return null;
+
+        Asset<Texture2D>[] textures = new Asset<Texture2D>[count];
+
+        for (int i = 0; i < count; i++)
+            textures[i] = ModContent.Request<Texture2D>(prefix + TexturePath + i);
+
+        return textures;
+    }
+}
