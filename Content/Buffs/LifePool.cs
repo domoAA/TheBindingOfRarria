@@ -1,4 +1,12 @@
 
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Items;
+
 namespace TheBindingOfRarria.Content.Buffs;
 
 public class LifePool : ModBuff

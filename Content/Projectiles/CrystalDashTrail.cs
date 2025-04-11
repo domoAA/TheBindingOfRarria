@@ -1,5 +1,12 @@
 
 using System;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Content.Dusts;
+using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 

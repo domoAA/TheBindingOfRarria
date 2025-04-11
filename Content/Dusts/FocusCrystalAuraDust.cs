@@ -1,3 +1,8 @@
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+
 namespace TheBindingOfRarria.Content.Dusts;
 
 public class FocusCrystalAuraDust : ModDust
@@ -7,7 +12,7 @@ public class FocusCrystalAuraDust : ModDust
 
     public override void OnSpawn(Dust dust)
     {
-        dust.frame = FrameVanillaDust(DustID.RedTorch);
+        dust.frame = GeneralExtensions.FrameVanillaDust(DustID.RedTorch);
         dust.noGravity = true;
     }
 

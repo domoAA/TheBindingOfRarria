@@ -1,4 +1,11 @@
 
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class HeavyBlowThing : ModProjectile
@@ -32,10 +39,10 @@ public class HeavyBlowThing : ModProjectile
         var color = Color.White;
         color.A = (byte)(Math.Min(228, Projectile.scale * 200));
 
-        QueuePixelationAction(() => {
+        PixellationSystem.QueuePixelationAction(() => {
             Main.EntitySpriteDraw(texture, (Projectile.Center + Projectile.velocity * 4 - Main.screenPosition) / 2, texture.Bounds, color, Projectile.rotation + PiOver2, texture.Size() / 2, scale * 2, SpriteEffects.None, 0);
             Main.EntitySpriteDraw(texture, (Projectile.Center - Main.screenPosition) / 2, texture.Bounds, color, Projectile.rotation, texture.Size() / 2, scale * 3, SpriteEffects.None, 0);
-        }, RenderType.Additive);
+        }, PixellationSystem.RenderType.Additive);
         return false;
     }
 }

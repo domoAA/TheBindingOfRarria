@@ -1,3 +1,9 @@
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Projectiles;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class FunnyFish : ModItem

@@ -1,4 +1,15 @@
 
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+using TheBindingOfRarria.Common;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class ReflectableGlobalProjectile : GlobalProjectile
@@ -122,13 +133,13 @@ public static class ProjectileExtensions
             projectile.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = (state, duration);
         }
     }
-    public static void DrawPixellated(this Projectile projectile, Color color, byte alpha, SpriteEffects effects, RenderType renderType)
+    public static void DrawPixellated(this Projectile projectile, Color color, byte alpha, SpriteEffects effects, PixellationSystem.RenderType renderType)
     {
         var texture = TextureAssets.Projectile[projectile.type].Value;
         var scale = projectile.scale;
         color.A += alpha;
 
-        QueuePixelationAction(() => {
+        PixellationSystem.QueuePixelationAction(() => {
             Main.EntitySpriteDraw(texture, (projectile.Center - Main.screenPosition) / 2, texture.Bounds, color, projectile.rotation, texture.Size() / 2, scale / 2, effects, 0);
         }, renderType);
     }
@@ -137,9 +148,9 @@ public static class ProjectileExtensions
         var texture = TextureAssets.Projectile[projectile.type].Value;
         var scale = projectile.scale;
 
-        QueuePixelationAction(() => {
+        PixellationSystem.QueuePixelationAction(() => {
             Main.EntitySpriteDraw(texture, (projectile.Center - Main.screenPosition) / 2, texture.Bounds, Color.White, projectile.rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
-        }, RenderType.AlphaBlend);
+        }, PixellationSystem.RenderType.AlphaBlend);
     }
     public static void DrawWithTransparency(this Projectile projectile, Color color, byte alpha)
     {

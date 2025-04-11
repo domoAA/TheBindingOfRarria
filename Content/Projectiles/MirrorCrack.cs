@@ -1,4 +1,10 @@
 
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class MirrorCrack : ModProjectile
@@ -32,7 +38,7 @@ public class MirrorCrack : ModProjectile
     {
         byte dimming = (byte)(220 - (byte)Projectile.ai[1]);
         var effect = Projectile.ai[2] == 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
-        Projectile.DrawPixellated(lightColor, dimming, effect, RenderType.Additive);
+        Projectile.DrawPixellated(lightColor, dimming, effect, PixellationSystem.RenderType.Additive);
         return false;
     }
 }

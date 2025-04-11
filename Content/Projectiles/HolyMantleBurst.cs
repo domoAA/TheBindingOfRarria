@@ -1,4 +1,10 @@
 
+using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class HolyMantleBurst : ModProjectile

@@ -1,6 +1,17 @@
 
 
 
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common.Config;
+using TheBindingOfRarria.Content.Projectiles;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class AbsorbingLiquid : ModItem

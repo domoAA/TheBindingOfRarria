@@ -1,5 +1,7 @@
 
+using Microsoft.Xna.Framework.Input;
 using System.ComponentModel;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace TheBindingOfRarria.Common.Config;

@@ -1,4 +1,7 @@
 using MonoMod.Cil;
+using Terraria;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Common;
 

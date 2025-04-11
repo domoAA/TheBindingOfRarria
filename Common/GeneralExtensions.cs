@@ -1,4 +1,11 @@
+using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Dusts;
 
 namespace TheBindingOfRarria.Common;
 
@@ -13,20 +20,20 @@ public static class GeneralExtensions
         }
         return null;
     }
-    public static void DrawPixellated(this Texture2D texture, Vector2 position, float scale, float rotation, Color color, RenderType renderType)
+    public static void DrawPixellated(this Texture2D texture, Vector2 position, float scale, float rotation, Color color, PixellationSystem.RenderType renderType)
     {
         //scale *= Main.GameZoomTarget;
 
-        QueuePixelationAction(() =>
+        PixellationSystem.QueuePixelationAction(() =>
         {
             Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
         }, renderType);
     }
-    public static void DrawPixellated(this Texture2D texture, Vector2 position, Vector2 scale, float rotation, Color color, RenderType renderType)
+    public static void DrawPixellated(this Texture2D texture, Vector2 position, Vector2 scale, float rotation, Color color, PixellationSystem.RenderType renderType)
     {
         //scale *= Main.GameZoomTarget;
 
-        QueuePixelationAction(() =>
+        PixellationSystem.QueuePixelationAction(() =>
         {
             Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
         }, renderType);

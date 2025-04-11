@@ -1,4 +1,7 @@
 
+using Terraria;
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Buffs;
 
 public class ReverseCT : ModBuff

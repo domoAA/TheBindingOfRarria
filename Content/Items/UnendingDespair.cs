@@ -1,4 +1,10 @@
 
+using System.Collections.Generic;
+using Terraria;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Projectiles;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class UnendingDespair : ModItem

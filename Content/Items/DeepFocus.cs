@@ -1,4 +1,9 @@
 
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class DeepFocus : ModItem

@@ -1,4 +1,8 @@
 
+using Terraria;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Projectiles;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class DivergentsFist : ModItem

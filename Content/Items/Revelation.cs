@@ -1,5 +1,12 @@
 
 
+using System.Linq;
+using Terraria;
+using Terraria.GameInput;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common.Config;
+using TheBindingOfRarria.Content.Projectiles;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class Revelation : ModItem

@@ -1,5 +1,12 @@
 
 
+using System.Collections.Generic;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 using TheBindingOfRarria.Common.UI;
 
 namespace TheBindingOfRarria.Content.Items;

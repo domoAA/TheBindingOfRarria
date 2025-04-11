@@ -1,4 +1,8 @@
 
+using Terraria;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class SlowingAura : ModProjectile

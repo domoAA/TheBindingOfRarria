@@ -1,4 +1,10 @@
 ﻿
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class AdamantineTalisman : ModItem

@@ -1,4 +1,11 @@
 
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Content.Dusts;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class Extra98Bomb : ModProjectile
@@ -62,7 +69,7 @@ public class Extra98Bomb : ModProjectile
     {
         Projectile.scale = 0.5f;
         if (Projectile.timeLeft > 12)
-            Projectile.DrawPixellated(lightColor, 220, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, RenderType.Additive);
+            Projectile.DrawPixellated(lightColor, 220, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, PixellationSystem.RenderType.Additive);
         
         return false;
     }

@@ -1,4 +1,6 @@
 
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class CircleOfLight : ModProjectile

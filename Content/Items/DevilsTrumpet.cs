@@ -1,4 +1,9 @@
 
+using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class DevilsTrumpet : ModItem

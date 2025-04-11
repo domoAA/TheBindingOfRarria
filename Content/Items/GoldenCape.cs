@@ -1,4 +1,11 @@
 
+using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Items;
 
 [AutoloadEquip(EquipType.Back, EquipType.Front)]

@@ -1,3 +1,7 @@
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class BrilliantBehemoth : ModItem

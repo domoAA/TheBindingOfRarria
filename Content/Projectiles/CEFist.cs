@@ -1,3 +1,8 @@
+using Terraria;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Content.Dusts;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class CEFist : ModProjectile

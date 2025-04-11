@@ -1,4 +1,8 @@
 
+using Terraria;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+
 namespace TheBindingOfRarria.Content.Dusts;
 
 public class PixellatedDustE98 : ModDust
@@ -27,7 +31,7 @@ public class PixellatedDustE98 : ModDust
     }
     public override bool PreDraw(Dust dust)
     {
-        Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale * new Vector2(0.9f, 0.015f * dust.color.A), dust.rotation + PiOver2, dust.color, RenderType.Additive);
+        Texture2D.Value.DrawPixellated((dust.position - Main.screenPosition) / 2, dust.scale * new Vector2(0.9f, 0.015f * dust.color.A), dust.rotation + PiOver2, dust.color, PixellationSystem.RenderType.Additive);
         return false;
     }
 }

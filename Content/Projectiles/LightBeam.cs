@@ -1,5 +1,15 @@
 
 
+using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Common.Registries;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class LightBeam : ModProjectile
@@ -85,10 +95,10 @@ public class LightBeam : ModProjectile
 
             byte alpha = 30;
 
-            QueuePixelationAction(() =>
+            PixellationSystem.QueuePixelationAction(() =>
             {
-                Projectile.DrawLightBeam(TheBindingOfRarria.BeamEnd.Value, TheBindingOfRarria.BeamBody.Value, Color.LightYellow, alpha, 1, new Vector2(power, 1), new Vector2(0.04f, 0f), 13);
-            }, RenderType.Additive);
+                Projectile.DrawLightBeam(Textures.BeamEnd.Value, Textures.BeamBody.Value, Color.LightYellow, alpha, 1, new Vector2(power, 1), new Vector2(0.04f, 0f), 13);
+            }, PixellationSystem.RenderType.Additive);
         }
             var texture = TextureAssets.Projectile[ModContent.ProjectileType<Extra98Bomb>()].Value;
             texture.DrawWithTransparency((Projectile.Center - Main.screenPosition - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2)) * Main.GameZoomTarget + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), texture.Bounds, power * float.Sin(power), Color.LightYellow, 10, 3, Projectile.scale * (float.Sin(power) * float.Sqrt(Math.Abs(float.Sin(power))) + 1f), 0.02f, 4);

@@ -1,4 +1,11 @@
 
+using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Projectiles;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class AfterimageMirror : ModItem

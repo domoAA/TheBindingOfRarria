@@ -1,6 +1,10 @@
 
 
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
@@ -66,7 +70,7 @@ public class LifeSucker : ModProjectile
             //color.A = 210;
         }
 
-        QueuePixelationAction(() => {
+        PixellationSystem.QueuePixelationAction(() => {
             var rot = PiOver2;
             for (int i = 0; i < 4; i++)
             {
@@ -74,7 +78,7 @@ public class LifeSucker : ModProjectile
                 Main.spriteBatch.Draw(Projectile.MyTexture(), (Projectile.Center - Main.screenPosition + new Vector2(10, 0).RotatedBy(rot)) / 2, Projectile.MyTexture().Bounds, color, rot, Projectile.MyTexture().Size() / 2, 0.9f * new Vector2(0.4f * (-float.Pow(Projectile.timeLeft - 20, 2) * 0.001f + 0.4f), Projectile.scale * 0.1f), SpriteEffects.None, 0);
             }
             Main.spriteBatch.Draw(Projectile.MyTexture(), (Projectile.Center - (Projectile.velocity / 2) - Main.screenPosition) / 2, Projectile.MyTexture().Bounds, color, Projectile.velocity.ToRotation() + Pi, Projectile.MyTexture().Size() / 2, new Vector2(Projectile.velocity.Length() / 256, Projectile.scale * 0.1f), SpriteEffects.None, 0);
-        }, RenderType.Additive);
+        }, PixellationSystem.RenderType.Additive);
 
         return false;
     }

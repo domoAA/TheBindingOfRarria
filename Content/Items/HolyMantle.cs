@@ -1,4 +1,10 @@
 
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Buffs;
+using TheBindingOfRarria.Content.Projectiles;
+
 namespace TheBindingOfRarria.Content.Items;
 
 public class HolyMantle : ModItem

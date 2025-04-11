@@ -1,3 +1,10 @@
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Dusts;
+
 namespace TheBindingOfRarria.Content.Items;
 
 [AutoloadEquip(EquipType.Waist)]

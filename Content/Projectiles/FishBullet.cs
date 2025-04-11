@@ -1,4 +1,10 @@
 
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class FishBullet : ModProjectile
@@ -15,7 +21,7 @@ public class FishBullet : ModProjectile
 
         Projectile.DamageType = DamageClass.Ranged;
 
-        fish = Main.rand.Next(FishID);
+        fish = Main.rand.Next(TheBindingOfRarria.FishID);
     }
 
     public override void AI()
@@ -47,7 +53,7 @@ public class FishBullet : ModProjectile
 
     public override bool PreDraw(ref Color lightColor)
     {
-        var texture = FishTextures[fish].Value;
+        var texture = TheBindingOfRarria.FishTextures[fish].Value;
         Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Bounds, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), texture.Size() / 2, 1, (SpriteEffects)(1 - Projectile.direction), 0);
         return false;
     }

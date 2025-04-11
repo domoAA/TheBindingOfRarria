@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
