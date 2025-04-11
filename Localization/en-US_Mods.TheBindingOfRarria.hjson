@@ -544,7 +544,7 @@ Items: {
 		Tooltip: 
 			'''
 			Killing a few enemies in a short time grants 25% increased damage for 6 seconds
-			''
+			'Of course, it's just speculation, but...'
 			'''
 	}
 
@@ -553,7 +553,7 @@ Items: {
 		Tooltip: 
 			'''
 			Hitting an enemy damages surrounding enemies with an explosion
-			''
+			'I mean, nobody wants to be blown up, right?'
 			'''
 	}
 
@@ -571,7 +571,7 @@ Items: {
 		Tooltip: 
 			'''
 			You deal 20% increased damage to enemies that are close to you
-			''
+			'..and so it left, with delusions of freedom.'
 			'''
 	}
 
