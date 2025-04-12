@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -9,11 +8,14 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class ButtonBomb : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetStaticDefaults()
     {
         Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
         ItemID.Sets.AnimatesAsSoul[Item.type] = true;
     }
+
     public override void SetDefaults()
     {
         Item.width = 30;
@@ -22,6 +24,7 @@ public class ButtonBomb : ModItem
         Item.value = Item.buyPrice(0, 0, 60);
         Item.rare = ItemRarityID.Green;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ButtonBombPlayer>().Button = Item;
     
     public override void AddRecipes()
@@ -32,13 +35,13 @@ public class ButtonBomb : ModItem
             .AddIngredient(ItemID.RedDye, 2)
             .AddTile(TileID.Anvils)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class ButtonBombPlayer : ModPlayer
 {
     public Item Button = null;
+
     public override void ResetEffects() => Button = null;
     
     public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
@@ -49,9 +52,11 @@ public class ButtonBombPlayer : ModPlayer
             return;
         }
         if (target.GetGlobalNPC<ButtonedNPC>().ButtonCD == 0) {
-            Vector2 offset = (target.Center - proj.Center);
-            var bigger = target.width > target.height ? target.height : target.width;
-            var together = target.width * target.width + target.height * target.height;
+            Vector2 offset = target.Center - proj.Center;
+
+            int bigger = target.width > target.height ? target.height : target.width;
+            int together = target.width * target.width + target.height * target.height;
+
             if (offset.LengthSquared() > together) {
                 offset.Normalize();
                 offset *= bigger; }
@@ -60,14 +65,17 @@ public class ButtonBombPlayer : ModPlayer
 
             if (Main.myPlayer != Player.whoAmI)
                 return;
+
             Projectile.NewProjectileDirect(Player.GetSource_Accessory(Button), target.Center - offset, new Vector2(0, 0), ModContent.ProjectileType<Extra98Bomb>(), 3, 1, Player.whoAmI, target.whoAmI, offset.X, offset.Y).rotation = Main.rand.NextFloat() * TwoPi;
             target.GetGlobalNPC<ButtonedNPC>().ButtonCD = 20; }
     }
 }
+
 public class ButtonedNPC : GlobalNPC
 {
     public override bool InstancePerEntity => true;
     public int ButtonCD = 0;
+
     public override void PostAI(NPC npc)
     {
         if (ButtonCD > 0)

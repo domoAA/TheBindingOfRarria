@@ -8,6 +8,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class BerserkersPauldron : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.width = 26;
@@ -17,10 +19,7 @@ public class BerserkersPauldron : ModItem
         Item.accessory = true;
     }
 
-    public override void UpdateAccessory(Player player, bool hideVisual)
-    {
-        player.GetModPlayer<BerserkersPauldronPlayer>().Active = true;
-    }
+    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<BerserkersPauldronPlayer>().Active = true;
 }
 
 public class BerserkersPauldronPlayer : ModPlayer
@@ -34,26 +33,19 @@ public class BerserkersPauldronPlayer : ModPlayer
     private int _effectTimeFrame;
     private int _killedEnemiesCount;
 
-    public override void ResetEffects()
-    {
-        Active = false;
-    }
+    public override void ResetEffects() => Active = false;
 
     public override void PostUpdateEquips()
     {
         _effectTimeFrame--;
         if (_effectTimeFrame <= 0)
-        {
             _killedEnemiesCount = 0;
-        }
     }
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         if (target.active || !Active)
-        {
             return;
-        }
 
         _effectTimeFrame = EffectTimeframeMax;
         _killedEnemiesCount++;
@@ -66,12 +58,10 @@ public class BerserkersPauldronPlayer : ModPlayer
         }
     }
 }
+
 public class BerserkersPauldronDropRule : GlobalNPC
 {
-    public override bool AppliesToEntity(NPC entity, bool lateInstantiation)
-    {
-        return NPCID.Sets.BelongsToInvasionGoblinArmy[entity.type];
-    }
+    public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => NPCID.Sets.BelongsToInvasionGoblinArmy[entity.type];
 
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {

@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ModLoader;
 
@@ -6,12 +5,9 @@ namespace TheBindingOfRarria.Content.Buffs;
 
 public class NullifiedPowers : ModBuff
 {
-    public override void SetStaticDefaults()
-    {
-        Main.debuff[Type] = true;
-    }
-    public override void Update(NPC npc, ref int buffIndex)
-    {
-        //npc.damage = 0;
-    }
+        // idek what this is for......
+
+    public override string Texture => ContentPath + "Buffs/Debuffs/" + Name;
+
+    public override void SetStaticDefaults() => Main.debuff[Type] = true;
 }

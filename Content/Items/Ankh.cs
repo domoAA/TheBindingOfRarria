@@ -1,4 +1,3 @@
-
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -10,12 +9,16 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class Ankh : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override bool CanAccessoryBeEquippedWith(Item equippedItem, Item incomingItem, Player player)
     {
         if ((equippedItem.type == ModContent.ItemType<BrokenAnkh>() || equippedItem.type == ModContent.ItemType<Ankh>()) && (incomingItem.type == ModContent.ItemType<BrokenAnkh>() || incomingItem.type == ModContent.ItemType<Ankh>()))
             return false;
+
         return base.CanAccessoryBeEquippedWith(equippedItem, incomingItem, player);
     }
+
     public override void SetDefaults()
     {
         Item.width = 20;
@@ -24,6 +27,7 @@ public class Ankh : ModItem
         Item.rare = ItemRarityID.LightPurple;
         Item.value = Item.buyPrice(0, 3);
     }
+
     public override void AddRecipes()
     {
         CreateRecipe()
@@ -32,10 +36,9 @@ public class Ankh : ModItem
             .AddIngredient(ItemID.LifeCrystal)
             .AddTile(TileID.TinkerersWorkbench)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class RevivePlayer : ModPlayer
 {
     public override void PostUpdateBuffs()

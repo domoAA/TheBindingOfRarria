@@ -9,8 +9,11 @@ public static partial class Helper
     public class SlowedGlobalNPC : GlobalNPC
     {
         public override bool InstancePerEntity => true;
+
         public (TheBindingOfRarria.State, int) Slowed = (TheBindingOfRarria.State.Default, 0);
+
         public int counter = 0;
+
         public override bool PreAI(NPC npc)
         {
             if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
@@ -23,6 +26,7 @@ public static partial class Helper
             }
             return base.PreAI(npc);
         }
+
         public override void PostAI(NPC npc)
         {
             if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
@@ -30,6 +34,7 @@ public static partial class Helper
             else if (Slowed.Item1 == TheBindingOfRarria.State.Fast)
                 npc.velocity *= 1.03f;
         }
+
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
             if (Slowed.Item1 == TheBindingOfRarria.State.Slow)

@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
@@ -6,14 +5,14 @@ using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Content.Projectiles;
 
-namespace TheBindingOfRarria.Content.Buffs;
+namespace TheBindingOfRarria.Content.Buffs.Debuffs;
 
 public class MagneticField : ModBuff
 {
-    public override void SetStaticDefaults()
-    {
-        Main.debuff[Type] = true;
-    }
+    public override string Texture => ContentPath + "Buffs/Debuffs/" + Name;
+
+    public override void SetStaticDefaults() => Main.debuff[Type] = true;
+
     public override void Update(NPC npc, ref int buffIndex)
     {
         var distance = 128 * (1 + npc.Size.Length() / 100);
@@ -27,14 +26,12 @@ public class MagneticField : ModBuff
             }
         }
     }
-    public override bool ReApply(NPC npc, int time, int buffIndex)
-    {
-        return base.ReApply(npc, time, buffIndex);
-    }
 }
+
 public class FerromagneticGlobalNPC : GlobalNPC
 {
     public override bool InstancePerEntity => true;
+
     public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
     {
         if (npc.HasBuff(ModContent.BuffType<MagneticField>()))
@@ -43,6 +40,7 @@ public class FerromagneticGlobalNPC : GlobalNPC
             texture.DrawWithTransparency(npc.Center - Main.screenPosition, 1 + npc.Size.Length() / 100, Color.SteelBlue, 90);
             Lighting.AddLight(npc.Center, Color.SteelBlue.ToVector3() * (npc.Size.Length() / 100));
         }
+
         return base.PreDraw(npc, spriteBatch, screenPos, drawColor);
     }
 }

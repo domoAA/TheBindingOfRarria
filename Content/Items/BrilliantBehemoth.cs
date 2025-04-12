@@ -6,6 +6,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class BrilliantBehemoth : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.width = 50;
@@ -15,17 +17,15 @@ public class BrilliantBehemoth : ModItem
         Item.accessory = true;
     }
 
-    public override void UpdateAccessory(Player player, bool hideVisual)
-    {
-        player.GetModPlayer<BrilliantBehemothPlayer>().Active = true;
-    }
+    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<BrilliantBehemothPlayer>().Active = true;
 }
 
 public class BrilliantBehemothPlayer : ModPlayer
 {
-    private const float ExplosionRadius = 8f * 16f;
-    private const float ExplosionDamageMult = 0.2f;
-    private const float ExplosionKnockbackMult = 0.2f;
+        //    // Rare attempt at constants ?????
+        //private const float ExplosionRadius = 8f * 16f;
+        //private const float ExplosionDamageMult = 0.2f;
+        //private const float ExplosionKnockbackMult = 0.2f;
 
     public bool Active;
 
@@ -37,20 +37,20 @@ public class BrilliantBehemothPlayer : ModPlayer
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         if (!Active)
-        {
             return;
-        }
 
-        foreach (var npc in Main.ActiveNPCs)
-        {
-            if (npc.WithinRange(target.Center, ExplosionRadius) && npc.whoAmI != target.whoAmI)
-            {
-                //int direction = float.Sign(target.DirectionTo(npc.Center).X);
-                //npc.SimpleStrikeNPC((int)(hit.Damage * ExplosionDamageMult), direction, knockBack: hit.Knockback * ExplosionKnockbackMult);
-            }
-        }
+            // Don't leave for loops if they dont do anything.
 
-        // Fiery dust explosion
+            // foreach (var npc in Main.ActiveNPCs)
+            // {
+            //     if (npc.WithinRange(target.Center, ExplosionRadius) && npc.whoAmI != target.whoAmI)
+            //     {
+            //           // int direction = float.Sign(target.DirectionTo(npc.Center).X);
+            //           // npc.SimpleStrikeNPC((int)(hit.Damage * ExplosionDamageMult), direction, knockBack: hit.Knockback * ExplosionKnockbackMult);
+            //     }
+            // }
+
+            // Fiery dust explosion
         for (int i = 0; i < 15; i++)
         {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Torch);
@@ -59,7 +59,7 @@ public class BrilliantBehemothPlayer : ModPlayer
             fireDust.noGravity = true;
         }
 
-        // Smoke explosion
+            // Smoke explosion
         for (int i = 0; i < 8; i++)
         {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Smoke);
@@ -67,7 +67,7 @@ public class BrilliantBehemothPlayer : ModPlayer
             fireDust.noGravity = true;
         }
 
-        // Fiery dust on the enemy
+            // Fiery dust on the enemy
         for (int i = 0; i < 3; i++)
         {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Torch);
@@ -80,13 +80,7 @@ public class BrilliantBehemothPlayer : ModPlayer
 
 public class BrilliantBehemothGlobalNPC : GlobalNPC
 {
-    public override bool AppliesToEntity(NPC entity, bool lateInstantiation)
-    {
-        return entity.type == NPCID.Demolitionist;
-    }
+    public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => entity.type == NPCID.Demolitionist;
 
-    public override void ModifyShop(NPCShop shop)
-    {
-        shop.InsertAfter(ItemID.Dynamite, ModContent.ItemType<BrilliantBehemoth>(), Condition.DownedGolem);
-    }
+    public override void ModifyShop(NPCShop shop) => shop.InsertAfter(ItemID.Dynamite, ModContent.ItemType<BrilliantBehemoth>(), Condition.DownedGolem);
 }
