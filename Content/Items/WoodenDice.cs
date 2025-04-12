@@ -1,4 +1,3 @@
-
 using System;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class WoodenDice : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -16,6 +17,7 @@ public class WoodenDice : ModItem
         Item.rare = ItemRarityID.Green;
         Item.value = Item.buyPrice(0, 0, 7, 20);
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<DiceyPlayer>().Dice = true;
 
     public override void AddRecipes()
@@ -26,20 +28,21 @@ public class WoodenDice : ModItem
             .AddIngredient(ItemID.LuckPotion)
             .AddTile(TileID.WorkBenches)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
+    // Same for what I said about NewRollPlayer.
 public class DiceyPlayer : NewRollPlayer
 {
     public bool Dice = false;
+
     public static void DiceReroll(Player self, ref int Damage)
     {
         if (LuckRoll.rolled != 0 && Damage % LuckRoll.rolled == 0 && self.GetModPlayer<DiceyPlayer>().Dice)
         {
-            var bound = self.GetModPlayer<NewRollPlayer>().Talisman ? 100 : 100 + Main.DefaultDamageVariationPercent;
+            int bound = self.GetModPlayer<NewRollPlayer>().Talisman ? 100 : 100 + Main.DefaultDamageVariationPercent;
 
-            var roll = Math.Max(1, CustomRangeDamageVar(Damage, 100 - Main.DefaultDamageVariationPercent, bound));
+            int roll = Math.Max(1, CustomRangeDamageVar(Damage, 100 - Main.DefaultDamageVariationPercent, bound));
 
             if (roll > Damage)
                 Damage = roll;

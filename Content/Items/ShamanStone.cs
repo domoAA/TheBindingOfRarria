@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class ShamanStone : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -17,34 +18,38 @@ public class ShamanStone : ModItem
         Item.rare = ItemRarityID.Master;
         Item.master = true;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetDamage(DamageClass.Magic) += 0.1f;
         player.GetModPlayer<ShamanSnailPlayer>().ShamanStone = true;
     }
 }
-public class WoFBagLoot : GlobalItem
+
+public class WallOfFleshBagLoot : GlobalItem
 {
     public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
     {
         if (item.type == ItemID.WallOfFleshBossBag)
         {
-            var rule = new ItemDropWithConditionRule(ModContent.ItemType<ShamanStone>(), 10, 1, 1, new Conditions.IsMasterMode());
+            IItemDropRule rule = new ItemDropWithConditionRule(ModContent.ItemType<ShamanStone>(), 10, 1, 1, new Conditions.IsMasterMode());
             itemLoot.Add(rule);
         }
     }
 }
+
 public class ShamanSnailPlayer : ModPlayer
 {
     public bool ShamanStone = false;
+
     public override void ResetEffects() => ShamanStone = false;
-    
 }
+
 public class ShamanSnailGlobalProjectile : GlobalProjectile 
 {
-    // wip
+        // wip
     public override bool InstancePerEntity => true;
-    public bool CastByShaman = false;
+    private bool CastByShaman = false;
 
     public override bool AppliesToEntity(Projectile entity, bool lateInstantiation) => entity.friendly && entity.DamageType == DamageClass.Magic;
     
@@ -56,6 +61,7 @@ public class ShamanSnailGlobalProjectile : GlobalProjectile
             projectile.Resize((int)(projectile.width * 1.5f), (int)(projectile.height * 1.5f));
             projectile.scale *= 1.5f;
         }
+
         return base.PreAI(projectile);
     }
 }

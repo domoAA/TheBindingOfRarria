@@ -1,5 +1,3 @@
-
-
 using System.Linq;
 using Terraria;
 using Terraria.GameInput;
@@ -11,22 +9,27 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class Revelation : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
         Item.width = 28;
         Item.height = 28;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<RevelationPlayer>().revelation = Item;
         player.GetModPlayer<RevelationPlayer>().counter--;
     }
 }
+
 public class RevelationPlayer : ModPlayer
 {
     public Item revelation = null;
     public int counter = 0;
+
     public override void ResetEffects() => revelation = null;
     
     public override void ProcessTriggers(TriggersSet triggersSet)

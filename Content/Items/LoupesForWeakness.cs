@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,6 +6,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class LoupesForWeakness : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -15,6 +16,7 @@ public class LoupesForWeakness : ModItem
         Item.value = Item.buyPrice(0, 1);
         Item.rare = ItemRarityID.Pink;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<RatioPlayer>().Nanamin = true;
     
     public override void AddRecipes()
@@ -24,13 +26,13 @@ public class LoupesForWeakness : ModItem
             .AddIngredient(ItemID.SoulofSight, 20)
             .AddTile(TileID.MythrilAnvil)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class RatioPlayer : ModPlayer
 {
     public bool Nanamin = false;
+
     public override void ResetEffects() => Nanamin = false;
     
     public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)

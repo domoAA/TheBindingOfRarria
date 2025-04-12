@@ -9,6 +9,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class GodHead : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -17,6 +19,7 @@ public class GodHead : ModItem
         Item.value = Item.buyPrice(0, 6);
         Item.rare = ItemRarityID.Pink;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<CircleOfLight>(), player.GetSource_Accessory(Item));
     
     public override void AddRecipes()
@@ -27,7 +30,5 @@ public class GodHead : ModItem
             .AddIngredient(ItemID.AngelStatue)
             .AddTile(TileID.TinkerersWorkbench)
             .Register();
-
-        base.AddRecipes();
     }
 }

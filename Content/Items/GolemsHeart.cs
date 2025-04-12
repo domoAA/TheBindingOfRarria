@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
@@ -12,6 +11,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class GolemsHeart : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.width = 22;
@@ -22,6 +23,7 @@ public class GolemsHeart : ModItem
         Item.value = Item.buyPrice(0, 6, 66);
         Item.expert = true;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<RepellingPulse>(), player.GetSource_Accessory(Item));
     
     public override int ChoosePrefix(UnifiedRandom rand)
@@ -37,12 +39,15 @@ public class GolemsHeart : ModItem
             return base.ChoosePrefix(rand);
     }
 }
+
 public class PulsingGolem : GlobalNPC
 {
     public override bool InstancePerEntity => true;
+
     public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => entity.type == NPCID.GraniteGolem;
     
     public Projectile HeartBeat = null;
+
     public override void OnSpawn(NPC npc, IEntitySource source)
     {
         if (!Main.expertMode || Main.netMode == NetmodeID.MultiplayerClient)
@@ -53,6 +58,7 @@ public class PulsingGolem : GlobalNPC
 
         base.OnSpawn(npc, source);
     }
+
     public override void PostAI(NPC npc)
     {
         if (HeartBeat != null && HeartBeat.active)
@@ -69,12 +75,12 @@ public class PulsingGolem : GlobalNPC
                 npc.reflectsProjectiles = false;
         }
     }
+
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {
         if (npc.type == NPCID.GraniteGolem)
-        {
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<GolemsHeart>(), 100)); 
-        }
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<GolemsHeart>(), 100));
+
         base.ModifyNPCLoot(npc, npcLoot);
     }
 }

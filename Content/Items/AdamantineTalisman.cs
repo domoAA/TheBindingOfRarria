@@ -36,11 +36,13 @@ public class AdamantineTalisman : ModItem
     }
 }
 
+        // Scratch that,,.. why the HELL is this partial.
+    // Rewrite this base class, and place it elsewhere.
 public partial class NewRollPlayer : ModPlayer
 {
     public bool Talisman = false;
 
-    private static (float original, int rolled) LuckRoll = (0, 0);
+    public static (float original, int rolled) LuckRoll = (0, 0);
 
     public override void ResetEffects() => Talisman = false;
 

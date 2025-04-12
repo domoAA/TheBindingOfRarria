@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -12,6 +11,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class FallingBlossomEmotion : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.width = 26;
@@ -20,27 +21,25 @@ public class FallingBlossomEmotion : ModItem
         Item.rare = ItemRarityID.Green;
         Item.value = Item.buyPrice(0, 1, 70);
     }
-    public float chance = 0.07f;
-    public override void UpdateAccessory(Player player, bool hideVisual)
-    {
-        chance = player.GetModPlayer<NatureDodgePlayer>().chance;
-        player.GetModPlayer<NatureDodgePlayer>().IsFromAGreatClan = true;
-    }
+
+    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<NatureDodgePlayer>().IsFromAGreatClan = true;
+
+        // Again helper method for this.
     public override void ModifyTooltips(List<TooltipLine> tooltips)
     {
-        chance = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().chance;
+        float chance = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().chance;
 
-        var text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{(int)(chance * 100)}%");
+        string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{(int)(chance * 100)}%");
 
-        var index = tooltips.FindIndex(line => line.Name == "Tooltip0");
+        int index = tooltips.FindIndex(line => line.Name == "Tooltip0");
         if (index != -1)
         {
             text = text.Remove(text.LastIndexOf($"\n"));
             text = text.Remove(text.LastIndexOf($"\n"));
             tooltips[index].Text = text;
-
         }
     }
+
     public override void AddRecipes()
     {
         CreateRecipe()
@@ -50,10 +49,9 @@ public class FallingBlossomEmotion : ModItem
             .AddIngredient(ItemID.Vine, 6)
             .AddTile(TileID.WorkBenches)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class NatureDodgePlayer : ModPlayer
 {
     public float chance = 0f;
@@ -61,12 +59,13 @@ public class NatureDodgePlayer : ModPlayer
     public bool blocked = false;
     public Vector2 direction = Vector2.UnitY;
     public Vector2 position = Vector2.Zero;
+
     public override void ResetEffects() => IsFromAGreatClan = false;
     
     public override void PostUpdate()
     {
         chance = Math.Min(Math.Max(0.07f + (Player.moveSpeed - 1f) / 5, 0.07f), 0.21f);
-        base.PostUpdate();
+
         if (blocked)
         {
             position.SpawnDust(ModContent.DustType<PixellatedDustE98>(), 1.6f, 0.36f, Color.LightSeaGreen, 7, 25, 0.7f, direction.ToRotation() + PiOver2);
@@ -98,6 +97,7 @@ public class NatureDodgePlayer : ModPlayer
         else
             return base.FreeDodge(info);
     }
+
     public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
     {
         if (IsFromAGreatClan)
@@ -110,6 +110,7 @@ public class NatureDodgePlayer : ModPlayer
             base.ModifyHitByNPC(npc, ref modifiers);
         }
     }
+
     public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
     {
         if (IsFromAGreatClan)

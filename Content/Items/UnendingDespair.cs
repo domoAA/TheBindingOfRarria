@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Localization;
@@ -7,15 +6,20 @@ using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
 
+    // Me when I have to refactor code:
 public class UnendingDespair : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
         Item.width = 28;
         Item.height = 30;
     }
-    public int counter = 0;
+
+    private int counter = 0;
+
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         if (player.GetModPlayer<LifeSuckerPlayer>().heal != 0)
@@ -23,14 +27,19 @@ public class UnendingDespair : ModItem
             player.Heal(player.GetModPlayer<LifeSuckerPlayer>().heal);
             player.GetModPlayer<LifeSuckerPlayer>().heal = 0;
         }
+
         counter++;
+
         if (counter >= 300)
         {
+                // Make this use either an array or hashset please.
             List<int> victims = [];
+
             for (int i = 0; i < 4; i++)
             {
                 float dist = 325 * 325;
                 victims.Add(-1);
+
                 foreach (var t in Main.ActiveNPCs)
                 {
                     if (!victims.Contains(t.whoAmI) && !t.friendly && !t.immortal && !t.CountsAsACritter && t.Center.DistanceSQ(player.Center) < dist)
@@ -48,12 +57,13 @@ public class UnendingDespair : ModItem
             }
         }
     }
+
     public override void ModifyTooltips(List<TooltipLine> tooltips)
     {
         int index = tooltips.FindIndex(t => t.Name == "Tooltip0");
         if (index != -1)
         {
-            var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.UnendingDespair.Tooltip"), $"[c/{Color.LightGreen.Hex3()}:({Main.LocalPlayer.statLifeMax2 / 10})]");
+            string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.UnendingDespair.Tooltip"), $"[c/{Color.LightGreen.Hex3()}:({Main.LocalPlayer.statLifeMax2 / 10})]");
 
             text = text.Remove(text.LastIndexOf($"\n"));
             text = text.Remove(text.LastIndexOf($"\n"));
@@ -61,6 +71,8 @@ public class UnendingDespair : ModItem
         }
     }
 }
+
+    // ???????????????????????????
 public class LifeSuckerPlayer : ModPlayer
 {
     public int heal = 0;

@@ -1,4 +1,3 @@
-
 using System;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class SoulCatcher : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -16,6 +17,7 @@ public class SoulCatcher : ModItem
         Item.rare = ItemRarityID.Green;
         Item.value = Item.buyPrice(0, 0, 60);
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SoulPlayer>().IsSoul = true;
     
     public override void AddRecipes()
@@ -25,14 +27,14 @@ public class SoulCatcher : ModItem
             .AddIngredient(ItemID.ManaCrystal)
             .AddTile(TileID.Furnaces)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class SoulPlayer : ModPlayer
 {
     public bool IsSoul;
-    public bool SoulTook;
+    private bool SoulTook;
+
     public override void ResetEffects()
     {
         if (SoulTook && Player.ItemAnimationEndingOrEnded)

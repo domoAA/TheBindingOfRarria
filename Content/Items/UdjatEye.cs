@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,6 +6,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class UdjatEye : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -15,11 +16,13 @@ public class UdjatEye : ModItem
         Item.rare = ItemRarityID.Orange;
         Item.value = Item.buyPrice(0, 1, 12);
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.dangerSense = true;
         player.findTreasure = true;
     }
+
     public override void AddRecipes()
     {
         CreateRecipe()
@@ -27,13 +30,13 @@ public class UdjatEye : ModItem
             .AddIngredient(ItemID.SpelunkerPotion, 8)
             .AddTile(TileID.Solidifier)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class UdjatExtractinatorDrop : GlobalItem
 {
-    public override bool InstancePerEntity => true;
+        // public override bool InstancePerEntity => true;
+
     public override void ExtractinatorUse(int extractType, int extractinatorBlockType, ref int resultType, ref int resultStack)
     {
         if (extractType == ItemID.DesertFossil && Main.rand.NextFloat() < 0.005) 

@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,8 +5,11 @@ using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
 
+    // This charm is dogshit lowk.
 public class HeavyBlow : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -30,13 +32,13 @@ public class HeavyBlow : ModItem
             .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
             .AddTile(TileID.Anvils)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class KnockbackAccessoryPlayer : ModPlayer
 {
     public Item KnockbackItem = null;
+
     public override void ResetEffects() => KnockbackItem = null;
     
     public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)
@@ -49,8 +51,10 @@ public class KnockbackAccessoryPlayer : ModPlayer
             var position = target.Center + target.Center.DirectionTo(Player.Center) * target.Hitbox.Size() / 2;
             Projectile.NewProjectile(Player.GetSource_Accessory(KnockbackItem), position, Player.Center.DirectionTo(position), ModContent.ProjectileType<HeavyBlowThing>(), 0, 0, Player.whoAmI, modifiers.Knockback.ApplyTo(1) / 2);
         }
+
         base.ModifyHitNPCWithItem(item, target, ref modifiers);
     }
+
     public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
     {
         if (KnockbackItem != null)
@@ -67,6 +71,7 @@ public class KnockbackAccessoryPlayer : ModPlayer
             }
             Projectile.NewProjectile(Player.GetSource_Accessory(KnockbackItem), position, direction, ModContent.ProjectileType<HeavyBlowThing>(), 0, 0, proj.owner, modifiers.Knockback.ApplyTo(1) / 2);
         }
+
         base.ModifyHitNPCWithProj(proj, target, ref modifiers);
     }
 }

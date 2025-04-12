@@ -4,7 +4,6 @@ using Terraria.ModLoader;
 using System.IO;
 using TheBindingOfRarria.Content.Projectiles;
 using TheBindingOfRarria.Content.Items;
-using TheBindingOfRarria.Common.Helpers;
 
 namespace TheBindingOfRarria;
 

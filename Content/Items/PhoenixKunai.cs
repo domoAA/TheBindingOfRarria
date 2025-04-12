@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
@@ -10,6 +9,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class PhoenixKunai : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -18,13 +19,16 @@ public class PhoenixKunai : ModItem
         Item.rare = ItemRarityID.Green;
         Item.value = Item.buyPrice(0, 0, 20);
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<KunaiPlayer>().kunai = Item;
 
 }
+
 public class KunaiPlayer : ModPlayer
 {
     public Item kunai = null;
-    public int counter = -1;
+    private int counter = -1;
+
     public override void ResetEffects() => kunai = null;
     
     public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -43,25 +47,25 @@ public class KunaiPlayer : ModPlayer
         return base.Shoot(item, source, position, velocity, type, damage, knockback);
     }
 }
-public class KSBagLoot : GlobalItem
+
+public class KingSlimeBagLoot : GlobalItem
 {
     public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
     {
         if (item.type == ItemID.KingSlimeBossBag)
         {
-            var rule = ItemDropRule.Common(ModContent.ItemType<PhoenixKunai>(), 6);
+            IItemDropRule rule = ItemDropRule.Common(ModContent.ItemType<PhoenixKunai>(), 6);
             itemLoot.Add(rule);
         }
     }
 }
+
 public class KunaiLootNPC : GlobalNPC
 {
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {
         if (npc.type == NPCID.KingSlime)
-            {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PhoenixKunai>(), 6));
-        }
         base.ModifyNPCLoot(npc, npcLoot);
     }
 }

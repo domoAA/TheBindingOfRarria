@@ -6,6 +6,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class SlasherHalberd : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.height = 30;
@@ -14,13 +16,13 @@ public class SlasherHalberd : ModItem
         Item.rare = ItemRarityID.LightRed;
         Item.value = Item.buyPrice(0, 0, 89);
     }
-    public int counter = 0;
-    public override void UpdateAccessory(Player player, bool hideVisual)
-    {
-        player.GetModPlayer<SlasherItemPlayer>().Halberd = Item;
-    }
+
+        // private int counter = 0;
+
+    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SlasherItemPlayer>().Halberd = Item;
 }
-class HalberdItemNPCShop : GlobalNPC
+
+public class HalberdItemNPCShop : GlobalNPC
 {
     public override void ModifyShop(NPCShop shop)
     {
@@ -34,10 +36,12 @@ class HalberdItemNPCShop : GlobalNPC
         }
     }
 }
+
 public class SlasherItemPlayer : ModPlayer
 {
     public Item Halberd = null;
-    public bool Slashed = false;
+    private bool Slashed = false;
+
     public override void ResetEffects()
     {
         if (Slashed && Player.ItemAnimationEndingOrEnded)
@@ -45,25 +49,29 @@ public class SlasherItemPlayer : ModPlayer
 
         Halberd = null;
     }
+
     public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
     {
         if (Halberd != null && !Slashed && Player.whoAmI == Main.myPlayer && !target.immortal)
         {
-            var distance = 400f * 400;
-            var pos = Vector2.Zero;
-            foreach (var t in Main.ActiveNPCs)
+            float distance = 400f * 400;
+            Vector2 position = Vector2.Zero;
+
+            foreach (NPC n in Main.ActiveNPCs)
             {
-                if (target.Center.DistanceSQ(Player.Center) < distance && !t.friendly && t.whoAmI != target.whoAmI && !t.immortal)
+                if (target.Center.DistanceSQ(Player.Center) < distance && !n.friendly && n.whoAmI != target.whoAmI && !n.immortal)
                 {
-                    distance = t.Center.DistanceSQ(Player.Center);
-                    pos = t.Center;
+                    distance = n.Center.DistanceSQ(Player.Center);
+                    position = n.Center;
                 }
             }
-            if (pos != Vector2.Zero)
+
+            if (position != Vector2.Zero)
             {
-                var vel = new Vector2(11f, 11f).RotatedByRandom(TwoPi);
-                Projectile.NewProjectile(Player.GetSource_Accessory(Halberd, "SlasherHalberd"), pos - vel * 9, vel, ProjectileID.Muramasa, 30, 1, Player.whoAmI, Main.rand.NextFloat() - 0.5f, 0, 0);
+                Vector2 vel = new Vector2(11f, 11f).RotatedByRandom(TwoPi);
+                Projectile.NewProjectile(Player.GetSource_Accessory(Halberd, "SlasherHalberd"), position - vel * 9, vel, ProjectileID.Muramasa, 30, 1, Player.whoAmI, Main.rand.NextFloat() - 0.5f, 0, 0);
             }
+
             Slashed = true;
         }
     }

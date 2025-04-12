@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
@@ -10,6 +9,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class WeaverSong : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -19,15 +20,18 @@ public class WeaverSong : ModItem
         Item.value = Item.buyPrice(0, 2, 28);
         Item.expert = true;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.maxMinions += 2;
         player.GetModPlayer<SpooderPlayer>().Spooder = true;
     }
 }
+
 public class SpooderPlayer : ModPlayer
 {
     public bool Spooder = false;
+
     public override void ResetEffects() => Spooder = false;
     
     public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
@@ -35,22 +39,21 @@ public class SpooderPlayer : ModPlayer
         base.ModifyHitNPCWithProj(proj, target, ref modifiers);
         
         if (proj.minion && Spooder)
-        {
             target.GetSlowed(TheBindingOfRarria.State.Slow, 120);
-        }
     }
 }
+
 public class SpiderDropNPC : GlobalNPC
 {
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {
         if (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluse)
-        {
             npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<WeaverSong>(), 50));
-        }
+
         base.ModifyNPCLoot(npc, npcLoot);
     }
 }
+
 public class SpiderDropCodweb : GlobalTile
 {
     public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)

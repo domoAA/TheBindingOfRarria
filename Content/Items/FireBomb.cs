@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +7,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class FireBomb : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.width = 30;
@@ -16,6 +17,7 @@ public class FireBomb : ModItem
         Item.value = Item.buyPrice(0, 0, 80);
         Item.rare = ItemRarityID.LightRed;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ExplotaroPlayer>().Bomboclat = Item;
     
     public override void AddRecipes()
@@ -26,13 +28,14 @@ public class FireBomb : ModItem
             .AddIngredient(ItemID.ExplosivePowder, 13)
             .AddTile(TileID.Anvils)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class ExplotaroPlayer : ModPlayer
 {
+        // I'm pretty sure this is a slur.
     public Item Bomboclat = null;
+
     public override void ResetEffects() => Bomboclat = null;
     
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

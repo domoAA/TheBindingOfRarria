@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +8,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class HolyMantle : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.width = 28;
@@ -17,6 +18,7 @@ public class HolyMantle : ModItem
         Item.value = Item.buyPrice(0, 5);
         Item.rare = ItemRarityID.LightRed;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ProtectedPlayer>().protection = Item;
     
     public override void AddRecipes()
@@ -27,14 +29,14 @@ public class HolyMantle : ModItem
             .AddIngredient(ItemID.SoulofLight, 3)
             .AddTile(TileID.TinkerersWorkbench)
             .Register();
-
-        base.AddRecipes();
     }
 }
 public class ProtectedPlayer : ModPlayer
 {
     public Item protection = null;
-    public int CD = 0;
+
+    private int CD = 0;
+
     public override void ResetEffects() => protection = null;
     
     public override void PostUpdateEquips()
@@ -47,6 +49,7 @@ public class ProtectedPlayer : ModPlayer
             CD--;
         }
     }
+
     public override bool FreeDodge(Player.HurtInfo info)
     {
         if (Player.HasBuff(ModContent.BuffType<HolyProtection>())) {

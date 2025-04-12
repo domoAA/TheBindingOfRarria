@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -9,6 +8,8 @@ namespace TheBindingOfRarria.Content.Items;
 [AutoloadEquip(EquipType.Face)]
 public class SuspiciousLookingMask : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.height = 30;
@@ -18,7 +19,10 @@ public class SuspiciousLookingMask : ModItem
         Item.value = Item.buyPrice(0, 3);
         Item.expert = true;
     }
+
+        // Use a hashset.
     public Dictionary<int, int> immunities = [];
+
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<CrazyPlayer>().Insanity = Item;
@@ -36,6 +40,7 @@ public class SuspiciousLookingMask : ModItem
                 player.buffImmune[immunity.Key] = true;
         }
     }
+
     public override void AddRecipes()
     {
         CreateRecipe()
@@ -45,47 +50,54 @@ public class SuspiciousLookingMask : ModItem
             .AddIngredient(ItemID.SoulofNight, 20)
             .AddTile(TileID.ImbuingStation)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class CrazyPlayer : ModPlayer
 {
     public Item Insanity = null;
+
     public override void ResetEffects() => Insanity = null;
     
     public void OnHitByAnything(Player.HurtInfo info, Vector2 target)
     {
         for (int i = Main.rand.Next(1, 3); i > 0; i--)
         {
-            var offset = new Vector2(Main.screenWidth * Main.rand.NextFloat(0.2f, 0.8f), Main.screenHeight * Main.rand.NextFloat(0.2f, 0.8f));
-            var pos = Main.screenPosition + offset;
-            pos += pos.DirectionTo(target) * (pos.Distance(target) / 2 - 50);
-            Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(Insanity, info.DamageSource), pos, pos.DirectionTo(target) * 6, ProjectileID.InsanityShadowFriendly, info.SourceDamage / 5 + 5, 3, Player.whoAmI);
+            Vector2 offset = new(Main.screenWidth * Main.rand.NextFloat(0.2f, 0.8f), Main.screenHeight * Main.rand.NextFloat(0.2f, 0.8f));
+            Vector2 position = Main.screenPosition + offset;
+            position += position.DirectionTo(target) * (position.Distance(target) / 2 - 50);
+
+            Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(Insanity, info.DamageSource), position, position.DirectionTo(target) * 6, ProjectileID.InsanityShadowFriendly, info.SourceDamage / 5 + 5, 3, Player.whoAmI);
         }
     }
+
     public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
     {
         if (Insanity != null)
             OnHitByAnything(hurtInfo, npc.Center);
+
         base.OnHitByNPC(npc, hurtInfo);
     }
+
     public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
     {
         if (Insanity != null)
         {
-            var pos = Player.Center;
-            var distance = 800f * 800;
+            Vector2 position = Player.Center;
+            float distance = 800 * 800;
+
             foreach (var target in Main.ActiveNPCs)
             {
                 if (!target.friendly && target.Center.DistanceSQ(Player.Center) < distance)
                 {
                     distance = target.Center.DistanceSQ(Player.Center);
-                    pos = target.Center;
+                    position = target.Center;
                 }
             }
-            OnHitByAnything(hurtInfo, pos);
+
+            OnHitByAnything(hurtInfo, position);
         }
+
         base.OnHitByProjectile(proj, hurtInfo);
     }
 }

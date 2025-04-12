@@ -1,4 +1,3 @@
-
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;
@@ -11,6 +10,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class TinyPlanet : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -19,6 +20,7 @@ public class TinyPlanet : ModItem
         Item.rare = ItemRarityID.Orange;
         Item.value = Item.buyPrice(0, 0, 77, 49);
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<PlanetPlayer>().planet = true;
     
     public override void AddRecipes()
@@ -29,27 +31,29 @@ public class TinyPlanet : ModItem
             .AddIngredient(ItemID.IceBlock, 200)
             .AddTile(TileID.SkyMill)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class PlanetPlayer : ModPlayer
 {
     public bool planet = false;
+
     public override void ResetEffects() => planet = false;
-    
 }
+
 public class OrbitingGlobalProjectile : GlobalProjectile
 {
     public override bool InstancePerEntity => true;
-    public bool orbit = false;
 
-    // individual direction
-    public int rotation = 1;
+    private bool orbit = false;
 
-    // tracking speed
-    public float speed = 0.9f;
-    public float IndividualOffset = 0;
+        // individual direction
+    private int rotation = 1;
+
+        // tracking speed
+    private float speed = 0.9f;
+    private float IndividualOffset = 0;
+
     public override void OnSpawn(Projectile projectile, IEntitySource source)
     {
         if (!projectile.CanBeReflected() && projectile.type != ModContent.ProjectileType<FlyingKunai>())
@@ -62,39 +66,44 @@ public class OrbitingGlobalProjectile : GlobalProjectile
 
             orbit = true;
             projectile.damage = (int)(0.85f * projectile.damage);
-            IndividualOffset = (Main.rand.NextFloat() - 0.5f);
+            IndividualOffset = Main.rand.NextFloat() - 0.5f;
             rotation = Main.rand.NextBool() ? 1 : -1;
         }
     }
+
     public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
     {
         bitWriter.WriteBit(orbit);
+
         if (orbit)
         {
             binaryWriter.Write(IndividualOffset);
             binaryWriter.Write(rotation);
         }
     }
+
     public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
     {
         orbit = bitReader.ReadBit();
+
         if (orbit)
         {
             IndividualOffset = binaryReader.ReadSingle();
             rotation = binaryReader.ReadInt32();
         }
     }
+
     public override void PostAI(Projectile projectile)
     {
         if (orbit)
         {
             projectile.tileCollide = false;
 
-            var owner = Main.player[projectile.owner];
+            Player owner = Main.player[projectile.owner];
 
-            var r = projectile.Center.Distance(owner.Center);
+            float r = projectile.Center.Distance(owner.Center);
 
-            var velocity = projectile.velocity.RotatedBy(rotation);
+            Vector2 velocity = projectile.velocity.RotatedBy(rotation);
             velocity.Normalize();
 
             if (r < 32)
@@ -102,15 +111,13 @@ public class OrbitingGlobalProjectile : GlobalProjectile
 
             projectile.velocity += velocity * projectile.velocity.LengthSquared() / r;
 
-            var gravity = 0.01f * projectile.Center.DirectionTo(owner.Center) * r;
+            Vector2 gravity = 0.01f * projectile.Center.DirectionTo(owner.Center) * r;
 
-
-            var offset = (projectile.Center.DirectionTo(owner.Center).ToRotation() + rotation * PiOver2) - projectile.velocity.ToRotation();
+            float offset = projectile.Center.DirectionTo(owner.Center).ToRotation() + rotation * PiOver2 - projectile.velocity.ToRotation();
 
             projectile.velocity = projectile.velocity.RotatedBy(offset);
 
-
-            // making sure it stays at a certain distance
+                // making sure it stays at a certain distance
             if (r > 270 + IndividualOffset * 128)
                 projectile.velocity += gravity / 2;
 
@@ -120,7 +127,7 @@ public class OrbitingGlobalProjectile : GlobalProjectile
             else
                 projectile.velocity *= 1.01f;
 
-            // acceleration
+                // acceleration
             speed += speed < 0.98f ? 0.001f : 0;
 
             projectile.velocity *= speed;

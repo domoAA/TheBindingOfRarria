@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +8,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class NightLight : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -17,6 +18,7 @@ public class NightLight : ModItem
         Item.value = Item.buyPrice(0, 8);
         Item.rare = ItemRarityID.Pink;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<LightCone>(), player.GetSource_Accessory(Item));
     
     public override void AddRecipes()
@@ -36,7 +38,5 @@ public class NightLight : ModItem
             .AddIngredient(ItemID.UltrabrightTorch, 20)
             .AddTile(TileID.MythrilAnvil)
             .Register();
-
-        base.AddRecipes();
     }
 }
