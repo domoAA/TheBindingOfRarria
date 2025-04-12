@@ -33,6 +33,7 @@ public class CursedChain : ModItem
             .Register();
     }
 }
+
 public class RiskyHealPlayer : ModPlayer
 {
         // me-core

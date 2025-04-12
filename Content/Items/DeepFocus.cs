@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class DeepFocus : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -16,6 +17,7 @@ public class DeepFocus : ModItem
         Item.rare = ItemRarityID.Orange;
         Item.value = Item.buyPrice(0, 0, 80);
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<FocusedPlayer>().IsFocused = true;
@@ -24,6 +26,7 @@ public class DeepFocus : ModItem
         player.mushroomDelayTime = (int)(player.mushroomDelayTime * 1.2f);
         player.restorationDelayTime = (int)(player.restorationDelayTime * 1.2f);
     }
+
     public override void AddRecipes()
     {
         CreateRecipe()
@@ -33,23 +36,22 @@ public class DeepFocus : ModItem
             .AddIngredient(ItemID.Amethyst, 22)
             .AddTile(TileID.Solidifier)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class FocusedPlayer : ModPlayer
 {
     public bool IsFocused;
+
     public override void ResetEffects() => IsFocused = false;
 
     public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
     {
         if (IsFocused)
-        {
             healValue *= 2;
-        }
     }
 }
+
 public class DeepFocusDropGem : GlobalTile
 {
     public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)

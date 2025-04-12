@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class DevilsTrumpet : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -16,6 +17,7 @@ public class DevilsTrumpet : ModItem
         Item.value = Item.buyPrice(0, 1, 30);
         Item.rare = ItemRarityID.LightRed;
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<MasterMirrorPlayer>().IsEvilIncarnate = true;
     
     public override void AddRecipes()
@@ -25,13 +27,13 @@ public class DevilsTrumpet : ModItem
             .AddIngredient(ItemID.SpiderFang, 10)
             .AddTile(TileID.MythrilAnvil)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class MasterMirrorPlayer : ModPlayer
 {
     public bool IsEvilIncarnate = false;
+
     public override void ResetEffects() => IsEvilIncarnate = false;
     
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -46,13 +48,14 @@ public class MasterMirrorPlayer : ModPlayer
         }
     }
 }
+
 public class CrateLootDevilsTrumpet : GlobalItem
 {
     public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
     {
         if (item.type == ItemID.JungleFishingCrateHard)
         {
-            var rule = ItemDropRule.Common(ModContent.ItemType<DevilsTrumpet>(), 6);
+            IItemDropRule rule = ItemDropRule.Common(ModContent.ItemType<DevilsTrumpet>(), 6);
             itemLoot.Add(rule);
         }
     }
