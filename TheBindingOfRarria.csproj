@@ -7,5 +7,8 @@
 	<PropertyGroup>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Folder Include="Content\Tiles\" />
+	</ItemGroup>
 
 </Project>

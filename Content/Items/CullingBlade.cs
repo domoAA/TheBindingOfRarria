@@ -1,4 +1,3 @@
-
 using System;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class CullingBlade : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -17,6 +18,7 @@ public class CullingBlade : ModItem
         Item.expert = true;
         Item.value = Item.buyPrice(0, 1, 50);
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<CullPlayer>().PlayedTheseGamesBefore = Item;
 
     public override void AddRecipes()
@@ -31,20 +33,20 @@ public class CullingBlade : ModItem
             .AddCondition(Condition.InExpertMode)
             .AddTile(TileID.WorkBenches)
             .Register();
-
-        base.AddRecipes();
     }
 }
+
 public class CullPlayer : ModPlayer
 {
+        // God kain...
     public Item PlayedTheseGamesBefore = null;
-    public int counter = 0;
+
+    private int counter = 0;
+
     public override void ResetEffects() => PlayedTheseGamesBefore = null;
 
-    public override void PostUpdate()
-    {
-        counter = counter > 0 ? counter - 1 : 0;
-    }
+    public override void PostUpdate() => counter = counter > 0 ? counter - 1 : 0;
+
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         if (target.CountsAsACritter || target.immortal)

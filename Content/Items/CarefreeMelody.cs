@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +7,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class CarefreeMelody : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -17,10 +18,9 @@ public class CarefreeMelody : ModItem
         Item.value = Item.buyPrice(0, 2);
         Item.expert = true;
     }
-    public override void UpdateAccessory(Player player, bool hideVisual)
-    {
-        player.GetModPlayer<GrimmTroupeBanisherPlayer>().Melody = Item;
-    }
+
+    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<GrimmTroupeBanisherPlayer>().Melody = Item;
+
     public override void AddRecipes()
     {
         CreateRecipe()
@@ -36,13 +36,14 @@ public class CarefreeMelody : ModItem
             .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
             .AddTile(TileID.TinkerersWorkbench)
             .Register();
-        base.AddRecipes();
     }
 }
+
 public class GrimmTroupeBanisherPlayer : ModPlayer
 {
-    public int Hits = 0;
+    private int Hits = 0;
     public Item Melody = null;
+
     public override void ResetEffects() => Melody = null;
     
     public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
@@ -51,12 +52,14 @@ public class GrimmTroupeBanisherPlayer : ModPlayer
         if (Melody != null)
             Hits++;
     }
+
     public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
     {
         base.OnHitByProjectile(proj, hurtInfo);
         if (Melody != null)
             Hits++;
     }
+
     public override bool FreeDodge(Player.HurtInfo info)
     {
         if (Hits >= 5 && Melody != null)

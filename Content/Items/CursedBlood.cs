@@ -1,5 +1,3 @@
-
-
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +15,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class CursedBlood : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.accessory = true;
@@ -25,21 +25,24 @@ public class CursedBlood : ModItem
         Item.rare = ItemRarityID.LightRed;
         Item.value = Item.buyPrice(0, 1, 38);
     }
+
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<KamoPlayer>().Leaky = true;
         player.GetModPlayer<KamoPlayer>().counter--;
     }
+
+        // Make a helper method for this, you tend to paste this alot.
     public override void ModifyTooltips(List<TooltipLine> tooltips)
     {
-        var key = KeybindSystem.BloodDripKey.GetAssignedKeys().FirstOrDefault();
+        string key = KeybindSystem.BloodDripKey.GetAssignedKeys().FirstOrDefault();
         if (key == "" || key == null)
             key = "K";
 
-        var text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.CursedBlood.Tooltip"), key);
+        string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.CursedBlood.Tooltip"), key);
 
 
-        var index = tooltips.FindIndex(line => line.Name == "Tooltip0");
+        int index = tooltips.FindIndex(line => line.Name == "Tooltip0");
         if (index != -1)
         {
             text = text.Remove(text.LastIndexOf($"\n"));
@@ -50,23 +53,20 @@ public class CursedBlood : ModItem
         }
     }
 }
+
 public class KamoPlayer : ModPlayer
 {
     public bool Leaky = false;
     public int counter = 0;
-    public float Stored = 0;
+
     public override void ResetEffects()
     {
         if (counter > 1400 && !Player.HasBuff(ModContent.BuffType<BloodShieldBleed>()) && !Player.HasBuff(ModContent.BuffType<BloodShield>()))
-        {
             Player.AddBuff(ModContent.BuffType<BloodShield>(), 240);
-        }
-
-        if (counter < 1200 && !Player.HasBuff(ModContent.BuffType<BloodShield>()))
-            Stored = 0;
 
         Leaky = false;
     }
+
     public override void ProcessTriggers(TriggersSet triggersSet)
     {
         if (Leaky && (KeybindSystem.BloodDripKey.JustPressed || (KeybindSystem.BloodDripKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Keys.K))) && Main.myPlayer == Player.whoAmI)
@@ -87,14 +87,13 @@ public class KamoPlayer : ModPlayer
         }
     }
 }
+
 public class KamoLootNPC : GlobalNPC
 {
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {
         if (npc.type == NPCID.GoblinShark)
-        {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CursedBlood>(), 10));
-        }
         base.ModifyNPCLoot(npc, npcLoot);
     }
 }
