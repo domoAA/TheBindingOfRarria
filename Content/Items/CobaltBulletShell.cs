@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TheBindingOfRarria.Content.Buffs;
+using TheBindingOfRarria.Content.Buffs.Debuffs;
 
 namespace TheBindingOfRarria.Content.Items;
 
