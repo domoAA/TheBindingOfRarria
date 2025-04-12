@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
@@ -35,12 +34,14 @@ public class BlockBoulder : ModProjectile
 
         Projectile.ReflectProjectiles();
     }
+
     public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
     {
-        base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
         Main.instance.DrawCacheNPCsOverPlayers.Add(index);
+
         overPlayers.Add(index);
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         Projectile.scale = 2;

@@ -31,8 +31,6 @@ public class AdamantineTalisman : ModItem
             .AddIngredient(ItemID.Diamond, 10)
             .AddTile(TileID.AdamantiteForge)
             .Register();
-
-        base.AddRecipes();
     }
 }
 
