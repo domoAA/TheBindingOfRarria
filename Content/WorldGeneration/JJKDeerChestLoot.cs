@@ -7,6 +7,7 @@ namespace TheBindingOfRarria.Content.WorldGeneration;
 
 public class JJKDeerChestLoot : ModSystem
 {
+    public static int DAmount = 0;
     public override void PostWorldGen()
     {
         if (!Main.expertMode)
@@ -20,7 +21,7 @@ public class JJKDeerChestLoot : ModSystem
                 continue;
 
             Tile chestTile = Main.tile[chest.x, chest.y];
-            if (chestTile.TileType == TileID.Containers && chestTile.TileFrameX == 3 * 36)
+            if (chestTile.TileType == TileID.Containers && (chestTile.TileFrameX == 3 * 36 || chestTile.TileFrameX == 4 * 36))
             {
                 if (WorldGen.genRand.NextFloat() > 0.2f)
                     continue;
@@ -29,6 +30,7 @@ public class JJKDeerChestLoot : ModSystem
                 {
                     if (chest.item[inventoryIndex].type == ItemID.None)
                     {
+                        DAmount++;
                         chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<HornOfTheRoundDeer>());
                         break;
                     }

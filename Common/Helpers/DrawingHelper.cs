@@ -11,7 +11,6 @@ public static partial class Helper
 
     public static Vector2 ScreenSize => new(Main.screenWidth, Main.screenHeight);
 
-        // TODO: kain use a proper matrix in your pixellation system please.
     public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, PixellationSystem.RenderType renderType)
     {
         position = Vector2.Transform(position, HalfScale);
@@ -40,10 +39,14 @@ public static partial class Helper
     #region Transparency Slop
     public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, Color color, byte alpha)
     {
+        color *= alpha * (1f / 255);
+
         Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, 0, texture.Size() * 0.5f, scale * 0.5f, SpriteEffects.None, 0);
     }
     public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, float rotation, Color color, byte alpha)
     {
+        color *= alpha * (1f / 255);
+
         Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, rotation, texture.Size() * 0.5f, scale * 0.5f, SpriteEffects.None, 0);
     }
     public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, float rotation, Color color, byte alpha, SpriteEffects effect, bool apply)

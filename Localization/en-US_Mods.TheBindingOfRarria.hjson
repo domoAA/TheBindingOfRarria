@@ -1,21 +1,21 @@
 Items: {
 	BrokenAnkh: {
+		DisplayName: Broken Ankh
 		Tooltip:
 			'''
 			With 22.22% chance, you will suvrive a fatal hit with 100 health
 			'Eternal life?'
 			'''
-		DisplayName: Broken Ankh
 	}
 
 	Ankh: {
+		DisplayName: Ankh
 		Tooltip:
 			'''
 			You will survive a fatal hit with half health
 			Cooldown: 1 minute
 			'Eternal life'
 			'''
-		DisplayName: Ankh
 	}
 
 	FallingBlossomEmotion: {
@@ -544,7 +544,7 @@ Items: {
 		Tooltip:
 			'''
 			Killing a few enemies in a short time grants 25% increased damage for 6 seconds
-			''
+			'Of course, it's just speculation, but...'
 			'''
 	}
 
@@ -553,7 +553,7 @@ Items: {
 		Tooltip:
 			'''
 			Hitting an enemy damages surrounding enemies with an explosion
-			''
+			'I mean, nobody wants to be blown up, right?'
 			'''
 	}
 
@@ -562,7 +562,7 @@ Items: {
 		Tooltip:
 			'''
 			You throw out a flopping fish every time you dash
-			''
+			'Fishious dashes'
 			'''
 	}
 
@@ -571,7 +571,7 @@ Items: {
 		Tooltip:
 			'''
 			You deal 20% increased damage to enemies that are close to you
-			''
+			'..and so it left, with delusions of freedom.'
 			'''
 	}
 
@@ -581,6 +581,16 @@ Items: {
 			'''
 			You shoot fish instead of bullets
 			'Don't cry, I am just a FISH'
+			'''
+	}
+
+	Sihil: {
+		DisplayName: Sihil
+		Tooltip:
+			'''
+			Killing an enemy grants you a potion buff
+			'What's written on this blade? That a curse?'
+			'No. An insult.'
 			'''
 	}
 }

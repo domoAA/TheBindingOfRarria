@@ -2,6 +2,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Common;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -18,7 +19,7 @@ public class WoodenDice : ModItem
         Item.value = Item.buyPrice(0, 0, 7, 20);
     }
 
-    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<DiceyPlayer>().Dice = true;
+    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<LuckRollPlayer>().Dice = true;
 
     public override void AddRecipes()
     {
@@ -28,24 +29,5 @@ public class WoodenDice : ModItem
             .AddIngredient(ItemID.LuckPotion)
             .AddTile(TileID.WorkBenches)
             .Register();
-    }
-}
-
-    // Same for what I said about NewRollPlayer.
-public class DiceyPlayer : NewRollPlayer
-{
-    public bool Dice = false;
-
-    public static void DiceReroll(Player self, ref int Damage)
-    {
-        if (LuckRoll.rolled != 0 && Damage % LuckRoll.rolled == 0 && self.GetModPlayer<DiceyPlayer>().Dice)
-        {
-            int bound = self.GetModPlayer<NewRollPlayer>().Talisman ? 100 : 100 + Main.DefaultDamageVariationPercent;
-
-            int roll = Math.Max(1, CustomRangeDamageVar(Damage, 100 - Main.DefaultDamageVariationPercent, bound));
-
-            if (roll > Damage)
-                Damage = roll;
-        }
     }
 }

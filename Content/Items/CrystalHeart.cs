@@ -69,7 +69,7 @@ public class CrystalDashPlayer : ModPlayer
     public int Dir = 1;
     public int Holding = 0;
 
-    public float[] RandomRotations = [10];
+    public float[] RandomRotations = new float[10];
 
     public override void ResetEffects()
     {

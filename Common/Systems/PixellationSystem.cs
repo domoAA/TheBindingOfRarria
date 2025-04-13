@@ -7,24 +7,21 @@ using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Common.Systems;
 
-    // Rewrite this.
 public class PixellationSystem : ModSystem
 {
-        // Credits for this whole class to Naka, and thanks to petrichor: i got my hands on this gem thanks to them
+    // credits for the base for this system to naka, also thanks to zen, stormytuna and some others I forgor about for helping me change this thing to fit my needs
+
     public enum RenderType
     {
         AlphaBlend,
-            // NonPremultiplied,
         Additive
     }
-
-    private static List<Action> DrawActions { get; } = [];
-    private static List<Action> DrawActionsAdditive { get; } = [];
-    private static List<Action> PrimitiveActions { get; } = [];
+    private static List<Action> DrawActions { get; } = new();
+    private static List<Action> DrawActionsAdditive { get; } = new();
+    private static List<Action> PrimitiveActions { get; } = new();
     private static RenderTarget2D AlphaBlendTarget { get; set; }
     private static RenderTarget2D AdditiveTarget { get; set; }
     private static RenderTarget2D PrimitiveTarget { get; set; }
-
     public override void Load()
     {
 
@@ -42,57 +39,46 @@ public class PixellationSystem : ModSystem
         On_Main.CheckMonoliths += DrawToRT;
     }
 
-    public override void Unload()
-    {
-        if (!Main.dedServ)
-            Main.OnResolutionChanged -= InitializeRT;
-
-        On_Main.DrawProjectiles -= On_Main_DrawProjectiles;
-        On_Main.CheckMonoliths -= DrawToRT;
-    }
-
     private void DrawToRT(On_Main.orig_CheckMonoliths orig)
     {
         orig.Invoke();
-
-            // has to go here bc order of execution
+        // has to go here bc order of execution
         var gd = Main.graphics.GraphicsDevice;
         var oldRTs = gd.GetRenderTargets();
 
+
         gd.SetRenderTarget(AlphaBlendTarget);
         gd.Clear(Color.Transparent);
-
-        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, default, null, Matrix.Identity);
 
         foreach (var action in DrawActions)
+        {
             action.Invoke();
-
+        }
         Main.spriteBatch.End();
 
+
         gd.SetRenderTarget(PrimitiveTarget);
-
-        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, Main.Rasterizer, null, Matrix.Identity);
-
+        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, default, null, Matrix.Identity);
         gd.Clear(Color.Transparent);
 
         foreach (var action in PrimitiveActions)
+        {
             action.Invoke();
-
+        }
         Main.spriteBatch.End();
-
         gd.SetRenderTarget(AdditiveTarget);
-
-        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive, Main.DefaultSamplerState, default, Main.Rasterizer, null, Matrix.Identity);
-
+        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive, Main.DefaultSamplerState, default, default, null, Matrix.Identity);
         gd.Clear(Color.Transparent);
 
         foreach (var action in DrawActionsAdditive)
+        {
             action.Invoke();
-
+        }
         Main.spriteBatch.End();
 
-        gd.SetRenderTargets(oldRTs);
 
+        gd.SetRenderTargets(oldRTs);
         DrawActions.Clear();
         DrawActionsAdditive.Clear();
         PrimitiveActions.Clear();
@@ -101,13 +87,17 @@ public class PixellationSystem : ModSystem
     {
         PrimitiveActions.Add(action);
     }
+    public override void Unload()
+    {
+        On_Main.DrawProjectiles -= On_Main_DrawProjectiles;
+    }
     private void InitializeRT(Vector2 obj)
     {
         if (Main.dedServ)
+        {
             return;
-
+        }
         AlphaBlendTarget?.Dispose();
-            // NonPremultipliedTarget?.Dispose();
         AdditiveTarget?.Dispose();
         PrimitiveTarget?.Dispose();
 
@@ -119,17 +109,14 @@ public class PixellationSystem : ModSystem
         AdditiveTarget = new(gd, width, height);
         PrimitiveTarget = new(gd, width, height);
     }
-
     private void On_Main_DrawProjectiles(On_Main.orig_DrawProjectiles orig, Main self)
     {
-        orig(self);
-
+        orig.Invoke(self);
         DrawRT();
     }
-
     /// <summary>
     /// Queues a draw action to the pixelation system.
-    /// Remember to halve the scale and draw position!
+    /// Remember to NOT halve the scale and draw position!
     /// </summary>
     /// <param name="action"></param>
     public static void QueuePixelationAction(Action action, RenderType type)
@@ -139,40 +126,35 @@ public class PixellationSystem : ModSystem
             case RenderType.Additive:
                 DrawActionsAdditive.Add(action);
                 break;
-
             case RenderType.AlphaBlend:
                 DrawActions.Add(action);
                 break;
         }
     }
-
     /// <summary>
     /// Draws the RT with its pixelated content to 2x scale
     /// </summary>
     private static void DrawRT()
     {
-        SpriteBatch sb = Main.spriteBatch;
-
         if (AlphaBlendTarget == null || AlphaBlendTarget.IsDisposed)
+        {
             return;
+        }
+        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+        Main.spriteBatch.Draw(AlphaBlendTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+        Main.spriteBatch.End();
 
-        sb.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
-
-        sb.Draw(AlphaBlendTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
-        sb.End();
-
-        sb.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
-
-        sb.Draw(PrimitiveTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
-        sb.End();
+        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+        Main.spriteBatch.Draw(PrimitiveTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+        Main.spriteBatch.End();
 
         if (AdditiveTarget == null || AdditiveTarget.IsDisposed)
+        {
             return;
+        }
 
-        sb.Begin(SpriteSortMode.Texture, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-        sb.Draw(AdditiveTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
-
-        sb.End();
+        Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+        Main.spriteBatch.Draw(AdditiveTarget, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+        Main.spriteBatch.End();
     }
 }

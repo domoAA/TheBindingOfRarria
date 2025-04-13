@@ -64,7 +64,7 @@ public class FishBullet : ModProjectile
 
         SpriteEffects flip = (SpriteEffects)(1 - Projectile.direction);
 
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), frame.Size() * 0.5f, 1, flip, 0);
+        Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation + (Projectile.direction * PiOver4), frame.Size() * 0.5f, 1, flip, 0);
 
         return false;
     }

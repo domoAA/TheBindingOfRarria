@@ -122,11 +122,9 @@ public class MuraProj : GlobalProjectile
             lightColor.B = 120;
             lightColor.G = 120;
             lightColor.R = 240;
-                // projectile.DrawWithTransparency(lightColor, 250);
 
             Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
 
-                // float scale = projectile.scale * Main.GameZoomTarget;
             Color color = lightColor * (250 * (1f / 255f));
 
             Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, texture.Bounds, color with { A = 0 }, projectile.rotation, texture.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0);

@@ -58,7 +58,7 @@ public class SpiderDropCodweb : GlobalTile
 {
     public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
     {
-        if (Main.expertMode && Main.hardMode && type == TileID.Cobweb && Main.rand.NextFloat() < 0.001f)
+        if (Main.expertMode && Main.hardMode && type == TileID.Cobweb && Main.rand.NextFloat() < 0.001f && !fail)
         {
             Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), new Point(i, j).ToWorldCoordinates(), ModContent.ItemType<WeaverSong>());
             noItem = true;

@@ -35,8 +35,6 @@ public class UdjatEye : ModItem
 
 public class UdjatExtractinatorDrop : GlobalItem
 {
-        // public override bool InstancePerEntity => true;
-
     public override void ExtractinatorUse(int extractType, int extractinatorBlockType, ref int resultType, ref int resultStack)
     {
         if (extractType == ItemID.DesertFossil && Main.rand.NextFloat() < 0.005) 

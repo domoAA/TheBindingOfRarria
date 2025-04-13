@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Content.Projectiles;
@@ -42,46 +43,40 @@ public class FlyingKunai : ModProjectile
         Color color = lightColor;
 
         Color darkColor = color.MultiplyRGB(Color.DarkGray);
-        darkColor.A = 150;
+        darkColor.A = 250;
 
         Color brightColor = color.MultiplyRGB(Color.Gray);
-        brightColor.A = 150;
+        brightColor.A = 250;
 
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, darkColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
+        Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, darkColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
 
-        PixellationSystem.QueuePixelationAction(() =>
-        {
             for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[Type] - 1; i++)
             {
                 if (Projectile.oldPos[i + 1] != Vector2.Zero)
                 {
                     Vector2 position = Projectile.oldPos[i] + (Projectile.Size * 0.5f) - Main.screenPosition;
 
-                        // Remove when you use a proper matrix.
-                    position *= 0.5f;
 
                     float trailSize = ProjectileID.Sets.TrailCacheLength[Type];
 
-                    float ratio = i / trailSize;
-                    float colorRatio = (i - 1) / trailSize;
+                    float ratio = i / trailSize / 1.5f;
 
                     float rotation = Projectile.oldPos[i].DirectionFrom(Projectile.oldPos[i + 1]).ToRotation() + PiOver2;
 
                     Vector2 origin = new(7, 0);
-                    Vector2 scale = new Vector2((1f - ratio) * Projectile.scale, Projectile.oldPos[i].Distance(Projectile.oldPos[i + 1]) * 0.5f) * 0.5f;
+                    Vector2 scale = new Vector2((1f - ratio) * Projectile.scale, Projectile.oldPos[i].Distance(Projectile.oldPos[i + 1]) * 0.5f);
 
                     Vector2 darkScale = scale;
                     darkScale.X *= 0.75f;
 
 
-                    Main.EntitySpriteDraw(texture, position, new Rectangle(0, 8, 14, 2), darkColor * (1 - ratio), rotation, origin, darkScale, SpriteEffects.None);
-                    Main.EntitySpriteDraw(texture, position, new Rectangle(0, 8, 14, 2), brightColor * (0.5f - ratio), rotation, origin, scale, SpriteEffects.None);
+                    Main.spriteBatch.DrawPixellated(texture, position, new Rectangle(0, 8, 14, 2), darkScale, rotation, origin, darkColor * (1 - ratio), SpriteEffects.None, PixellationSystem.RenderType.Additive);
+                    Main.spriteBatch.DrawPixellated(texture, position, new Rectangle(0, 8, 14, 2), scale, rotation, origin, brightColor * (0.5f - ratio), SpriteEffects.None, PixellationSystem.RenderType.Additive);
                 }
             }
-        }, PixellationSystem.RenderType.Additive);
 
 
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, brightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
+        Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, brightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
 
         return false;
     }

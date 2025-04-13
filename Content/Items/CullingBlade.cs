@@ -39,6 +39,7 @@ public class CullingBlade : ModItem
 public class CullPlayer : ModPlayer
 {
         // God kain...
+        // What? It's a ref to Culling Games, google it
     public Item PlayedTheseGamesBefore = null;
 
     private int counter = 0;

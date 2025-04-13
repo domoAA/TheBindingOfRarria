@@ -2,8 +2,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Common.Systems;
 using TheBindingOfRarria.Content.Items;
+using static TheBindingOfRarria.Common.Helpers.Helper;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
@@ -72,17 +74,15 @@ public class LifeSucker : ModProjectile
 
         Texture2D texture = TextureAssets.Projectile[Type].Value;
 
-        PixellationSystem.QueuePixelationAction(() => {
-            float rotation = PiOver2;
+        float rotation = PiOver2;
 
-            for (int i = 0; i < 4; i++)
-            {
-                rotation += PiOver2;
-                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(10, 0).RotatedBy(rotation), null, color, rotation, texture.Size() * 0.5f, 0.9f * new Vector2(0.4f * (-float.Pow(Projectile.timeLeft - 20, 2) * 0.001f + 0.4f), Projectile.scale * 0.1f), SpriteEffects.None, 0);
-            }
+        for (int i = 0; i < 4; i++)
+        {
+            rotation += PiOver2;
+            Main.spriteBatch.DrawPixellated(texture, Projectile.Center - Main.screenPosition, null, 0.9f * new Vector2(0.4f * (-float.Pow(Projectile.timeLeft - 20, 2) * 0.001f + 0.4f), Projectile.scale * 0.1f) * 2, rotation, texture.Size() * 0.5f, color, SpriteEffects.None, PixellationSystem.RenderType.Additive);
+        }
 
-            Main.spriteBatch.Draw(texture, Projectile.Center - (Projectile.velocity / 2) - Main.screenPosition, null, color, Projectile.velocity.ToRotation() + Pi, texture.Size() * 0.5f, new Vector2(Projectile.velocity.Length() / 256, Projectile.scale * 0.1f), SpriteEffects.None, 0);
-        }, PixellationSystem.RenderType.Additive);
+        Main.spriteBatch.DrawPixellated(texture, Projectile.Center - (Projectile.velocity / 2) - Main.screenPosition, null, new Vector2(Projectile.velocity.Length() / 256, Projectile.scale * 0.1f) * 2, Projectile.velocity.ToRotation() + Pi, texture.Size() * 0.5f, color, SpriteEffects.None, PixellationSystem.RenderType.Additive);
 
         return false;
     }
