@@ -1,6 +1,7 @@
-
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
@@ -11,6 +12,8 @@ namespace TheBindingOfRarria.Content.Projectiles;
 
 public class Extra98Bomb : ModProjectile
 {
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
     public override void SetDefaults()
     {
         Projectile.ignoreWater = true;
@@ -23,25 +26,25 @@ public class Extra98Bomb : ModProjectile
         Projectile.width = 80;
         Projectile.height = 80;
         Projectile.timeLeft = 132;
+
         for (int i = 7; i > 0; i--)
-        {
             bomba[i] = Vector2.One.RotatedBy(PiOver4 * (i + 1) + Main.rand.NextFloat(-Pi / 10, Pi / 10));
-        }
     }
+
     private NPC Target
     {
         get => Projectile.ai[0] == 0 ? null : Main.npc[(int)Projectile.ai[0]];
-        set
-        {
-            Projectile.ai[0] = value == null ? 0 : value.whoAmI;
-        }
+        set => Projectile.ai[0] = value == null ? 0 : value.whoAmI;
     }
+
     private Vector2 Offset = new(0, 0);
-    public Vector2[] bomba = new Vector2[8];
+    private readonly Vector2[] bomba = new Vector2[8];
+
     public override void AI()
     {
-        if (Target  == null || !Target.active)
+        if (Target == null || !Target.active)
             Projectile.Kill();
+
         else if (Projectile.timeLeft > 12)
         {
             Offset = new Vector2(Projectile.ai[1], Projectile.ai[2]);
@@ -59,18 +62,25 @@ public class Extra98Bomb : ModProjectile
             SoundEngine.PlaySound(sound, Projectile.Center);
         }
     }
+
     public override bool? CanHitNPC(NPC target)
     {
         if (Projectile.timeLeft > 4)
             return false;
 
-        return base.CanHitNPC(target);
+        return null;
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
+            // DrawPixellated(lightColor, 220, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, PixellationSystem.RenderType.Additive);
+
         Projectile.scale = 0.5f;
+
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
+
         if (Projectile.timeLeft > 12)
-            Projectile.DrawPixellated(lightColor, 220, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, PixellationSystem.RenderType.Additive);
+            Main.spriteBatch.DrawPixellated(texture, Projectile.Center, null, Projectile.scale, Projectile.rotation, texture.Size() * 0.5f, lightColor, PixellationSystem.RenderType.Additive);
         
         return false;
     }

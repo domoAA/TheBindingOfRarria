@@ -1,7 +1,6 @@
-
-
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Systems;
 using TheBindingOfRarria.Content.Items;
@@ -10,6 +9,8 @@ namespace TheBindingOfRarria.Content.Projectiles;
 
 public class LifeSucker : ModProjectile
 {
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
     public override void SetDefaults()
     {
         Projectile.ignoreWater = true;
@@ -24,6 +25,7 @@ public class LifeSucker : ModProjectile
 
         Projectile.ai[1] = Main.rand.Next(3);
     }
+
     public override void AI()
     {
         if (Projectile.ai[0] != 0 && Main.npc[(int)Projectile.ai[0]].active)
@@ -39,15 +41,13 @@ public class LifeSucker : ModProjectile
         {
             if (proj.type == Type && proj.owner == Projectile.owner && proj.ai[0] == Projectile.ai[0] && proj.identity != Projectile.identity)
                 proj.Kill();
-            
         }
 
         Projectile.netUpdate = true;
     }
-    public override bool ShouldUpdatePosition()
-    {
-        return false;
-    }
+
+    public override bool ShouldUpdatePosition() => false;
+
     public override bool? CanHitNPC(NPC target)
     {
         if (target.whoAmI != Projectile.ai[0] || Projectile.scale < 1.2f || target.immortal)
@@ -55,29 +55,33 @@ public class LifeSucker : ModProjectile
 
         return base.CanHitNPC(target);
     }
+
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
-        Main.player[Projectile.owner].GetModPlayer<LifeSuckerPlayer>().heal += (damageDone / 5);
+        Main.player[Projectile.owner].GetModPlayer<LifeSuckerPlayer>().heal += damageDone / 5;
         Projectile.ai[2] = 1;
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
-        var color = Color.DeepSkyBlue;
+        Color color = Color.DeepSkyBlue;
         color.A = 210;
+
         if (Projectile.timeLeft < 38)
-        {
             color = Color.Red;
-            //color.A = 210;
-        }
+
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
 
         PixellationSystem.QueuePixelationAction(() => {
-            var rot = PiOver2;
+            float rotation = PiOver2;
+
             for (int i = 0; i < 4; i++)
             {
-                rot += PiOver2;
-                Main.spriteBatch.Draw(Projectile.MyTexture(), (Projectile.Center - Main.screenPosition + new Vector2(10, 0).RotatedBy(rot)) / 2, Projectile.MyTexture().Bounds, color, rot, Projectile.MyTexture().Size() / 2, 0.9f * new Vector2(0.4f * (-float.Pow(Projectile.timeLeft - 20, 2) * 0.001f + 0.4f), Projectile.scale * 0.1f), SpriteEffects.None, 0);
+                rotation += PiOver2;
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(10, 0).RotatedBy(rotation), null, color, rotation, texture.Size() * 0.5f, 0.9f * new Vector2(0.4f * (-float.Pow(Projectile.timeLeft - 20, 2) * 0.001f + 0.4f), Projectile.scale * 0.1f), SpriteEffects.None, 0);
             }
-            Main.spriteBatch.Draw(Projectile.MyTexture(), (Projectile.Center - (Projectile.velocity / 2) - Main.screenPosition) / 2, Projectile.MyTexture().Bounds, color, Projectile.velocity.ToRotation() + Pi, Projectile.MyTexture().Size() / 2, new Vector2(Projectile.velocity.Length() / 256, Projectile.scale * 0.1f), SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(texture, Projectile.Center - (Projectile.velocity / 2) - Main.screenPosition, null, color, Projectile.velocity.ToRotation() + Pi, texture.Size() * 0.5f, new Vector2(Projectile.velocity.Length() / 256, Projectile.scale * 0.1f), SpriteEffects.None, 0);
         }, PixellationSystem.RenderType.Additive);
 
         return false;

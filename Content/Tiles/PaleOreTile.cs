@@ -63,8 +63,8 @@ public class PaleOreTile : ModTile
             {
                 neighbor.TileType = TileID.IceBlock;
 
-                WorldGen.SquareTileFrame(pos.X, pos.Y);
-                NetMessage.SendTileSquare(-1, pos.X, pos.Y, 1);
+                WorldGen.SquareTileFrame(randomNeighbor.X, randomNeighbor.Y);
+                NetMessage.SendTileSquare(-1, randomNeighbor.X, randomNeighbor.Y, 1);
             }
         }
     }

@@ -1,6 +1,7 @@
-
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
@@ -10,6 +11,8 @@ namespace TheBindingOfRarria.Content.Projectiles;
 
 public class CarefreePower : ModProjectile
 {
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
     public override void SetDefaults()
     {
         Projectile.tileCollide = false;
@@ -21,12 +24,12 @@ public class CarefreePower : ModProjectile
         Projectile.netImportant = true;
 
         for (int i = 19; i > 0; i--)
-        {
             edges[i] = Vector2.One.RotatedBy(PiOver4 * (i + 1) + Main.rand.NextFloat(-Pi / 20, Pi / 20));
-        }
     }
-    public bool exploded = false;
-    public Vector2[] edges = new Vector2[20];
+
+    private bool exploded = false;
+    private readonly Vector2[] edges = new Vector2[20];
+
     public override void AI()
     {
         if (Projectile.ai[0] < 5)
@@ -38,19 +41,32 @@ public class CarefreePower : ModProjectile
             return;
 
         exploded = true;
-        var color = Color.Red;
+        Color color = Color.Red;
 
+            // What.
         Projectile.Center.SpawnDust(edges, ModContent.DustType<PixellatedDustE98>(), 1, 0.95f * Main.rand.NextFloat(1.12f, 2.2f), color, 5, -0.09f, PiOver4, 96);
 
-        var sound = SoundID.Item74;
+        SoundStyle sound = SoundID.Item74;
         sound.Pitch += 0.7f;
         sound.Volume *= 0.5f;
         SoundEngine.PlaySound(sound, Projectile.Center);
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
-        Projectile.scale = 1.5f;
-        Projectile.DrawWithTransparency(Color.Red, (byte)(40 * Projectile.ai[0]));
+        Projectile.scale = 0.75f;
+
+            // Projectile.DrawWithTransparency(Color.Red, (byte)(40 * Projectile.ai[0]));
+
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+                // ???????????????????????????????????????????????????????
+            // var scale = projectile.scale * Main.GameZoomTarget;
+
+        Color color = Color.Red * (40 * Projectile.ai[0] * (1f / 255f));
+
+        Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, color with { A = 0 }, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
+
         return false;
     }
 }

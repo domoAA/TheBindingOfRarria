@@ -1,11 +1,16 @@
-
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class CircleOfLight : ModProjectile
 {
-    public bool? shining = null;
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
+    private bool? shining = null;
+
     public override void SetDefaults()
     {
         Projectile.tileCollide = false;
@@ -17,6 +22,7 @@ public class CircleOfLight : ModProjectile
         Projectile.netImportant = true;
         Projectile.light = 0.4f;
     }
+
     public override void AI()
     {
         Projectile.width = (int)(110 * Projectile.scale);
@@ -39,11 +45,20 @@ public class CircleOfLight : ModProjectile
 
         Projectile.netUpdate = true;
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
-        byte alpha = (byte)(7 + Projectile.ai[1]);
+        float scale = Projectile.scale * 0.5f;
 
-        Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 6, 3, 0.015f);
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
+        Color color = Color.LightYellow * ((7 + Projectile.ai[1]) * (1f / 255f));
+
+        for (int i = 0; i < 6; i++)
+        {
+            scale -= 0.015f;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, color with { A = 0 }, Projectile.rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0);
+        }
+
         return false;
     }
 }

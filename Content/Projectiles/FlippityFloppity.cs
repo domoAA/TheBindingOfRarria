@@ -10,6 +10,8 @@ namespace TheBindingOfRarria.Content.Projectiles;
 
 public class FlippityFloppity : ModProjectile
 {
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
     private const int FishFrames = 66;
 
     public override void SetDefaults()

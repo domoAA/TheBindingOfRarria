@@ -1,12 +1,15 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class BlockBoulder : ModProjectile
 {
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
     public override void SetDefaults()
     {
         Projectile.tileCollide = false;
@@ -18,6 +21,7 @@ public class BlockBoulder : ModProjectile
         Projectile.timeLeft = 120;
         Projectile.netImportant = true;
     }
+
     public override void AI()
     {
         var owner = Main.player[Projectile.owner];
@@ -44,9 +48,11 @@ public class BlockBoulder : ModProjectile
 
     public override bool PreDraw(ref Color lightColor)
     {
-        Projectile.scale = 2;
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
 
-        Main.EntitySpriteDraw(Projectile.MyTexture(), Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, Projectile.MyTexture().Size() / 2, Projectile.scale, SpriteEffects.None);
+            // Why in predraw ??????
+        Projectile.scale = 2;
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
 
         return false;
     }

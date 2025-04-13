@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using System.IO;
 using TheBindingOfRarria.Content.Projectiles;
 using TheBindingOfRarria.Content.Items;
+using static TheBindingOfRarria.Common.Helpers.Helper;
 
 namespace TheBindingOfRarria;
 
@@ -65,26 +66,17 @@ public class TheBindingOfRarria : Mod
                 packet.Send();
             }
 
+                // guh
             if (entityType)
             {
                 foreach (Projectile p in Main.ActiveProjectiles)
-                {
                     if (p.identity == id)
-                    {
                         p.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = ((State)slow, duration);
-                    }
-                }
             }
             else
-            {
                 foreach (NPC n in Main.ActiveNPCs)
-                {
                     if (n.whoAmI == id)
-                    {
-                        n.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = ((State)slow, duration);
-                    }
-                }
-            }
+                        n.GetGlobalNPC<SlowedGlobalNPC>().Slowed = ((State)slow, duration);
             return;
         }
         else if (type == (int)PacketTypes.DustSpawn)

@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
@@ -11,11 +10,14 @@ namespace TheBindingOfRarria.Content.Projectiles;
 
 public class FlyingKunai : ModProjectile
 {
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
     public override void SetStaticDefaults()
     {
         ProjectileID.Sets.TrailingMode[Type] = 2;
         ProjectileID.Sets.TrailCacheLength[Type] = 10;
     }
+
     public override void SetDefaults()
     {
         Projectile.ArmorPenetration = 10;
@@ -24,6 +26,7 @@ public class FlyingKunai : ModProjectile
         Projectile.extraUpdates = 1;
         Projectile.tileCollide = false;
     }
+
     public override void AI()
     {
         Projectile.rotation = Projectile.velocity.ToRotation() + PiOver2;
@@ -31,32 +34,54 @@ public class FlyingKunai : ModProjectile
         if (Projectile.oldPos.Last() != Vector2.Zero)
             Projectile.tileCollide = true;
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
-        var texture = TextureAssets.Projectile[ProjectileID.ThrowingKnife].Value;
-        var color = lightColor;
-        var darkColor = color.MultiplyRGB(Color.DarkGray);
-        darkColor.A = 150;
-        var brightColor = color.MultiplyRGB(Color.Gray);
-        brightColor.A = 150;
-        var p = Projectile;
+        Texture2D texture = TextureAssets.Projectile[ProjectileID.ThrowingKnife].Value;
 
-        Main.EntitySpriteDraw(texture, p.Center - Main.screenPosition, null, darkColor, p.rotation, texture.Size() / 2, p.scale, SpriteEffects.None);
+        Color color = lightColor;
+
+        Color darkColor = color.MultiplyRGB(Color.DarkGray);
+        darkColor.A = 150;
+
+        Color brightColor = color.MultiplyRGB(Color.Gray);
+        brightColor.A = 150;
+
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, darkColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
 
         PixellationSystem.QueuePixelationAction(() =>
         {
-            for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[p.type] - 1; i++)
+            for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[Type] - 1; i++)
             {
-                if (p.oldPos[i + 1] != Vector2.Zero)
+                if (Projectile.oldPos[i + 1] != Vector2.Zero)
                 {
-                    Main.EntitySpriteDraw(texture, (p.oldPos[i] + (p.Size / 2) - Main.screenPosition) / 2, new Rectangle(0, 8, 14, 2), darkColor * (1 - ((i - 1) / (float)ProjectileID.Sets.TrailCacheLength[p.type])), p.oldPos[i].DirectionFrom(p.oldPos[i + 1]).ToRotation() + PiOver2, new Vector2(7, 0), new Vector2((1f - (i / (float)ProjectileID.Sets.TrailCacheLength[p.type])) * p.scale * 0.75f, p.oldPos[i].Distance(p.oldPos[i + 1]) / 2) / 2, SpriteEffects.None);
-                    Main.EntitySpriteDraw(texture, (p.oldPos[i] + (p.Size / 2) - Main.screenPosition) / 2, new Rectangle(0, 8, 14, 2), brightColor * (0.5f - ((i - 1) / (float)ProjectileID.Sets.TrailCacheLength[p.type])), p.oldPos[i].DirectionFrom(p.oldPos[i + 1]).ToRotation() + PiOver2, new Vector2(7, 0), new Vector2((1f - (i / (float)ProjectileID.Sets.TrailCacheLength[p.type])) * p.scale, p.oldPos[i].Distance(p.oldPos[i + 1]) / 2) / 2, SpriteEffects.None);
+                    Vector2 position = Projectile.oldPos[i] + (Projectile.Size * 0.5f) - Main.screenPosition;
+
+                        // Remove when you use a proper matrix.
+                    position *= 0.5f;
+
+                    float trailSize = ProjectileID.Sets.TrailCacheLength[Type];
+
+                    float ratio = i / trailSize;
+                    float colorRatio = (i - 1) / trailSize;
+
+                    float rotation = Projectile.oldPos[i].DirectionFrom(Projectile.oldPos[i + 1]).ToRotation() + PiOver2;
+
+                    Vector2 origin = new(7, 0);
+                    Vector2 scale = new Vector2((1f - ratio) * Projectile.scale, Projectile.oldPos[i].Distance(Projectile.oldPos[i + 1]) * 0.5f) * 0.5f;
+
+                    Vector2 darkScale = scale;
+                    darkScale.X *= 0.75f;
+
+
+                    Main.EntitySpriteDraw(texture, position, new Rectangle(0, 8, 14, 2), darkColor * (1 - ratio), rotation, origin, darkScale, SpriteEffects.None);
+                    Main.EntitySpriteDraw(texture, position, new Rectangle(0, 8, 14, 2), brightColor * (0.5f - ratio), rotation, origin, scale, SpriteEffects.None);
                 }
             }
         }, PixellationSystem.RenderType.Additive);
 
 
-        Main.EntitySpriteDraw(texture, p.Center - Main.screenPosition, null, brightColor, p.rotation, texture.Size() / 2, p.scale, SpriteEffects.None);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, brightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
 
         return false;
     }

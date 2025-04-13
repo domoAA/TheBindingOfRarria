@@ -8,8 +8,8 @@ public class BloodShield : ModBuff
 {
     public override string Texture => ContentPath + "Buffs/" + Name;
 
-    public override void Update(Player player, ref int buffIndex)
-    {
-        player.statDefense += (int)player.GetModPlayer<KamoPlayer>().Stored;
-    }
+        // public override void Update(Player player, ref int buffIndex)
+        // {
+        //         // player.statDefense += (int)player.GetModPlayer<KamoPlayer>().Stored;
+        // }
 }

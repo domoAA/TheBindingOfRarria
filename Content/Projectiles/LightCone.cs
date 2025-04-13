@@ -1,5 +1,7 @@
-
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
 
@@ -7,6 +9,8 @@ namespace TheBindingOfRarria.Content.Projectiles;
 
 public class LightCone : ModProjectile
 {
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
     public override void SetStaticDefaults()
     {
         Projectile.penetrate = -1;
@@ -17,6 +21,10 @@ public class LightCone : ModProjectile
         Projectile.damage = 0;
         Projectile.netImportant = true;
     }
+
+        // I'm not touching this with a 90 foot pole.
+            // But I'm begging you, STOP USING Main.GameZoomTarget TO MULTIPLY SHIT, MATRICIES AUTO APPLY.
+                // Seriously gonna hit my god damn mother fucking limit rn, TS PMO SM !
     public override void AI()
     {
         Projectile.tileCollide = false;
@@ -67,32 +75,48 @@ public class LightCone : ModProjectile
         }
         Projectile.netUpdate = true;
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         Projectile.scale = 3;
-        Projectile.DrawWithTransparency(Projectile.Center.DirectionTo(Main.player[Projectile.owner].Center) * Projectile.Center.Distance(Main.player[Projectile.owner].Center) / 2, Projectile.MyTexture().Bounds, Color.LightYellow, 50, 1, 1, 0.04f);
+
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+        Color color = Color.LightYellow * (50 / 255f);
+
+        float scale = Projectile.scale * 0.5f;
+        scale -= 0.04f;
+
+        Vector2 ownerCenter = Main.player[Projectile.owner].Center;
+        Vector2 offset = Projectile.Center.DirectionTo(ownerCenter) * Projectile.Center.Distance(ownerCenter) * 0.5f;
+        Vector2 position = Projectile.Center + offset;
+
+        Main.spriteBatch.Draw(texture, position, null, color with { A = 0 }, Projectile.rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0);
+
         return false;
     }
+
+        // Move to MathHelper or some shit.
     public static bool IsPointInTriangle(Vector2 point, Vector2 a, Vector2 b, Vector2 c)
     {
-        // Compute vectors
+            // Compute vectors
         var v0 = c - a;
         var v1 = b - a;
         var v2 = point - a;
 
-        // Compute dot products
+            // Compute dot products
         float dot00 = Vector2.Dot(v0, v0);
         float dot01 = Vector2.Dot(v0, v1);
         float dot02 = Vector2.Dot(v0, v2);
         float dot11 = Vector2.Dot(v1, v1);
         float dot12 = Vector2.Dot(v1, v2);
 
-        // Compute barycentric coordinates
+            // Compute barycentric coordinates
         float invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
         float u = (dot11 * dot02 - dot01 * dot12) * invDenom;
         float v = (dot00 * dot12 - dot01 * dot02) * invDenom;
 
-        // Check if point is in triangle
+            // Check if point is in triangle
         return (u >= 0) && (v >= 0) && (u + v <= 1);
     }
 }
