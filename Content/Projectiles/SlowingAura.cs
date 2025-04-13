@@ -1,5 +1,6 @@
-
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
 
@@ -7,7 +8,10 @@ namespace TheBindingOfRarria.Content.Projectiles;
 
 public class SlowingAura : ModProjectile
 {
-    public bool shining = true;
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
+    private bool shining = true;
+
     public override void SetDefaults()
     {
         Projectile.tileCollide = false;
@@ -16,6 +20,7 @@ public class SlowingAura : ModProjectile
         Projectile.width = 105;
         Projectile.height = 105;
     }
+
     public override void AI()
     {
         Projectile.width = (int)(105 * Projectile.scale);
@@ -59,12 +64,26 @@ public class SlowingAura : ModProjectile
                 break;
         }
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         byte alpha = (byte)(6 + Projectile.ai[1]);
 
         Projectile.scale = 3f;
-        Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 8, 2, 0.025f);
+            // Projectile.DrawWithTransparency(new Rectangle(0, 0, 256, 256), Color.LightYellow, alpha, 8, 2, 0.025f);
+
+        float scale = Projectile.scale * 0.5f;
+
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+        Color color = Color.LightYellow * (alpha / 255f);
+
+        for (int i = 0; i < 8; i++)
+        {
+            scale -= 0.025f;
+
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, color with { A = 0 }, Projectile.rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0);
+        }
         return false;
     }
 }

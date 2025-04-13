@@ -1,11 +1,14 @@
-
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
 public class RepellingPulse : ModProjectile
 {
+    public override string Texture => ContentPath + "Projectiles/" + Name;
+
     public override void SetDefaults()
     {
         Projectile.tileCollide = false;
@@ -15,12 +18,15 @@ public class RepellingPulse : ModProjectile
         Projectile.height = 50;
         Projectile.friendly = true;
     }
-    public enum State
+
+    private enum State
     {
         Contracting,
         Expanding
     }
-    public State state = State.Expanding;
+
+    private State state = State.Expanding;
+
     public override void AI()
     {
         if (!Projectile.hostile)
@@ -38,14 +44,21 @@ public class RepellingPulse : ModProjectile
         Projectile.height = (int)(100 * Projectile.scale);
         Projectile.ProjectileRepelling();
 
-        Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3() * Projectile.scale / 2);
+        Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3() * Projectile.scale * 0.5f);
         Projectile.netUpdate = true;
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
-        var color = Projectile.friendly ? Color.DeepSkyBlue : Color.DarkBlue;
-        Projectile.DrawWithTransparency(color, 150);
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+        Color color = Projectile.friendly ? Color.DeepSkyBlue : Color.DarkBlue;
+
+        color *= 150f / 255f;
+        Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, color with { A = 0 }, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale * 0.5f, SpriteEffects.None, 0);
+
         Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3() * Projectile.ai[0] / 3);
+
         return false;
     }
 }

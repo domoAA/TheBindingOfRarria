@@ -9,6 +9,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Config;
 using TheBindingOfRarria.Content.Buffs;
+using TheBindingOfRarria.Content.Buffs.Debuffs;
 using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
@@ -58,11 +59,15 @@ public class KamoPlayer : ModPlayer
 {
     public bool Leaky = false;
     public int counter = 0;
+    public float Stored = 0;
 
     public override void ResetEffects()
     {
         if (counter > 1400 && !Player.HasBuff(ModContent.BuffType<BloodShieldBleed>()) && !Player.HasBuff(ModContent.BuffType<BloodShield>()))
             Player.AddBuff(ModContent.BuffType<BloodShield>(), 240);
+
+        if (counter < 1200 && !Player.HasBuff(ModContent.BuffType<BloodShield>()))
+            Stored = 0;
 
         Leaky = false;
     }

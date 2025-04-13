@@ -531,7 +531,7 @@ Items: {
 
 	ToothAndNail: {
 		DisplayName: Tooth And Nail
-		Tooltip: 
+		Tooltip:
 			'''
 			Taking a hit makes you shoot out nails
 			With a 10% chance, you will be encased in a protective boulder instead
@@ -541,7 +541,7 @@ Items: {
 
 	BerserkersPauldron: {
 		DisplayName: Berserker's Pauldron
-		Tooltip: 
+		Tooltip:
 			'''
 			Killing a few enemies in a short time grants 25% increased damage for 6 seconds
 			''
@@ -550,7 +550,7 @@ Items: {
 
 	BrilliantBehemoth: {
 		DisplayName: Brilliant Behemoth
-		Tooltip: 
+		Tooltip:
 			'''
 			Hitting an enemy damages surrounding enemies with an explosion
 			''
@@ -559,7 +559,7 @@ Items: {
 
 	FishTank: {
 		DisplayName: Fish Tank
-		Tooltip: 
+		Tooltip:
 			'''
 			You throw out a flopping fish every time you dash
 			''
@@ -568,7 +568,7 @@ Items: {
 
 	FocusCrystal: {
 		DisplayName: Focus Crystal
-		Tooltip: 
+		Tooltip:
 			'''
 			You deal 20% increased damage to enemies that are close to you
 			''
@@ -577,7 +577,7 @@ Items: {
 
 	FunnyFish: {
 		DisplayName: Funny Fish
-		Tooltip: 
+		Tooltip:
 			'''
 			You shoot fish instead of bullets
 			'Don't cry, I am just a FISH'
@@ -665,6 +665,7 @@ Projectiles: {
 	BlockBoulder.DisplayName: Block Boulder
 	FishBullet.DisplayName: Fish Bullet
 	FlippityFloppity.DisplayName: Flippity Floppity
+	HivePulse.DisplayName: Hive Pulse
 }
 
 Keybinds: {
