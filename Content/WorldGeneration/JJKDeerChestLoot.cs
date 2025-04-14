@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System.Linq;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Items;
@@ -20,12 +21,8 @@ public class JJKDeerChestLoot : ModSystem
             if (chest == null)
                 continue;
 
-            Tile chestTile = Main.tile[chest.x, chest.y];
-            if (chestTile.TileType == TileID.Containers && (chestTile.TileFrameX == 3 * 36 || chestTile.TileFrameX == 4 * 36))
+            if (DAmount < 8 && (DAmount < 4 || WorldGen.genRand.NextFloat() > 0.7f) && chest.item.Any(item => item.type == ItemID.DarkLance || item.type == ItemID.Sunfury || item.type == ItemID.FlowerofFire))
             {
-                if (WorldGen.genRand.NextFloat() > 0.2f)
-                    continue;
-
                 for (int inventoryIndex = 0; inventoryIndex < Chest.maxItems; inventoryIndex++)
                 {
                     if (chest.item[inventoryIndex].type == ItemID.None)

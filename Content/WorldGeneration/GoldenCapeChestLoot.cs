@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Linq;
+﻿using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,12 +18,8 @@ public class GoldenCapeChestLoot : ModSystem
             if (chest == null)
                 continue;
 
-            Tile chestTile = Main.tile[chest.x, chest.y];
-            if (chestTile.TileType == TileID.Containers)
+            if (GAmount < 8 && (GAmount < 4 || WorldGen.genRand.NextFloat() > 0.7f) && chest.item.Any(item => item.type == ItemID.CatBast || item.type == ItemID.AncientChisel || item.type == ItemID.SandBoots))
             {
-                if (WorldGen.genRand.NextFloat() > 0.2f)
-                    continue;
-
                 for (int inventoryIndex = 0; inventoryIndex < Chest.maxItems; inventoryIndex++)
                 {
                     if (chest.item[inventoryIndex].type == ItemID.None)
@@ -34,6 +29,7 @@ public class GoldenCapeChestLoot : ModSystem
                         break;
                     }
                 }
+
             }
         }
     }
