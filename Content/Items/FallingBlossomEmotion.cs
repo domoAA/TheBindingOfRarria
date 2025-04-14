@@ -104,6 +104,9 @@ public class NatureDodgePlayer : ModPlayer
         {
             position = Player.Center + Player.Center.DirectionTo(npc.Center) * Player.Hitbox.Size() / 2;
             direction = npc.Center.DirectionTo(Player.Center);
+
+            if (direction == Vector2.Zero)
+                direction = Vector2.UnitX;
         }
         else
         {
@@ -117,6 +120,9 @@ public class NatureDodgePlayer : ModPlayer
         {
             position = Player.Center + Player.Center.DirectionTo(proj.Center) * Player.Hitbox.Size() / 2;
             direction = proj.velocity;
+
+            if (direction == Vector2.Zero)
+                direction = Vector2.UnitX;
         }
         else
         {

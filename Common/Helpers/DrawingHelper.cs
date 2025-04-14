@@ -39,18 +39,20 @@ public static partial class Helper
     #region Transparency Slop
     public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, Color color, byte alpha)
     {
-        color *= alpha * (1f / 255);
+        color *= alpha / 255f;
 
         Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, 0, texture.Size() * 0.5f, scale * 0.5f, SpriteEffects.None, 0);
     }
     public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, float rotation, Color color, byte alpha)
     {
-        color *= alpha * (1f / 255);
+        color *= alpha / 255f;
 
         Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, rotation, texture.Size() * 0.5f, scale * 0.5f, SpriteEffects.None, 0);
     }
     public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, float rotation, Color color, byte alpha, SpriteEffects effect, bool apply)
     {
+        color *= alpha / 255f;
+
         effect = apply ? effect : SpriteEffects.None;
         Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, rotation, texture.Size() * 0.5f, scale * 0.5f, effect, 0);
     }

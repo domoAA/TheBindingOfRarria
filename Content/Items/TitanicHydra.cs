@@ -102,7 +102,7 @@ public class TitanicPlayer : ModPlayer
 
             counter = 360;
 
-            Vector2 direction = target.Center + proj.velocity * 150 / proj.velocity.Length();
+            Vector2 direction = target.Center + proj.velocity * 150 / proj.velocity.SafeNormalize(Vector2.UnitX).Length();
             Vector2 position = proj.Center + proj.Center.DirectionTo(target.Center) * proj.Hitbox.Size() * 0.5f;
 
             if (proj.aiStyle == ProjAIStyleID.Flail || proj.aiStyle == ProjAIStyleID.SolarEffect || position.Distance(direction) > 250 || proj.aiStyle == ProjAIStyleID.Whip || proj.velocity.LengthSquared() < 1)

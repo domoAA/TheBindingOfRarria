@@ -34,6 +34,8 @@ public class LightCone : ModProjectile
         }
 
         var vel = Vector2.UnitX;
+        if (Projectile.Center.DistanceSQ(owner.Center) < 1)
+            Projectile.Center += new Vector2(10, 0);
 
         if (owner.velocity.LengthSquared() > 1)
            vel = owner.velocity / owner.velocity.Length();

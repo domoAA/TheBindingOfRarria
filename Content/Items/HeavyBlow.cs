@@ -62,7 +62,10 @@ public class KnockbackAccessoryPlayer : ModPlayer
             modifiers.Knockback += 1.5f;
             modifiers.FinalDamage += modifiers.Knockback.ApplyTo(0.67f);
 
-            var direction = proj.velocity / proj.velocity.Length();
+            var direction = Vector2.UnitX;
+            if (proj.velocity.LengthSquared() > 1)
+                direction = proj.velocity / proj.velocity.Length();
+            
             var position = proj.Center + proj.Center.DirectionTo(target.Center) * proj.Hitbox.Size() / 2;
             if (proj.aiStyle == ProjAIStyleID.Flail || proj.aiStyle == ProjAIStyleID.SolarEffect || proj.aiStyle == ProjAIStyleID.Whip || proj.velocity.LengthSquared() < 1)
             {
@@ -71,7 +74,6 @@ public class KnockbackAccessoryPlayer : ModPlayer
             }
             Projectile.NewProjectile(Player.GetSource_Accessory(KnockbackItem), position, direction, ModContent.ProjectileType<HeavyBlowThing>(), 0, 0, proj.owner, modifiers.Knockback.ApplyTo(1) / 2);
         }
-
         base.ModifyHitNPCWithProj(proj, target, ref modifiers);
     }
 }

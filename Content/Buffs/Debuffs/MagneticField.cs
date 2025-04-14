@@ -19,7 +19,7 @@ public class MagneticField : ModBuff
 
         foreach (var proj in Main.ActiveProjectiles)
         {
-            if (proj != null && proj.Center.DistanceSQ(npc.Center) < distance * distance && proj.CanBeReflected())
+            if (proj != null && proj.Center.DistanceSQ(npc.Center) > 1 && proj.Center.DistanceSQ(npc.Center) < distance * distance && proj.CanBeReflected())
             {
                 proj.velocity *= 0.99f;
                 proj.velocity = proj.velocity.RotatedBy(proj.velocity.ToRotation().AngleLerp(proj.Center.DirectionTo(npc.Center).ToRotation(), 0.1f) - proj.velocity.ToRotation());
