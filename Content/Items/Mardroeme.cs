@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using Terraria.Localization;
 
@@ -9,6 +8,8 @@ namespace TheBindingOfRarria.Content.Items;
 
 public class Mardroeme : ModItem
 {
+    public override string Texture => ContentPath + "Items/" + Name;
+
     public override void SetDefaults()
     {
         Item.width = 30;
