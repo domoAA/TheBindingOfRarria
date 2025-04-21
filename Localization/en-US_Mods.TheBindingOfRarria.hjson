@@ -54,6 +54,11 @@ Items: {
 		Tooltip: take 50 damage on use, but heal 250 life after a delay
 	}
 
+	PhantomPopper: {
+		DisplayName: Phantom Popper
+		Tooltip: ""
+	}
+
 	ValiantArmor: {
 		DisplayName: Valiant Armor
 		Tooltip:
