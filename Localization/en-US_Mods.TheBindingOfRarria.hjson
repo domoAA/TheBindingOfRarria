@@ -49,6 +49,11 @@ Items: {
 			'''
 	}
 
+	Mardroeme: {
+		DisplayName: Mardroeme
+		Tooltip: take 50 damage on use, but heal 250 life after a delay
+	}
+
 	ValiantArmor: {
 		DisplayName: Valiant Armor
 		Tooltip:
