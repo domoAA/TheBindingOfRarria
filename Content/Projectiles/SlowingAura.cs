@@ -14,8 +14,6 @@ public class SlowingAura : ModProjectile
 
     public override void SetDefaults()
     {
-        Main.spawnTileX = Main.LocalPlayer.Center.ToTileCoordinates().X;
-        Main.spawnTileY = Main.LocalPlayer.Center.ToTileCoordinates().Y;
         Projectile.tileCollide = false;
         Projectile.penetrate = -1;
         Projectile.ignoreWater = true;

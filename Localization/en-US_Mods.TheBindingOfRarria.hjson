@@ -52,12 +52,20 @@ Items: {
 
 	Mardroeme: {
 		DisplayName: Mardroeme
-		Tooltip: take 50 damage on use, but heal 250 life after a delay
+		Tooltip: 
+			'''
+			Take 50 damage on use, but heal 250 life after a delay
+			'Eat enough of them, and the world will never be the same...'
+			'''
 	}
 
 	PhantomPopper: {
 		DisplayName: Phantom Popper
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Your magic projectiles split into homing missiles
+			''
+			'''
 	}
 
 	ValiantArmor: {
