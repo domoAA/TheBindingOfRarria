@@ -8,6 +8,7 @@ namespace TheBindingOfRarria.Content.Dusts;
 public class FocusCrystalAuraDust : ModDust
 {
         // Bad idea.
+        // Not my idea, shrug
     public override string Texture => null;
 
     public override void OnSpawn(Dust dust)

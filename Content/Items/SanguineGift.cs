@@ -57,7 +57,7 @@ public class SanguineGift : ModItem
         int index = tooltips.FindIndex(t => t.Name == "Tooltip1");
         if (index != -1) 
         {
-            string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.SanguineGift.Tooltip"), $"[c/{Color.LightGreen.Hex3()}:({Main.LocalPlayer.statLifeMax2 / 10})]", $"[c/{Color.DarkGreen.Hex3()}:({Main.LocalPlayer.GetModPlayer<SanguinePlayer>().Stored})]");
+            string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.SanguineGift.Tooltip"), $"{Main.LocalPlayer.statLifeMax2 / 10}", $"[c/{Color.DarkGreen.Hex3()}:({Main.LocalPlayer.GetModPlayer<SanguinePlayer>().Stored})]");
 
             text = text.Remove(text.LastIndexOf($"\n"));
             string cur = text[(text.LastIndexOf($"\n") + 1)..];

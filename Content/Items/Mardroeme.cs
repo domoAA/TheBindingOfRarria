@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Localization;
+using TheBindingOfRarria.Content.Tiles;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -14,19 +15,20 @@ public class Mardroeme : ModItem
     {
         Item.width = 30;
         Item.height = 30;
-        Item.maxStack = 999;
+        Item.maxStack = 99;
         Item.consumable = true;
         Item.useTime = 45;
         Item.useAnimation = 45;
-        Item.useStyle = ItemUseStyleID.HoldUp;
+        Item.useStyle = ItemUseStyleID.EatFood;
         Item.value = Item.sellPrice(gold: 1);
         Item.rare = ItemRarityID.Green;
         Item.UseSound = SoundID.Item4;
+        Item.createTile = ModContent.TileType<MardroemeTile>();
     }
 
     public override bool CanUseItem(Player player)
     {
-        if (player.GetModPlayer<MardroemePlayer>().counter > 0 || player.statLife < 50)
+        if (player.potionDelay > 0)
             return false;
         return true;
     }
@@ -35,7 +37,8 @@ public class Mardroeme : ModItem
     {
         player.Hurt(PlayerDeathReason.ByCustomReason(NetworkText.FromLiteral($"{player.name} sacrificed their vitality.")), 50, 0, false, false, 0, false, 999);
         player.GetModPlayer<MardroemePlayer>().counter = 300;
-
+        player.AddBuff(BuffID.PotionSickness, 3000);
+        
         return true;
     }
 }

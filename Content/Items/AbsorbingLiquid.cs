@@ -27,6 +27,7 @@ public class AbsorbingLiquid : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
             // Bad.
+            // How so?
         player.GetModPlayer<AbsorbingPlayer>().ModLiquid = Item;
         player.GetModPlayer<AbsorbingPlayer>().counter.timer--;
     }
@@ -66,6 +67,7 @@ public class AbsorbingPlayer : ModPlayer
     public Item ModLiquid = null;
 
         // You use tuples excessively.
+        // They're good is why
     public (int timer, int heal) counter = (0, 0);
 
     public override void ResetEffects()

@@ -44,6 +44,7 @@ public class HiveBloodPlayer : ModPlayer
             // Those they don't sting.
             // Those they bring honey for.
                 // Those who have to refactor kain-code.
+                // Those who are peak (zen)
     }
 
     public override void OnHurt(Player.HurtInfo info) => BeeHeal(info.Damage);

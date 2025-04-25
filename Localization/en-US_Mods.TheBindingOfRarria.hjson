@@ -281,7 +281,7 @@ Items: {
 		Tooltip:
 			'''
 			+60 max life 
-			Your attacks cause a shockwave that deals 20% of your max life every 6 seconds.
+			Your attacks cause a shockwave that deals {0} [c/90ee90:(20% of your maximum life)] every 6 seconds
 			'Titanic might too great to control'
 			'''
 	}
@@ -467,7 +467,7 @@ Items: {
 		Tooltip:
 			'''
 			Stores 20% of damage taken
-			When stored damage exceeds 10% of your maximum life {0}, you are healed for the amount stored
+			When stored damage exceeds {0} [c/90ee90:(10% of your maximum life)], you are healed for the amount stored
 			The healing is shared with a teammate if one is nearby
 			Current stored damage: {1}
 			'Bound by blood'
@@ -478,7 +478,7 @@ Items: {
 		DisplayName: Unending Despair
 		Tooltip:
 			'''
-			Drains life from up to 4 nearby enemies, dealing 10% of your maximum life {0} magic damage
+			Drains life from up to 4 nearby enemies, dealing {0} [c/90ee90:(10% of your maximum life)] magic damage
 			You heal for 20% of the damage dealt by this item
 			'Waiter! More healing please'
 			'''
@@ -540,11 +540,6 @@ Items: {
 			When your melee swing hits an enemy, another nearby enemy is slashed
 			'It's like Muramasa, except it's not'
 			'''
-	}
-
-	GnawedLeaf: {
-		DisplayName: Gnawed Leaf
-		Tooltip: ""
 	}
 
 	ToothAndNail: {
@@ -735,7 +730,8 @@ Keybinds: {
 
 Tiles: {
 	PaleOreTile.MapEntry: Pale Ore
-	SihilStone.MapEntry: Sihil Stone
+	SihilStone.MapEntry: Sword in ice
+	MardroemeTile.MapEntry: Suspicious looking mushrooms
 }
 
 WorldGen: {

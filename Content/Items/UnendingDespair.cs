@@ -33,6 +33,7 @@ public class UnendingDespair : ModItem
         if (counter >= 300)
         {
                 // Make this use either an array or hashset please.
+                // No, ms. List<T> hater.
             List<int> victims = [];
 
             for (int i = 0; i < 4; i++)
@@ -63,7 +64,7 @@ public class UnendingDespair : ModItem
         int index = tooltips.FindIndex(t => t.Name == "Tooltip0");
         if (index != -1)
         {
-            string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.UnendingDespair.Tooltip"), $"[c/{Color.LightGreen.Hex3()}:({Main.LocalPlayer.statLifeMax2 / 10})]");
+            string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.UnendingDespair.Tooltip"), $"{Main.LocalPlayer.statLifeMax2 / 10}");
 
             text = text.Remove(text.LastIndexOf($"\n"));
             text = text.Remove(text.LastIndexOf($"\n"));
@@ -73,6 +74,7 @@ public class UnendingDespair : ModItem
 }
 
     // ???????????????????????????
+    // It's so that I could have every lifesucker proj pool off their heal here in one place.
 public class LifeSuckerPlayer : ModPlayer
 {
     public int heal = 0;

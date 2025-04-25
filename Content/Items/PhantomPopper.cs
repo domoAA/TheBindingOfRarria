@@ -56,7 +56,7 @@ public class PhantomPopperGlobalProjectile : GlobalProjectile
 
     public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
     {
-        return entity.damage > 0 && entity.DamageType == DamageClass.Magic && entity.friendly;
+        return entity.DamageType == DamageClass.Magic && entity.friendly;
     }
 
     public override void OnSpawn(Projectile projectile, IEntitySource source)
