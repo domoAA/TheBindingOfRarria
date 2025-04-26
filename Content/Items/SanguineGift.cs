@@ -96,9 +96,6 @@ public class SanguinePlayer : ModPlayer
             Stored += info.Damage / 5;
     }
 
-        // public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo) => OnHit(hurtInfo);
-        // public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo) => OnHit(hurtInfo);
-
     public override void OnHurt(Player.HurtInfo info) => OnHit(info);
 
     public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)

@@ -47,7 +47,6 @@ public class ShamanSnailPlayer : ModPlayer
 
 public class ShamanSnailGlobalProjectile : GlobalProjectile 
 {
-        // wip
     public override bool InstancePerEntity => true;
     private bool CastByShaman = false;
 

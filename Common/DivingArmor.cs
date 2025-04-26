@@ -55,8 +55,12 @@ public class DivingHelmOverride : GlobalItem
     {
         var index = tooltips.FindIndex(l => l.Name == "Defense");
 
-        if (index != -1)
-            tooltips.Insert(index + 1, new TooltipLine(Mod, "Tooltip0", Language.GetTextValue("Mods.TheBindingOfRarria.Items.DivingHelm.Tooltip")));
+        if (index != -1) 
+        {
+            var text = Language.GetTextValue("Mods.TheBindingOfRarria.Items.DivingHelm.Tooltip");
+            tooltips.Insert(index + 1, new TooltipLine(Mod, "Tooltip1", text[(text.LastIndexOf("\n") + 1)..]));
+            tooltips.Insert(index + 1, new TooltipLine(Mod, "Tooltip0", text[..text.LastIndexOf("\n")]));
+        } 
     }
 }
 

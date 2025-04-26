@@ -37,6 +37,7 @@ public class CursedChain : ModItem
 public class RiskyHealPlayer : ModPlayer
 {
         // me-core
+        // Huh?
     public bool HasChoker = false;
     private int totalHeal = 0;
     private float currentHeal = 0.24f;

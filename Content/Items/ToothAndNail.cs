@@ -1,6 +1,7 @@
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -18,9 +19,22 @@ public class ToothAndNail : ModItem
         Item.accessory = true;
         Item.height = 24;
         Item.width = 22;
+        Item.rare = ItemRarityID.Pink;
+        Item.value = Item.buyPrice(0, 5);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ToothAndNailPlayer>().Tooth = Item;
+}
+
+public class ToothAndNailDropNPC : GlobalNPC
+{
+    public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+    {
+        if (npc.type == NPCID.Nailhead)
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ToothAndNail>(), 6));
+
+        base.ModifyNPCLoot(npc, npcLoot);
+    }
 }
 
 public class ToothAndNailPlayer : ModPlayer

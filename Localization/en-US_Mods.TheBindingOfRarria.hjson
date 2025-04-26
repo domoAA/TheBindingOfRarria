@@ -53,7 +53,7 @@ Items: {
 		DisplayName: Mardroeme
 		Tooltip:
 			'''
-			Deals 50 damage on use, but heals 250 life after a delay
+			Deals 50 damage on use, but heals 230 life after a delay
 			'Eat enough of them, and the world will never be the same...'
 			'''
 	}
@@ -425,15 +425,6 @@ Items: {
 			'''
 	}
 
-	Revelation: {
-		DisplayName: Revelation
-		Tooltip:
-			'''
-			Press {0} to place a mini-star that charges up a beam of light
-			''
-			'''
-	}
-
 	WoodenDice: {
 		DisplayName: Lucky Dice
 		Tooltip:
@@ -525,7 +516,7 @@ Items: {
 	}
 
 	DivergentsFist: {
-		DisplayName: Divergent Fist
+		DisplayName: Divergent's Fist
 		Tooltip:
 			'''
 			Your melee swings deliver a follow-up hit after a delay
@@ -543,7 +534,7 @@ Items: {
 	}
 
 	ToothAndNail: {
-		DisplayName: Tooth And Nail
+		DisplayName: Tooth and Nail
 		Tooltip:
 			'''
 			Taking a hit makes you shoot out nails
@@ -608,7 +599,11 @@ Items: {
 	}
 
 	DivingHelm: {
-		Tooltip: +40 max life
+		Tooltip:
+			'''
+			+40 max life
+			'Still works'
+			'''
 		SetBonus:
 			'''
 			Greatly extends underwater breathing and grants immunity to suffocation
@@ -618,12 +613,20 @@ Items: {
 
 	DivingGreaves: {
 		DisplayName: Diving Greaves
-		Tooltip: +30 max life
+		Tooltip:
+			'''
+			+30 max life
+			'They're uncomfortably dry'
+			'''
 	}
 
 	DivingPlating: {
 		DisplayName: Diving Plating
-		Tooltip: +30 max life
+		Tooltip:
+			'''
+			+30 max life
+			'Now you feel like a real creature of the sea'
+			'''
 	}
 
 	MoltenShield: {

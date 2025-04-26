@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Projectiles;
 
@@ -13,12 +14,24 @@ public class DivergentsFist : ModItem
         Item.accessory = true;
         Item.width = 26;
         Item.height = 32;
+        Item.rare = ItemRarityID.Pink;
+        Item.value = Item.buyPrice(0, 3);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<YujiItemPlayer>().counter--;
         player.GetModPlayer<YujiItemPlayer>().Fist = Item;
+    }
+
+    public override void AddRecipes()
+    {
+        CreateRecipe()
+            .AddIngredient(ModContent.ItemType<CursedBlood>())
+            .AddIngredient(ItemID.PowerGlove)
+            .AddIngredient(ItemID.SoulofFright, 4)
+            .AddTile(TileID.Anvils)
+            .Register();
     }
 }
 
