@@ -5,6 +5,7 @@ using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.Localization;
@@ -24,6 +25,9 @@ public class CrystalHeart : ModItem
         Item.accessory = true;
         Item.height = 30;
         Item.width = 30;
+        Item.rare = ItemRarityID.Expert;
+        Item.value = Item.buyPrice(0, 2);
+        Item.expert = true;
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
@@ -40,6 +44,17 @@ public class CrystalHeart : ModItem
             player.direction = player.GetModPlayer<CrystalDashPlayer>().Dir;
 
             player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<CrystalDashTrail>(), player.GetSource_Accessory(Item, "Crystal dash"));
+        }
+    }
+
+    public class CrystalHeartDropNPC : GlobalNPC
+    {
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            if (npc.type == NPCID.GraniteFlyer)
+                npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<CrystalHeart>(), 60));
+
+            base.ModifyNPCLoot(npc, npcLoot);
         }
     }
 
@@ -60,6 +75,8 @@ public class CrystalHeart : ModItem
         }
     }
 }
+
+
 
 public class CrystalDashPlayer : ModPlayer
 {
@@ -105,6 +122,10 @@ public class CrystalDashPlayer : ModPlayer
         }
         else if (Holding > 0)
             Player.velocity *= 0;
+        else
+            for (int i = 0; i < 10; i++)
+                RandomRotations[i] = Main.rand.NextFloat(-PiOver4 / 4, PiOver4 / 4);
+
     }
 
         // Make into a helper method.
@@ -130,6 +151,7 @@ public class CrystalDashPlayer : ModPlayer
                 Player.mount.Dismount(Player);
                 Player.RemoveAllGrapplingHooks();
 
+                if (RandomRotations.Length < 9 || RandomRotations.Last() == 0)
                 for (int i = 0; i < 10; i++)
                     RandomRotations[i] = Main.rand.NextFloat(-PiOver4 / 4, PiOver4 / 4);
             }

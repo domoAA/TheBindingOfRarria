@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Common.Systems;
-
 public class PixellationSystem : ModSystem
 {
     // credits for the base for this system to naka, also thanks to zen, stormytuna and some others I forgor about for helping me change this thing to fit my needs

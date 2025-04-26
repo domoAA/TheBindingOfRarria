@@ -2,7 +2,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using System.Collections.Generic;
-using TheBindingOfRarria.Content.WorldGeneration;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -39,19 +38,6 @@ public class SwearSworPlayer : ModPlayer
         if (SwearSwor && !target.active)
             Player.AddBuff(buff, 660);
     }
-
-    public override void PostUpdate()
-    {
-        if (Main.chatText.Contains("/cmd [i:GCape]"))
-        {
-            Main.NewText(GoldenCapeChestLoot.GAmount);
-        }
-
-        if (Main.chatText.Contains("/cmd [i:DHorn]"))
-        {
-            Main.NewText(JJKDeerChestLoot.DAmount);
-        }
-    }
 }
 
 public class SihilBuffs : ModSystem
@@ -62,7 +48,7 @@ public class SihilBuffs : ModSystem
     {
         foreach (var i in ContentSamples.ItemsByType)
         {
-            if (i.Value.consumable && i.Value.useStyle == ItemUseStyleID.DrinkLiquid && i.Value.buffType != 0 && !Main.debuff[i.Value.buffType])
+            if (i.Value.consumable && i.Value.useStyle == ItemUseStyleID.DrinkLiquid && i.Value.buffType != 0 && !Main.debuff[i.Value.buffType] && !BuffID.Sets.IsWellFed[i.Value.buffType] && !BuffID.Sets.IsAFlaskBuff[i.Value.buffType])
                 PotionBuffs.Add(i.Value.buffType);
         }
     }

@@ -12,9 +12,9 @@ namespace TheBindingOfRarria.Content.WorldGeneration;
 
 public sealed class PaleOreGeneration : ModSystem
 {
-    private static LocalizedText WorldGenTutorialOresPassMessage;
+    private static LocalizedText PaleOrePassMessage;
 
-    public override void SetStaticDefaults() => WorldGenTutorialOresPassMessage = Language.GetOrRegister(Mod.GetLocalizationKey($"WorldGen.{nameof(WorldGenTutorialOresPassMessage)}"));
+    public override void SetStaticDefaults() => PaleOrePassMessage = Language.GetOrRegister(Mod.GetLocalizationKey($"WorldGen.{nameof(PaleOrePassMessage)}"));
 
     public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
     {
@@ -27,7 +27,7 @@ public sealed class PaleOreGeneration : ModSystem
     {
         protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
         {
-            progress.Message = WorldGenTutorialOresPassMessage.Value;
+            progress.Message = PaleOrePassMessage.Value;
 
             for (int k = 0; k < (int)(Main.maxTilesX * Main.maxTilesY * 0.00001); k++)
             {

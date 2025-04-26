@@ -51,12 +51,20 @@ Items: {
 
 	Mardroeme: {
 		DisplayName: Mardroeme
-		Tooltip: take 50 damage on use, but heal 250 life after a delay
+		Tooltip:
+			'''
+			Deals 50 damage on use, but heals 230 life after a delay
+			'Eat enough of them, and the world will never be the same...'
+			'''
 	}
 
 	PhantomPopper: {
 		DisplayName: Phantom Popper
-		Tooltip: ""
+		Tooltip:
+			'''
+			Your magic projectiles split into homing missiles
+			'Just a little bit of projectile spam'
+			'''
 	}
 
 	ValiantArmor: {
@@ -273,7 +281,7 @@ Items: {
 		Tooltip:
 			'''
 			+60 max life 
-			Your attacks cause a shockwave that deals 20% of your max life every 6 seconds.
+			Your attacks cause a shockwave that deals {0} [c/90ee90:(20% of your maximum life)] every 6 seconds
 			'Titanic might too great to control'
 			'''
 	}
@@ -417,15 +425,6 @@ Items: {
 			'''
 	}
 
-	Revelation: {
-		DisplayName: Revelation
-		Tooltip:
-			'''
-			Press {0} to place a mini-star that charges up a beam of light
-			''
-			'''
-	}
-
 	WoodenDice: {
 		DisplayName: Lucky Dice
 		Tooltip:
@@ -459,7 +458,7 @@ Items: {
 		Tooltip:
 			'''
 			Stores 20% of damage taken
-			When stored damage exceeds 10% of your maximum life {0}, you are healed for the amount stored
+			When stored damage exceeds {0} [c/90ee90:(10% of your maximum life)], you are healed for the amount stored
 			The healing is shared with a teammate if one is nearby
 			Current stored damage: {1}
 			'Bound by blood'
@@ -470,7 +469,7 @@ Items: {
 		DisplayName: Unending Despair
 		Tooltip:
 			'''
-			Drains life from up to 4 nearby enemies, dealing 10% of your maximum life {0} magic damage
+			Drains life from up to 4 nearby enemies, dealing {0} [c/90ee90:(10% of your maximum life)] magic damage
 			You heal for 20% of the damage dealt by this item
 			'Waiter! More healing please'
 			'''
@@ -517,7 +516,7 @@ Items: {
 	}
 
 	DivergentsFist: {
-		DisplayName: Divergent Fist
+		DisplayName: Divergent's Fist
 		Tooltip:
 			'''
 			Your melee swings deliver a follow-up hit after a delay
@@ -534,13 +533,8 @@ Items: {
 			'''
 	}
 
-	GnawedLeaf: {
-		DisplayName: Gnawed Leaf
-		Tooltip: ""
-	}
-
 	ToothAndNail: {
-		DisplayName: Tooth And Nail
+		DisplayName: Tooth and Nail
 		Tooltip:
 			'''
 			Taking a hit makes you shoot out nails
@@ -627,6 +621,46 @@ Items: {
 	NecromancersTome: {
 		DisplayName: Necromancers Tome
 		Tooltip: ""
+  }
+	DivingHelm: {
+		Tooltip:
+			'''
+			+40 max life
+			'Still works'
+			'''
+		SetBonus:
+			'''
+			Greatly extends underwater breathing and grants immunity to suffocation
+			Grants a chance to increase catch quality when fishing
+			'''
+	}
+
+	DivingGreaves: {
+		DisplayName: Diving Greaves
+		Tooltip:
+			'''
+			+30 max life
+			'They're uncomfortably dry'
+			'''
+	}
+
+	DivingPlating: {
+		DisplayName: Diving Plating
+		Tooltip:
+			'''
+			+30 max life
+			'Now you feel like a real creature of the sea'
+			'''
+	}
+
+	MoltenShield: {
+		DisplayName: Molten Shield
+		Tooltip:
+			'''
+			When above 50% life, your defense blocks 10% more damage 
+			Current defense effectiveness: {0}
+			'It's still sturdy, somehow?'
+			'''
 	}
 }
 
@@ -722,8 +756,16 @@ Keybinds: {
 	CrystalHeart.DisplayName: Crystal Heart
 }
 
-Tiles.PaleOreTile.MapEntry: Pale Ore
-WorldGen.WorldGenTutorialOresPassMessage: Who up paling they ore
+Tiles: {
+	PaleOreTile.MapEntry: Pale Ore
+	SihilStone.MapEntry: Sword in ice
+	MardroemeTile.MapEntry: Suspicious looking mushrooms
+}
+
+WorldGen: {
+	PaleOrePassMessage: Who up paling they ore
+	SihilStonePassMessage: Carving curses onto blades...
+}
 
 Configs: {
 	ClientConfig: {

@@ -1,9 +1,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Projectiles;
 
@@ -63,6 +65,19 @@ public class TitanicHydra : ModItem
             .AddIngredient(ItemID.AegisCrystal)
             .AddTile(TileID.AdamantiteForge)
             .Register();
+    }
+
+    public override void ModifyTooltips(List<TooltipLine> tooltips)
+    {
+        int index = tooltips.FindIndex(t => t.Name == "Tooltip1");
+        if (index != -1)
+        {
+            string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.TitanicHydra.Tooltip"), $"{Main.LocalPlayer.statLifeMax2 / 5}");
+
+            text = text.Remove(text.LastIndexOf($"\n"));
+            text = text[(text.LastIndexOf($"\n") + 1)..];
+            tooltips[index].Text = text;
+        }
     }
 }
 
