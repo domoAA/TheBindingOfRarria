@@ -34,17 +34,24 @@ public class TankStartPlayer : ModPlayer
     }
 }
 
-public class DoranItemsNPCShop : GlobalNPC
+public partial class DoranItemsNPCShop : GlobalNPC
 {
     public override void ModifyShop(NPCShop shop)
     {
         if (shop.NpcType == NPCID.Merchant)
         {
-            if (shop.TryGetEntry(ItemID.IronAnvil, out var entry))
-                shop.InsertAfter(entry, new Item(ModContent.ItemType<DoransShield>()), Condition.InMasterMode);
+            PatienceShield(shop);
 
-            else if (shop.TryGetEntry(ItemID.LeadAnvil, out entry))
-                shop.InsertAfter(entry, new Item(ModContent.ItemType<DoransShield>()), Condition.InMasterMode);
+            PetriCuffs(shop);
         }
+    }
+
+    public void PatienceShield(NPCShop shop)
+    {
+        if (shop.TryGetEntry(ItemID.IronAnvil, out var entry))
+            shop.InsertAfter(entry, new Item(ModContent.ItemType<DoransShield>()), Condition.InMasterMode);
+
+        else if (shop.TryGetEntry(ItemID.LeadAnvil, out entry))
+            shop.InsertAfter(entry, new Item(ModContent.ItemType<DoransShield>()), Condition.InMasterMode);
     }
 }

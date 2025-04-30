@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 public class NecromancersTome : ModItem
@@ -10,7 +10,12 @@ public class NecromancersTome : ModItem
 
     public override void SetDefaults()
     {
-        Item.DefaultToAccessory(28, 28);
+        Item.accessory = true;
+        Item.height = 28;
+        Item.width = 28;
+        Item.value = Item.buyPrice(0, 2, 68);
+        Item.rare = ItemRarityID.Expert;
+        Item.expert = true;
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
@@ -58,6 +63,7 @@ public class NecromancersTome : ModItem
         }
     }
 }
+
 public class NecromancersTomePlayer : ModPlayer
 {
     public bool HasNecromancersTome = false;
@@ -76,5 +82,16 @@ public class NecromancersTomePlayer : ModPlayer
         }
 
         HasNecromancersTome = false;
+    }
+}
+
+public class NecromancerDropNPC : GlobalNPC
+{
+    public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+    {
+        if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<NecromancersTome>(), 7));
+
+        base.ModifyNPCLoot(npc, npcLoot);
     }
 }

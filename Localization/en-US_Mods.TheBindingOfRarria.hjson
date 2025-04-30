@@ -600,27 +600,50 @@ Items: {
 
 	PetriciteCuffs: {
 		DisplayName: Petricite Cuffs
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Consumes your mana to block {10}% of damage taken from attacks
+			The amount of damage blocked scales with your magic damage bonuses
+			'They can absorb magic for centuries, but... Where does the limit lie?'
+			'''
 	}
 
 	CryptBloom: {
 		DisplayName: Crypt Bloom
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Every 10th enemy death nearby creates a healing aura
+			'From death, life'
+			'''
 	}
 
 	DarkArts: {
 		DisplayName: Dark Arts
-		Tooltip: ""
+		Tooltip: 
+			'''
+			You gain the ability to use a shadow dash, during which you are invulnerable
+			'One with the shadows'
+			'''
 	}
 
 	GirdleOfGiantStrength: {
-		Tooltip: ""
-		DisplayName: Girdle Of Giant Strength
+		DisplayName: Girdle of Giant Strength
+		Tooltip: 
+			'''
+			1/2 of your healing temporarily increases your max life
+			'Clearly crafted for a titan, yet inexplicably fits anyone who tries it on'
+			'''
 	}
 
 	NecromancersTome: {
 		DisplayName: Necromancers Tome
-		Tooltip: ""
+		Tooltip: 
+			'''
+			+2 max minions
+			Summons 2 minions you haven't already summoned
+			Only summons minions you possess the summoning item for
+			'Wouldn't wanna touch that if I were you'
+			'''
   }
 	DivingHelm: {
 		Tooltip:
@@ -757,11 +780,10 @@ Projectiles: {
 	CursedBloodEffect.DisplayName: Cursed Blood Effect
 	AbsorbingLiquidEffect.DisplayName: Absorbing Liquid Effect
 	CrystalDashTrail.DisplayName: Crystal Dash Trail
-	CEFist.DisplayName: C E Fist
+	CEFist.DisplayName: CE Fist
 	BlockBoulder.DisplayName: Block Boulder
 	FishBullet.DisplayName: Fish Bullet
 	FlippityFloppity.DisplayName: Flippity Floppity
-	HivePulse.DisplayName: Hive Pulse
 	CryptBloomProjectile.DisplayName: Crypt Bloom Projectile
 }
 

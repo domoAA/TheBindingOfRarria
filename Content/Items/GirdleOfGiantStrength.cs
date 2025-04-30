@@ -1,13 +1,7 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil.Cil;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TheBindingOfRarria.Common.Helpers;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -17,14 +11,21 @@ public class GirdleOfGiantStrength : ModItem
 
     public override void SetDefaults()
     {
-        Item.DefaultToAccessory(26, 24);
+        Item.width = 26;
+        Item.height = 24;
+        Item.accessory = true;
+        Item.rare = ItemRarityID.Expert;
+        Item.value = Item.buyPrice(0, 5);
+        Item.expert = true;
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
-        GirdleOfGiantStrengthPlayer girdleOfGiantStrengthPlayer = player.GetModPlayer<GirdleOfGiantStrengthPlayer>();
-        girdleOfGiantStrengthPlayer.HasGirdleOfGiantStrength = true;
-        var activeBonuses = girdleOfGiantStrengthPlayer.activeBonuses;
+        var p = player.GetModPlayer<GiantPlayer>();
+
+        p.HasGirdleOfGiantStrength = true;
+        var activeBonuses = p.activeBonuses;
+
         for (int i = activeBonuses.Count - 1; i >= 0; i--)
         {
             activeBonuses[i].TimeLeft--;
@@ -38,7 +39,19 @@ public class GirdleOfGiantStrength : ModItem
         }
     }
 }
-public class GirdleOfGiantStrengthPlayer : ModPlayer
+
+public class GiantItemNPCShop : GlobalNPC
+{
+    public override void ModifyShop(NPCShop shop)
+    {
+        if (shop.NpcType == NPCID.TravellingMerchant)
+        {
+            shop.Add(new Item(ModContent.ItemType<GirdleOfGiantStrength>()), Condition.InExpertMode);
+        }
+    }
+}
+
+public class GiantPlayer : ModPlayer
 {
     public bool HasGirdleOfGiantStrength = false;
     public readonly List<LifeBonus> activeBonuses = [];
@@ -63,16 +76,16 @@ public class GirdleOfGiantStrengthPlayer : ModPlayer
 
     private void On_Player_Heal(On_Player.orig_Heal orig, Player self, int amount)
     {
-        orig(self, amount);
-        if (self.GetModPlayer<GirdleOfGiantStrengthPlayer>().HasGirdleOfGiantStrength)
+        if (self.GetModPlayer<p>().HasGirdleOfGiantStrength)
         {
             int bonus = amount / 2;
             if (bonus > 0)
             {
                 self.statLifeMax2 += bonus;
-                self.GetModPlayer<GirdleOfGiantStrengthPlayer>().activeBonuses.Add(new LifeBonus(bonus, 300));
+                self.GetModPlayer<p>().activeBonuses.Add(new LifeBonus(bonus, 300));
             }
         }
+        orig(self, amount);
     }
 
 

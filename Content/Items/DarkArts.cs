@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -13,7 +12,13 @@ public class DarkArts : ModItem
 
     public override void SetDefaults()
     {
-        Item.DefaultToAccessory(22, 32);
+        Item.width = 22;
+        Item.height = 32;
+        Item.accessory = true;
+        Item.rare = ItemRarityID.Expert;
+        Item.value = Item.buyPrice(0, 6);
+        Item.expert = true;
+
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
