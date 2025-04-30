@@ -17,8 +17,6 @@ public class SlasherHalberd : ModItem
         Item.value = Item.buyPrice(0, 0, 89);
     }
 
-        // private int counter = 0;
-
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SlasherItemPlayer>().Halberd = Item;
 }
 

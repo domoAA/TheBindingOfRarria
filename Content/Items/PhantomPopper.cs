@@ -110,24 +110,24 @@ public class PhantomPopperGlobalProjectile : GlobalProjectile
             Player owner = Main.player[projectile.owner];
 
             if (owner.GetModPlayer<PhantomPopperPlayer>().HasPhantomPopper)
-
-
-            if (counter <= 10)
             {
-                for (int i = 0; i < 3; i++)
+                if (counter <= 10)
                 {
-                    Vector2 velocity = new Vector2(2).RotatedByRandom(TwoPi);
-                    int proj = Projectile.NewProjectile(
-                        owner.GetSource_FromThis("Phantom Popper accessory"),
-                        projectile.Center,
-                        velocity,
-                        ProjectileID.LostSoulFriendly,
-                        projectile.damage / 3,
-                        projectile.knockBack,
-                        owner.whoAmI
-                    );
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Vector2 velocity = new Vector2(2).RotatedByRandom(TwoPi);
+                        int proj = Projectile.NewProjectile(
+                            owner.GetSource_FromThis("Phantom Popper accessory"),
+                            projectile.Center,
+                            velocity,
+                            ProjectileID.LostSoulFriendly,
+                            projectile.damage / 3,
+                            projectile.knockBack,
+                            owner.whoAmI
+                        );
+                    }
+                    projectile.Kill();
                 }
-                projectile.Kill();
             }
         }
     }

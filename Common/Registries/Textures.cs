@@ -10,9 +10,6 @@ public static class Textures
 {
     private const string prefix = "TheBindingOfRarria/Assets/Textures/";
 
-    public static readonly Asset<Texture2D> BeamBody = LoadTexture2D("BeamBody");
-    public static readonly Asset<Texture2D> BeamEnd = LoadTexture2D("BeamEnd");
-
     public static readonly Asset<Texture2D>[] BloodOrbs = LoadTexture2Ds("BloodOrb", 2);
 
         // I'm gonna pretend I know what this is.

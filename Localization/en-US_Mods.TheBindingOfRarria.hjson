@@ -638,6 +638,18 @@ Items: {
 			'It's still sturdy, somehow?'
 			'''
 	}
+
+	Sangreal: {
+		DisplayName: Sangreal
+		Tooltip:
+			'''
+			Press {0} to gain 150 temporary max life
+			When the effect runs out, you take damage double of temporary life left
+			Cooldown: 45 seconds
+			'The prized, oaky flavor of Sangreal is a noble privilege. Can you handle it?'
+			'''
+		DeathMessage: "{0} couldn't handle the power of noble alcohol"
+	}
 }
 
 Buffs: {
@@ -695,6 +707,11 @@ Buffs: {
 		DisplayName: Berserk
 		Description: 25% increased damage
 	}
+
+	NobleWine: {
+		DisplayName: Noble Wine
+		Description: Mods.TheBindingOfRarria.Buffs.NobleWine.Description
+	}
 }
 
 Projectiles: {
@@ -725,10 +742,10 @@ Projectiles: {
 
 Keybinds: {
 	BrokenWatch.DisplayName: Broken Watch
-	Revelation.DisplayName: Revelation
 	CursedBlood.DisplayName: Cursed Blood
 	AbsorbingLiquid.DisplayName: Absorbing Liquid
 	CrystalHeart.DisplayName: Crystal Heart
+	Sangreal.DisplayName: Sangreal
 }
 
 Tiles: {

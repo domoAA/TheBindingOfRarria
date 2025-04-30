@@ -11,18 +11,22 @@ public class MardroemeGeneration : ModSystem
 
     public override void PreUpdateWorld()
     {
-        if (!Main.rand.NextBool(5000) || !Main.hardMode)
+        if (!Main.rand.NextBool(50) || !Main.hardMode)
             return;
 
         for (int x = 200; x < Main.maxTilesX - 200; x++)
         {
             for (int y = 100; y < Main.worldSurface + 50; y++)
             {
-                if (!Main.rand.NextBool(400))
+                if (!Main.rand.NextBool(40))
                     continue;
 
                 if (Main.tile[x, y].TileType == TileID.Trees && Main.tile[x + 1, y].TileType != ModContent.TileType<MardroemeTile>() && Main.tile[x - 1, y].TileType != ModContent.TileType<MardroemeTile>())
                 {
+                    WorldGen.GetTreeBottom(x, y, out int a, out int b);
+                    if (WorldGen.GetTreeType(Main.tile[a, b].TileType) != Terraria.Enums.TreeTypes.Forest)
+                        continue;
+
                     if (Main.rand.NextBool())
                     {
                         if (WorldGen.TileEmpty(x + 1, y))

@@ -1,10 +1,8 @@
-using Microsoft.Xna.Framework.Media;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using static Terraria.ID.ContentSamples.CreativeHelper;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -35,7 +33,7 @@ public class DivingGreavesFishingPlayer : ModPlayer
         if (attempt.fishingLevel > 30 && attempt.veryrare && Main.rand.NextBool(6))
         {
             npcSpawn = -1;
-            sonar.Color = Color.Orange;
+            sonar.Color = new Color(255, 200, 150);
             sonar.Text = Language.GetTextValue("Mods.TheBindingOfRarria.Items.DivingGreaves.DisplayName");
             itemDrop = ModContent.ItemType<DivingGreaves>();
         }

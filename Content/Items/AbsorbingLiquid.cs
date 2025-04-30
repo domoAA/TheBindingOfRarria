@@ -83,9 +83,11 @@ public class AbsorbingPlayer : ModPlayer
 
     public override void ProcessTriggers(TriggersSet triggersSet)
     {
-        if (counter.heal > 0 && counter.timer > 0 && counter.timer < 30 && ModLiquid != null && (KeybindSystem.AbsorbingKey.JustPressed || (KeybindSystem.AbsorbingKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Keys.O))) && Main.myPlayer == Player.whoAmI)
+        if (ModLiquid != null && (KeybindSystem.AbsorbingKey.JustPressed || (KeybindSystem.AbsorbingKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Keys.O))) && Main.myPlayer == Player.whoAmI)
         {
-            Projectile.NewProjectile(Player.GetSource_Accessory(ModLiquid, "AbsorbingLiquid activation"), Player.Center, Vector2.Zero, ModContent.ProjectileType<AbsorbingLiquidEffect>(), 0, 0, Player.whoAmI, counter.heal);
+            if (counter.heal > 0 && counter.timer > 0 && counter.timer < 30)
+                Projectile.NewProjectile(Player.GetSource_Accessory(ModLiquid, "AbsorbingLiquid activation"), Player.Center, Vector2.Zero, ModContent.ProjectileType<AbsorbingLiquidEffect>(), 0, 0, Player.whoAmI, counter.heal);
+
             counter = (1200, 0);
         }
     }

@@ -42,7 +42,7 @@ public class SanguineGift : ModItem
             if (teammate != -1)
             {
                 p.Stored /= 2;
-               Main.player[teammate].Heal(p.Stored);
+                Main.player[teammate].Heal(p.Stored);
             }
             player.Heal(p.Stored);
             p.Stored = 0;

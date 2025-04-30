@@ -33,7 +33,7 @@ public class DivingPlatingFishingPlayer : ModPlayer
         if (attempt.fishingLevel > 30 && attempt.veryrare && Main.rand.NextBool(6))
         {
             npcSpawn = -1;
-            sonar.Color = Color.Orange;
+            sonar.Color = new Color(255, 200, 150);
             sonar.Text = Language.GetTextValue("Mods.TheBindingOfRarria.Items.DivingPlating.DisplayName");
             itemDrop = ModContent.ItemType<DivingPlating>();
         }
