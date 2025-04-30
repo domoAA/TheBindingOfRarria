@@ -598,6 +598,30 @@ Items: {
 			'''
 	}
 
+	PetriciteCuffs: {
+		DisplayName: Petricite Cuffs
+		Tooltip: ""
+	}
+
+	CryptBloom: {
+		DisplayName: Crypt Bloom
+		Tooltip: ""
+	}
+
+	DarkArts: {
+		DisplayName: Dark Arts
+		Tooltip: ""
+	}
+
+	GirdleOfGiantStrength: {
+		Tooltip: ""
+		DisplayName: Girdle Of Giant Strength
+	}
+
+	NecromancersTome: {
+		DisplayName: Necromancers Tome
+		Tooltip: ""
+  }
 	DivingHelm: {
 		Tooltip:
 			'''
@@ -738,6 +762,7 @@ Projectiles: {
 	FishBullet.DisplayName: Fish Bullet
 	FlippityFloppity.DisplayName: Flippity Floppity
 	HivePulse.DisplayName: Hive Pulse
+	CryptBloomProjectile.DisplayName: Crypt Bloom Projectile
 }
 
 Keybinds: {
