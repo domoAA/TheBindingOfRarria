@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -20,6 +21,8 @@ public class GlorpyHealingPlus : ModDust
         dust.velocity *= 0.97f;
         dust.scale -= 0.02f;
 
+        dust.color.A = (byte)Math.Max(1, dust.color.A - 4);
+
         var light = dust.color;
 
         Lighting.AddLight(dust.position, light.R / 2000f, light.G / 2000f, light.B / 2000f);
@@ -39,7 +42,7 @@ public class GlorpyHealingPlus : ModDust
         var color = dust.color;
         color *= color.A / 255f;
 
-        Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, rect, color with { A = 0 });
+        Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, rect, color with { A = 0 }, dust.rotation, rect.Size() / 2, dust.scale, SpriteEffects.None, 0);
         return false;
     }
 }

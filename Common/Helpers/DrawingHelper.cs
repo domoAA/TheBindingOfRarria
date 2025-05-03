@@ -43,6 +43,12 @@ public static partial class Helper
 
         Main.spriteBatch.Draw(texture, center, texture.Bounds, color with { A = 0 }, 0, texture.Size() * 0.5f, scale * 0.5f, SpriteEffects.None, 0);
     }
+    public static void DrawWithTransparency(this Texture2D texture, Vector2 center, Rectangle frame, float scale, Color color, byte alpha)
+    {
+        color *= alpha / 255f;
+
+        Main.spriteBatch.Draw(texture, center, frame, color with { A = 0 }, 0, texture.Size() * 0.5f, scale * 0.5f, SpriteEffects.None, 0);
+    }
     public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, float rotation, Color color, byte alpha)
     {
         color *= alpha / 255f;

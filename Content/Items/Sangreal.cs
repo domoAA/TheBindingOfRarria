@@ -10,6 +10,7 @@ using System.Linq;
 using Terraria.ID;
 using Terraria.DataStructures;
 using System;
+using Terraria.GameContent.ItemDropRules;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -22,8 +23,8 @@ public class Sangreal : ModItem
         Item.accessory = true;
         Item.height = 30;
         Item.width = 26;
-        Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 4);
+        Item.rare = ItemRarityID.Pink;
+        Item.value = Item.buyPrice(0, 5);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,11 +33,6 @@ public class Sangreal : ModItem
         p.Noble = true;
         p.counter--;
 
-        if (player.HasBuff(ModContent.BuffType<NobleWine>()) && p.Stored == 151)
-        {
-            player.Heal(150);
-            p.Stored = 150;
-        }
     }
 
     public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -82,6 +78,12 @@ public class SangrealPlayer : ModPlayer
 
             Stored = 0;
         }
+
+        if (Player.HasBuff(ModContent.BuffType<NobleWine>()) && Stored == 151)
+        {
+            Player.Heal(150);
+            Stored = 150;
+        }
     }
 
     public override void OnHurt(Player.HurtInfo info)
@@ -99,8 +101,19 @@ public class SangrealPlayer : ModPlayer
                 Player.AddBuff(ModContent.BuffType<NobleWine>(), 90);
                 Stored = 151;
 
-                counter = 270;
+                counter = 2700;
             }
         }
+    }
+}
+
+public class SangrealDropNPC : GlobalNPC
+{
+    public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+    {
+        if (npc.type == NPCID.Vampire || npc.type == NPCID.VampireBat)
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Sangreal>(), 20));
+
+        base.ModifyNPCLoot(npc, npcLoot);
     }
 }

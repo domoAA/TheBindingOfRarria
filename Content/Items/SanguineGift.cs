@@ -27,26 +27,6 @@ public class SanguineGift : ModItem
         SanguinePlayer p = player.GetModPlayer<SanguinePlayer>();
         p.Sanguine = true;
 
-        if (p.Stored >= player.statLifeMax2 / 10)
-        {
-            int teammate = -1;
-            float dist = 800 * 800;
-            foreach (var pl in Main.ActivePlayers)
-            {
-                if (pl.team == player.team && pl.whoAmI != player.whoAmI && !pl.dead && pl.statLife > 0 && pl.Center.DistanceSQ(player.Center) < dist)
-                {
-                    dist = pl.Center.DistanceSQ(player.Center);
-                    teammate = pl.whoAmI;
-                }
-            }
-            if (teammate != -1)
-            {
-                p.Stored /= 2;
-                Main.player[teammate].Heal(p.Stored);
-            }
-            player.Heal(p.Stored);
-            p.Stored = 0;
-        }
 
         if (Main.LocalPlayer.whoAmI == player.whoAmI)
             ModContent.GetInstance<BloodStorageUISystem>()?.Show();
@@ -106,6 +86,30 @@ public class SanguinePlayer : ModPlayer
             sonar.Color = Color.Red;
             sonar.Text = Language.GetTextValue("Mods.TheBindingOfRarria.Items.SanguineGift.DisplayName");
             itemDrop = ModContent.ItemType<SanguineGift>();
+        }
+    }
+
+    public override void PostUpdate()
+    {
+        if (Stored >= Player.statLifeMax2 / 10)
+        {
+            int teammate = -1;
+            float dist = 800 * 800;
+            foreach (var pl in Main.ActivePlayers)
+            {
+                if (pl.team == Player.team && pl.whoAmI != Player.whoAmI && !pl.dead && pl.statLife > 0 && pl.Center.DistanceSQ(Player.Center) < dist)
+                {
+                    dist = pl.Center.DistanceSQ(Player.Center);
+                    teammate = pl.whoAmI;
+                }
+            }
+            if (teammate != -1)
+            {
+                Stored /= 2;
+                Main.player[teammate].Heal(Stored);
+            }
+            Player.Heal(Stored);
+            Stored = 0;
         }
     }
 }

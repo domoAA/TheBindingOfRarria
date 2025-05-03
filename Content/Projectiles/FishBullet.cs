@@ -56,6 +56,7 @@ public class FishBullet : ModProjectile
     }
 
         // God help me kain.
+        // ...Whar?
     public override bool PreDraw(ref Color lightColor)
     {
         Texture2D texture = Textures.Fish.Value;

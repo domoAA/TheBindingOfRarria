@@ -53,7 +53,7 @@ Items: {
 		DisplayName: Mardroeme
 		Tooltip:
 			'''
-			Deals 50 damage on use, but heals 230 life after a delay
+			Deals 50 damage on use, and the healing is delayed
 			'Eat enough of them, and the world will never be the same...'
 			'''
 	}
@@ -600,7 +600,7 @@ Items: {
 
 	PetriciteCuffs: {
 		DisplayName: Petricite Cuffs
-		Tooltip: 
+		Tooltip:
 			'''
 			Consumes your mana to block {10}% of damage taken from attacks
 			The amount of damage blocked scales with your magic damage bonuses
@@ -610,7 +610,7 @@ Items: {
 
 	CryptBloom: {
 		DisplayName: Crypt Bloom
-		Tooltip: 
+		Tooltip:
 			'''
 			Every 10th enemy death nearby creates a healing aura
 			'From death, life'
@@ -619,7 +619,7 @@ Items: {
 
 	DarkArts: {
 		DisplayName: Dark Arts
-		Tooltip: 
+		Tooltip:
 			'''
 			You gain the ability to use a shadow dash, during which you are invulnerable
 			'One with the shadows'
@@ -628,7 +628,7 @@ Items: {
 
 	GirdleOfGiantStrength: {
 		DisplayName: Girdle of Giant Strength
-		Tooltip: 
+		Tooltip:
 			'''
 			1/2 of your healing temporarily increases your max life
 			'Clearly crafted for a titan, yet inexplicably fits anyone who tries it on'
@@ -637,14 +637,15 @@ Items: {
 
 	NecromancersTome: {
 		DisplayName: Necromancers Tome
-		Tooltip: 
+		Tooltip:
 			'''
 			+2 max minions
 			Summons 2 minions you haven't already summoned
 			Only summons minions you possess the summoning item for
 			'Wouldn't wanna touch that if I were you'
 			'''
-  }
+	}
+
 	DivingHelm: {
 		Tooltip:
 			'''
@@ -785,6 +786,7 @@ Projectiles: {
 	FishBullet.DisplayName: Fish Bullet
 	FlippityFloppity.DisplayName: Flippity Floppity
 	CryptBloomProjectile.DisplayName: Crypt Bloom Projectile
+	CryptAura.DisplayName: Crypt Aura
 }
 
 Keybinds: {

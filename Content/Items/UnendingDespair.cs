@@ -22,11 +22,7 @@ public class UnendingDespair : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
-        if (player.GetModPlayer<LifeSuckerPlayer>().heal != 0)
-        {
-            player.Heal(player.GetModPlayer<LifeSuckerPlayer>().heal);
-            player.GetModPlayer<LifeSuckerPlayer>().heal = 0;
-        }
+        player.GetModPlayer<LifeSuckerPlayer>().Sucker = true;
 
         counter++;
 
@@ -78,4 +74,23 @@ public class UnendingDespair : ModItem
 public class LifeSuckerPlayer : ModPlayer
 {
     public int heal = 0;
+
+    public bool Sucker = false;
+
+    public override void ResetEffects()
+    {
+        if (!Sucker)
+            heal = 0;
+
+        Sucker = false;
+    }
+
+    public override void PostUpdate()
+    {
+        if (heal != 0)
+        {
+            Player.Heal(heal);
+            heal = 0;
+        }
+    }
 }

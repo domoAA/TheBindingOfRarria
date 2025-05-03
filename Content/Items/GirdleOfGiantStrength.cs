@@ -21,10 +21,9 @@ public class GirdleOfGiantStrength : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
-        var p = player.GetModPlayer<GiantPlayer>();
 
-        p.HasGirdleOfGiantStrength = true;
-        var activeBonuses = p.activeBonuses;
+        player.GetModPlayer<GiantPlayer>().HasGirdleOfGiantStrength = true;
+        ref var activeBonuses = ref player.GetModPlayer<GiantPlayer>().activeBonuses;
 
         for (int i = activeBonuses.Count - 1; i >= 0; i--)
         {
@@ -33,7 +32,6 @@ public class GirdleOfGiantStrength : ModItem
 
             if (activeBonuses[i].TimeLeft <= 0)
             {
-                player.statLifeMax2 -= activeBonuses[i].Amount;
                 activeBonuses.RemoveAt(i);
             }
         }
@@ -54,7 +52,7 @@ public class GiantItemNPCShop : GlobalNPC
 public class GiantPlayer : ModPlayer
 {
     public bool HasGirdleOfGiantStrength = false;
-    public readonly List<LifeBonus> activeBonuses = [];
+    public List<LifeBonus> activeBonuses = [];
 
     public class LifeBonus
     {
@@ -76,13 +74,13 @@ public class GiantPlayer : ModPlayer
 
     private void On_Player_Heal(On_Player.orig_Heal orig, Player self, int amount)
     {
-        if (self.GetModPlayer<p>().HasGirdleOfGiantStrength)
+        if (self.GetModPlayer<GiantPlayer>().HasGirdleOfGiantStrength)
         {
             int bonus = amount / 2;
             if (bonus > 0)
             {
                 self.statLifeMax2 += bonus;
-                self.GetModPlayer<p>().activeBonuses.Add(new LifeBonus(bonus, 300));
+                self.GetModPlayer<GiantPlayer>().activeBonuses.Add(new LifeBonus(bonus, 600));
             }
         }
         orig(self, amount);

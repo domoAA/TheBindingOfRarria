@@ -17,6 +17,8 @@ public static class Textures
 
     public static readonly Asset<Texture2D> Fish = LoadTexture2D("Fish");
 
+    public static readonly Asset<Texture2D> Crypt = LoadTexture2D("Crypt");
+
     private static Asset<Texture2D> LoadTexture2D(string TexturePath)
     {
         if (Main.dedServ)
