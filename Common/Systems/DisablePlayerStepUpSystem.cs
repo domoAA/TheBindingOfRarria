@@ -32,7 +32,7 @@ public class DisablePlayerStepUpSystem : ModSystem
 
         c.EmitLdarg0();
 
-        c.EmitDelegate((Player player) => player.GetModPlayer<CrystalDashPlayer>().Dashing);
+        c.EmitDelegate((Player player) => player.GetModPlayer<CrystalDashPlayer>().Dashing || player.GetModPlayer<DarkDashPlayer>().counter > 0);
         c.EmitBrtrue(target);
     }
 }

@@ -7,6 +7,7 @@ using Terraria;
 using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Content.Dusts;
 using TheBindingOfRarria.Common.Registries;
+using System.Collections.Generic;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
@@ -32,9 +33,9 @@ public class CryptAura : ModProjectile
         Vector2 drawPos = Projectile.Center - Main.screenPosition;
         float scale = Projectile.scale;
 
-        var pulse = float.Sin(Projectile.ai[0] * Pi / 60f) * 40;
+        var pulse = float.Sin(Projectile.ai[0] * Pi / 60f) * 20;
 
-        texture.DrawWithTransparency(drawPos, scale * 2, Color.Green, (byte)(210 + pulse));
+        texture.DrawWithTransparency(drawPos, scale * 2, Color.Green, (byte)Math.Min(130 + pulse, 660 - Projectile.ai[0]));
 
 
 
@@ -43,7 +44,7 @@ public class CryptAura : ModProjectile
         var frame = (int)float.Floor(Projectile.ai[0] % 60 / 15);
         var rect = texture.Frame(1, 4, 0, frame);
 
-        texture.DrawWithTransparency(drawPos + new Vector2(0, rect.Height * 4.5f), rect, scale * 2, Color.MediumSpringGreen, (byte)(30 + pulse / 2));
+        texture.DrawWithTransparency(drawPos + new Vector2(0, (rect.Height + 1) * 1.5f) * scale, rect, scale * 2, Color.MediumSpringGreen, (byte)Math.Min(30 + pulse, 620 - Projectile.ai[0]));
 
         return false;
     }
@@ -52,16 +53,28 @@ public class CryptAura : ModProjectile
     {
         return false;
     }
+    public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+    {
+        Main.instance.DrawCacheNPCsOverPlayers.Add(index);
+        overPlayers.Add(index);
+    }
 
     public override void AI()
     {
-        float radius = 80f;
+        Projectile.ai[0]++;
+
+        if (Projectile.ai[0] < 20) 
+        {
+            Projectile.scale = 3 - (2 - Projectile.ai[0] / 10);
+            return; 
+        }
 
         if (Projectile.ai[0] % 3 == 0)
             Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<GlorpyHealingPlus>(), 0, 0, 100, Color.MediumSpringGreen with { A = 150 }, 1.75f);
-        
 
-        Projectile.ai[0]++;
+
+        float radius = Projectile.width / 2;
+
         if (Projectile.ai[0] % 60 == 0)
         {
             float healRadiusSquared = radius * radius;

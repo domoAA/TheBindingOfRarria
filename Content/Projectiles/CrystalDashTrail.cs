@@ -61,6 +61,7 @@ public class CrystalDashTrail : ModProjectile
 
                 // Fucking what.
                     // Kain I can't do more then refer you to lolxd.
+                    // Que?
 
             // middle
         center.SpawnDust(type, 1, 1f, Color.White with { A = 200 }, 2, 46, PiOver2 * 0.7f, PiOver4 * 1.5f + Pi * Math.Max(0, -Projectile.direction), 3, -0.1f);

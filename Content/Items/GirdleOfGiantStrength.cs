@@ -15,7 +15,7 @@ public class GirdleOfGiantStrength : ModItem
         Item.height = 24;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 5);
+        Item.value = Item.buyPrice(0, 2);
         Item.expert = true;
     }
 
@@ -42,9 +42,15 @@ public class GiantItemNPCShop : GlobalNPC
 {
     public override void ModifyShop(NPCShop shop)
     {
-        if (shop.NpcType == NPCID.TravellingMerchant)
+        // tavernkeep
+        if (shop.NpcType == 550)
         {
-            shop.Add(new Item(ModContent.ItemType<GirdleOfGiantStrength>()), Condition.InExpertMode);
+            shop.Add(new Item(ModContent.ItemType<GirdleOfGiantStrength>()) 
+            {
+                shopCustomPrice = 12,
+				shopSpecialCurrency = CustomCurrencyID.DefenderMedals
+
+            }, Condition.InExpertMode);
         }
     }
 }

@@ -602,7 +602,7 @@ Items: {
 		DisplayName: Petricite Cuffs
 		Tooltip:
 			'''
-			Consumes your mana to block {10}% of damage taken from attacks
+			Consumes your mana to block {0}% of damage taken from attacks
 			The amount of damage blocked scales with your magic damage bonuses
 			'They can absorb magic for centuries, but... Where does the limit lie?'
 			'''
@@ -636,7 +636,7 @@ Items: {
 	}
 
 	NecromancersTome: {
-		DisplayName: Necromancers Tome
+		DisplayName: Necromancer's Tome
 		Tooltip:
 			'''
 			+2 max minions
@@ -787,6 +787,7 @@ Projectiles: {
 	FlippityFloppity.DisplayName: Flippity Floppity
 	CryptBloomProjectile.DisplayName: Crypt Bloom Projectile
 	CryptAura.DisplayName: Crypt Aura
+	DarkDash.DisplayName: Dark Dash
 }
 
 Keybinds: {
