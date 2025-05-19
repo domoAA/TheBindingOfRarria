@@ -175,7 +175,7 @@ Items: {
 		DisplayName: Suspicious Looking Mask
 		Tooltip:
 			'''
-			Gain a temporary immunity to a debuff after being afflicted with it for 5 seconds
+			Cuts down the duration of a debuff every 5 seconds you're afflicted with it
 			Shadow spirits attack enemies when you get hit
 			'What doesn't kill you, makes you... Crazier?'
 			'''
@@ -333,15 +333,6 @@ Items: {
 			'''
 			Your bullets magnetize enemies, making them attract projectiles
 			'It is impractical, they said'
-			'''
-	}
-
-	HeavyBlow: {
-		DisplayName: Heavy Blow
-		Tooltip:
-			'''
-			Your attacks gain increased knockback and deal additional damage based on knockback
-			'Formed from the weapons of fallen warriors'
 			'''
 	}
 
@@ -698,6 +689,24 @@ Items: {
 			'''
 		DeathMessage: "{0} couldn't handle the power of noble alcohol"
 	}
+
+	YghernScale: {
+		DisplayName: Yghern's Scale
+		Tooltip:
+			'''
+			Reduces damage of the next 2 hits you take to {0} [c/90ee90:(10% of your max life)]
+			'Don't even try to pronounce its real name'
+			'''
+	}
+
+	PiercingMissile: {
+		DisplayName: Piercing Missile
+		Tooltip:
+			'''
+			Your projectiles gain +8 armor penetration if they can hit more than 1 enemy
+			'There's no armor that can't be pierced'
+			'''
+	}
 }
 
 Buffs: {
@@ -758,8 +767,23 @@ Buffs: {
 
 	NobleWine: {
 		DisplayName: Noble Wine
-		Description: Mods.TheBindingOfRarria.Buffs.NobleWine.Description
+		Description: Grants temporary life
 	}
+
+	YghernBuff: {
+		DisplayName: Yghern Buff
+		Description: Reduces damage of hits against you
+	}
+
+	Cooldown.Description: This buff is on cooldown
+	BloodShield_CD.DisplayName: Blood Shield Cooldown
+	BrokenWatch_CD.DisplayName: Broken Watch Cooldown
+	HolyProtection_CD.DisplayName: Holy Protection Cooldown
+	ModLiquid_CD.DisplayName: Absorbing Liquid Cooldown
+	NobleWine_CD.DisplayName: Noble Wine Cooldown
+	ReverseCT_CD.DisplayName: Reverse Cursed Technique Cooldown
+	TojiNullDebuff_CD.DisplayName: Toji Null Debuff Cooldown
+	YghernBuff_CD.DisplayName: Yghern Buff Cooldown
 }
 
 Projectiles: {

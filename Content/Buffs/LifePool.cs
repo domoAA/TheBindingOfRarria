@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using Terraria.UI.Chat;
 using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Buffs;
@@ -30,8 +31,9 @@ public class LifePool : ModBuff
         var color = Color.Black;
         color.A = 150;
 
-            // You can use ChatManager::DrawColorCodedStringWithShadow.
-        spriteBatch.DrawString(font, text, position, color, 0, origin + new Vector2(6f * (Main.LocalPlayer.GetModPlayer<GeneThiefPlayer>().genePool / 50), 4.5f), 0.8f, SpriteEffects.None, 0);
-        spriteBatch.DrawString(font, text, position, Color.White, 0, origin + new Vector2(6.5f * (Main.LocalPlayer.GetModPlayer<GeneThiefPlayer>().genePool / 50), 5), 0.7f, SpriteEffects.None, 0);
+        // You can use ChatManager::DrawColorCodedStringWithShadow.
+        ChatManager.DrawColorCodedStringWithShadow(spriteBatch, font, text, position, color, 0f, origin, new Vector2(0.7f));
+        //spriteBatch.DrawString(font, text, position, color, 0, origin + new Vector2(6f * (Main.LocalPlayer.GetModPlayer<GeneThiefPlayer>().genePool / 50), 4.5f), 0.8f, SpriteEffects.None, 0);
+        //spriteBatch.DrawString(font, text, position, Color.White, 0, origin + new Vector2(6.5f * (Main.LocalPlayer.GetModPlayer<GeneThiefPlayer>().genePool / 50), 5), 0.7f, SpriteEffects.None, 0);
     }
 }

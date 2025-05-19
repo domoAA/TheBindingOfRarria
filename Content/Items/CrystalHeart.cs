@@ -232,8 +232,9 @@ public class CrystalDashPlayer : ModPlayer
                 }
                 if (draw)
                 {
+                    var color = Color.White * (100f / 255f);
                     if (!Dashing)
-                        Main.EntitySpriteDraw(texture, position - Main.screenPosition, frame, Color.White with { A = 0 }, rotation, texture.Size() * 0.5f, 0.6f + i * 0.5f, effect);
+                        Main.EntitySpriteDraw(texture, position - Main.screenPosition, frame, color with { A = 0 }, rotation, texture.Size() * 0.5f, 0.6f + i * 0.5f, effect);
                     else
                         Dust.NewDustDirect(position, 5, 8, DustID.PinkCrystalShard, Alpha: 190, Scale: 1.5f);
                 }

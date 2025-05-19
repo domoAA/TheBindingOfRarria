@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -9,6 +10,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Config;
 using TheBindingOfRarria.Common.Helpers;
+using TheBindingOfRarria.Content.Buffs;
 using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
@@ -29,6 +31,9 @@ public class BrokenWatch : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<ZaWardoPlayer>().counter--;
+        if (player.GetModPlayer<ZaWardoPlayer>().counter > 0)
+            player.AddBuff(ModContent.BuffType<BrokenWatch_CD>(), player.GetModPlayer<ZaWardoPlayer>().counter);
+
         player.GetModPlayer<ZaWardoPlayer>().ZaWardo = true;
     }
 
@@ -64,7 +69,13 @@ public class ZaWardoPlayer : ModPlayer
     public int counter = 0;
     public bool ZaWardo = false;
 
-    public override void ResetEffects() => ZaWardo = false;
+    public override void ResetEffects()
+    {
+        if ((!ZaWardo || counter <= 0) && Player.HasBuff(ModContent.BuffType<BrokenWatch_CD>()))
+            Player.ClearBuff(ModContent.BuffType<BrokenWatch_CD>());
+
+        ZaWardo = false;
+    }
 
     public override void ProcessTriggers(TriggersSet triggersSet)
     {

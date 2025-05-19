@@ -33,6 +33,8 @@ public class Sangreal : ModItem
         p.Noble = true;
         p.counter--;
 
+        if (player.GetModPlayer<SangrealPlayer>().counter > 0)
+            player.AddBuff(ModContent.BuffType<NobleWine_CD>(), player.GetModPlayer<SangrealPlayer>().counter);
     }
 
     public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -63,6 +65,9 @@ public class SangrealPlayer : ModPlayer
 
     public override void ResetEffects()
     {
+        if ((!Noble || counter <= 0) && Player.HasBuff(ModContent.BuffType<NobleWine_CD>()))
+            Player.ClearBuff(ModContent.BuffType<NobleWine_CD>());
+
         if (!Noble && Player.HasBuff(ModContent.BuffType<NobleWine>()))
             Player.ClearBuff(ModContent.BuffType<NobleWine>());
 

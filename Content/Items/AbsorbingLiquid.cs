@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Config;
+using TheBindingOfRarria.Content.Buffs;
 using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
@@ -30,6 +31,8 @@ public class AbsorbingLiquid : ModItem
             // How so?
         player.GetModPlayer<AbsorbingPlayer>().ModLiquid = Item;
         player.GetModPlayer<AbsorbingPlayer>().counter.timer--;
+        if (player.GetModPlayer<AbsorbingPlayer>().counter.timer > 0)
+            player.AddBuff(ModContent.BuffType<ModLiquid_CD>(), player.GetModPlayer<AbsorbingPlayer>().counter.timer);
     }
 
     public override void AddRecipes()
@@ -72,6 +75,9 @@ public class AbsorbingPlayer : ModPlayer
 
     public override void ResetEffects()
     {
+        if ((ModLiquid == null || counter.timer <= 0) && Player.HasBuff(ModContent.BuffType<ModLiquid_CD>()))
+            Player.ClearBuff(ModContent.BuffType<ModLiquid_CD>());
+
         if (ModLiquid == null)
             counter.heal = 0;
 

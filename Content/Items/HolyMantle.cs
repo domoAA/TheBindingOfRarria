@@ -19,8 +19,13 @@ public class HolyMantle : ModItem
         Item.rare = ItemRarityID.LightRed;
     }
 
-    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ProtectedPlayer>().protection = Item;
-    
+    public override void UpdateAccessory(Player player, bool hideVisual)
+    {
+        player.GetModPlayer<ProtectedPlayer>().protection = Item;
+        if (player.GetModPlayer<ProtectedPlayer>().counter > 0)
+            player.AddBuff(ModContent.BuffType<HolyProtection_CD>(), player.GetModPlayer<ProtectedPlayer>().counter);
+    }
+
     public override void AddRecipes()
     {
         CreateRecipe()
@@ -35,18 +40,24 @@ public class ProtectedPlayer : ModPlayer
 {
     public Item protection = null;
 
-    private int CD = 0;
+    public int counter = 0;
 
-    public override void ResetEffects() => protection = null;
-    
+    public override void ResetEffects()
+    {
+        if ((protection == null || counter <= 0) && Player.HasBuff(ModContent.BuffType<HolyProtection_CD>()))
+            Player.ClearBuff(ModContent.BuffType<HolyProtection_CD>());
+
+        protection = null;
+    }
+
     public override void PostUpdateEquips()
     {
         if (protection != null) {
-            if (CD <= 0)
+            if (counter <= 0)
             {
                 Player.AddBuff(ModContent.BuffType<HolyProtection>(), 2);
             }
-            CD--;
+            counter--;
         }
     }
 
@@ -57,7 +68,7 @@ public class ProtectedPlayer : ModPlayer
             int time = Player.longInvince ? 150 : 90;
             Player.SetImmuneTimeForAllTypes(time);
             Player.ClearBuff(ModContent.BuffType<HolyProtection>());
-            CD = 3600;
+            counter = 3600;
             Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(protection, info.DamageSource), Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyMantleBurst>(), 0, 0, Player.whoAmI);
             return true; }
         else 

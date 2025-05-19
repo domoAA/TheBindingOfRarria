@@ -31,6 +31,8 @@ public class CursedBlood : ModItem
     {
         player.GetModPlayer<KamoPlayer>().Leaky = true;
         player.GetModPlayer<KamoPlayer>().counter--;
+        if (player.GetModPlayer<KamoPlayer>().counter > 0)
+            player.AddBuff(ModContent.BuffType<BloodShield_CD>(), player.GetModPlayer<KamoPlayer>().counter);
     }
 
         // Make a helper method for this, you tend to paste this alot.
@@ -63,6 +65,9 @@ public class KamoPlayer : ModPlayer
 
     public override void ResetEffects()
     {
+        if ((!Leaky || counter <= 0) && Player.HasBuff(ModContent.BuffType<BloodShield_CD>()))
+            Player.ClearBuff(ModContent.BuffType<BloodShield_CD>());
+
         if (counter > 1400 && !Player.HasBuff(ModContent.BuffType<BloodShieldBleed>()) && !Player.HasBuff(ModContent.BuffType<BloodShield>()))
             Player.AddBuff(ModContent.BuffType<BloodShield>(), 240);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -21,23 +22,29 @@ public class SuspiciousLookingMask : ModItem
     }
 
         // Use a hashset.
-    public Dictionary<int, int> immunities = [];
+        // nuh uh
+    public Dictionary<int, int> debuffs = [];
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<CrazyPlayer>().Insanity = Item;
 
         foreach (var buff in player.buffType) {
-            if (Main.debuff[buff] && !immunities.ContainsKey(buff))
-                immunities.Add(buff, 300); }
+            if (!Main.buffNoTimeDisplay[buff] && Main.debuff[buff] && !debuffs.ContainsKey(buff))
+                debuffs.Add(buff, 300); }
 
-        foreach (var immunity in immunities)
+        foreach (var entry in debuffs)
         {
-            immunities[immunity.Key] -= 1;
-            if (immunity.Value < -600 || (!player.HasBuff(immunity.Key) && immunity.Value > 0))
-                immunities.Remove(immunity.Key);
-            else if (immunity.Value < 0)
-                player.buffImmune[immunity.Key] = true;
+            debuffs[entry.Key] -= 1;
+
+            if (!player.HasBuff(entry.Key))
+                debuffs.Remove(entry.Key);
+
+            else if (entry.Value < 0)
+            {
+                debuffs[entry.Key] = 300;
+                player.buffTime[Array.FindIndex(player.buffType, e => e == entry.Key)] = Math.Max(1, player.buffTime[Array.FindIndex(player.buffType, e => e == entry.Key)] - 120);
+            }
         }
     }
 

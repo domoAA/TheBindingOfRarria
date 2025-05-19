@@ -14,6 +14,8 @@ public class PixellatedDustE98 : ModDust
     {
         dust.noGravity = true;
         dust.noLight = true;
+        dust.alpha = dust.color.A;
+        dust.color.A = 0;
     }
 
     public override bool Update(Dust dust)
@@ -21,6 +23,11 @@ public class PixellatedDustE98 : ModDust
         dust.position += dust.velocity;
         dust.rotation = dust.velocity.ToRotation();
         dust.velocity *= 0.9f;
+        if (dust.color.A == 0)
+            dust.color.A = (byte)dust.alpha;
+
+        dust.alpha = 0;
+        
         dust.color.A -= 8;
 
         float light = 0.002f * dust.color.A;

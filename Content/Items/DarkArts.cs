@@ -62,6 +62,9 @@ public class DarkDashPlayer : ModPlayer
             counter = 0;
         }
 
+        if (counter < 0 || (counter == 0 && keyTimer == 0))
+            DashDir = -1;
+
         HasDarkArts = false;
     }
 

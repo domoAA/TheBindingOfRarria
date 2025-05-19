@@ -1,7 +1,8 @@
-using System.Collections.Generic;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -21,36 +22,27 @@ public class GirdleOfGiantStrength : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
-
         player.GetModPlayer<GiantPlayer>().HasGirdleOfGiantStrength = true;
-        ref var activeBonuses = ref player.GetModPlayer<GiantPlayer>().activeBonuses;
-
-        for (int i = activeBonuses.Count - 1; i >= 0; i--)
-        {
-            activeBonuses[i].TimeLeft--;
-            player.statLifeMax2 += activeBonuses[i].Amount;
-
-            if (activeBonuses[i].TimeLeft <= 0)
-            {
-                activeBonuses.RemoveAt(i);
-            }
-        }
     }
 }
 
 public class GiantItemNPCShop : GlobalNPC
 {
-    public override void ModifyShop(NPCShop shop)
+    public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)
     {
         // tavernkeep
-        if (shop.NpcType == 550)
+        if (npc.type == NPCID.DD2Bartender && Main.expertMode)
         {
-            shop.Add(new Item(ModContent.ItemType<GirdleOfGiantStrength>()) 
-            {
-                shopCustomPrice = 12,
-				shopSpecialCurrency = CustomCurrencyID.DefenderMedals
+            var index = Array.FindIndex(items, e => e == null);
 
-            }, Condition.InExpertMode);
+            if (index != -1)
+                items[index] = new Item(ModContent.ItemType<GirdleOfGiantStrength>())
+                {
+                    shopCustomPrice = 12,
+                    shopSpecialCurrency = CustomCurrencyID.DefenderMedals
+
+                };
+
         }
     }
 }
@@ -58,18 +50,10 @@ public class GiantItemNPCShop : GlobalNPC
 public class GiantPlayer : ModPlayer
 {
     public bool HasGirdleOfGiantStrength = false;
-    public List<LifeBonus> activeBonuses = [];
 
-    public class LifeBonus
+    public override void ResetEffects()
     {
-        public int Amount;
-        public int TimeLeft;
-
-        public LifeBonus(int amount, int duration)
-        {
-            Amount = amount;
-            TimeLeft = duration;
-        }
+        HasGirdleOfGiantStrength = false;
     }
 
     public override void Load()
@@ -86,15 +70,14 @@ public class GiantPlayer : ModPlayer
             if (bonus > 0)
             {
                 self.statLifeMax2 += bonus;
-                self.GetModPlayer<GiantPlayer>().activeBonuses.Add(new LifeBonus(bonus, 600));
+                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 600, new Predicate<Player>(obj => !CheckGiantStrength(Player))));
             }
         }
         orig(self, amount);
     }
 
-
-    public override void ResetEffects()
+    public static bool CheckGiantStrength(Player player)
     {
-        HasGirdleOfGiantStrength = false;
+        return player.GetModPlayer<GiantPlayer>().HasGirdleOfGiantStrength;
     }
 }

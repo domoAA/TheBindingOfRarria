@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Buffs;
 using TheBindingOfRarria.Content.Buffs.Debuffs;
 
 namespace TheBindingOfRarria.Content.Items;
@@ -23,6 +24,9 @@ public class TojiNullWeapon : ModItem
         player.GetModPlayer<TojiNullPlayer>().counter--;
         if (player.GetModPlayer<TojiNullPlayer>().counter <= 0)
             player.GetModPlayer<TojiNullPlayer>().CanNullify = true;
+
+        if (player.GetModPlayer<TojiNullPlayer>().counter > 0)
+            player.AddBuff(ModContent.BuffType<TojiNullDebuff_CD>(), player.GetModPlayer<TojiNullPlayer>().counter);
     }
 
     public override void AddRecipes()
@@ -42,7 +46,13 @@ public class TojiNullPlayer : ModPlayer
     public bool CanNullify = false;
     public int counter = 0;
 
-    public override void ResetEffects() => CanNullify = false;
+    public override void ResetEffects()
+    {
+        if ((!CanNullify || counter <= 0) && Player.HasBuff(ModContent.BuffType<TojiNullDebuff_CD>()))
+            Player.ClearBuff(ModContent.BuffType<TojiNullDebuff_CD>());
+
+        CanNullify = false;
+    }
 
     public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
     {
