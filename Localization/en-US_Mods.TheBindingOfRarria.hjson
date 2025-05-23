@@ -707,6 +707,11 @@ Items: {
 			'There's no armor that can't be pierced'
 			'''
 	}
+
+	MagicMushroom: {
+		DisplayName: Magic Mushroom
+		Tooltip: ""
+	}
 }
 
 Buffs: {
