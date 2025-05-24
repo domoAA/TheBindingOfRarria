@@ -13,6 +13,7 @@ using TheBindingOfRarria.Common.Helpers;
 
 namespace TheBindingOfRarria.Common.Systems;
 
+// Thanks davidfdev for allowing me to use most of his implementation, though I did tweak things here and there
 public static class ResizedPlayerUtils
 {
     #region Static Methods

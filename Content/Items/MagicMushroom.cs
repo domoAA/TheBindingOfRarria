@@ -23,11 +23,11 @@ public class MagicMushroom : ModItem
     {
         var p = player.GetModPlayer<RedMushPlayer>();
 
-        if (player.CanFitSpace((int)((p.Growth - 1) * 42)))
+        if (player.CanFitSpace((int)((p.Growth - 0.9f) * 42)))
             p.Growth = 
             Math.Min(
                 1.5f, 
-                player.GetModPlayer<RedMushPlayer>().Growth + 0.015f
+                player.GetModPlayer<RedMushPlayer>().Growth + 0.02f
                 );
     }
 }
@@ -43,7 +43,10 @@ public class RedMushPlayer : ModPlayer
 
     public override void PostUpdateEquips()
     {
-        ResizedPlayerUtils.SetScale(Player, Growth);
-        Growth = Math.Max(1, Growth - 0.005f);
+        if (Growth != 1)
+        {
+            ResizedPlayerUtils.SetScale(Player, Growth);
+            Growth = Math.Max(1, Growth - 0.005f);
+        }
     }
 }
