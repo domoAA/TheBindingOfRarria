@@ -5,6 +5,8 @@ using System.IO;
 using TheBindingOfRarria.Content.Projectiles;
 using TheBindingOfRarria.Content.Items;
 using static TheBindingOfRarria.Common.Helpers.Helper;
+using System.Net.Sockets;
+using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria;
 
@@ -16,6 +18,7 @@ public class TheBindingOfRarria : Mod
         ProjectileReflect,
         EntitySlow,
         DustSpawn,
+        SyncResizedPlayer,
         Default
     }
 
@@ -28,6 +31,7 @@ public class TheBindingOfRarria : Mod
     }
 
         // rewrite this mess
+        // mmmno
     public override void HandlePacket(BinaryReader reader, int whoAmI)
     {
         var type = reader.ReadInt32();
@@ -100,6 +104,21 @@ public class TheBindingOfRarria : Mod
                 natureplayer.direction = direction;
             }
             return;
+        }
+        else if (type == (int)PacketTypes.SyncResizedPlayer)
+        {
+            if (Main.netMode == NetmodeID.Server)
+            {
+                var who = reader.ReadByte();
+                var scale = reader.ReadSingle();
+
+                var packet = GetPacket();
+                packet.Write(type);
+                packet.Write(who);
+                packet.Write(scale);
+                packet.Send();
+            }
+            else ResizedPlayerUtils.HandleSync(reader);
         }
     }
 }

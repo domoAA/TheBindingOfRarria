@@ -1,218 +1,190 @@
-using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
-using Terraria.ModLoader;
+using System.IO;
+using Microsoft.Xna.Framework;
 using Terraria;
-using System.Linq;
 using Terraria.DataStructures;
+using Terraria.GameInput;
+using Terraria.Graphics;
+using Terraria.Graphics.Renderers;
+using Terraria.ModLoader;
+using Terraria.Utilities;
+using TheBindingOfRarria.Common.Helpers;
 
 namespace TheBindingOfRarria.Common.Systems;
-public class PlayerDrawScaleSystem : ModSystem
+
+public static class ResizedPlayerUtils
 {
-    public static HashSet<int> PlayersToDraw
-    {
-        get;
-        private set;
-    } = [];
-
-    public static void RegisterPlayerForDraw(int whoAmI)
-    {
-        PlayersToDraw.Add(whoAmI);
-
-        ReInitializeRT();
-    }
-
-    public static bool canUseTarget = false;
-
-    private static void ReInitializeRT()
-    {
-        if (Main.dedServ)
-            return;
-
-        PlayerDrawTarget?.Dispose();
-
-        GraphicsDevice gd = Main.instance.GraphicsDevice;
-        int width = Main.screenWidth;
-        int height = Main.screenHeight * PlayersToDraw.Count;
-
-        PlayerDrawTarget = new(gd, width, height);
-    }
-    private void InitializeRT(Vector2 obj)
-    {
-        if (Main.dedServ)
-        {
-            return;
-        }
-        PlayerDrawTarget?.Dispose();
-
-        GraphicsDevice gd = Main.instance.GraphicsDevice;
-        int width = Main.screenWidth;
-        int height = Main.screenHeight;
-
-        PlayerDrawTarget = new(gd, width, height);
-    }
-
-    public static RenderTarget2D PlayerDrawTarget { get; set; }
-
-    public override void Load()
-    {
-
-        if (!Main.dedServ)
-        {
-            Main.OnResolutionChanged += InitializeRT;
-
-            Main.RunOnMainThread(() =>
-            {
-                PlayerDrawTarget = new(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-            });
-        }
-        On_Main.CheckMonoliths += DrawToRT;
-    }
-
-    private void DrawToRT(On_Main.orig_CheckMonoliths orig)
-    {
-        orig();
-
-        if (Main.gameMenu)
-            return;
-
-        if (PlayersToDraw.Count > 0)
-            DrawPlayerTarget();
-
-        if (Main.instance.tileTarget.IsDisposed)
-            return;
-    }
-
-    Vector2 oldPos;
-    Vector2 oldCenter;
-    Vector2 oldMountedCenter;
-    Vector2 oldScreen;
-    Vector2 oldItemLocation;
+    #region Static Methods
 
     /// <summary>
-    /// Draws every player on the rt
+    ///     Set the player's custom scale.
     /// </summary>
-    private void DrawPlayerTarget()
+    public static void SetScale(this Player player, float scale)
     {
-        if (PlayerDrawTarget.Height != PlayersToDraw.Count * Main.screenHeight)
-            ReInitializeRT();
-
-        RenderTargetBinding[] oldtargets2 = Main.graphics.GraphicsDevice.GetRenderTargets();
-        canUseTarget = false;
-
-        Main.graphics.GraphicsDevice.SetRenderTarget(PlayerDrawTarget);
-        Main.graphics.GraphicsDevice.Clear(Color.Transparent);
-
-        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
-
-        foreach (var i in PlayersToDraw)
+        if (!NetUtils.IsServer && player.whoAmI != Main.myPlayer)
         {
-            Player player = Main.player[i];
+            // Not allowed
+            return;
+        }
 
-            if (player.active && player.dye.Length > 0)
+        var resizedPlayer = player.GetModPlayer<ResizedPlayer>();
+        if (Math.Abs(scale - resizedPlayer.Scale) < float.Epsilon)
+        {
+            // No change
+            return;
+        }
+
+        resizedPlayer.Scale = Math.Max(scale, 0.05f);
+        if (!NetUtils.IsSinglePlayer)
+        {
+            resizedPlayer.SyncScale();
+        }
+    }
+
+    /// <summary>
+    ///     Reset the player's custom scale.
+    /// </summary>
+    public static void ResetScale(this Player player)
+    {
+        SetScale(player, 1);
+    }
+
+    /// <summary>
+    ///     Get the player's custom scale.
+    /// </summary>
+    public static float GetScale(this Player player)
+    {
+        return player.GetModPlayer<ResizedPlayer>().Scale;
+    }
+
+    /// <summary>
+    ///     Check if the player has a custom scale set.
+    /// </summary>
+    public static bool GetIsScaled(this Player player)
+    {
+        return player.GetModPlayer<ResizedPlayer>().IsScaled;
+    }
+
+    public static void HandleSync(BinaryReader reader)
+    {
+        var whoAmI = reader.ReadByte();
+        var scale = reader.ReadSingle();
+        var resizedPlayer = Main.player[whoAmI].GetModPlayer<ResizedPlayer>();
+        resizedPlayer.Scale = scale;
+        if (NetUtils.IsServer)
+        {
+            resizedPlayer.SyncScale(-1, whoAmI);
+        }
+    }
+
+    #endregion
+
+    #region Nested Types
+
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class ResizedPlayer : ModPlayer
+    {
+        #region Static Methods
+
+        private static void ResetPlayerSize(Player player)
+        {
+            player.position = player.BottomLeft;
+            player.width = Player.defaultWidth;
+            player.height = Player.defaultHeight;
+            player.BottomLeft = player.position;
+        }
+
+        private static void ApplyPlayerSize(Player player, float scale)
+        {
+            // https://github.com/NotLe0n/Creativetools/blob/1.4.4/src/Tools/Modify/ModifyPlayer.cs
+            player.position = player.BottomLeft;
+            player.width = (int)(Player.defaultWidth * scale);
+            player.height = (int)(Player.defaultHeight * scale);
+            player.BottomLeft = player.position;
+        }
+
+        private static void OnDrawPlayer(On_LegacyPlayerRenderer.orig_DrawPlayerInternal orig, LegacyPlayerRenderer self, Camera camera, Player drawPlayer, Vector2 position, float rotation, Vector2 rotationOrigin, float shadow, float alpha, float scale, bool headOnly)
+        {
+            if (drawPlayer.TryGetModPlayer(out ResizedPlayer resizedPlayer) && resizedPlayer.IsScaled)
             {
-                int oldHeldProj = player.heldProj;
-                oldMountedCenter = player.MountedCenter;
-                oldItemLocation = player.itemLocation;
-                player.itemLocation = oldItemLocation;
-                player.MountedCenter = oldMountedCenter - oldPos;
+                ResetPlayerSize(drawPlayer);
+                ApplyPlayerSize(drawPlayer, resizedPlayer.Scale);
+                scale *= resizedPlayer.Scale;
+            }
 
-                //temp change Player's actual position to lock into their frame
-                player.heldProj = -1;
+            orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly);
 
-                Main.PlayerRenderer.DrawPlayer(Main.Camera, player, player.position, player.fullRotation, player.fullRotationOrigin, 0f);
 
-                player.heldProj = oldHeldProj;
-                player.itemLocation = oldItemLocation;
-                player.MountedCenter = oldMountedCenter;
+
+            if (drawPlayer.TryGetModPlayer(out ResizedPlayer p) && resizedPlayer.IsScaled && p.OldMountedY != 0 && drawPlayer.MountedCenter.Y != p.OldMountedY)
+            {
+                drawPlayer.MountedCenter = drawPlayer.MountedCenter with { Y = p.OldMountedY };
+                p.OldMountedY = 0;
             }
         }
 
-        Main.spriteBatch.End();
+        #endregion
 
-        Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets2);
-        canUseTarget = true;
-    }
-}
 
-public class ScaledDrawPlayer : ModPlayer
-{
-    public float Scale
-    {
-        get;
-        private set;
-    } = 1;
+        public float Scale = 1;
 
-    public override void ResetEffects()
-    {
-        if (Scale != 1)
-            ResetScale();
-    }
+        public float OldMountedY = 0;
 
-    private void ResetScale()
-    {
-        var box = Player.Hitbox;
-        //var center = box.Center();
+        public bool IsScaled => Scale is < 1 or > 1;
 
-        var width = (int)(box.Width / Scale);
-        var height = (int)(box.Height / Scale);
+        #region Methods
 
-        Player.Hitbox = box with { Width = width, Height = height };
-
-        Scale = 1;
-    }
-
-    private void SetScale(float scale)
-    {
-        var box = Player.Hitbox;
-
-        var width = (int)(box.Width * Scale);
-        var height = (int)(box.Height * Scale);
-
-        Player.Hitbox = box with { Width = width, Height = height };
-    }
-
-    public void ApplyScaleToPlayer(int whoAmI, float scale)
-    {
-        if (Scale != 1)
-            ResetScale();
-
-        if (whoAmI == Player.whoAmI)
-            Scale = scale;
-
-        PlayerSize = Player.Hitbox.Size();
-
-        SetScale(scale);
-    }
-
-    public Vector2 PlayerSize = new Vector2(20, 42);
-
-    public override void PostUpdate()
-    {
-        if (Player.Hitbox.Size() != new Vector2((int)(PlayerSize.X * Scale), (int)(PlayerSize.Y * Scale)))
-            ApplyScaleToPlayer(Player.whoAmI, Scale);
-    }
-
-    public override void HideDrawLayers(PlayerDrawSet drawInfo)
-    {
-        if (!PlayerDrawScaleSystem.canUseTarget || Scale == 1)
+        public override void Load()
         {
-            return;
+            On_LegacyPlayerRenderer.DrawPlayerInternal += OnDrawPlayer;
         }
 
-        foreach (PlayerDrawLayer layer in PlayerDrawLayerLoader.Layers)
+        public override void Initialize()
         {
-            layer.Hide();
-        }
-    }
-
-    public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
-    {
-        if (!PlayerDrawScaleSystem.canUseTarget || Scale == 1)
-        {
-            return;
+            Scale = 1;
         }
 
-        var rect = PlayerDrawScaleSystem.PlayerDrawTarget.Frame(1, PlayerDrawScaleSystem.PlayersToDraw.Count, 0, Player.whoAmI);
-        Main.spriteBatch.Draw(PlayerDrawScaleSystem.PlayerDrawTarget, rect.Size() / 2, rect, fullBright ? Color.White : new Color(r, g, b, a), 0, rect.Size() / 2, Scale, SpriteEffects.None, 0);
+        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        {
+            if (IsScaled)
+            {
+                SyncScale(toWho, fromWho);
+            }
+        }
+
+        public override void PreUpdateMovement()
+        {
+            ApplyPlayerSize(Player, Scale);
+        }
+
+        public override void ResetEffects()
+        {
+            ResetScale(Player);
+        }
+
+        public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
+        {
+            if (IsScaled)
+            {
+                drawInfo.ItemLocation.Y += Player.defaultHeight * Scale * 0.33f * (Scale > 1 ? 1 : -1);
+
+                OldMountedY = drawInfo.drawPlayer.MountedCenter.Y;
+                drawInfo.drawPlayer.MountedCenter += new Vector2(0, Player.defaultHeight * Scale);
+            }
+        }
+
+        public void SyncScale(int toClient = -1, int ignoreClient = -1)
+        {
+            var packet = Mod.GetPacket();
+            packet.Write((int)TheBindingOfRarria.PacketTypes.SyncResizedPlayer);
+            packet.Write((byte)Player.whoAmI);
+            packet.Write(Scale);
+            packet.Send(toClient, ignoreClient);
+        }
+
+        #endregion
     }
+
+    #endregion
 }

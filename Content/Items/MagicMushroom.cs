@@ -1,3 +1,4 @@
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +21,29 @@ public class MagicMushroom : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
-        player.GetModPlayer<ScaledDrawPlayer>().ApplyScaleToPlayer(player.whoAmI, 2);
-        PlayerDrawScaleSystem.RegisterPlayerForDraw(player.whoAmI);
+        var p = player.GetModPlayer<RedMushPlayer>();
+
+        if (player.CanFitSpace((int)((p.Growth - 1) * 42)))
+            p.Growth = 
+            Math.Min(
+                1.5f, 
+                player.GetModPlayer<RedMushPlayer>().Growth + 0.015f
+                );
+    }
+}
+
+public class RedMushPlayer : ModPlayer
+{
+    public float Growth = 1;
+
+    public override void ResetEffects()
+    {
+
+    }
+
+    public override void PostUpdateEquips()
+    {
+        ResizedPlayerUtils.SetScale(Player, Growth);
+        Growth = Math.Max(1, Growth - 0.005f);
     }
 }
