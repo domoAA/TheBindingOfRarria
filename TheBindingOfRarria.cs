@@ -18,7 +18,6 @@ public class TheBindingOfRarria : Mod
         ProjectileReflect,
         EntitySlow,
         DustSpawn,
-        SyncResizedPlayer,
         Default
     }
 
@@ -104,21 +103,6 @@ public class TheBindingOfRarria : Mod
                 natureplayer.direction = direction;
             }
             return;
-        }
-        else if (type == (int)PacketTypes.SyncResizedPlayer)
-        {
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var who = reader.ReadByte();
-                var scale = reader.ReadSingle();
-
-                var packet = GetPacket();
-                packet.Write(type);
-                packet.Write(who);
-                packet.Write(scale);
-                packet.Send();
-            }
-            else ResizedPlayerUtils.HandleSync(reader);
         }
     }
 }

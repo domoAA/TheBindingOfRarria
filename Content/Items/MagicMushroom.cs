@@ -22,13 +22,7 @@ public class MagicMushroom : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         var p = player.GetModPlayer<RedMushPlayer>();
-
-        if (player.CanFitSpace((int)((p.Growth - 0.9f) * 42)))
-            p.Growth = 
-            Math.Min(
-                1.5f, 
-                player.GetModPlayer<RedMushPlayer>().Growth + 0.02f
-                );
+        p.FunGuy = true;
     }
 }
 
@@ -36,17 +30,29 @@ public class RedMushPlayer : ModPlayer
 {
     public float Growth = 1;
 
+    public bool FunGuy = false;
+
     public override void ResetEffects()
     {
-
+        FunGuy = false;
     }
 
     public override void PostUpdateEquips()
     {
-        if (Growth != 1)
+        if (FunGuy)
         {
-            ResizedPlayerUtils.SetScale(Player, Growth);
-            Growth = Math.Max(1, Growth - 0.005f);
+            if (Collision.IsClearSpotTest(Player.position - new Vector2(0f, (Growth - 0.9f) * 40) + Player.velocity, 16f, (int)(Player.width * (Growth + 0.04f)), (int)(Player.height * (Growth + 0.04f)), fallThrough: true, fall2: true))
+                Growth =
+                Math.Min(
+                    1.5f,
+                    Growth + 0.04f
+                    );
+
         }
+        else
+            Growth = Math.Max(1, Growth - 0.03f);
+
+        if (Growth != 1)
+            ResizedPlayerUtils.SetScale(Player, Growth);
     }
 }
