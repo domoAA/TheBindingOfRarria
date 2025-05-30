@@ -1,21 +1,14 @@
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
-using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Registries;
-using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
 
 public class WheelOfHarmony : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
-
-    private int Frame = 0;
 
     public override void SetDefaults()
     {
@@ -27,47 +20,6 @@ public class WheelOfHarmony : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<MakoraPlayer>().adaptable = true;
-        player.GetModPlayer<MakoraPlayer>().AltFunc = Frame == 1;
-    }
-
-    public override bool CanRightClick() => true;
-
-    public override void RightClick(Player player) => Frame = Frame == 0 ? 1 : 0;
-    
-    public override bool ConsumeItem(Player player) => false;
-
-    public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-    {
-        frame = new Rectangle(0, Frame * (int)(frame.Height * 0.5f), frame.Width, (int)(frame.Height * 0.5f));
-
-        origin = frame.Size() * 0.5f;
-        Texture2D texture = TextureAssets.Item[Item.type].Value;
-
-        spriteBatch.Draw(texture, position, frame, drawColor, 0, origin, scale * 2, SpriteEffects.None, 0);
-        return false;
-    }
-
-    public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-    {
-        Main.GetItemDrawFrame(Item.type, out Texture2D texture, out var rect);
-
-        Rectangle frame = new(0, (int)(Frame * rect.Height * 0.5f), rect.Width, (int)(rect.Height * 0.5f));
-        Vector2 origin = frame.Size() * 0.5f;
-
-        spriteBatch.Draw(texture, Item.Bottom - Main.screenPosition - new Vector2(0, origin.Y), frame, lightColor, rotation, origin, scale, SpriteEffects.None, 0);
-        return false;
-    }
-
-    public override void ModifyTooltips(List<TooltipLine> tooltips)
-    {
-        int index = tooltips.FindIndex(t => t.Name == $"Tooltip{Frame % 2}");
-        if (index != -1)
-            tooltips.RemoveAt(index);
-
-        TooltipLine change = tooltips.Find(t => t.Name == "Tooltip2");
-        if (change != null)
-            change.OverrideColor = Color.LightSkyBlue;
-
     }
 }
 
@@ -77,8 +29,6 @@ public class MakoraPlayer : ModPlayer
 
     public override void ResetEffects() => adaptable = false;
     
-    public bool AltFunc = false;
-
     private int hits = 0;
 
     private (int time, int heal) counter = (30, 0);
@@ -86,7 +36,7 @@ public class MakoraPlayer : ModPlayer
 
     public override void PostUpdate()
     {
-        if (!AltFunc && adaptable && hits >= 2)
+        if (adaptable && hits >= 2)
         {
             if (counter.time > 0)
             {
@@ -106,10 +56,6 @@ public class MakoraPlayer : ModPlayer
                 counter = (30, 0);
             }
         }
-        else if (adaptable && AltFunc)
-        {
-            counter.time--;
-        }
         else
             counter = (20, 0);
     }
@@ -125,7 +71,7 @@ public class MakoraPlayer : ModPlayer
 
     public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
     {
-        if (adaptable && !AltFunc)
+        if (adaptable)
         {
             bool modded = npc.aiStyle == -1;
             if ((adaptationType == (false, npc.aiStyle) && !modded) || (modded && adaptationType == (false, npc.type)))
@@ -136,18 +82,16 @@ public class MakoraPlayer : ModPlayer
                 adaptationType = modded ? (false, npc.type) : (false, npc.aiStyle);
             }
 
-            if (adaptable)
-            {
-                Creak(Player);
-                if (hits >= 2)
-                    counter.heal += Math.Max(1, hurtInfo.Damage / 2);
-            }
+            Creak(Player);
+            if (hits >= 2)
+                counter.heal += Math.Max(1, hurtInfo.Damage / 2);
+
         }
     }
 
     public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
     {
-        if (adaptable && !AltFunc)
+        if (adaptable)
         {
             bool modded = proj.aiStyle == 0;
             if ((adaptationType == (true, proj.aiStyle) && !modded) || (modded && adaptationType == (true, proj.type)))
@@ -158,86 +102,10 @@ public class MakoraPlayer : ModPlayer
                 adaptationType = modded ? (true, proj.type) : (true, proj.aiStyle);
             }
 
-            if (adaptable)
-            {
-                Creak(Player);
-                if (hits >= 2)
-                    counter.heal += Math.Max(1, hurtInfo.Damage / 2);
-            }
+            Creak(Player);
+            if (hits >= 2)
+                counter.heal += Math.Max(1, hurtInfo.Damage / 2);
+
         }
-    }
-
-    public override bool FreeDodge(Player.HurtInfo info)
-    {
-        if (adaptable && hits >= 2 && AltFunc)
-        {
-            Player.immune = true;
-            Player.immuneTime = 80;
-            hits = 0;
-            return true;
-        }
-        else
-            return base.FreeDodge(info);
-    }
-
-    public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
-    {
-        if (adaptable && AltFunc)
-        {
-            bool modded = npc.aiStyle == -1;
-            if ((adaptationType == (false, npc.aiStyle) && !modded) || (modded && adaptationType == (false, npc.type)))
-                hits++;
-            else
-            {
-                hits = 1;
-                adaptationType = modded ? (false, npc.type) : (false, npc.aiStyle);
-            }
-
-            if (adaptable && hits >= 2 && counter.time > 0)
-            {
-                npc.SimpleStrikeNPC(50, -modifiers.HitDirection, false, modifiers.Knockback.ApplyTo(9), DamageClass.Melee, true, Player.luck);
-
-                Creak(Player);
-            }
-            else
-            {
-                counter.time = 240;
-                hits = 1;
-            }
-        }
-        else if (!adaptable)
-            hits = 0;
-    }
-
-    public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
-    {
-        if (adaptable && AltFunc)
-        {
-            bool modded = proj.aiStyle == 0;
-            if ((adaptationType == (true, proj.aiStyle) && !modded) || (modded && adaptationType == (true, proj.type)))
-                hits++;
-            else
-            {
-                hits = 1;
-                adaptationType = modded ? (true, proj.type) : (true, proj.aiStyle);
-            }
-
-            if (adaptable && hits >= 2)
-            {
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
-                    packet.Write((int)TheBindingOfRarria.PacketTypes.ProjectileReflect);
-                    packet.Write(proj.identity);
-                    packet.Send();
-                }
-                else
-                    proj.GetReflected();
-
-                Creak(Player);
-            }
-        }
-        else if (!adaptable)
-            hits = 0;
     }
 }

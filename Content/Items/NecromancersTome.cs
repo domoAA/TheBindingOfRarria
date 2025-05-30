@@ -1,8 +1,16 @@
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+using TheBindingOfRarria.Common.Helpers;
 
 public class NecromancersTome : ModItem
 {
@@ -20,68 +28,110 @@ public class NecromancersTome : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
-        player.GetModPlayer<NecromancersTomePlayer>().HasNecromancersTome = true;
+        var p = player.GetModPlayer<NecromanPlayer>();
+        p.Necroman = true;
 
-        ref var minions = ref player.GetModPlayer<NecromancersTomePlayer>().SpawnedMinions;
-
-        if (minions.Count < 1)
+        if (p.SummonedMinions.Count == 0)
         {
+            var summoned = Array.FindAll(Main.projectile, proj => proj.active && proj.friendly && proj.minion && proj.owner == player.whoAmI).ToList();
+
             foreach (var item in player.inventory)
             {
-                if (item.DamageType == DamageClass.Summon && item.buffType != 0 && !player.HasBuff(item.buffType) && !minions.Contains(item))
+                if (item.DamageType == DamageClass.Summon && item.buffType != 0 && !player.HasBuff(item.buffType) && !summoned.Any(proj => proj.type == item.shoot))
                 {
-                    player.maxMinions += 1;
-                    minions.Add(item);
+                    p.SummonedMinions.Add(item.shoot);
                     player.AddBuff(item.buffType, 2);
 
                     if (Main.myPlayer == player.whoAmI)
                     {
-                        var projectile = Projectile.NewProjectileDirect(player.GetSource_ItemUse(item, "Necromancers tome accessory"), player.Center, player.velocity, item.shoot, item.damage, item.knockBack);
+                        player.maxMinions += 3;
+                        var projectile = Projectile.NewProjectileDirect(player.GetSource_ItemUse(item, "Necromancer's Tome summon"), player.Center, player.velocity, item.shoot, item.damage, item.knockBack);
                         projectile.originalDamage = item.damage;
                     }
-                    if (minions.Count == 2)
+                    if (p.SummonedMinions.Count == 2)
                         break;
-                }
-            }
-        }
-        else
-        {
-            foreach (Item item in minions)
-            {
-                player.maxMinions += 1;
-                if (!player.HasBuff(item.buffType))
-                {
-                    player.AddBuff(item.buffType, 2);
-
-                    if (Main.myPlayer == player.whoAmI)
-                    {
-                        var projectile = Projectile.NewProjectileDirect(player.GetSource_ItemUse(item, "Necromancers tome accessory"), player.Center, player.velocity, item.shoot, item.damage, item.knockBack);
-                        projectile.originalDamage = item.damage;
-                    }
                 }
             }
         }
     }
 }
 
-public class NecromancersTomePlayer : ModPlayer
+public class NecromanPlayer : ModPlayer
 {
-    public bool HasNecromancersTome = false;
-    public List<Item> SpawnedMinions = [];
+    public HashSet<int> SummonedMinions = [];
+
+    public bool Necroman = false;
 
     public override void ResetEffects()
     {
-        if (!HasNecromancersTome)
+        if (!Necroman)
         {
-            foreach (Item item in SpawnedMinions)
+            foreach (var minion in SummonedMinions)
             {
-                if (Player.HasBuff(item.buffType))
-                    Player.ClearBuff(item.buffType);
+                if (Player.OwnsProjectile(minion))
+                    Array.Find(Main.projectile, p => p.active && p.type == minion && p.owner == Player.whoAmI).Kill();
+                
+                SummonedMinions.Remove(minion);
             }
-            SpawnedMinions.Clear();
         }
 
-        HasNecromancersTome = false;
+        Necroman = false;
+    }
+}
+
+public class NecroProjectileGlobal : GlobalProjectile
+{
+    public override bool InstancePerEntity => true;
+
+    public override bool AppliesToEntity(Projectile entity, bool lateInstantiation) => entity.minion;
+    public override void OnSpawn(Projectile projectile, IEntitySource source)
+    {
+        if (source != null && source.Context != null && source.Context == "Necromancer's Tome summon")
+        {
+            Necro = true;
+        }
+    }
+
+    public bool Necro = false;
+
+    public float oldSlot = 0;
+
+    public override void SendExtraAI(Projectile projectile, BitWriter bitWriter, BinaryWriter binaryWriter)
+    {
+        bitWriter.WriteBit(Necro);
+    }
+
+    public override void ReceiveExtraAI(Projectile projectile, BitReader bitReader, BinaryReader binaryReader)
+    {
+        var flag = bitReader.ReadBit();
+        if (!Necro)
+            Necro = flag;
+    }
+
+    public override bool PreDraw(Projectile projectile, ref Color lightColor)
+    {
+        if (Necro)
+            lightColor = lightColor.MultiplyRGBA(Color.Gray);
+
+        return base.PreDraw(projectile, ref lightColor);
+    }
+
+    public override bool PreAI(Projectile projectile)
+    {
+        if (!Main.player[projectile.owner].GetModPlayer<NecromanPlayer>().Necroman)
+            Necro = false;
+
+        if (oldSlot == 0)
+            oldSlot = projectile.minionSlots;
+
+        if (Necro)
+            projectile.minionSlots = 0;
+
+        else if (oldSlot != 0)
+            projectile.minionSlots = oldSlot;
+
+        
+        return base.PreAI(projectile);
     }
 }
 

@@ -86,13 +86,13 @@ public static class ResizedPlayerUtils
 
             //drawPlayer.MountedCenter += new Vector2(0, drawPlayer.height / 2);
             //drawPlayer.Center += new Vector2(0, drawPlayer.height);
-            drawPlayer.position += new Vector2(0, drawPlayer.height);
+            //drawPlayer.position += new Vector2(0, drawPlayer.height);
 
             orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly);
 
             //drawPlayer.MountedCenter -= new Vector2(0, drawPlayer.height / 2);
             //drawPlayer.Center -= new Vector2(0, drawPlayer.height);
-            drawPlayer.position -= new Vector2(0, drawPlayer.height);
+            //drawPlayer.position -= new Vector2(0, drawPlayer.height);
         }
 
         #endregion

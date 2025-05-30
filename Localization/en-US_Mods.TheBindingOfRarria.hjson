@@ -400,9 +400,7 @@ Items: {
 		DisplayName: Wheel of Harmony
 		Tooltip:
 			'''
-			You reflect every attack of the same type that hits you 2 times in a row within a short period of time
 			You heal for 1/2 of an attack's damage after getting hit by it 2 times in a row
-			You can switch this item's function by right-clicking it in inventory
 			'The ability to adapt to any and all phenomena'
 			'''
 	}
@@ -630,8 +628,7 @@ Items: {
 		DisplayName: Necromancer's Tome
 		Tooltip:
 			'''
-			+2 max minions
-			Summons 2 minions you haven't already summoned
+			Summons 2 minions you haven't already summoned at no cost
 			Only summons minions you possess the summoning item for
 			'Wouldn't wanna touch that if I were you'
 			'''
@@ -695,7 +692,7 @@ Items: {
 		Tooltip:
 			'''
 			Reduces damage of the next 2 hits you take to {0} [c/90ee90:(10% of your max life)]
-			'Don't even try to pronounce its real name'
+			'You don't want to find out to whom those scales belonged to'
 			'''
 	}
 
@@ -710,7 +707,32 @@ Items: {
 
 	MagicMushroom: {
 		DisplayName: Magic Mushroom
-		Tooltip: Big chungus
+		Tooltip:
+			'''
+			+10% max life
+			1.1x damage multiplier
+			Increased physical size and shooting velocity
+			'Big chungus'
+			'''
+	}
+
+	TheLastOffering: {
+		DisplayName: The Last Offering
+		Tooltip:
+			'''
+			You shoot out a homing missile when an enemy dies nearby
+			'Hopefully this one satisfies thy cruelty'
+			'''
+	}
+
+	WoodOMask: {
+		DisplayName: Wood O' Mask
+		Tooltip:
+			'''
+			+1 max minions
+			Every time a nearby enemy is inflicted with a new debuff, all your minions shoot homing missiles
+			'Unsettlingly familiar'
+			'''
 	}
 }
 
@@ -817,6 +839,7 @@ Projectiles: {
 	CryptBloomProjectile.DisplayName: Crypt Bloom Projectile
 	CryptAura.DisplayName: Crypt Aura
 	DarkDash.DisplayName: Dark Dash
+	HomingMissile.DisplayName: Homing Missile
 }
 
 Keybinds: {
@@ -831,6 +854,7 @@ Tiles: {
 	PaleOreTile.MapEntry: Pale Ore
 	SihilStone.MapEntry: Sword in ice
 	MardroemeTile.MapEntry: Suspicious looking mushrooms
+	SuspiciousScaleTile.MapEntry: Suspicious looking scales
 }
 
 WorldGen: {
