@@ -281,7 +281,7 @@ Items: {
 		Tooltip:
 			'''
 			+60 max life 
-			Your attacks cause a shockwave that deals {0} [c/90ee90:(20% of your maximum life)] every 6 seconds
+			Your attacks cause a shockwave that deals {0} [c/90ee90:(20% of your maximum life)] damage every 6 seconds
 			'Titanic might too great to control'
 			'''
 	}
@@ -733,6 +733,16 @@ Items: {
 			Every time a nearby enemy is inflicted with a new debuff, all your minions shoot homing missiles
 			'Unsettlingly familiar'
 			'''
+	}
+
+	VesselMask0: {
+		DisplayName: Vessel Mask
+		Tooltip: ""
+	}
+
+	VesselMask1: {
+		DisplayName: Vessel Mask
+		Tooltip: ""
 	}
 }
 

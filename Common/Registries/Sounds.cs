@@ -10,6 +10,7 @@ public class Sounds : ModSystem
 
     public static SoundStyle AdaptedSound { get; internal set; }
     public static SoundStyle WheelCreak { get; internal set; }
+    public static SoundStyle[] DespairTrigger { get; internal set; }
 
     public override void Load()
     {
@@ -18,5 +19,6 @@ public class Sounds : ModSystem
 
         AdaptedSound = new(prefix + "ModifiedMahoragaWheel");
         WheelCreak = new(prefix + "ModifiedMahoragaWheelCreak");
+        DespairTrigger = [new SoundStyle(prefix + "DespairTrigger0"), new SoundStyle(prefix + "DespairTrigger1")];
     }
 }

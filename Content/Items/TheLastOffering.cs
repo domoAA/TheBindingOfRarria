@@ -48,7 +48,7 @@ public class LastOfferingPlayer : ModPlayer
         if (attempt.veryrare && Main.rand.NextBool(6) && Player.ZoneDungeon)
         {
             npcSpawn = -1;
-            sonar.Color = new Color(255, 200, 150, 255);
+            sonar.Color = new Color(255, 200, 150);
             sonar.Text = Language.GetTextValue("Mods.TheBindingOfRarria.Items.TheLastOffering.DisplayName");
             itemDrop = ModContent.ItemType<TheLastOffering>();
         }

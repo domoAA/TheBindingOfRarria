@@ -79,7 +79,7 @@ public class PiercingMissileProj : GlobalProjectile
 
     public override void PostDraw(Projectile projectile, Color lightColor)
     {
-        if (Piercing)
+        if (Piercing && projectile.velocity.LengthSquared() > 1)
         {
             Dust.NewDustPerfect(projectile.Center - projectile.velocity * Main.rand.NextFloat(), ModContent.DustType<PixellatedDustE98>(), -projectile.velocity.SafeNormalize(Vector2.Zero) * Math.Min(9, projectile.velocity.Length() * 0.6f), 200, new Color(166, 16, 30), 0.4f);
         }

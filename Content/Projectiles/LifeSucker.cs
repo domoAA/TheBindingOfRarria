@@ -1,8 +1,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
+using TheBindingOfRarria.Common.Registries;
 using TheBindingOfRarria.Common.Systems;
 using TheBindingOfRarria.Content.Items;
 using static TheBindingOfRarria.Common.Helpers.Helper;
@@ -30,6 +32,9 @@ public class LifeSucker : ModProjectile
 
     public override void AI()
     {
+        if (Projectile.timeLeft == 38)
+            SoundEngine.PlaySound(Sounds.DespairTrigger[Main.rand.Next(2)] with { Volume = 0.5f, PitchVariance = 0.2f, Type = SoundType.Sound }, Projectile.Center - Projectile.velocity);
+
         if (Projectile.ai[0] != 0 && Main.npc[(int)Projectile.ai[0]].active)
             Projectile.Center = Main.npc[(int)Projectile.ai[0]].Center;
         else

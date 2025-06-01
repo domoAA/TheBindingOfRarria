@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -51,5 +52,19 @@ public class MoltenShield : ModItem
             .AddIngredient(ItemID.HellstoneBar, 13)
             .AddTile(TileID.MythrilAnvil)
             .Register();
+    }
+}
+
+public class MoltenCatchPlayer : ModPlayer
+{
+    public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
+    {
+        if (attempt.fishingLevel > 30 && attempt.veryrare && attempt.inLava && attempt.CanFishInLava && Main.hardMode && Main.rand.NextBool(5))
+        {
+            npcSpawn = -1;
+            sonar.Color = new Color(255, 150, 150);
+            sonar.Text = Language.GetTextValue("Mods.TheBindingOfRarria.Items.MoltenShield.DisplayName");
+            itemDrop = ModContent.ItemType<MoltenShield>();
+        }
     }
 }

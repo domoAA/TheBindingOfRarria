@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
 
-    // Me when I have to refactor code:
 public class UnendingDespair : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
@@ -16,6 +17,9 @@ public class UnendingDespair : ModItem
         Item.accessory = true;
         Item.width = 28;
         Item.height = 30;
+        Item.rare = ItemRarityID.Expert;
+        Item.value = Item.buyPrice(0, 7);
+        Item.expert = true;
     }
 
     private int counter = 0;
@@ -69,8 +73,19 @@ public class UnendingDespair : ModItem
     }
 }
 
-    // ???????????????????????????
-    // It's so that I could have every lifesucker proj pool off their heal here in one place.
+public class DespairLootNPC : GlobalNPC
+{
+    public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+    {
+        if (npc.type == NPCID.DungeonSpirit)
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<UnendingDespair>(), 20));
+
+        base.ModifyNPCLoot(npc, npcLoot);
+    }
+}
+
+// ???????????????????????????
+// It's so that I could have every lifesucker proj pool off their heal here in one place.
 public class LifeSuckerPlayer : ModPlayer
 {
     public int heal = 0;

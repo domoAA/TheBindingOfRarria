@@ -20,8 +20,11 @@ public class WoodOMask : ModItem
         Item.value = Item.buyPrice(0, 0, 7, 20);
     }
 
-    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<PoisonMinionsPlayer>().mask = Item;
-
+    public override void UpdateAccessory(Player player, bool hideVisual)
+    {
+        player.GetModPlayer<PoisonMinionsPlayer>().mask = Item;
+        player.maxMinions += 1;
+    }
     public override void AddRecipes()
     {
         CreateRecipe()

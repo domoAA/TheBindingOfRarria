@@ -11,7 +11,7 @@ public class ScaleySand : GlobalTile
 
     public override void RandomUpdate(int x, int y, int type)
     {
-        if (!Main.rand.NextBool(30))
+        if (!Main.rand.NextBool(3000))
             return;
 
         if (Main.tile[x, y].TileType == TileID.Sand && WorldGen.TileEmpty(x, y - 1))
