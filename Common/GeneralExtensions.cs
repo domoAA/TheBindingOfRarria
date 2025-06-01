@@ -1,6 +1,15 @@
+using System;
+using Terraria.ModLoader;
+using Terraria;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
+using Terraria.ID;
 using MonoMod.Cil;
+using TheBindingOfRarria.Content.Items;
+using TheBindingOfRarria.Common;
 
-namespace TheBindingOfRarria.Common
+namespace TheBindingOfRarria.Content
 {
     public static class GeneralExtensions
     {
@@ -13,25 +22,25 @@ namespace TheBindingOfRarria.Common
             }
             return null;
         }
-        public static void DrawPixellated(this Texture2D texture, Vector2 position, float scale, float rotation, Color color, RenderType renderType)
+        public static void DrawPixellated(this Texture2D texture, Vector2 position, float scale, float rotation, Color color, PixellationSystem.RenderType renderType)
         {
             //scale *= Main.GameZoomTarget;
 
-            QueuePixelationAction(() =>
+            PixellationSystem.QueuePixelationAction(() =>
             {
                 Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }, renderType);
         }
-        public static void DrawPixellated(this Texture2D texture, Vector2 position, Vector2 scale, float rotation, Color color, RenderType renderType)
+        public static void DrawPixellated(this Texture2D texture, Vector2 position, Vector2 scale, float rotation, Color color, PixellationSystem.RenderType renderType)
         {
             //scale *= Main.GameZoomTarget;
 
-            QueuePixelationAction(() =>
+            PixellationSystem.QueuePixelationAction(() =>
             {
                 Main.EntitySpriteDraw(texture, position, texture.Bounds, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }, renderType);
         }
-        public static void DrawWithTransparency(this Texture2D texture, Vector2 center, Rectangle? rect, float rotation, Color color, byte alpha, byte alphaStep, float scale, float scaleStep, int layers)
+        public static void DrawWithTransparency(this Texture2D texture, Vector2 center, Rectangle? rect, Color color, byte alpha, byte alphaStep, float scale, float scaleStep, int layers)
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
@@ -43,7 +52,7 @@ namespace TheBindingOfRarria.Common
                 color.A += alphaStep;
                 scale -= scaleStep;
 
-                Main.spriteBatch.Draw(texture, center, rect, color, rotation, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture, center, rect, color, 0, texture.Size() / 2, scale / 2, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();
@@ -273,7 +282,7 @@ namespace TheBindingOfRarria.Common
             c.EmitLdarg3();
             c.EmitDelegate((bool Intersects, int Type) =>
             {
-                if (Type == ModContent.DustType<PixellatedDustE98>())
+                if (Type == ModContent.DustType<PixelatedDustParticle>())
                     return true;
                 return Intersects;
             });

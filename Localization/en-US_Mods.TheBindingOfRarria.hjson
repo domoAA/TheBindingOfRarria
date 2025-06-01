@@ -54,7 +54,6 @@ Items: {
 		Tooltip:
 			'''
 			+50 max life
-			+10% damage reduction
 			Enemies are more likely to target you
 			"Resilience befitting of a hero"
 			'''
@@ -292,7 +291,7 @@ Items: {
 		DisplayName: The Last Finger
 		Tooltip:
 			'''
-			+100 max mana
+			Max mana increased by 100
 			Enemies are less likely to target you
 			"Now his remains serve to protect the weak, how ironic"
 			'''
@@ -376,6 +375,7 @@ Items: {
 			"Born from shadows, sacrificed to kill a god"
 			'''
 	}
+<<<<<<< HEAD
 
 	PhoenixKunai: {
 		DisplayName: Phoenix Kunai
@@ -427,6 +427,8 @@ Items: {
 			"A saving throw with advantage"
 			'''
 	}
+=======
+>>>>>>> parent of f4e1978 (mahoraga wheel sfx)
 }
 
 Buffs: {
@@ -479,14 +481,8 @@ Projectiles: {
 	Cleave.DisplayName: Cleave
 	HolyMantleBurst.DisplayName: Holy Mantle Burst
 	HeavyBlowThing.DisplayName: Heavy Blow Thing
-	FlyingKunai.DisplayName: Flying Kunai
-	LightBeam.DisplayName: Light Beam
 }
 
-Keybinds: {
-	BrokenWatch.DisplayName: Broken Watch
-	Revelation.DisplayName: Revelation
-}
-
+Keybinds.BrokenWatch.DisplayName: Broken Watch
 Tiles.PaleOreTile.MapEntry: Pale Ore
 WorldGen.WorldGenTutorialOresPassMessage: Who up paling they ore
