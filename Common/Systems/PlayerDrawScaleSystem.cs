@@ -113,22 +113,30 @@ public static class ResizedPlayerUtils
                 Player.ResetScale();
             }
         }
+
+        public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
+        {
+            if (IsScaled)
+                drawInfo.ItemLocation.Y += Player.defaultHeight * Scale * 0.15f * (Scale > 1 ? 1 : -1);
+        }
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
-            if (!PlayerRenderTarget.canUseTarget)
+            if (!PlayerRenderTarget.canUseTarget || !IsScaled)
             {
                 return;
             }
 
             foreach (PlayerDrawLayer layer in PlayerDrawLayerLoader.Layers)
             {
+                if (layer.Name == "HeldItem")
+                    continue;
                 layer.Hide();
             }
         }
 
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-            if (!PlayerRenderTarget.canUseTarget)
+            if (!PlayerRenderTarget.canUseTarget || !IsScaled)
             {
                 return;
             }
@@ -137,6 +145,8 @@ public static class ResizedPlayerUtils
             Rectangle sourceRect = PlayerRenderTarget.getPlayerTargetSourceRectangle(drawInfo.drawPlayer.whoAmI);
 
             Main.spriteBatch.Draw(PlayerRenderTarget.Target, position, sourceRect, Color.White, 0, PlayerRenderTarget.Target.Size() / 2, Scale, SpriteEffects.None, 0);
+
+            Main.PlayerRenderer.DrawPlayerHead(Main.Camera, Player, new Vector2(Main.mapTargetX, Main.mapTargetY));
         }
         #endregion
     }
@@ -326,7 +336,7 @@ public class PlayerRenderTarget : ModSystem
                 positionOffset = getPositionOffset(i) + new Vector2(player.width * (player.GetModPlayer<ResizedPlayerUtils.ResizedPlayer>().Scale - 1f), 0);
                 player.position = positionOffset;
                 player.Center = oldCenter - oldPos + positionOffset;
-                player.itemLocation = oldItemLocation - oldPos + positionOffset;
+                player.itemLocation = new Vector2(-300);
                 player.MountedCenter = oldMountedCenter - oldPos + positionOffset;
                 player.heldProj = -1;
                 Main.screenPosition = Vector2.Zero;

@@ -42,6 +42,9 @@ public class RedMushPlayer : ModPlayer
     {
         if (FunGuy)
         {
+            Player.statLifeMax2 *= 11 / 10;
+            Player.GetDamage(DamageClass.Generic) *= 1.1f;
+
             if (Collision.IsClearSpotTest(Player.position - new Vector2(0f, (Growth - 0.9f) * 40) + Player.velocity, 16f, (int)(Player.width * (Growth + 0.04f)), (int)(Player.height * (Growth + 0.04f)), fallThrough: true, fall2: true))
                 Growth =
                 Math.Min(
@@ -55,6 +58,11 @@ public class RedMushPlayer : ModPlayer
 
         if (Growth != 1)
             ResizedPlayerUtils.SetScale(Player, Growth);
+    }
+
+    public override void ModifyShootStats(Item item, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+    {
+        velocity += (velocity / velocity.Length());
     }
 }
 
