@@ -15,8 +15,9 @@ public class MagicMushroom : ModItem
         Item.accessory = true;
         Item.width = 24;
         Item.height = 28;
-        Item.rare = ItemRarityID.LightRed;
+        Item.rare = ItemRarityID.Master;
         Item.value = Item.buyPrice(0, 2);
+        Item.master = true;
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
@@ -54,5 +55,16 @@ public class RedMushPlayer : ModPlayer
 
         if (Growth != 1)
             ResizedPlayerUtils.SetScale(Player, Growth);
+    }
+}
+
+public class RedMushItemNPCShop : GlobalNPC
+{
+    public override void ModifyShop(NPCShop shop)
+    {
+        if (shop.NpcType == NPCID.Truffle)
+        {
+           shop.Add(new Item(ModContent.ItemType<MagicMushroom>()), Condition.InMasterMode);
+        }
     }
 }

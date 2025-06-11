@@ -61,7 +61,7 @@ public class CullPlayer : ModPlayer
 
         if (target.life <= 0 && Main.expertMode)
         {
-            counter += 70;
+            counter += 25;
             if (counter >= 1000)
             {
                 counter = 0;

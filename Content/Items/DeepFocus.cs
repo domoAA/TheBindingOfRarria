@@ -56,7 +56,7 @@ public class DeepFocusDropGem : GlobalTile
 {
     public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
     {
-        if (type == TileID.Amethyst && Main.rand.NextFloat() < 0.01f)
+        if (type == TileID.Amethyst && Main.rand.NextBool(100))
         {
             Item.NewItem(WorldGen.GetItemSource_FromTileBreak(i, j), new Point(i, j).ToWorldCoordinates(), ModContent.ItemType<DeepFocus>(), 1, false, Main.rand.Next(0, PrefixID.Count));
             noItem = true;

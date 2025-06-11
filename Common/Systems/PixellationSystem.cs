@@ -15,9 +15,9 @@ public class PixellationSystem : ModSystem
         AlphaBlend,
         Additive
     }
-    private static List<Action> DrawActions { get; } = new();
-    private static List<Action> DrawActionsAdditive { get; } = new();
-    private static List<Action> PrimitiveActions { get; } = new();
+    private static Queue<Action> DrawActions { get; } = new();
+    private static Queue<Action> DrawActionsAdditive { get; } = new();
+    private static Queue<Action> PrimitiveActions { get; } = new();
     private static RenderTarget2D AlphaBlendTarget { get; set; }
     private static RenderTarget2D AdditiveTarget { get; set; }
     private static RenderTarget2D PrimitiveTarget { get; set; }
@@ -84,7 +84,7 @@ public class PixellationSystem : ModSystem
     }
     public static void DrawPixelPrimitive(Action action)
     {
-        PrimitiveActions.Add(action);
+        PrimitiveActions.Enqueue(action);
     }
     public override void Unload()
     {
@@ -123,10 +123,10 @@ public class PixellationSystem : ModSystem
         switch (type)
         {
             case RenderType.Additive:
-                DrawActionsAdditive.Add(action);
+                DrawActionsAdditive.Enqueue(action);
                 break;
             case RenderType.AlphaBlend:
-                DrawActions.Add(action);
+                DrawActions.Enqueue(action);
                 break;
         }
     }

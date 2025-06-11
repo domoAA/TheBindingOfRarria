@@ -11,7 +11,7 @@ public class MardroemeTree : GlobalTile
 
     public override void RandomUpdate(int x, int y, int type)
     {
-        if (!Main.rand.NextBool(1000))
+        if (!Main.rand.NextBool(1000) || !Main.hardMode)
             return;
 
         if (Main.tile[x, y].TileType == TileID.Trees && Main.tile[x + 1, y].TileType != ModContent.TileType<MardroemeTile>() && Main.tile[x - 1, y].TileType != ModContent.TileType<MardroemeTile>())
