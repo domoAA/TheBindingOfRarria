@@ -121,10 +121,8 @@ public static class ResizedPlayerUtils
             var gd = Main.graphics.GraphicsDevice;
             var oldRTs = gd.GetRenderTargets();
 
-
             gd.SetRenderTarget(PlayerTarget);
             gd.Clear(Color.Transparent);
-            Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, Main.DefaultSamplerState, default, default, null, Matrix.Identity);
 
             action.Invoke();
 
@@ -145,8 +143,7 @@ public static class ResizedPlayerUtils
             var scale = player.GetModPlayer<ResizedPlayer>().Scale;
 
             Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.spriteBatch.Draw(PlayerTarget, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(width / 2, height / 2), null, Color.White, 0, PlayerTarget.Size() / 2, scale, SpriteEffects.None, 0);
-            Main.spriteBatch.End();
+            Main.spriteBatch.Draw(PlayerTarget, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), null, Color.White, 0, PlayerTarget.Size() / 2, scale, SpriteEffects.None, 0);
         }
         #endregion
 
@@ -156,8 +153,6 @@ public static class ResizedPlayerUtils
         {
             if (drawPlayer.TryGetModPlayer(out ResizedPlayer resizedPlayer) && resizedPlayer.IsScaled)
             {
-                ReinitializeRT();
-
                 DrawToRT(() => { orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly); });
 
                 DrawRT((uint)drawPlayer.whoAmI);
