@@ -14,10 +14,11 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using TheBindingOfRarria.Common.Helpers;
 using static TheBindingOfRarria.Common.Systems.PixellationSystem;
+using static TheBindingOfRarria.Common.Systems.ResizedPlayerUtils;
 
 namespace TheBindingOfRarria.Common.Systems;
 
-// Thanks davidfdev for allowing me to use most of his implementation, though I did tweak things here and there
+// Thanks davidfdev for allowing me to use his implementation for inspiration, though I did change it some
 // the original that Dave, and by extension myself, based our implementations on: https://github.com/NotLe0n/Creativetools/blob/1.4.4/src/Tools/Modify/ModifyPlayer.cs
 public static class ResizedPlayerUtils
 {
@@ -141,135 +142,79 @@ public static class ResizedPlayerUtils
                 return;
             }
 
-            Vector2 position = PlayerRenderTarget.getPlayerTargetPosition(drawInfo.drawPlayer.whoAmI) + PlayerRenderTarget.Target.Size() / 2;
-            Rectangle sourceRect = PlayerRenderTarget.getPlayerTargetSourceRectangle(drawInfo.drawPlayer.whoAmI);
+            drawInfo.drawPlayer.ResetPlayerSize();
 
-            Main.spriteBatch.Draw(PlayerRenderTarget.Target, position, sourceRect, Color.White, 0, PlayerRenderTarget.Target.Size() / 2, Scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(PlayerRenderTarget.Target, PlayerRenderTarget.Target.Size() / 2, null, Color.White, 0, PlayerRenderTarget.Target.Size() / 2, 1, SpriteEffects.None, 0);
 
-            Main.PlayerRenderer.DrawPlayerHead(Main.Camera, Player, new Vector2(Main.mapTargetX, Main.mapTargetY));
+            drawInfo.drawPlayer.ApplyPlayerSize(Scale);
         }
         #endregion
     }
 }
 /*
-	Stolen from https://github.com/ProjectStarlight/StarlightRiver/blob/fb35df83489a4d840271e946ba38448037fe7cc6/Content/CustomHooks/Visuals.PlayerTarget.cs
-    Though I did tweak a few small details to fit my usecase
+	Based on https://github.com/ProjectStarlight/StarlightRiver/blob/fb35df83489a4d840271e946ba38448037fe7cc6/Content/CustomHooks/Visuals.PlayerTarget.cs
+    Mostly rewritten though
  */
 
 public class PlayerRenderTarget : ModSystem
 {
     public static RenderTarget2D Target;
 
+    private static RenderTarget2D ScaleTarget;
+
+    private static Dictionary<(int who, float shadow), Action> DrawList = new();
+
     public static bool canUseTarget = false;
-
-    public static int sheetSquareX;
-    public static int sheetSquareY;
-
-    /// <summary>
-    /// we use a dictionary for the Player indexes because they are not guarenteed to be 0, 1, 2 etc. the Player at index 1 leaving could result in 2 Players being numbered 0, 2
-    /// but we don't want a gigantic RT with all 255 possible Players getting template space so we resize and keep track of their effective index
-    /// </summary>
-    private static Dictionary<int, int> PlayerIndexLookup;
-
-    /// <summary>
-    /// to keep track of Player counts as they change
-    /// </summary>
-    private static int prevNumPlayers;
-
-    //stored vars so we can determine original lighting for the Player / potentially other uses
-    Vector2 oldPos;
-    Vector2 oldCenter;
-    Vector2 oldMountedCenter;
-    Vector2 oldScreen;
-    Vector2 oldItemLocation;
-    Vector2 positionOffset;
 
     public override void Load()
     {
         if (Main.dedServ)
             return;
 
-        sheetSquareX = 200;
-        sheetSquareY = 300;
-
-        PlayerIndexLookup = new Dictionary<int, int>();
-        prevNumPlayers = -1;
-
-        Main.QueueMainThreadAction(() => Target = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight));
+        Main.OnResolutionChanged += InitializeRT;
+        Main.RunOnMainThread(() =>
+        {
+            Target = new(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+            ScaleTarget = new(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+        });
 
         On_Main.CheckMonoliths += DrawTargets;
-        On_Lighting.GetColor_int_int += getColorOverride;
-        On_Lighting.GetColor_Point += getColorOverride;
-        On_Lighting.GetColor_int_int_Color += getColorOverride;
-        On_Lighting.GetColor_Point_Color += GetColorOverride;
-        On_Lighting.GetColorClamped += GetColorOverride;
+        On_LegacyPlayerRenderer.DrawPlayerInternal += OnDrawPlayer;
     }
 
-    private Color GetColorOverride(On_Lighting.orig_GetColorClamped orig, int x, int y, Color oldColor)
+    private void OnDrawPlayer(On_LegacyPlayerRenderer.orig_DrawPlayerInternal orig, LegacyPlayerRenderer self, Camera camera, Player drawPlayer, Vector2 position, float rotation, Vector2 rotationOrigin, float shadow, float alpha, float scale, bool headOnly)
     {
-        if (canUseTarget)
-            return orig.Invoke(x, y, oldColor);
+        if (drawPlayer.TryGetModPlayer(out ResizedPlayer resizedPlayer) && resizedPlayer.IsScaled && !DrawList.ContainsKey((drawPlayer.whoAmI, shadow)))
+        {
+            DrawList.Add((drawPlayer.whoAmI, shadow), () => orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly));
+        }
 
-        return orig.Invoke(x + (int)((oldPos.X - positionOffset.X) / 16), y + (int)((oldPos.Y - positionOffset.Y) / 16), oldColor);
+        else orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly);
+
     }
 
-    private Color GetColorOverride(On_Lighting.orig_GetColor_Point_Color orig, Point point, Color originalColor)
+    private static void InitializeRT(Vector2 obj)
     {
-        if (canUseTarget)
-            return orig.Invoke(point, originalColor);
+        if (Main.dedServ)
+        {
+            return;
+        }
+        Target?.Dispose();
+        ScaleTarget?.Dispose();
 
-        return orig.Invoke(new Point(point.X + (int)((oldPos.X - positionOffset.X) / 16), point.Y + (int)((oldPos.Y - positionOffset.Y) / 16)), originalColor);
-    }
+        GraphicsDevice gd = Main.instance.GraphicsDevice;
+        int width = Main.screenWidth;
+        int height = Main.screenHeight;
 
-    public Color getColorOverride(On_Lighting.orig_GetColor_Point orig, Point point)
-    {
-        if (canUseTarget)
-            return orig.Invoke(point);
-
-        return orig.Invoke(new Point(point.X + (int)((oldPos.X - positionOffset.X) / 16), point.Y + (int)((oldPos.Y - positionOffset.Y) / 16)));
-    }
-
-    public Color getColorOverride(On_Lighting.orig_GetColor_int_int orig, int x, int y)
-    {
-        if (canUseTarget)
-            return orig.Invoke(x, y);
-
-        return orig.Invoke(x + (int)((oldPos.X - positionOffset.X) / 16), y + (int)((oldPos.Y - positionOffset.Y) / 16));
-    }
-
-    public Color getColorOverride(On_Lighting.orig_GetColor_int_int_Color orig, int x, int y, Color c)
-    {
-        if (canUseTarget)
-            return orig.Invoke(x, y, c);
-
-        return orig.Invoke(x + (int)((oldPos.X - positionOffset.X) / 16), y + (int)((oldPos.Y - positionOffset.Y) / 16), c);
-    }
-
-    public static Rectangle getPlayerTargetSourceRectangle(int whoAmI)
-    {
-        if (PlayerIndexLookup.ContainsKey(whoAmI))
-            return new Rectangle(PlayerIndexLookup[whoAmI] * sheetSquareX, 0, sheetSquareX, sheetSquareY);
-
-        return Rectangle.Empty;
-    }
-
-    /// <summary>
-    /// gets the whoAmI's Player's renderTarget and returns a Vector2 that represents the rendertarget's position overlapping with the Player's position in terms of screen coordinates
-    /// comes preshifted for reverse gravity
-    /// </summary>
-    /// <param name="whoAmI"></param>
-    /// <returns></returns>
-    public static Vector2 getPlayerTargetPosition(int whoAmI)
-    {
-        Vector2 gravPosition = Main.ReverseGravitySupport(Main.player[whoAmI].position - Main.screenPosition);
-        return gravPosition - new Vector2(sheetSquareX / 2, sheetSquareY / 2);
+        Target = new(gd, width, height);
+        ScaleTarget = new(gd, width, height);
     }
 
     private void DrawTargets(On_Main.orig_CheckMonoliths orig)
     {
         orig();
 
-        if (Main.gameMenu)
+        if (Main.gameMenu || DrawList.Count == 0)
             return;
 
         if (Main.player.Any(n => n.active))
@@ -279,81 +224,53 @@ public class PlayerRenderTarget : ModSystem
             return;
     }
 
-    public static Vector2 getPositionOffset(int whoAmI)
-    {
-        if (PlayerIndexLookup.ContainsKey(whoAmI))
-            return new Vector2(PlayerIndexLookup[whoAmI] * sheetSquareX + sheetSquareX / 2, sheetSquareY / 2);
-
-        return Vector2.Zero;
-    }
-
     private void DrawPlayerTarget()
     {
-        int activePlayerCount = Main.player.Count(n => n.active);
-
-        if (activePlayerCount != prevNumPlayers)
-        {
-            prevNumPlayers = activePlayerCount;
-
-            Target.Dispose();
-            Target = new RenderTarget2D(Main.graphics.GraphicsDevice, sheetSquareY * activePlayerCount, sheetSquareY);
-
-            int activeCount = 0;
-
-            for (int i = 0; i < Main.maxPlayers; i++)
-            {
-                if (Main.player[i].active)
-                {
-                    PlayerIndexLookup[i] = activeCount;
-                    activeCount++;
-                }
-            }
-        }
-
         RenderTargetBinding[] oldtargets2 = Main.graphics.GraphicsDevice.GetRenderTargets();
         canUseTarget = false;
 
-        Main.graphics.GraphicsDevice.SetRenderTarget(Target);
-        Main.graphics.GraphicsDevice.Clear(Color.Transparent);
-
-        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
 
         for (int i = 0; i < Main.maxPlayers; i++)
         {
             Player player = Main.player[i];
+            if (!player.active || player.dye.Length <= 0 || !DrawList.Any(m => m.Key.who == i))
+                continue;
 
-            if (player.active && player.dye.Length > 0)
+            Main.graphics.GraphicsDevice.SetRenderTarget(ScaleTarget);
+            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+
+            player.ResetPlayerSize();
+            var scale = player.GetModPlayer<ResizedPlayer>().Scale;
+
+            while (DrawList.Any(m => m.Key.who == i))
             {
-                oldPos = player.position;
-                oldCenter = player.Center;
-                oldMountedCenter = player.MountedCenter;
-                oldScreen = Main.screenPosition;
-                oldItemLocation = player.itemLocation;
-                int oldHeldProj = player.heldProj;
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
 
-                //temp change Player's actual position to lock into their frame
-                player.ResetPlayerSize();
-                positionOffset = getPositionOffset(i) + new Vector2(player.width * (player.GetModPlayer<ResizedPlayerUtils.ResizedPlayer>().Scale - 1f), 0);
-                player.position = positionOffset;
-                player.Center = oldCenter - oldPos + positionOffset;
-                player.itemLocation = new Vector2(-300);
-                player.MountedCenter = oldMountedCenter - oldPos + positionOffset;
-                player.heldProj = -1;
-                Main.screenPosition = Vector2.Zero;
+                var draw = DrawList.First(m => m.Key.who == i);
 
-                Main.PlayerRenderer.DrawPlayer(Main.Camera, player, player.position, player.fullRotation, player.fullRotationOrigin, 0f);
+                draw.Value.Invoke();
 
-                player.ApplyPlayerSize(player.GetModPlayer<ResizedPlayerUtils.ResizedPlayer>().Scale);
-                player.position = oldPos;
-                player.Center = oldCenter;
-                Main.screenPosition = oldScreen;
-                player.itemLocation = oldItemLocation;
-                player.MountedCenter = oldMountedCenter;
-                player.heldProj = oldHeldProj;
+                DrawList.Remove(draw.Key);
+                //Main.PlayerRenderer.DrawPlayer(Main.Camera, player, player.position, player.fullRotation, player.fullRotationOrigin);
+
+
+                Main.spriteBatch.End();
+
+
+                Main.graphics.GraphicsDevice.SetRenderTarget(Target);
+                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
+
+                Main.spriteBatch.Draw(ScaleTarget, player.Center - Main.screenPosition, null, Color.White, 0, player.Center - Main.screenPosition, scale, SpriteEffects.None, 0);
+
+                Main.spriteBatch.End();
+
             }
+            player.ApplyPlayerSize(scale);
         }
 
-        Main.spriteBatch.End();
 
         Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets2);
         canUseTarget = true;
