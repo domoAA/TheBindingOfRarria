@@ -12,6 +12,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Config;
 using TheBindingOfRarria.Common.Helpers;
+using TheBindingOfRarria.Common.Systems;
 using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
@@ -169,7 +170,8 @@ public class CrystalDashPlayer : ModPlayer
     public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
     {
         base.DrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
-        DrawCrystals();
+        if (drawInfo.shadow == 0)
+            DrawCrystals();
     }
 
     public bool CalculateCrystalPos(ref int i, int y, ref float rot, ref Vector2 pos)
