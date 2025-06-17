@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using Terraria.Localization;
+using Terraria.GameContent.ItemDropRules;
 
 namespace TheBindingOfRarria;
 
@@ -19,6 +20,8 @@ public class TheBindingOfRarria : Mod
 
     public static string recipeTemplate = "-->{{recipes/register\r\n|result=#name|amount=1\r\n|station=none}}<!--";
     public static string material = "\r\n|material|amount";
+    public static string dropBox = "{{mod sub-page}}<!--DO NOT REMOVE THIS LINE! It is required for Mod sub-pages to work properly.-->\r\n{{infobox wrapper\r\n|{{item infobox\r\n{{drop infobox\r\n|}}";
+    public static string drop = "\r\n| source | 1 | {{difficulty|chance}}";
     public static string itemPage = "{{mod sub-page}}<!--DO NOT REMOVE THIS LINE! It is required for Mod sub-pages to work properly.-->\r\n{{item infobox\r\n| type = Accessory\r\n| sell = {{value|p|g|s|c}}\r\n| stack = 1\r\n| rare = 0\r\n| tooltip = firstLine<br>\"flavor\"\r\n}}\r\n\r\n'''name''' is a [[Hardmode]] {{+|Accessories|accessory}} \r\n\r\n\r\n== Crafting ==\r\n=== Recipe ===\r\n{{recipes|result=#name}}\r\n\r\n\r\n== Notes ==\r\n{{*}} This item\r\n\r\n\r\n== Trivia ==\r\n* This item";
     
     public static void GetWikiItemAndRecipePages(IEnumerable<ModItem> items)
@@ -62,6 +65,27 @@ public class TheBindingOfRarria : Mod
             {
                 // drops here
 
+                var box = dropBox[dropBox.LastIndexOf("{{")..];
+                for (int t = 0; t < NPCID.Count - 1; t++) 
+                {
+                    var drops = Main.ItemDropsDB.GetRulesForNPCID(t);
+
+                    if (drops != null)
+                    {
+                        foreach (var d in drops) 
+                        {
+                            var r = d.ChainedRules.FirstOrDefault();
+                            var mast = d.ChainedRules.Find(cond => cond.RuleToChain == new Conditions.IsMasterMode());
+                            var exp = d.ChainedRules.Find(cond => cond.RuleToChain == new Conditions.IsExpert());
+
+                            r = mast ?? exp ?? r;
+                            var dif = mast != null ? "master|" : exp != null ? "expert|" : "";
+                            /* ts pmo
+                            var text = drop.Replace("source", NPCID.Search.GetName(t)).Replace("difficulty|", dif).Replace("chance", $"{r.}");
+                            box = box.Replace("\r\n|", )*/
+                        }
+                    }
+                } 
             }
 
             var value = item.Item.value;
