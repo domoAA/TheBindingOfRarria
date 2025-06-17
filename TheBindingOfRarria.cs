@@ -5,14 +5,90 @@ using System.IO;
 using TheBindingOfRarria.Content.Projectiles;
 using TheBindingOfRarria.Content.Items;
 using static TheBindingOfRarria.Common.Helpers.Helper;
-using System.Net.Sockets;
-using TheBindingOfRarria.Common.Systems;
+using System.Collections.Generic;
+using System.Linq;
+using System;
+using Terraria.Localization;
 
 namespace TheBindingOfRarria;
 
 public class TheBindingOfRarria : Mod
 {
-        // fine
+    public static List<string> ItemPages = new ();
+    public static List<string> RecipePages = new();
+
+    public static string recipeTemplate = "-->{{recipes/register\r\n|result=#name|amount=1\r\n|station=none}}<!--";
+    public static string material = "\r\n|material|amount";
+    public static string itemPage = "{{mod sub-page}}<!--DO NOT REMOVE THIS LINE! It is required for Mod sub-pages to work properly.-->\r\n{{item infobox\r\n| type = Accessory\r\n| sell = {{value|p|g|s|c}}\r\n| stack = 1\r\n| rare = 0\r\n| tooltip = firstLine<br>\"flavor\"\r\n}}\r\n\r\n'''name''' is a [[Hardmode]] {{+|Accessories|accessory}} \r\n\r\n\r\n== Crafting ==\r\n=== Recipe ===\r\n{{recipes|result=#name}}\r\n\r\n\r\n== Notes ==\r\n{{*}} This item\r\n\r\n\r\n== Trivia ==\r\n* This item";
+    
+    public static void GetWikiItemAndRecipePages(IEnumerable<ModItem> items)
+    {
+        foreach (var item in items)
+        {
+            var name = item.DisplayName.Value;
+            var pulledRecipe = Array.Find(Main.recipe, r => r.createItem.type == item.Type);
+            if (pulledRecipe != null)
+            {
+                //recipes here
+
+                var stations = "";
+                foreach (var st in pulledRecipe.requiredTile)
+                {
+                    var n = TileID.Search.GetName(st);
+                    for (int i = 0; i < n.Length - 2; i++)
+                    {
+                        if (!char.IsWhiteSpace(n[i]) && !char.IsWhiteSpace(n[i + 1]) && char.IsUpper(n[i + 1]) && char.IsLower(n[i]))
+                        {
+                            n = n[..(i + 1)] + " " + n[(i + 1)..];
+                            i++;
+                        }
+                    }
+                    stations += "\r\n|station=" + n;
+                }
+
+                var recipe = recipeTemplate.Replace("name", name).Replace("\r\n|station=none", stations);
+
+                var mat = "";
+                foreach (var m in pulledRecipe.requiredItem)
+                {
+                    mat += material.Replace("material", m.Name).Replace("amount", m.stack.ToString());
+                }
+                recipe = recipe[..recipe.IndexOf('}')] + mat + recipe[recipe.IndexOf('}')..];
+
+                recipe = recipe.Replace("\"", "");
+                RecipePages.Add(recipe);
+            }
+            else
+            {
+                // drops here
+
+            }
+
+            var value = item.Item.value;
+            var c = value % 100;
+            value = (value - c) / 100;
+            var s = value % 100;
+            value = (value - s) / 100;
+            var g = value % 100;
+            value = (value - g) / 100;
+            var p = value % 100;
+            value = (value - p) / 100;
+
+            var tooltip = item.Tooltip.Value;
+            var page = itemPage.Replace("name", name).Replace("p|g|s|c", $"{p}|{g}|{s}|{c}").Replace("rare = 0", $"rare = {item.Item.rare.ToString()}").Replace("firstLine", tooltip[..tooltip.LastIndexOf("\n")].Replace("\n", "<br>\n")).Replace("flavor", tooltip[tooltip.LastIndexOf("\n")..]);
+
+            page = page.Replace("\"", "");
+
+            ItemPages.Add(page);
+        }
+    }
+    public override void PostAddRecipes()
+    {
+        GetWikiItemAndRecipePages(GetContent<ModItem>());
+    }
+
+
+    // fine
     public enum PacketTypes : int
     {
         ProjectileReflect,
