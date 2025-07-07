@@ -1,3 +1,0 @@
-displayName = The Binding of Rarria
-author = KainSett (and ADHD), Domo
-version = 0.2
