@@ -6,7 +6,7 @@ using TheBindingOfRarria.Common.Registries;
 
 namespace TheBindingOfRarria.Content.Items;
 
-public class WheelOfHarmony : ModItem
+/*public class WheelOfHarmony : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
 
@@ -108,4 +108,4 @@ public class MakoraPlayer : ModPlayer
 
         }
     }
-}
+}*/

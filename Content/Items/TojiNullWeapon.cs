@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Buffs;
@@ -25,8 +26,8 @@ public class TojiNullWeapon : ModItem
         if (player.GetModPlayer<TojiNullPlayer>().counter <= 0)
             player.GetModPlayer<TojiNullPlayer>().CanNullify = true;
 
-        if (player.GetModPlayer<TojiNullPlayer>().counter > 0)
-            player.AddBuff(ModContent.BuffType<TojiNullDebuff_CD>(), player.GetModPlayer<TojiNullPlayer>().counter);
+        if (player.GetModPlayer<TojiNullPlayer>().counter == 0)
+            SoundEngine.PlaySound(SoundID.MaxMana);
     }
 
     public override void AddRecipes()
@@ -48,9 +49,6 @@ public class TojiNullPlayer : ModPlayer
 
     public override void ResetEffects()
     {
-        if ((!CanNullify || counter <= 0) && Player.HasBuff(ModContent.BuffType<TojiNullDebuff_CD>()))
-            Player.ClearBuff(ModContent.BuffType<TojiNullDebuff_CD>());
-
         CanNullify = false;
     }
 

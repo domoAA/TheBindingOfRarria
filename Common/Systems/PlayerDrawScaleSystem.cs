@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 using ReLogic.Peripherals.RGB;
 using Terraria;
 using Terraria.DataStructures;
@@ -15,13 +16,13 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using TheBindingOfRarria.Common.Helpers;
 using static TheBindingOfRarria.Common.Systems.PixellationSystem;
-using static TheBindingOfRarria.Common.Systems.ResizedPlayerUtils;
+//using static TheBindingOfRarria.Common.Systems.ResizedPlayerUtils;
 
 namespace TheBindingOfRarria.Common.Systems;
 
 // Thanks davidfdev for allowing me to use his implementation for inspiration, though I did change it some
 // the original that Dave, and by extension myself, based our implementations on: https://github.com/NotLe0n/Creativetools/blob/1.4.4/src/Tools/Modify/ModifyPlayer.cs
-public static class ResizedPlayerUtils
+/*public static class ResizedPlayerUtils
 {
     #region Static Methods
     public static void ResetPlayerSize(this Player player)
@@ -144,19 +145,19 @@ public static class ResizedPlayerUtils
         }
         #endregion
     }
-}
+}*/
 /*
 	Based on https://github.com/ProjectStarlight/StarlightRiver/blob/fb35df83489a4d840271e946ba38448037fe7cc6/Content/CustomHooks/Visuals.PlayerTarget.cs
     Mostly rewritten though
  */
 
-public class PlayerRenderTarget : ModSystem
+/*public class PlayerRenderTarget : ModSystem
 {
     public static RenderTarget2D Target;
 
     private static RenderTarget2D ScaleTarget;
 
-    private static Dictionary<(int who, float shadow, Vector2 pos), Action> DrawList = new();
+    private static Dictionary<(int who, float shadow), Action> DrawList = new();
 
     public static bool canUseTarget = false;
 
@@ -173,10 +174,20 @@ public class PlayerRenderTarget : ModSystem
         });
 
         On_Main.CheckMonoliths += DrawTargets;
-        On_LegacyPlayerRenderer.DrawPlayerInternal += OnDrawPlayer;
+        On_LegacyPlayerRenderer.DrawPlayer += On_LegacyPlayerRenderer_DrawPlayer;
     }
 
-    private void OnDrawPlayer(On_LegacyPlayerRenderer.orig_DrawPlayerInternal orig, LegacyPlayerRenderer self, Camera camera, Player drawPlayer, Vector2 position, float rotation, Vector2 rotationOrigin, float shadow, float alpha, float scale, bool headOnly)
+    private void On_LegacyPlayerRenderer_DrawPlayer(On_LegacyPlayerRenderer.orig_DrawPlayer orig, LegacyPlayerRenderer self, Camera camera, Player drawPlayer, Vector2 position, float rotation, Vector2 rotationOrigin, float shadow, float scale)
+    {
+        if (drawPlayer.TryGetModPlayer(out ResizedPlayer resizedPlayer) && resizedPlayer.IsScaled && !DrawList.Any(e => e.Key == (drawPlayer.whoAmI, shadow)))
+        {
+            DrawList.Add((drawPlayer.whoAmI, shadow), () => orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, scale));
+        }
+
+        else orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, scale);
+    }
+
+    /*private void OnDrawPlayer(On_LegacyPlayerRenderer.orig_DrawPlayerInternal orig, LegacyPlayerRenderer self, Camera camera, Player drawPlayer, Vector2 position, float rotation, Vector2 rotationOrigin, float shadow, float alpha, float scale, bool headOnly)
     {
         if (drawPlayer.TryGetModPlayer(out ResizedPlayer resizedPlayer) && resizedPlayer.IsScaled && !DrawList.Any(e => e.Key.shadow == shadow && e.Key.who == drawPlayer.whoAmI))
         {
@@ -185,9 +196,9 @@ public class PlayerRenderTarget : ModSystem
 
         else orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly);
 
-    }
+    }*/
 
-    private static void InitializeRT(Vector2 obj)
+    /*private static void InitializeRT(Vector2 obj)
     {
         if (Main.dedServ)
         {
@@ -240,7 +251,7 @@ public class PlayerRenderTarget : ModSystem
             {
                 player.ResetPlayerSize();
 
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
+                //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
 
                 var draw = DrawList.First(m => m.Key.who == i);
 
@@ -250,7 +261,7 @@ public class PlayerRenderTarget : ModSystem
                 //Main.PlayerRenderer.DrawPlayer(Main.Camera, player, player.position, player.fullRotation, player.fullRotationOrigin);
 
 
-                Main.spriteBatch.End();
+                //Main.spriteBatch.End();
 
 
                 Main.graphics.GraphicsDevice.SetRenderTarget(Target);
@@ -260,11 +271,10 @@ public class PlayerRenderTarget : ModSystem
 
                 player.ApplyPlayerSize(scale);
                 var center = player.position - Main.screenPosition;
-                var e = draw.Key.pos - Main.screenPosition;
                 player.ResetPlayerSize();
 
 
-                Main.spriteBatch.Draw(ScaleTarget, center - new Vector2(0, player.gfxOffY * scale), null, Color.White, 0, e, scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ScaleTarget, center - new Vector2(0, player.gfxOffY * scale), null, Color.White, 0, center, scale, SpriteEffects.None, 0);
 
                 Main.spriteBatch.End();
 
@@ -278,4 +288,4 @@ public class PlayerRenderTarget : ModSystem
 
 
     }
-}
+}*/

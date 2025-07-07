@@ -30,9 +30,10 @@ public class BrokenWatch : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
+        if (player.GetModPlayer<ZaWardoPlayer>().counter == 0)
+            SoundEngine.PlaySound(SoundID.MaxMana);
+
         player.GetModPlayer<ZaWardoPlayer>().counter--;
-        if (player.GetModPlayer<ZaWardoPlayer>().counter > 0)
-            player.AddBuff(ModContent.BuffType<BrokenWatch_CD>(), player.GetModPlayer<ZaWardoPlayer>().counter);
 
         player.GetModPlayer<ZaWardoPlayer>().ZaWardo = true;
     }
@@ -71,9 +72,6 @@ public class ZaWardoPlayer : ModPlayer
 
     public override void ResetEffects()
     {
-        if ((!ZaWardo || counter <= 0) && Player.HasBuff(ModContent.BuffType<BrokenWatch_CD>()))
-            Player.ClearBuff(ModContent.BuffType<BrokenWatch_CD>());
-
         ZaWardo = false;
     }
 

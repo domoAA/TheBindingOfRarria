@@ -6,7 +6,7 @@ using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Content.Items;
 
-public class MagicMushroom : ModItem
+/*public class MagicMushroom : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
 
@@ -75,4 +75,4 @@ public class RedMushItemNPCShop : GlobalNPC
            shop.Add(new Item(ModContent.ItemType<MagicMushroom>()), Condition.InMasterMode);
         }
     }
-}
+}*/

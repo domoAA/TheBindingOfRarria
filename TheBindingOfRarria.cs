@@ -10,6 +10,7 @@ using System.Linq;
 using System;
 using Terraria.Localization;
 using Terraria.GameContent.ItemDropRules;
+using Newtonsoft.Json.Linq;
 
 namespace TheBindingOfRarria;
 
@@ -23,7 +24,7 @@ public class TheBindingOfRarria : Mod
     public static string dropBox = "{{mod sub-page}}<!--DO NOT REMOVE THIS LINE! It is required for Mod sub-pages to work properly.-->\r\n{{infobox wrapper\r\n|{{item infobox\r\n{{drop infobox\r\n|}}";
     public static string drop = "\r\n| source | 1 | {{difficulty|chance}}";
     public static string itemPage = "{{mod sub-page}}<!--DO NOT REMOVE THIS LINE! It is required for Mod sub-pages to work properly.-->\r\n{{item infobox\r\n| type = Accessory\r\n| sell = {{value|p|g|s|c}}\r\n| stack = 1\r\n| rare = 0\r\n| tooltip = firstLine<br>\"flavor\"\r\n}}\r\n\r\n'''name''' is a [[Hardmode]] {{+|Accessories|accessory}} \r\n\r\n\r\n== Crafting ==\r\n=== Recipe ===\r\n{{recipes|result=#name}}\r\n\r\n\r\n== Notes ==\r\n{{*}} This item\r\n\r\n\r\n== Trivia ==\r\n* This item";
-    
+
     public static void GetWikiItemAndRecipePages(IEnumerable<ModItem> items)
     {
         foreach (var item in items)
@@ -61,32 +62,49 @@ public class TheBindingOfRarria : Mod
                 recipe = recipe.Replace("\"", "");
                 RecipePages.Add(recipe);
             }
-            else
+            /*else 
             {
                 // drops here
 
+                var start = dropBox[..dropBox.IndexOf('|')];
                 var box = dropBox[dropBox.LastIndexOf("{{")..];
-                for (int t = 0; t < NPCID.Count - 1; t++) 
+
+                for (int t = 0; t < NPCID.Count - 1; t++)
                 {
                     var drops = Main.ItemDropsDB.GetRulesForNPCID(t);
 
                     if (drops != null)
                     {
-                        foreach (var d in drops) 
+                        foreach (var d in drops)
                         {
                             var r = d.ChainedRules.FirstOrDefault();
                             var mast = d.ChainedRules.Find(cond => cond.RuleToChain == new Conditions.IsMasterMode());
                             var exp = d.ChainedRules.Find(cond => cond.RuleToChain == new Conditions.IsExpert());
 
                             r = mast ?? exp ?? r;
+                            if (r == null)
+                                continue;
+
                             var dif = mast != null ? "master|" : exp != null ? "expert|" : "";
-                            /* ts pmo
-                            var text = drop.Replace("source", NPCID.Search.GetName(t)).Replace("difficulty|", dif).Replace("chance", $"{r.}");
-                            box = box.Replace("\r\n|", )*/
+
+                            var n = NPCID.Search.GetName(t);
+                            for (int i = 0; i < n.Length - 2; i++)
+                            {
+                                if (!char.IsWhiteSpace(n[i]) && !char.IsWhiteSpace(n[i + 1]) && char.IsUpper(n[i + 1]) && char.IsLower(n[i]))
+                                {
+                                    n = n[..(i + 1)] + " " + n[(i + 1)..];
+                                    i++;
+                                }
+                            }
+
+                            var text = drop.Replace("source", n).Replace("difficulty|", dif);
+                            box = box.Replace("\r\n|", text);
                         }
                     }
-                } 
-            }
+                }
+
+            itemPage = itemPage.Replace(itemPage[..itemPage.IndexOf("\r\n{{")], start).Replace("'''", box + "'''");
+            }*/
 
             var value = item.Item.value;
             var c = value % 100;
@@ -99,6 +117,9 @@ public class TheBindingOfRarria : Mod
             value = (value - p) / 100;
 
             var tooltip = item.Tooltip.Value;
+            if (tooltip == "" || !tooltip.Contains("\n"))
+                continue;
+
             var page = itemPage.Replace("name", name).Replace("p|g|s|c", $"{p}|{g}|{s}|{c}").Replace("rare = 0", $"rare = {item.Item.rare.ToString()}").Replace("firstLine", tooltip[..tooltip.LastIndexOf("\n")].Replace("\n", "<br>\n")).Replace("flavor", tooltip[tooltip.LastIndexOf("\n")..]);
 
             page = page.Replace("\"", "");
@@ -108,7 +129,7 @@ public class TheBindingOfRarria : Mod
     }
     public override void PostAddRecipes()
     {
-        GetWikiItemAndRecipePages(GetContent<ModItem>());
+        //GetWikiItemAndRecipePages(GetContent<ModItem>());
     }
 
 

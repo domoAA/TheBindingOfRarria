@@ -17,7 +17,7 @@ using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
 
-public class CrystalHeart : ModItem
+/*public class CrystalHeart : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
 
@@ -243,4 +243,4 @@ public class CrystalDashPlayer : ModPlayer
             }
         }
     }
-}
+}*/

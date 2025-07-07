@@ -9,7 +9,7 @@ using TheBindingOfRarria.Content.Items;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
-public class CrystalDashTrail : ModProjectile
+/*public class CrystalDashTrail : ModProjectile
 {
     public override string Texture => ContentPath + "Projectiles/" + Name;
 
@@ -82,4 +82,4 @@ public class CrystalDashTrail : ModProjectile
     public override bool ShouldUpdatePosition() => false;
 
     public override bool PreDraw(ref Color lightColor) => false;
-}
+}*/
