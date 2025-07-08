@@ -1,0 +1,894 @@
+Items: {
+	BrokenAnkh: {
+		DisplayName: Broken Ankh
+		Tooltip:
+			'''
+			With 22.22% chance, you will suvrive a fatal hit with 100 health
+			'Eternal life?'
+			'''
+	}
+
+	Ankh: {
+		DisplayName: Ankh
+		Tooltip:
+			'''
+			You will survive a fatal hit with half health
+			Cooldown: 1 minute
+			'Eternal life'
+			'''
+	}
+
+	FallingBlossomEmotion: {
+		DisplayName: Falling Blossom Emotion
+		Tooltip:
+			'''
+			Grants a {0} chance to dodge attacks
+			The chance scales with movement speed bonuses
+			'Contains traces of a secret anti-domain technique'
+			'''
+	}
+
+	ArmorConversion: {
+		DisplayName: Armor Conversion
+		Tooltip:
+			'''
+			+80 max life
+			Reduces defense by 8
+			You regenerate additional 2 hp/s
+			'Literally too healthy to die'
+			'''
+	}
+
+	MedicalIceBag: {
+		DisplayName: Medical Ice Bag
+		Tooltip:
+			'''
+			On Fire! and Poison get converted to buffs
+			Reduces the duration of debuffs on you by 20%
+			'Makes you feel cooler'
+			'''
+	}
+
+	Mardroeme: {
+		DisplayName: Mardroeme
+		Tooltip:
+			'''
+			Deals 50 damage on use, and the healing is delayed
+			'Eat enough of them, and the world will never be the same...'
+			'''
+	}
+
+	PhantomPopper: {
+		DisplayName: Phantom Popper
+		Tooltip:
+			'''
+			Your magic projectiles split into homing missiles
+			'Just a little bit of projectile spam'
+			'''
+	}
+
+	ValiantArmor: {
+		DisplayName: Valiant Armor
+		Tooltip:
+			'''
+			+50 max life
+			+10% damage reduction
+			Enemies are more likely to target you
+			'Resilience befitting of a hero'
+			'''
+	}
+
+	CursedChain: {
+		DisplayName: Cursed Chain
+		Tooltip:
+			'''
+			Damage taken is increased by 50%
+			You heal for 50% of damage taken over 6 seconds
+			'Calculated risk'
+			'''
+	}
+
+	ButtonBomb: {
+		DisplayName: Button Bomb
+		Tooltip:
+			'''
+			Your projectiles leave a button bomb on the enemy
+			'A little bit of tomfoolery'
+			'''
+	}
+
+	AfterimageMirror: {
+		DisplayName: Afterimage Mirror
+		Tooltip:
+			'''
+			Grants a 16% chance to reflect projectiles
+			'Reflect (on) your mistakes'
+			'''
+	}
+
+	GolemsHeart: {
+		DisplayName: Golem's Heart
+		Tooltip:
+			'''
+			Grants a repelling aura
+			'It's still beating?'
+			'''
+	}
+
+	SlippedRib: {
+		DisplayName: Slipped Rib
+		Tooltip:
+			'''
+			You gain a bone that orbits you and reflects projectiles
+			'Does the identity of its previous owner matter?'
+			'''
+	}
+
+	Censer: {
+		DisplayName: Censer
+		Tooltip:
+			'''
+			Grants a slowing aura
+			'Slowpokes, all of them.'
+			'''
+	}
+
+	GodHead: {
+		DisplayName: God Head
+		Tooltip:
+			'''
+			Grants a halo that has a 12% chance to reflect projectiles
+			'A protective halo from dimensions unkown'
+			'''
+	}
+
+	DevilsTrumpet: {
+		DisplayName: Devil's Trumpet
+		Tooltip:
+			'''
+			Your attacks convert Poison on enemies into Venom
+			'No, not that Venom'
+			'''
+	}
+
+	FireBomb: {
+		DisplayName: Fire Bomb
+		Tooltip:
+			'''
+			Non-critical attacks set enemies on fire
+			Critical attacks against burning enemies make them explode
+			'Let's commit some arson!'
+			'''
+	}
+
+	SerpentsKiss: {
+		DisplayName: Serpent's Kiss
+		Tooltip:
+			'''
+			Your attacks apply poison on enemies
+			Enemies that attack you get poisoned
+			'Deadly love'
+			'''
+	}
+
+	SuspiciousLookingMask: {
+		DisplayName: Suspicious Looking Mask
+		Tooltip:
+			'''
+			Cuts down the duration of a debuff every 5 seconds you're afflicted with it
+			Shadow spirits attack enemies when you get hit
+			'What doesn't kill you, makes you... Crazier?'
+			'''
+	}
+
+	HiveBlood: {
+		DisplayName: Hive Blood
+		Tooltip:
+			'''
+			Grants Honey buff at all times
+			You heal for 10% of damage taken
+			'Respect existence or expect resistance'
+			'''
+	}
+
+	BrokenWatch: {
+		DisplayName: Broken Watch
+		Tooltip:
+			'''
+			Press {0} to slow down or speed up nearby projectiles and creatures
+			Cooldown: 20 seconds
+			'To never be late again...'
+			'''
+	}
+
+	RubberCement: {
+		DisplayName: Rubber Cement
+		Tooltip:
+			'''
+			Your projectiles become bouncy
+			'It tastes funny'
+			'''
+	}
+
+	SweetHeart: {
+		DisplayName: Sweet Heart
+		Tooltip:
+			'''
+			Grants lifesteal on your attacks
+			Reduces your life regeneration by 2 hp/s
+			'The guilt weighs heavier with each heartbeat'
+			'''
+	}
+
+	UdjatEye: {
+		DisplayName: Udjat Eye
+		Tooltip:
+			'''
+			Grants you the vision of traps and treasures
+			'Spelunky?'
+			'''
+	}
+
+	NightLight: {
+		DisplayName: Night Light
+		Tooltip:
+			'''
+			You emit a cone of light that slows enemies and projectiles
+			'Scared of the dark?'
+			'''
+	}
+
+	GeneSickle: {
+		DisplayName: Gene Sickle
+		Tooltip:
+			'''
+			You gain 1 max life every time you kill an enemy, up to 150
+			The bonus is reduced by 1 every 5 seconds
+			'Reap the fruits of evolution'
+			'''
+	}
+
+	GoodFruit: {
+		DisplayName: Good Fruit
+		Tooltip:
+			'''
+			Grants a food and happiness buffs at all times
+			'Yummers'
+			'''
+	}
+
+	ShamanStone: {
+		DisplayName: Shaman Stone
+		Tooltip:
+			'''
+			Increases magic damage by 10%
+			Increases size of your magic projectiles
+			'Said to contain the knowledge of past generations of shaman'
+			'''
+	}
+
+	CarefreeMelody: {
+		DisplayName: Carefree Melody
+		Tooltip:
+			'''
+			You dodge every 6th attack
+			'Contains a song of protection'
+			'''
+	}
+
+	TitanicHydra: {
+		DisplayName: Titanic Hydra
+		Tooltip:
+			'''
+			+60 max life 
+			Your attacks cause a shockwave that deals {0} [c/90ee90:(20% of your maximum life)] damage every 6 seconds
+			'Titanic might too great to control'
+			'''
+	}
+
+	TinyPlanet: {
+		DisplayName: Tiny Planet
+		Tooltip:
+			'''
+			Your projectiles orbit you
+			Orbiting projectiles deal 15% less damage
+			'Technically a celestial body'
+			'''
+	}
+
+	WeaverSong: {
+		DisplayName: Weaver Song
+		Tooltip:
+			'''
+			+2 max minions
+			Minions' hits slow enemies down
+			'Silken charm containing a song of farewell'
+			'''
+	}
+
+	TheLastFinger: {
+		DisplayName: The Last Finger
+		Tooltip:
+			'''
+			+100 max mana
+			Nearby enemies are constantly slashed
+			Enemies are less likely to target you
+			'Now his remains serve to protect the weak, how ironic'
+			'''
+	}
+
+	HolyMantle: {
+		DisplayName: Holy Mantle
+		Tooltip:
+			'''
+			Gain immunity to damage for the next hit
+			Cooldown: 1 minute
+			'Holy shield'
+			'''
+	}
+
+	CobaltBulletShell: {
+		DisplayName: Cobalt Bullet Shell
+		Tooltip:
+			'''
+			Your bullets magnetize enemies, making them attract projectiles
+			'It is impractical, they said'
+			'''
+	}
+
+	DeepFocus: {
+		DisplayName: Deep Focus
+		Tooltip:
+			'''
+			Healing potions heal twice the amount, but give a 20% longer potion sickness
+			'Contains some strange power deep within...'
+			'''
+	}
+
+	GoldenCape: {
+		DisplayName: Golden Cape
+		Tooltip:
+			'''
+			Grants immunity to fall damage, naturally occuring traps and similar hazards
+			'It doesn't make sense but I love it'
+			'''
+	}
+
+	SoulCatcher: {
+		DisplayName: Soul Catcher
+		Tooltip:
+			'''
+			Your melee swings recover 9 mana on hit
+			'Forgotten shaman artifact, used to draw soul from still-living creatures'
+			'''
+	}
+
+	LoupesForWeakness: {
+		DisplayName: Loupes For Weakness
+		Tooltip:
+			'''
+			Your attacks ignore 1/4 of enemy's defense
+			'7:3 ratio is where a weakness lies'
+			'''
+	}
+
+	PaleOre: {
+		DisplayName: Pale Ore
+		Tooltip: Rare, pale metal that emanates an icy chill
+	}
+
+	HornOfTheRoundDeer: {
+		DisplayName: Horn of The Round Deer
+		Tooltip:
+			'''
+			Upon falling below 33% life, you gain rapid life regeneration
+			Cooldown: 1 minute
+			'Born from shadows, sacrificed to kill a god'
+			'''
+	}
+
+	PhoenixKunai: {
+		DisplayName: Phoenix Kunai
+		Tooltip:
+			'''
+			You throw a kunai every 3rd shot
+			'It is not the weapon, YOU are the weapon'
+			'''
+	}
+
+	WheelOfHarmony: {
+		DisplayName: Wheel of Harmony
+		Tooltip:
+			'''
+			You heal for 1/2 of an attack's damage after getting hit by it 2 times in a row
+			'The ability to adapt to any and all phenomena'
+			'''
+	}
+
+	AdamantineTalisman: {
+		DisplayName: Adamantine Talisman
+		Tooltip:
+			'''
+			Damage for hits against you is always rolled in your favour
+			'Shift the statistics'
+			'''
+	}
+
+	WoodenDice: {
+		DisplayName: Lucky Dice
+		Tooltip:
+			'''
+			Damage for hits against you is rolled an additional time, and the damage is set to the lower result
+			'The difference between no luck and max luck'
+			'''
+	}
+
+	TojiNullWeapon: {
+		DisplayName: Inverted Spear of Heaven
+		Tooltip:
+			'''
+			Your melee swings temporarily nullify enemy's contact damage on hit
+			Cooldown: 15 seconds
+			'Would it work on Mahoraga though...'
+			'''
+	}
+
+	CullingBlade: {
+		DisplayName: Culling Blade
+		Tooltip:
+			'''
+			Your attacks heal you and drop coins on hit
+			'Cool... Cull?'
+			'''
+	}
+
+	SanguineGift: {
+		DisplayName: Sanguine Gift
+		Tooltip:
+			'''
+			Stores 20% of damage taken
+			When stored damage exceeds {0} [c/90ee90:(10% of your maximum life)], you are healed for the amount stored
+			The healing is shared with a teammate if one is nearby
+			Current stored damage: {1}
+			'Bound by blood'
+			'''
+	}
+
+	UnendingDespair: {
+		DisplayName: Unending Despair
+		Tooltip:
+			'''
+			Drains life from up to 4 nearby enemies, dealing {0} [c/90ee90:(10% of your maximum life)] magic damage
+			You heal for 20% of the damage dealt by this item
+			'Waiter! More healing please'
+			'''
+	}
+
+	CursedBlood: {
+		DisplayName: Cursed Blood
+		Tooltip:
+			'''
+			Press {0} to start bleeding
+			Press it again to cancel the bleed
+			Temporarily grants defense for the health you lose to the bleed
+			Cooldown: 20 seconds
+			'A sacrifice made to protect'
+			'''
+	}
+
+	AbsorbingLiquid: {
+		DisplayName: Absorbing Liquid
+		Tooltip:
+			'''
+			Press {0} shortly after taking a hit to heal for 1/2 of the damage taken
+			Cooldown: 20 seconds
+			'Some say tattoos made with this hold great power...'
+			'''
+	}
+
+	DoransShield: {
+		DisplayName: Doran's Shield
+		Tooltip:
+			'''
+			You regenerate 1% of your missing health every second
+			'A great choice if you're up against a ranged opponent'
+			'''
+	}
+
+	CrystalHeart: {
+		DisplayName: Crystal Heart
+		Tooltip:
+			'''
+			Hold {0} to charge up an infinite horizontal dash
+			'The energy core used in old mining golems'
+			'''
+	}
+
+	DivergentsFist: {
+		DisplayName: Divergent's Fist
+		Tooltip:
+			'''
+			Your melee swings deliver a follow-up hit after a delay
+			'One step closer to hitting a black flash'
+			'''
+	}
+
+	SlasherHalberd: {
+		DisplayName: Broken Slasher Halberd
+		Tooltip:
+			'''
+			When your melee swing hits an enemy, another nearby enemy is slashed
+			'It's like Muramasa, except it's not'
+			'''
+	}
+
+	ToothAndNail: {
+		DisplayName: Tooth and Nail
+		Tooltip:
+			'''
+			Taking a hit makes you shoot out nails
+			With a 10% chance, you will be encased in a protective boulder instead
+			'You feel prickly'
+			'''
+	}
+
+	BerserkersPauldron: {
+		DisplayName: Berserker's Pauldron
+		Tooltip:
+			'''
+			Killing a few enemies in a short time grants 25% increased damage for 6 seconds
+			'Of course, it's just speculation, but...'
+			'''
+	}
+
+	BrilliantBehemoth: {
+		DisplayName: Brilliant Behemoth
+		Tooltip:
+			'''
+			Hitting an enemy damages surrounding enemies with an explosion
+			'I mean, nobody wants to be blown up, right?'
+			'''
+	}
+
+	FishTank: {
+		DisplayName: Fish Tank
+		Tooltip:
+			'''
+			You throw out a flopping fish every time you dash
+			'Fishious dashes'
+			'''
+	}
+
+	FocusCrystal: {
+		DisplayName: Focus Crystal
+		Tooltip:
+			'''
+			You deal 20% increased damage to enemies that are close to you
+			'..and so it left, with delusions of freedom.'
+			'''
+	}
+
+	FunnyFish: {
+		DisplayName: Funny Fish
+		Tooltip:
+			'''
+			You shoot fish instead of bullets
+			'Don't cry, I am just a FISH'
+			'''
+	}
+
+	Sihil: {
+		DisplayName: Sihil
+		Tooltip:
+			'''
+			Killing an enemy grants you a potion buff
+			'What's written on this blade? That a curse?'
+			'No. An insult.'
+			'''
+	}
+
+	PetriciteCuffs: {
+		DisplayName: Petricite Cuffs
+		Tooltip:
+			'''
+			Consumes your mana to block {0}% of damage taken from attacks
+			The amount of damage blocked scales with your magic damage bonuses
+			'They can absorb magic for centuries, but... Where does the limit lie?'
+			'''
+	}
+
+	CryptBloom: {
+		DisplayName: Crypt Bloom
+		Tooltip:
+			'''
+			Every 10th enemy death nearby creates a healing aura
+			'From death, life'
+			'''
+	}
+
+	DarkArts: {
+		DisplayName: Dark Arts
+		Tooltip:
+			'''
+			Gain the ability to use a shadow dash, during which you are invulnerable
+			'One with the shadows'
+			'''
+	}
+
+	GirdleOfGiantStrength: {
+		DisplayName: Girdle of Giant Strength
+		Tooltip:
+			'''
+			1/2 of your healing temporarily increases your max life
+			'Clearly crafted for a titan, yet inexplicably fits anyone who tries it on'
+			'''
+	}
+
+	NecromancersTome: {
+		DisplayName: Necromancer's Tome
+		Tooltip:
+			'''
+			Summons 2 minions you haven't already summoned at no cost
+			Only summons minions you possess the summoning item for
+			'Wouldn't wanna touch that if I were you'
+			'''
+	}
+
+	DivingHelm: {
+		Tooltip:
+			'''
+			+40 max life
+			'Still works'
+			'''
+		SetBonus:
+			'''
+			Greatly extends underwater breathing and grants immunity to suffocation
+			Grants a chance to increase catch quality when fishing
+			'''
+	}
+
+	DivingGreaves: {
+		DisplayName: Diving Greaves
+		Tooltip:
+			'''
+			+30 max life
+			'They're uncomfortably dry'
+			'''
+	}
+
+	DivingPlating: {
+		DisplayName: Diving Plating
+		Tooltip:
+			'''
+			+30 max life
+			'Now you feel like a real creature of the sea'
+			'''
+	}
+
+	MoltenShield: {
+		DisplayName: Molten Shield
+		Tooltip:
+			'''
+			When above 50% life, your defense blocks 10% more damage 
+			Current defense effectiveness: {0}
+			'It's still sturdy, somehow?'
+			'''
+	}
+
+	Sangreal: {
+		DisplayName: Sangreal
+		Tooltip:
+			'''
+			Press {0} to gain 150 temporary max life
+			When the effect runs out, you take damage double of temporary life left
+			Cooldown: 45 seconds
+			'The prized, oaky flavor of Sangreal is a noble privilege. Can you handle it?'
+			'''
+		DeathMessage: "{0} couldn't handle the power of noble alcohol"
+	}
+
+	YghernScale: {
+		DisplayName: Yghern's Scale
+		Tooltip:
+			'''
+			Reduces damage of the next 2 hits you take to {0} [c/90ee90:(10% of your max life)]
+			'You don't want to find out to whom those scales belonged to'
+			'''
+	}
+
+	PiercingMissile: {
+		DisplayName: Piercing Missile
+		Tooltip:
+			'''
+			Your projectiles gain +8 armor penetration if they can hit more than 1 enemy
+			'There's no armor that can't be pierced'
+			'''
+	}
+
+	MagicMushroom: {
+		DisplayName: Magic Mushroom
+		Tooltip:
+			'''
+			+10% max life
+			1.1x damage multiplier
+			Increased physical size and shooting velocity
+			'Big chungus'
+			'''
+	}
+
+	TheLastOffering: {
+		DisplayName: The Last Offering
+		Tooltip:
+			'''
+			You shoot out a homing missile when an enemy dies nearby
+			'Hopefully this one satisfies thy cruelty'
+			'''
+	}
+
+	WoodOMask: {
+		DisplayName: Wood O' Mask
+		Tooltip:
+			'''
+			+1 max minions
+			Every time a nearby enemy is inflicted with a new debuff, all your minions shoot homing missiles
+			'Unsettlingly familiar'
+			'''
+	}
+
+	VesselMask0: {
+		DisplayName: Vessel Mask
+		Tooltip: ""
+	}
+
+	VesselMask1: {
+		DisplayName: Vessel Mask
+		Tooltip: ""
+	}
+}
+
+Buffs: {
+	AnubisCurse: {
+		Description: Reduced life regeneration by 1 hp/s
+		DisplayName: Anubis's Curse
+	}
+
+	FireImmunity: {
+		DisplayName: Cool Resilience
+		Description: Gain 10% damage reduction
+	}
+
+	PoisonImmunity: {
+		DisplayName: Cool Vitality
+		Description: Increased life regeneration by 2 hp/s
+	}
+
+	HolyProtection: {
+		DisplayName: Holy Protection
+		Description: Holy protection
+	}
+
+	LifePool: {
+		DisplayName: Life Pool
+		Description: Increased max life
+	}
+
+	MagneticField: {
+		DisplayName: Magnetic Field
+		Description: Extra attractive
+	}
+
+	ReverseCT: {
+		DisplayName: Reverse Cursed Technique
+		Description: Gain unnatural life regeneration
+	}
+
+	NullifiedPowers: {
+		DisplayName: Nullified Powers
+		Description: Cannot deal damage
+	}
+
+	BloodShield: {
+		DisplayName: Blood Shield
+		Description: Uses sacrificed health as defense
+	}
+
+	BloodShieldBleed: {
+		DisplayName: Blood Shield Bleed
+		Description: Sacrifices your health for defense
+	}
+
+	BerserkersPauldronBuff: {
+		DisplayName: Berserk
+		Description: 25% increased damage
+	}
+
+	NobleWine: {
+		DisplayName: Noble Wine
+		Description: Grants temporary life
+	}
+
+	YghernBuff: {
+		DisplayName: Yghern Buff
+		Description: Reduces damage of hits against you
+	}
+
+	Cooldown.Description: This buff is on cooldown
+	BloodShield_CD.DisplayName: Blood Shield Cooldown
+	BrokenWatch_CD.DisplayName: Broken Watch Cooldown
+	HolyProtection_CD.DisplayName: Holy Protection Cooldown
+	ModLiquid_CD.DisplayName: Absorbing Liquid Cooldown
+	NobleWine_CD.DisplayName: Noble Wine Cooldown
+	ReverseCT_CD.DisplayName: Reverse Cursed Technique Cooldown
+	TojiNullDebuff_CD.DisplayName: Toji Null Debuff Cooldown
+	YghernBuff_CD.DisplayName: Yghern Buff Cooldown
+}
+
+Projectiles: {
+	Extra98Bomb.DisplayName: Extra98 Bomb
+	ReflectiveRib.DisplayName: Reflective Rib
+	RepellingPulse.DisplayName: Repelling Pulse
+	CircleOfLight.DisplayName: Circle Of Light
+	FireExplotaro.DisplayName: Fire Explotaro
+	SlowingAura.DisplayName: Slowing Aura
+	LightCone.DisplayName: Light Cone
+	MirrorCrack.DisplayName: Mirror Crack
+	CarefreePower.DisplayName: Carefree Power
+	Cleave.DisplayName: Cleave
+	HolyMantleBurst.DisplayName: Holy Mantle Burst
+	HeavyBlowThing.DisplayName: Heavy Blow Thing
+	FlyingKunai.DisplayName: Flying Kunai
+	LightBeam.DisplayName: Light Beam
+	LifeSucker.DisplayName: Life Sucker
+	CursedBloodEffect.DisplayName: Cursed Blood Effect
+	AbsorbingLiquidEffect.DisplayName: Absorbing Liquid Effect
+	CrystalDashTrail.DisplayName: Crystal Dash Trail
+	CEFist.DisplayName: CE Fist
+	BlockBoulder.DisplayName: Block Boulder
+	FishBullet.DisplayName: Fish Bullet
+	FlippityFloppity.DisplayName: Flippity Floppity
+	CryptBloomProjectile.DisplayName: Crypt Bloom Projectile
+	CryptAura.DisplayName: Crypt Aura
+	DarkDash.DisplayName: Dark Dash
+	HomingMissile.DisplayName: Homing Missile
+}
+
+Keybinds: {
+	BrokenWatch.DisplayName: Broken Watch
+	CursedBlood.DisplayName: Cursed Blood
+	AbsorbingLiquid.DisplayName: Absorbing Liquid
+	CrystalHeart.DisplayName: Crystal Heart
+	Sangreal.DisplayName: Sangreal
+}
+
+Tiles: {
+	PaleOreTile.MapEntry: Pale Ore
+	SihilStone.MapEntry: Sword in ice
+	MardroemeTile.MapEntry: Suspicious looking mushrooms
+	SuspiciousScaleTile.MapEntry: Suspicious looking scales
+}
+
+WorldGen: {
+	PaleOrePassMessage: Who up paling they ore
+	SihilStonePassMessage: Carving curses onto blades...
+}
+
+Configs: {
+	ClientConfig: {
+		DisplayName: Client Config
+
+		SanguineGiftUIDraggable: {
+			Label: Sanguine Gift UI Draggable
+			Tooltip: Makes the Sanguine Gift's ui draggable. Don't forget to turn this off after you're done!
+		}
+
+		SanguineGiftUIPosition: {
+			Label: Sanguine Gift UI Position
+			Tooltip: The position of Sanguine Gift's ui, relatively to screen coordinates
+		}
+
+		SanguineGiftUIColor: {
+			Label: Sanguine Gift UI Color
+			Tooltip: Sets the color of the filler in Sanguine Gift's ui to a new value
+		}
+	}
+}

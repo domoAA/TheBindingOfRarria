@@ -1,0 +1,8 @@
+global using Vector2 = Microsoft.Xna.Framework.Vector2;
+global using Color = Microsoft.Xna.Framework.Color;
+global using Rectangle = Microsoft.Xna.Framework.Rectangle;
+
+global using static Microsoft.Xna.Framework.MathHelper;
+
+    // I'm too fucking tired for ts rn.
+global using static TheBindingOfRarria.Common.Constants;
