@@ -3,6 +3,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using System;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using TheBindingOfRarria.Content.Projectiles;
+using TheBindingOfRarria.Common.Helpers;
+using Microsoft.Xna.Framework.Graphics;
+using TheBindingOfRarria.Common.Registries;
 
 namespace TheBindingOfRarria.Content.Items;
 
