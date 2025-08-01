@@ -26,17 +26,30 @@ float4 Aura(float2 coords : TEXCOORD0) : COLOR0
     float4 color = tex2D(uImage0, coords);
     
     float2 center = (0.5f, 0.5f);
-    float dist = distance(center, coords - uSides[int((distance(coords, center) - 0.14f) / 0.9f)]) - 0.14f;
+    float dist = (distance(center, coords)) * 3.0f;
     
-    if (dist < 0)
-        return float4(0, 0, 6, 10);
+    if (dist < 0.15f)
+        return float4(0, 0, 0.6f, 100);
+
     
-    float power = 0.37f - max(0, dist);
+    float power = abs(0.3f - max(0, dist));
     
-    float4 spike = float4(238, 232, 170, cos(uTime) * power * 255);
-    float4 fall = float4(139, 41, 90, sin(uTime) * power * 155);
+    float4 spike = float4(0.93f, 0.9f, 0.66f, (cos(dist * (sqrt(power) * 15.0f) - uTime * 3.0f) + 0.8f) / (1 + pow(dist * 2, 1.12f)));
     
-    return color * spike * fall;
+    if (dist < 0.3f)
+        spike.a = max((power * 5.0f), spike.a);
+    
+    spike.a /= (pow(dist, 3) * 4);
+    
+    if (spike.a < 0.4f)
+        spike.r += (0.6f - spike.a);
+    
+    if (spike.a < 0.05f)
+        spike.a = 0;
+    
+    spike.a = min(spike.a, 0.8f);
+    
+    return spike;
 }
 
 technique Technique1

@@ -22,9 +22,14 @@ public class Amoeba : ModItem
 
     public int counter = 0;
 
-    public Vector2[] AuraFadedSides
+    public Vector2[] AuraFadedSides = [];
+
+    public Vector2[] GetSides(int timer)
     {
-        get => AuraFadedSides.Length > 0 && counter < 120 ? AuraFadedSides : [new Vector2(0.14f).RotatedByRandom(TwoPi), new Vector2(0.14f).RotatedByRandom(TwoPi), new Vector2(0.14f).RotatedByRandom(TwoPi), new Vector2(0.14f).RotatedByRandom(TwoPi)];
+        if (timer >= 120 || AuraFadedSides is null || AuraFadedSides.Length == 0)
+            AuraFadedSides = [new Vector2(0.14f).RotatedByRandom(TwoPi), new Vector2(0.14f).RotatedByRandom(TwoPi), new Vector2(0.14f).RotatedByRandom(TwoPi), new Vector2(0.14f).RotatedByRandom(TwoPi)];
+
+        return AuraFadedSides;
     }
 
     public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
@@ -34,7 +39,7 @@ public class Amoeba : ModItem
         var effect = Effects.AmoebaShader?.Value;
 
         spriteBatch.End(out var snapshot);
-        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, Main.Rasterizer, effect);
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, Main.Rasterizer, effect, snapshot.matrix);
 
 
         Main.GetItemDrawFrame(Item.type, out var texture, out var itemFrame);
@@ -42,13 +47,13 @@ public class Amoeba : ModItem
         
 
         //effect.Parameters["uImage"].SetValue(texture);
-        effect?.Parameters["uSides"].SetValue(AuraFadedSides);
+        effect?.Parameters["uSides"].SetValue(GetSides(counter));
         effect?.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
         effect?.CurrentTechnique.Passes[0].Apply();
 
 
         Vector2 drawOrigin = itemFrame.Size() / 2f;
-        Vector2 drawPosition = Item.Bottom - Main.screenPosition - new Vector2(0, drawOrigin.Y);
+        Vector2 drawPosition = Item.Bottom - Main.screenPosition - new Vector2(0, Item.height / 2);
 
         spriteBatch.Draw(texture, drawPosition, texture.Bounds, Color.White, rotation, texture.Size() / 2, scale, SpriteEffects.None, 0);
 
