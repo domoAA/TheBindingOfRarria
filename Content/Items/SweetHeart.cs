@@ -41,7 +41,7 @@ public class SweetPlayer : ModPlayer
     {
         base.OnHitNPC(target, hit, damageDone);
 
-        if (!Sweetie || Player.lifeSteal <= 0 || !target.canGhostHeal)
+        if (!Sweetie || Player.lifeSteal <= 0 || !target.canGhostHeal || target.immortal || target.lifeMax <= 5)
             return;
 
         Player.Heal(1 + damageDone / 10);

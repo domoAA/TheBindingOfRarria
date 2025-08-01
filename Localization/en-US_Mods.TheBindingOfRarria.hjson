@@ -744,6 +744,16 @@ Items: {
 		DisplayName: Vessel Mask
 		Tooltip: ""
 	}
+
+	BloodBag: {
+		DisplayName: Blood Bag
+		Tooltip: ""
+	}
+
+	Amoeba: {
+		DisplayName: Amoeba
+		Tooltip: ""
+	}
 }
 
 Buffs: {

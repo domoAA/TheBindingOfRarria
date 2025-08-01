@@ -1,0 +1,35 @@
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace TheBindingOfRarria.Common.Registries;
+
+// [Autoload(Side = ModSide.Client)]
+public static class Effects
+{
+    private const string prefix = "TheBindingOfRarria/Assets/Effects/";
+
+    public static readonly Asset<Effect> AmoebaShader = LoadEffect("AmoebaAura");
+
+    private static Asset<Effect> LoadEffect(string EffectPath)
+    {
+        if (Main.dedServ)
+            return null;
+
+        return ModContent.Request<Effect>(prefix + EffectPath);
+    }
+
+    private static Asset<Effect>[] LoadEffects(string EffectPath, int count)
+    {
+        if (Main.dedServ)
+            return null;
+
+        Asset<Effect>[] effects = new Asset<Effect>[count];
+
+        for (int i = 0; i < count; i++)
+            effects[i] = ModContent.Request<Effect>(prefix + EffectPath + i);
+
+        return effects;
+    }
+}

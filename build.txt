@@ -1,4 +1,4 @@
 displayName = The Binding of Rarria
 author = KainSett (and ADHD), Domo
-version = 0.3.2
+version = 0.3.3
 modReferences = ShopExtender

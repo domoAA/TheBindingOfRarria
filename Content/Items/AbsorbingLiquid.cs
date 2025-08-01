@@ -40,7 +40,6 @@ public class AbsorbingLiquid : ModItem
         CreateRecipe()
             .AddIngredient(ItemID.Bottle)
             .AddIngredient(ItemID.HallowedBar)
-            .AddTile(TileID.ImbuingStation)
             .AddCondition(Condition.NearShimmer)
             .Register();
     }

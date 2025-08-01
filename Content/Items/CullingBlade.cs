@@ -31,7 +31,6 @@ public class CullingBlade : ModItem
             .AddIngredient(ItemID.SoulofNight, 10)
             .AddCondition(Condition.NearShimmer)
             .AddCondition(Condition.InExpertMode)
-            .AddTile(TileID.WorkBenches)
             .Register();
     }
 }
@@ -42,11 +41,11 @@ public class CullPlayer : ModPlayer
         // What? It's a ref to Culling Games, google it
     public Item PlayedTheseGamesBefore = null;
 
-    private int counter = 0;
+    private int killCounter = 0;
 
     public override void ResetEffects() => PlayedTheseGamesBefore = null;
 
-    public override void PostUpdate() => counter = counter > 0 ? counter - 1 : 0;
+    public override void PostUpdate() => killCounter = killCounter > 0 ? killCounter - 1 : 0;
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
@@ -61,10 +60,10 @@ public class CullPlayer : ModPlayer
 
         if (target.life <= 0 && Main.expertMode)
         {
-            counter += 25;
-            if (counter >= 1000)
+            killCounter += 25;
+            if (killCounter >= 1000)
             {
-                counter = 0;
+                killCounter = 0;
                 Item.NewItem(target.GetSource_Death("Cull drop"), target.Center, ModContent.ItemType<CullingBlade>());
             }
         }
