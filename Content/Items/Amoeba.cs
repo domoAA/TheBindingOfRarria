@@ -31,20 +31,20 @@ public class Amoeba : ModItem
     {
         counter = counter % 120 + 1;
 
+        var effect = Effects.AmoebaShader?.Value;
+
         spriteBatch.End(out var snapshot);
-        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, Main.Rasterizer, Effects.AmoebaShader?.Value);
+        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, Main.Rasterizer, effect);
 
 
         Main.GetItemDrawFrame(Item.type, out var texture, out var itemFrame);
 
-        var effect = Effects.AmoebaShader?.Value;
-        if (effect is null)
-            return false;
+        
 
         //effect.Parameters["uImage"].SetValue(texture);
-        effect.Parameters["uSides"].SetValue(AuraFadedSides);
-        effect.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
-        effect.CurrentTechnique.Passes[0].Apply();
+        effect?.Parameters["uSides"].SetValue(AuraFadedSides);
+        effect?.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
+        effect?.CurrentTechnique.Passes[0].Apply();
 
 
         Vector2 drawOrigin = itemFrame.Size() / 2f;
