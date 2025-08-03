@@ -1,137 +1,229 @@
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using ReLogic.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
 using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
-using System.Collections;
-using TheBindingOfRarria.Content;
-using TheBindingOfRarria.Content.Items;
-using Terraria.Graphics.Shaders;
 using System.IO;
 using TheBindingOfRarria.Content.Projectiles;
-using System.Diagnostics;
+using TheBindingOfRarria.Content.Items;
+using static TheBindingOfRarria.Common.Helpers.Helper;
+using System.Collections.Generic;
+using System.Linq;
+using System;
+using Terraria.Localization;
+using Terraria.GameContent.ItemDropRules;
+using Newtonsoft.Json.Linq;
 
-namespace TheBindingOfRarria
+namespace TheBindingOfRarria;
+
+public class TheBindingOfRarria : Mod
 {
-    // Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
-    public class TheBindingOfRarria : Mod
+    public static List<string> ItemPages = new ();
+    public static List<string> RecipePages = new();
+
+    public static string recipeTemplate = "-->{{recipes/register\r\n|result=#name|amount=1\r\n|station=none}}<!--";
+    public static string material = "\r\n|material|amount";
+    public static string dropBox = "{{mod sub-page}}<!--DO NOT REMOVE THIS LINE! It is required for Mod sub-pages to work properly.-->\r\n{{infobox wrapper\r\n|{{item infobox\r\n{{drop infobox\r\n|}}";
+    public static string drop = "\r\n| source | 1 | {{difficulty|chance}}";
+    public static string itemPage = "{{mod sub-page}}<!--DO NOT REMOVE THIS LINE! It is required for Mod sub-pages to work properly.-->\r\n{{item infobox\r\n| type = Accessory\r\n| sell = {{value|p|g|s|c}}\r\n| stack = 1\r\n| rare = 0\r\n| tooltip = firstLine<br>\"flavor\"\r\n}}\r\n\r\n'''name''' is a [[Hardmode]] {{+|Accessories|accessory}} \r\n\r\n\r\n== Crafting ==\r\n=== Recipe ===\r\n{{recipes|result=#name}}\r\n\r\n\r\n== Notes ==\r\n{{*}} This item\r\n\r\n\r\n== Trivia ==\r\n* This item";
+
+    public static void GetWikiItemAndRecipePages(IEnumerable<ModItem> items)
     {
-        //public static int[] reflectItems = [ModContent.ItemType<GodHead>(), ModContent.ItemType<AfterimageMirror>(), ModContent.ItemType<SlippedRib>()];
-        //public static int[] dodgeItems = [ModContent.ItemType<AnemoiBracelet>(), ModContent.ItemType<CarefreeMelody>(), ItemID.BrainOfConfusion, ItemID.MasterNinjaGear, ItemID.BlackBelt];
-        //public static int[] invulItems = [ModContent.ItemType<ToothAndNail>(), ModContent.ItemType<GnawedLeaf>()];
-        public override void Load()
+        foreach (var item in items)
         {
-            if (Main.netMode != NetmodeID.Server)
+            var name = item.DisplayName.Value;
+            var pulledRecipe = Array.Find(Main.recipe, r => r.createItem.type == item.Type);
+            if (pulledRecipe != null)
             {
-                
-            }
-        }
-        public override void Unload()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
+                //recipes here
 
-            }
-        }
-        public enum PacketTypes
-        {
-            ProjectileReflect,
-            EntitySlow,
-            DustSpawn,
-            Default
-        }
-        public enum State
-        {
-            Default,
-            Slow,
-            Fast
-        }
-        public override void HandlePacket(BinaryReader reader, int whoAmI)
-        {
-            var type = reader.ReadInt32();
-            if (type == ((int)PacketTypes.ProjectileReflect))
-            {
-                var id = reader.ReadInt32();
-
-                foreach (var proj in Main.ActiveProjectiles)
+                var stations = "";
+                foreach (var st in pulledRecipe.requiredTile)
                 {
-                    if (proj.identity == id)
-                        proj.GetReflected();
-                }
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    ModPacket packet = GetPacket();
-                    packet.Write(type);
-                    packet.Write(id);
-                    packet.Send();
-                }
-            }
-            else if (type == ((int)PacketTypes.EntitySlow))
-            {
-                var slow = reader.ReadInt32();
-                var duration = reader.ReadInt32();
-                var entityType = reader.ReadBoolean();
-                var id = reader.ReadInt32();
-
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    ModPacket packet = GetPacket();
-                    packet.Write(type);
-                    packet.Write(slow);
-                    packet.Write(duration);
-                    packet.Write(entityType);
-                    packet.Write(id);
-                    packet.Send();
-                }
-
-                if (entityType)
-                {
-                    foreach (var proj in Main.ActiveProjectiles)
+                    var n = TileID.Search.GetName(st);
+                    for (int i = 0; i < n.Length - 2; i++)
                     {
-                        if (proj.identity == id)
+                        if (!char.IsWhiteSpace(n[i]) && !char.IsWhiteSpace(n[i + 1]) && char.IsUpper(n[i + 1]) && char.IsLower(n[i]))
                         {
-                            proj.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = ((State)slow, duration);
+                            n = n[..(i + 1)] + " " + n[(i + 1)..];
+                            i++;
+                        }
+                    }
+                    stations += "\r\n|station=" + n;
+                }
+
+                var recipe = recipeTemplate.Replace("name", name).Replace("\r\n|station=none", stations);
+
+                var mat = "";
+                foreach (var m in pulledRecipe.requiredItem)
+                {
+                    mat += material.Replace("material", m.Name).Replace("amount", m.stack.ToString());
+                }
+                recipe = recipe[..recipe.IndexOf('}')] + mat + recipe[recipe.IndexOf('}')..];
+
+                recipe = recipe.Replace("\"", "");
+                RecipePages.Add(recipe);
+            }
+            /*else 
+            {
+                // drops here
+
+                var start = dropBox[..dropBox.IndexOf('|')];
+                var box = dropBox[dropBox.LastIndexOf("{{")..];
+
+                for (int t = 0; t < NPCID.Count - 1; t++)
+                {
+                    var drops = Main.ItemDropsDB.GetRulesForNPCID(t);
+
+                    if (drops != null)
+                    {
+                        foreach (var d in drops)
+                        {
+                            var r = d.ChainedRules.FirstOrDefault();
+                            var mast = d.ChainedRules.Find(cond => cond.RuleToChain == new Conditions.IsMasterMode());
+                            var exp = d.ChainedRules.Find(cond => cond.RuleToChain == new Conditions.IsExpert());
+
+                            r = mast ?? exp ?? r;
+                            if (r == null)
+                                continue;
+
+                            var dif = mast != null ? "master|" : exp != null ? "expert|" : "";
+
+                            var n = NPCID.Search.GetName(t);
+                            for (int i = 0; i < n.Length - 2; i++)
+                            {
+                                if (!char.IsWhiteSpace(n[i]) && !char.IsWhiteSpace(n[i + 1]) && char.IsUpper(n[i + 1]) && char.IsLower(n[i]))
+                                {
+                                    n = n[..(i + 1)] + " " + n[(i + 1)..];
+                                    i++;
+                                }
+                            }
+
+                            var text = drop.Replace("source", n).Replace("difficulty|", dif);
+                            box = box.Replace("\r\n|", text);
                         }
                     }
                 }
-                else
-                {
-                    foreach (var npc in Main.ActiveNPCs)
-                    {
-                        if (npc.whoAmI == id)
-                        {
-                            npc.GetGlobalNPC<NPCExtensions.SlowedGlobalNPC>().Slowed = ((State)slow, duration);
-                        }
-                    }
-                }
-                return;
-            }
-            else if (type == ((int)PacketTypes.DustSpawn))
+
+            itemPage = itemPage.Replace(itemPage[..itemPage.IndexOf("\r\n{{")], start).Replace("'''", box + "'''");
+            }*/
+
+            var value = item.Item.value;
+            var c = value % 100;
+            value = (value - c) / 100;
+            var s = value % 100;
+            value = (value - s) / 100;
+            var g = value % 100;
+            value = (value - g) / 100;
+            var p = value % 100;
+            value = (value - p) / 100;
+
+            var tooltip = item.Tooltip.Value;
+            if (tooltip == "" || !tooltip.Contains("\n"))
+                continue;
+
+            var page = itemPage.Replace("name", name).Replace("p|g|s|c", $"{p}|{g}|{s}|{c}").Replace("rare = 0", $"rare = {item.Item.rare.ToString()}").Replace("firstLine", tooltip[..tooltip.LastIndexOf("\n")].Replace("\n", "<br>\n")).Replace("flavor", tooltip[tooltip.LastIndexOf("\n")..]);
+
+            page = page.Replace("\"", "");
+
+            ItemPages.Add(page);
+        }
+    }
+    public override void PostAddRecipes()
+    {
+        //GetWikiItemAndRecipePages(GetContent<ModItem>());
+    }
+
+
+    // fine
+    public enum PacketTypes : int
+    {
+        ProjectileReflect,
+        EntitySlow,
+        DustSpawn,
+        Default
+    }
+
+        // move to other file
+    public enum State
+    {
+        Default,
+        Slow,
+        Fast
+    }
+
+        // rewrite this mess
+        // mmmno
+    public override void HandlePacket(BinaryReader reader, int whoAmI)
+    {
+        var type = reader.ReadInt32();
+        if (type == (int)PacketTypes.ProjectileReflect)
+        {
+            int id = reader.ReadInt32();
+
+            foreach (var proj in Main.ActiveProjectiles)
             {
-                var position = reader.ReadVector2();
-                var direction = reader.ReadVector2();
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    ModPacket packet = GetPacket();
-                    packet.Write(type);
-                    packet.WriteVector2(position);
-                    packet.WriteVector2(direction);
-                    packet.Send();
-                }
-                else
-                {
-                    Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().blocked = true;
-                    Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().position = position;
-                    Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>().direction = direction;
-                }
-                return;
+                if (proj.identity == id)
+                    proj.GetReflected();
             }
+            if (Main.netMode == NetmodeID.Server)
+            {
+                ModPacket packet = GetPacket();
+                packet.Write(type);
+                packet.Write(id);
+                packet.Send();
+            }
+        }
+        else if (type == (int)PacketTypes.EntitySlow)
+        {
+            int slow = reader.ReadInt32();
+            int duration = reader.ReadInt32();
+            bool entityType = reader.ReadBoolean();
+            int id = reader.ReadInt32();
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                ModPacket packet = GetPacket();
+                packet.Write(type);
+                packet.Write(slow);
+                packet.Write(duration);
+                packet.Write(entityType);
+                packet.Write(id);
+                packet.Send();
+            }
+
+                // guh
+            if (entityType)
+            {
+                foreach (Projectile p in Main.ActiveProjectiles)
+                    if (p.identity == id)
+                        p.GetGlobalProjectile<SlowedGlobalProjectile>().Slowed = ((State)slow, duration);
+            }
+            else
+                foreach (NPC n in Main.ActiveNPCs)
+                    if (n.whoAmI == id)
+                        n.GetGlobalNPC<SlowedGlobalNPC>().Slowed = ((State)slow, duration);
+            return;
+        }
+        else if (type == (int)PacketTypes.DustSpawn)
+        {
+            Vector2 position = reader.ReadVector2();
+            Vector2 direction = reader.ReadVector2();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                ModPacket packet = GetPacket();
+                packet.Write(type);
+                packet.WriteVector2(position);
+                packet.WriteVector2(direction);
+                packet.Send();
+            }
+            else
+            {
+                NatureDodgePlayer natureplayer = Main.LocalPlayer.GetModPlayer<NatureDodgePlayer>();
+
+                natureplayer.blocked = true;
+                natureplayer.position = position;
+                natureplayer.direction = direction;
+            }
+            return;
         }
     }
 }

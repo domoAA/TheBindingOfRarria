@@ -1,0 +1,77 @@
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace TheBindingOfRarria.Content.Items;
+
+[AutoloadEquip(EquipType.Back, EquipType.Front)]
+public class GoldenCape : ModItem
+{
+    public override string Texture => ContentPath + "Items/" + Name;
+
+    public override void SetDefaults()
+    {
+        Item.height = 30;
+        Item.width = 30;
+        Item.accessory = true;
+        Item.value = Item.buyPrice(0, 3);
+        Item.rare = ItemRarityID.Green;
+    }
+
+    public override void UpdateAccessory(Player player, bool hideVisual)
+    {
+        player.noFallDmg = true;
+        player.GetModPlayer<SpikeImmunePlayer>().SpikeImmune = true;
+    }
+}
+
+public class SpikeImmunePlayer : ModPlayer
+{
+    public bool SpikeImmune;
+    public bool Immune = false;
+
+    public override void ResetEffects() => SpikeImmune = false;
+    
+    public override bool FreeDodge(Player.HurtInfo info)
+    {
+        if (Immune)
+        {
+            Player.immune = true;
+            Player.immuneTime = 40;
+            Immune = false;
+            return true;
+        }
+        return base.FreeDodge(info);
+    }
+
+    public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
+    {
+        if (SpikeImmune)
+        {
+            if (proj.type == ProjectileID.Boulder || proj.type == ProjectileID.PoisonDartTrap || proj.type == ProjectileID.SpearTrap || proj.type == ProjectileID.SpikyBallTrap || proj.type == ProjectileID.GeyserTrap || proj.type == ProjectileID.PoisonDart || proj.type == ProjectileID.FlamethrowerTrap || proj.type == ProjectileID.Explosives || proj.type == ProjectileID.GasTrap || proj.type == ProjectileID.FlamesTrap || proj.type == ProjectileID.TNTBarrel || proj.type == ProjectileID.LifeCrystalBoulder || proj.type == ProjectileID.RollingCactus || proj.type == ProjectileID.MiniBoulder)
+                Immune = true;
+        }
+    }
+
+    public override bool ImmuneTo(PlayerDeathReason damageSource, int cooldownCounter, bool dodgeable)
+    {
+        if (damageSource.SourceOtherIndex == 3 && SpikeImmune)
+            return true;
+
+        return false;
+    }
+}
+
+public class CrateLootGoldenCape : GlobalItem
+{
+    public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+    {
+        if (item.type == ItemID.OasisCrateHard || item.type == ItemID.OasisCrate)
+        {
+            IItemDropRule rule = ItemDropRule.Common(ModContent.ItemType<GoldenCape>(), 12, 1, 1);
+            itemLoot.Add(rule);
+        }
+    }
+}

@@ -1,0 +1,26 @@
+This is a content mod that has the main goal of adding reference items from other franchises to Terraria.
+
+The franchises this mod aims to reference include, but are not limited to:
+The Binding of Isaac
+Jujutsu Kaisen
+Otherworld Legends
+Hollow Knight
+Dungeons and Dragons
+
+
+The total planned size of the mod is about 60-80 items, and a few small changes and additions, like NPCs and status effects.
+
+The current version includes:
+* 70 accessories
+* 13 status effects
+* 1 armor set
+* 1 unique ore
+* and more...
+
+Big thanks for contributing to: pil, sungle, z_e_n_., stormytuna, BasicallyIAmFox, Ykyki4 and others
+
+This mod is fully compatible with multiplayer, and was mostly tested with some other mods.
+If you find any issues, provide detailed information about it on the workshop page or in the mod's discord.
+
+
+Here is a link to this mod's wiki page: https://terrariamods.wiki.gg/wiki/The_Binding_of_Rarria
