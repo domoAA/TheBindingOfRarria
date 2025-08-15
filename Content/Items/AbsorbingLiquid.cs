@@ -22,7 +22,7 @@ public class AbsorbingLiquid : ModItem
         Item.width = 22;
         Item.height = 30;
         Item.rare = ItemRarityID.Pink;
-        Item.value = Item.buyPrice(0, 0, 8, 7);
+        Item.value = Item.sellPrice(0, 0, 8, 7);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

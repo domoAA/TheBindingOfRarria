@@ -16,7 +16,7 @@ public class GirdleOfGiantStrength : ModItem
         Item.height = 24;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 2);
         Item.expert = true;
     }
 
@@ -70,7 +70,7 @@ public class GiantPlayer : ModPlayer
             if (bonus > 0)
             {
                 self.statLifeMax2 += bonus;
-                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 600, new Predicate<Player>(obj => !CheckGiantStrength(Player))));
+                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 600, cond => !CheckGiantStrength(self)));
             }
         }
         orig(self, amount);

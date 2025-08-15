@@ -17,13 +17,13 @@ public class MoltenShield : ModItem
         Item.width = 30;
         Item.height = 32;
         Item.defense = 3;
-        Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 1, 11, 11);
+        Item.rare = ItemRarityID.Orange;
+        Item.value = Item.sellPrice(0, 1, 11, 11);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
-        player.DefenseEffectiveness *= (player.DefenseEffectiveness.Value + 0.1f) / player.DefenseEffectiveness.Value;
+        player.DefenseEffectiveness *= player.statLife > player.statLifeMax2 / 2 ? (player.DefenseEffectiveness.Value + 0.1f) / player.DefenseEffectiveness.Value : 1;
         player.noKnockback = true;
         player.buffImmune[BuffID.OnFire] = true;
         player.buffImmune[BuffID.OnFire3] = true;
@@ -35,7 +35,7 @@ public class MoltenShield : ModItem
 
         string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{(int)(value * 100)}%");
 
-        int index = tooltips.FindIndex(line => line.Name == "Tooltip1");
+        int index = tooltips.FindIndex(line => line.Name == "Tooltip2");
         if (index != -1)
         {
             text = text.Remove(text.LastIndexOf($"\n"));
@@ -50,7 +50,7 @@ public class MoltenShield : ModItem
         CreateRecipe()
             .AddIngredient(ItemID.ObsidianShield)
             .AddIngredient(ItemID.HellstoneBar, 13)
-            .AddTile(TileID.MythrilAnvil)
+            .AddTile(TileID.Anvils)
             .Register();
     }
 }
@@ -59,7 +59,7 @@ public class MoltenCatchPlayer : ModPlayer
 {
     public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
     {
-        if (attempt.fishingLevel > 30 && attempt.veryrare && attempt.inLava && attempt.CanFishInLava && Main.hardMode && Main.rand.NextBool(5))
+        if (attempt.fishingLevel > 30 && attempt.veryrare && attempt.inLava && attempt.CanFishInLava && Main.rand.NextBool(5))
         {
             npcSpawn = -1;
             sonar.Color = new Color(255, 150, 150);

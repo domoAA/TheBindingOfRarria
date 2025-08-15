@@ -14,7 +14,7 @@ public class VesselMask0 : ModItem
         Item.width = 26;
         Item.height = 28;
         Item.vanity = true;
-        Item.value = Item.buyPrice(0, 1);
+        Item.value = Item.sellPrice(0, 1);
         Item.rare = ItemRarityID.Expert;
         Item.expert = true;
     }
@@ -30,7 +30,7 @@ public class VesselMask1 : ModItem
         Item.width = 26;
         Item.height = 28;
         Item.vanity = true;
-        Item.value = Item.buyPrice(0, 1);
+        Item.value = Item.sellPrice(0, 1);
         Item.rare = ItemRarityID.Expert;
         Item.expert = true;
     }

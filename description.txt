@@ -11,14 +11,17 @@ Necesse
 Spelunky Classic
 League of Legends
 Risk of Rain
+Deadlock
+Elden Ring
+Magic Survival
 
 
 
 The total planned size of the mod is about ~90 items, and a few small changes and additions, like NPCs and status effects.
 
 The current version includes:
-* 70 accessories
-* 13 status effects
+* 80 accessories
+* 14 status effects
 * 1 armor set
 * 1 unique ore
 * and more...

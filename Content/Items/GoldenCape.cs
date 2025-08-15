@@ -16,7 +16,7 @@ public class GoldenCape : ModItem
         Item.height = 30;
         Item.width = 30;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 3);
+        Item.value = Item.sellPrice(0, 3);
         Item.rare = ItemRarityID.Green;
     }
 

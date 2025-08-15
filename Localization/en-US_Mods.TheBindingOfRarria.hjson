@@ -669,6 +669,7 @@ Items: {
 		DisplayName: Molten Shield
 		Tooltip:
 			'''
+			Grants immunity to knockback, On Fire! and Hellfire
 			When above 50% life, your defense blocks 10% more damage 
 			Current defense effectiveness: {0}
 			'It's still sturdy, somehow?'
@@ -711,7 +712,7 @@ Items: {
 			'''
 			+10% max life
 			1.1x damage multiplier
-			Increased physical size and shooting velocity
+			Increased physical size
 			'Big chungus'
 			'''
 	}
@@ -747,12 +748,105 @@ Items: {
 
 	BloodBag: {
 		DisplayName: Blood Bag
-		Tooltip: ""
+		Tooltip:
+			'''
+			Grants minor life regeneration [c/90ee90:(1 hp/s)]
+			Excessive life regeneration is stored and released as life regeneration bonus when you're below 50% life
+			'That's gonna help you keep your blood on the inside'
+			'''
 	}
 
-	Amoeba: {
-		DisplayName: Amoeba
-		Tooltip: ""
+	BoundlessSpirit: {
+		DisplayName: Boundless Spirit
+		Tooltip:
+			'''
+			Multiplies your magic damage bonuses by 1.1x
+			Whenever your mana falls below 50%, you are healed for {0} [c/82caff:(10% of your max mana)] life and this item's damage bonus is briefly doubled
+			This ability only recharges when your mana is full again
+			'Such mastery of the occult is legendary'
+			'''
+	}
+
+	PharmaceuticRounds: {
+		DisplayName: Pharmaceutic Rounds
+		Tooltip:
+			'''
+			Shortens your potion sickness when hitting enemies
+			'Brought to you by Fairfax ind.'
+			'''
+	}
+
+	RestorativeLocket: {
+		DisplayName: Restorative Locket
+		Tooltip:
+			'''
+			Grants life regeneration proportional to the life nearby enemies are losing to damage over time debuffs
+			'A small imitation of Oathkeeper's greed'
+			'''
+	}
+
+	SpiritKnuckle: {
+		DisplayName: Spirit Knuckle
+		Tooltip:
+			'''
+			Your melee swings deal additional magic damage and restore 15 mana on hit
+			'Don't mind the blood on that, it's been used very gently'
+			'''
+	}
+
+	GreatshieldTalisman: {
+		DisplayName: Greatshield Talisman
+		Tooltip:
+			'''
+			You take 20% less damage from creatures if you have a shield equipped
+			'A remnant of times when The Wall walked on battlefields'
+			'''
+	}
+
+	ShieldTalisman: {
+		DisplayName: Shield Talisman
+		Tooltip:
+			'''
+			You take 10% less damage from creatures if they hit you from the front
+			'An heirloom that always outlived its owners'
+			'''
+	}
+
+	DeathsBell: {
+		DisplayName: Death's Bell
+		Tooltip:
+			'''
+			Every 30 seconds, a regular enemy near you disappears
+			'A toll with no escape'
+			'''
+	}
+
+	Guillotine: {
+		DisplayName: Guillotine
+		Tooltip:
+			'''
+			You deal 25% more damage to enemies whose life is above 75%
+			'Seems rather worn down, but is still functional'
+			'''
+	}
+
+	MysticSandclock: {
+		DisplayName: Mystic Sandclock
+		Tooltip:
+			'''
+			Debuffs on you run out 33% faster
+			'The sands of fate shall never run out'
+			'''
+	}
+
+	SteelyAegis: {
+		DisplayName: Steely Aegis
+		Tooltip:
+			'''
+			+9% damage reduction
+			Grants 1% increased damage per every 3% of damage reduction you have
+			'Each wall is made of many stones'
+			'''
 	}
 }
 
@@ -831,6 +925,11 @@ Buffs: {
 	ReverseCT_CD.DisplayName: Reverse Cursed Technique Cooldown
 	TojiNullDebuff_CD.DisplayName: Toji Null Debuff Cooldown
 	YghernBuff_CD.DisplayName: Yghern Buff Cooldown
+
+	SpiritRush: {
+		DisplayName: Spirit Rush
+		Description: Magic damage multiplier increased by another 0.1x
+	}
 }
 
 Projectiles: {
@@ -860,6 +959,7 @@ Projectiles: {
 	CryptAura.DisplayName: Crypt Aura
 	DarkDash.DisplayName: Dark Dash
 	HomingMissile.DisplayName: Homing Missile
+	PharmaceuticBullet.DisplayName: Pharmaceutic Bullet
 }
 
 Keybinds: {

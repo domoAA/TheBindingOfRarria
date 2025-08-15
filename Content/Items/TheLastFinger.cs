@@ -20,7 +20,7 @@ public class TheLastFinger : ModItem
         Item.width = 26;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 1, 12);
+        Item.value = Item.sellPrice(0, 1, 12);
         Item.expert = true;
     }
 

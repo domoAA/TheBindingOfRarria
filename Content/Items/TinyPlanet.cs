@@ -18,7 +18,7 @@ public class TinyPlanet : ModItem
         Item.width = 28;
         Item.height = 28;
         Item.rare = ItemRarityID.Orange;
-        Item.value = Item.buyPrice(0, 0, 77, 49);
+        Item.value = Item.sellPrice(0, 0, 77, 49);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<PlanetPlayer>().planet = true;

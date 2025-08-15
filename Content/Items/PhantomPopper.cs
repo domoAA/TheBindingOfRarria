@@ -17,7 +17,7 @@ public class PhantomPopper : ModItem
         Item.width = 22;
         Item.height = 26;
         Item.rare = ItemRarityID.Yellow;
-        Item.value = Item.buyPrice(0, 4, 80, 42);
+        Item.value = Item.sellPrice(0, 4, 80, 42);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

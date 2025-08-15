@@ -16,7 +16,7 @@ public class FunnyFish : ModItem
         Item.width = 30;
         Item.height = 30;
         Item.rare = ItemRarityID.Green;
-        Item.value = Item.buyPrice(0, 0, 30, 70);
+        Item.value = Item.sellPrice(0, 0, 30, 70);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<FunnyPlayer>().IsFunny = true;

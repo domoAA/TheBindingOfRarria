@@ -16,7 +16,7 @@ public class GeneSickle : ModItem
         Item.accessory = true;
         Item.height = 30;
         Item.width = 32;
-        Item.value = Item.buyPrice(0, 3);
+        Item.value = Item.sellPrice(0, 3);
         Item.rare = ItemRarityID.Expert;
         Item.expert = true;
     }

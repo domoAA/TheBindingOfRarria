@@ -14,7 +14,7 @@ public class Sihil : ModItem
         Item.width = 22;
         Item.height = 30;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 8);
+        Item.value = Item.sellPrice(0, 8);
         Item.rare = ItemRarityID.Orange;
     }
 

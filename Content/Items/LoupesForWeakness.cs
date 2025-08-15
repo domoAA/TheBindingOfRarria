@@ -13,7 +13,7 @@ public class LoupesForWeakness : ModItem
         Item.accessory = true;
         Item.height = 24;
         Item.width = 32;
-        Item.value = Item.buyPrice(0, 1);
+        Item.value = Item.sellPrice(0, 1);
         Item.rare = ItemRarityID.Pink;
     }
 

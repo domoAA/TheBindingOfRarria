@@ -16,7 +16,7 @@ public class FishTank : ModItem
         Item.height = 36;
         Item.width = 34;
         Item.rare = ItemRarityID.Green;
-        Item.value = Item.buyPrice(0, 0, 70, 7);
+        Item.value = Item.sellPrice(0, 0, 70, 7);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<FishTankPlayer>().IsTuna = true;

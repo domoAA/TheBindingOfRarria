@@ -19,7 +19,7 @@ public class SanguineGift : ModItem
         Item.width = 32;
         Item.height = 30;
         Item.expert = true;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 2);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

@@ -18,7 +18,7 @@ public class UnendingDespair : ModItem
         Item.width = 28;
         Item.height = 30;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 7);
+        Item.value = Item.sellPrice(0, 7);
         Item.expert = true;
     }
 

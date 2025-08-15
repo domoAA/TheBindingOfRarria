@@ -13,7 +13,7 @@ public class SerpentsKiss : ModItem
         Item.width = 26;
         Item.height = 20;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 1);
+        Item.value = Item.sellPrice(0, 1);
         Item.rare = ItemRarityID.Orange;
     }
 

@@ -15,7 +15,7 @@ public class SoulCatcher : ModItem
         Item.height = 30;
         Item.width = 30;
         Item.rare = ItemRarityID.Green;
-        Item.value = Item.buyPrice(0, 0, 60);
+        Item.value = Item.sellPrice(0, 0, 60);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SoulPlayer>().IsSoul = true;
@@ -30,17 +30,26 @@ public class SoulCatcher : ModItem
     }
 }
 
-public class SoulPlayer : ModPlayer
+public partial class SoulPlayer : ModPlayer
 {
-    public bool IsSoul;
-    private bool SoulTook;
+    public bool IsSoul = false;
+    public bool IsKnuckle = false;
+    private bool SoulTook = false;
+
+    public int SoulPower = 9;
 
     public override void ResetEffects()
     {
+        if (IsKnuckle)
+            SoulPower = 15;
+        else
+            SoulPower = 9;
+
         if (SoulTook && Player.ItemAnimationEndingOrEnded)
             SoulTook = false;
 
         IsSoul = false;
+        IsKnuckle = false;
     }
 
     public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
@@ -48,8 +57,11 @@ public class SoulPlayer : ModPlayer
         if (IsSoul && !SoulTook)
         {
             SoulTook = true;
-            Player.statMana = Math.Min(Player.statMana + 9, Player.statManaMax2);
-            Player.ManaEffect(6);
+            Player.statMana = Math.Min(Player.statMana + SoulPower, Player.statManaMax2);
+            Player.ManaEffect(SoulPower);
+
+            if (IsKnuckle)
+                OnHitWithKnuckle(ref target);
         }
     }
 }

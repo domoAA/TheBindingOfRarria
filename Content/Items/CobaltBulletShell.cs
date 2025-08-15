@@ -17,7 +17,7 @@ public class CobaltBulletShell : ModItem
         Item.width = 18;
         Item.height = 36;
         Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 0, 22, 8);
+        Item.value = Item.sellPrice(0, 0, 22, 8);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<FerromagneticPlayer>().Ferromagnetic = true;

@@ -20,7 +20,7 @@ public class ToothAndNail : ModItem
         Item.height = 24;
         Item.width = 22;
         Item.rare = ItemRarityID.Pink;
-        Item.value = Item.buyPrice(0, 5);
+        Item.value = Item.sellPrice(0, 5);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<ToothAndNailPlayer>().Tooth = Item;

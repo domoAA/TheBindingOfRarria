@@ -14,7 +14,7 @@ public class HiveBlood : ModItem
         Item.accessory = true;
         Item.height = 32;
         Item.width = 30;
-        Item.value = Item.buyPrice(0, 6);
+        Item.value = Item.sellPrice(0, 6);
         Item.rare = ItemRarityID.Master;
         Item.master = true;
     }

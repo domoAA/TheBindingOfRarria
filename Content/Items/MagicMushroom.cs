@@ -6,7 +6,7 @@ using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Content.Items;
 
-/*public class MagicMushroom : ModItem
+public class MagicMushroom : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
 
@@ -16,7 +16,7 @@ namespace TheBindingOfRarria.Content.Items;
         Item.width = 24;
         Item.height = 28;
         Item.rare = ItemRarityID.Master;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 4);
         Item.master = true;
     }
 
@@ -59,11 +59,6 @@ public class RedMushPlayer : ModPlayer
         if (Growth != 1)
             ResizedPlayerUtils.SetScale(Player, Growth);
     }
-
-    public override void ModifyShootStats(Item item, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-    {
-        velocity += (velocity / velocity.Length());
-    }
 }
 
 public class RedMushItemNPCShop : GlobalNPC
@@ -75,4 +70,4 @@ public class RedMushItemNPCShop : GlobalNPC
            shop.Add(new Item(ModContent.ItemType<MagicMushroom>()), Condition.InMasterMode);
         }
     }
-}*/
+}

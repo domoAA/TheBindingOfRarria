@@ -22,10 +22,11 @@ public class BrilliantBehemoth : ModItem
 
 public class BrilliantBehemothPlayer : ModPlayer
 {
-        //    // Rare attempt at constants ?????
-        //private const float ExplosionRadius = 8f * 16f;
-        //private const float ExplosionDamageMult = 0.2f;
-        //private const float ExplosionKnockbackMult = 0.2f;
+    // Rare attempt at constants ?????
+    // It wasn't my work lmao
+    private const float ExplosionRadius = 8f * 16f;
+    private const float ExplosionDamageMult = 0.2f;
+    private const float ExplosionKnockbackMult = 0.2f;
 
     public bool Active;
 
@@ -39,18 +40,19 @@ public class BrilliantBehemothPlayer : ModPlayer
         if (!Active)
             return;
 
-            // Don't leave for loops if they dont do anything.
+        // Don't leave for loops if they dont do anything.
+        // Whoopsie, forgor to uncomment
 
-            // foreach (var npc in Main.ActiveNPCs)
-            // {
-            //     if (npc.WithinRange(target.Center, ExplosionRadius) && npc.whoAmI != target.whoAmI)
-            //     {
-            //           // int direction = float.Sign(target.DirectionTo(npc.Center).X);
-            //           // npc.SimpleStrikeNPC((int)(hit.Damage * ExplosionDamageMult), direction, knockBack: hit.Knockback * ExplosionKnockbackMult);
-            //     }
-            // }
+        foreach (var npc in Main.ActiveNPCs)
+        {
+            if ((npc.Center == target.Center || npc.WithinRange(target.Center, ExplosionRadius)) && npc.whoAmI != target.whoAmI)
+            {
+                int direction = npc.Center == target.Center ? 1 : float.Sign(target.DirectionTo(npc.Center).X);
+                npc.SimpleStrikeNPC((int)(hit.Damage * ExplosionDamageMult), direction, knockBack: hit.Knockback * ExplosionKnockbackMult);
+            }
+        }
 
-            // Fiery dust explosion
+        // Fiery dust explosion
         for (int i = 0; i < 15; i++)
         {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Torch);
@@ -59,7 +61,7 @@ public class BrilliantBehemothPlayer : ModPlayer
             fireDust.noGravity = true;
         }
 
-            // Smoke explosion
+        // Smoke explosion
         for (int i = 0; i < 8; i++)
         {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Smoke);
@@ -67,7 +69,7 @@ public class BrilliantBehemothPlayer : ModPlayer
             fireDust.noGravity = true;
         }
 
-            // Fiery dust on the enemy
+        // Fiery dust on the enemy
         for (int i = 0; i < 3; i++)
         {
             Dust fireDust = Dust.NewDustDirect(target.position, target.width, target.height, DustID.Torch);

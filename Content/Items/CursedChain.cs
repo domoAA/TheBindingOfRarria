@@ -14,7 +14,7 @@ public class CursedChain : ModItem
         Item.width = 28;
         Item.height = 32;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 9);
+        Item.value = Item.sellPrice(0, 9);
         Item.rare = ItemRarityID.LightPurple;
     }
 

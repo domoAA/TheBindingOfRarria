@@ -17,7 +17,7 @@ public class TheLastOffering : ModItem
         Item.height = 34;
         Item.accessory = true;
         Item.rare = ItemRarityID.Orange;
-        Item.value = Item.buyPrice(0, 1);
+        Item.value = Item.sellPrice(0, 1);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

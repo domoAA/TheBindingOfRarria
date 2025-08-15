@@ -17,7 +17,7 @@ public class SuspiciousLookingMask : ModItem
         Item.width = 28;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 3);
+        Item.value = Item.sellPrice(0, 3);
         Item.expert = true;
     }
 

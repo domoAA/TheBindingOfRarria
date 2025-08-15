@@ -17,7 +17,7 @@ public class WeaverSong : ModItem
         Item.width = 30;
         Item.height = 30;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 2, 28);
+        Item.value = Item.sellPrice(0, 2, 28);
         Item.expert = true;
     }
 

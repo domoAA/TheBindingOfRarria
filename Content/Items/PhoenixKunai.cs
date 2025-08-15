@@ -17,7 +17,7 @@ public class PhoenixKunai : ModItem
         Item.width = 18;
         Item.height = 30;
         Item.rare = ItemRarityID.Green;
-        Item.value = Item.buyPrice(0, 0, 20);
+        Item.value = Item.sellPrice(0, 0, 20);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<KunaiPlayer>().kunai = Item;

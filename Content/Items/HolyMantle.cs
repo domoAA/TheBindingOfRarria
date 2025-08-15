@@ -15,7 +15,7 @@ public class HolyMantle : ModItem
         Item.width = 28;
         Item.height = 34;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 5);
+        Item.value = Item.sellPrice(0, 5);
         Item.rare = ItemRarityID.LightRed;
     }
 

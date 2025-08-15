@@ -13,8 +13,8 @@ public class UdjatEye : ModItem
         Item.accessory = true;
         Item.height = 20;
         Item.width = 32;
-        Item.rare = ItemRarityID.Orange;
-        Item.value = Item.buyPrice(0, 1, 12);
+        Item.rare = ItemRarityID.Green;
+        Item.value = Item.sellPrice(0, 1, 12);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
@@ -26,7 +26,7 @@ public class UdjatEye : ModItem
     public override void AddRecipes()
     {
         CreateRecipe()
-            .AddIngredient(ItemID.FossilOre, 40)
+            .AddIngredient(ItemID.FossilOre, 30)
             .AddIngredient(ItemID.SpelunkerPotion, 8)
             .AddTile(TileID.Solidifier)
             .Register();
@@ -37,7 +37,7 @@ public class UdjatExtractinatorDrop : GlobalItem
 {
     public override void ExtractinatorUse(int extractType, int extractinatorBlockType, ref int resultType, ref int resultStack)
     {
-        if (extractType == ItemID.DesertFossil && Main.rand.NextFloat() < 0.005) 
+        if (extractType == ItemID.DesertFossil && Main.rand.NextFloat() < 0.001f) 
         {
             resultStack = 1;
             resultType = ModContent.ItemType<UdjatEye>();

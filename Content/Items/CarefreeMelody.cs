@@ -15,7 +15,7 @@ public class CarefreeMelody : ModItem
         Item.width = 34;
         Item.height = 30;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 2);
         Item.expert = true;
     }
 

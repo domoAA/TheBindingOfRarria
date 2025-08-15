@@ -19,7 +19,7 @@ public class FallingBlossomEmotion : ModItem
         Item.height = 20;
         Item.accessory = true;
         Item.rare = ItemRarityID.Green;
-        Item.value = Item.buyPrice(0, 1, 70);
+        Item.value = Item.sellPrice(0, 1, 70);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<NatureDodgePlayer>().IsFromAGreatClan = true;

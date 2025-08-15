@@ -21,7 +21,7 @@ public class NecromancersTome : ModItem
         Item.accessory = true;
         Item.height = 28;
         Item.width = 28;
-        Item.value = Item.buyPrice(0, 2, 68);
+        Item.value = Item.sellPrice(0, 2, 68);
         Item.rare = ItemRarityID.Expert;
         Item.expert = true;
     }

@@ -21,7 +21,7 @@ public class ButtonBomb : ModItem
         Item.width = 30;
         Item.height = 32;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 0, 60);
+        Item.value = Item.sellPrice(0, 0, 60);
         Item.rare = ItemRarityID.Green;
     }
 

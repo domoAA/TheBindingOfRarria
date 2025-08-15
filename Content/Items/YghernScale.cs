@@ -18,7 +18,7 @@ public class YghernScale : ModItem
         Item.width = 26;
         Item.height = 24;
         Item.rare = ItemRarityID.Blue;
-        Item.value = Item.buyPrice(0, 0, 1, 12);
+        Item.value = Item.sellPrice(0, 0, 1, 12);
         Item.buffType = ModContent.BuffType<YghernBuff>();
         Item.buffTime = 600;
         Item.useStyle = ItemUseStyleID.Guitar;

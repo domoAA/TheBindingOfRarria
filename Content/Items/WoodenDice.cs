@@ -16,7 +16,7 @@ public class WoodenDice : ModItem
         Item.width = 26;
         Item.height = 28;
         Item.rare = ItemRarityID.Green;
-        Item.value = Item.buyPrice(0, 0, 7, 20);
+        Item.value = Item.sellPrice(0, 0, 7, 20);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<LuckRollPlayer>().Dice = true;

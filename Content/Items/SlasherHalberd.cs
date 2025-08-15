@@ -14,7 +14,7 @@ public class SlasherHalberd : ModItem
         Item.width = 26;
         Item.accessory = true;
         Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 0, 89);
+        Item.value = Item.sellPrice(0, 0, 89);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SlasherItemPlayer>().Halberd = Item;

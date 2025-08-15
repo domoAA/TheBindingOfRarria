@@ -13,7 +13,7 @@ public class ValiantArmor : ModItem
         Item.width = 28;
         Item.height = 28;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 9);
+        Item.value = Item.sellPrice(0, 9);
         Item.rare = ItemRarityID.LightPurple;
     }
 

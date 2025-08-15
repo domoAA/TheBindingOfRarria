@@ -16,7 +16,7 @@ public class CullingBlade : ModItem
         Item.width = 30;
         Item.rare = ItemRarityID.Expert;
         Item.expert = true;
-        Item.value = Item.buyPrice(0, 1, 50);
+        Item.value = Item.sellPrice(0, 1, 50);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<CullPlayer>().PlayedTheseGamesBefore = Item;
