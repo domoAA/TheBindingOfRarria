@@ -10,7 +10,7 @@ public static class Effects
 {
     private const string prefix = "TheBindingOfRarria/Assets/Effects/";
 
-    public static readonly Asset<Effect> AmoebaShader = LoadEffect("AmoebaAura");
+    public static readonly Asset<Effect> ShpereShader = LoadEffect("Sphere");
 
     private static Asset<Effect> LoadEffect(string EffectPath)
     {

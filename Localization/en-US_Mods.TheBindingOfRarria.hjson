@@ -711,7 +711,7 @@ Items: {
 		Tooltip:
 			'''
 			+10% max life
-			1.1x damage multiplier
+			1.1x damage multiplier for your attacks
 			Increased physical size
 			'Big chungus'
 			'''
@@ -839,13 +839,25 @@ Items: {
 			'''
 	}
 
-	SteelyAegis: {
-		DisplayName: Steely Aegis
+	Aegis: {
+		DisplayName: Aegis
 		Tooltip:
 			'''
-			+9% damage reduction
-			Grants 1% increased damage per every 3% of damage reduction you have
+			Gain one of the 3 affinities based on the prefix that your equipped accessories have the most of
+			Offesnive: +10 armor penetration
+			Defensive: +10% defense effectiveness
+			Other: +10% lifesteal
 			'Each wall is made of many stones'
+			'''
+	}
+
+	KingdomStone: {
+		DisplayName: Kingdom Stone
+		Tooltip: 
+			'''
+			+60 mana
+			Reduces damage taken depending on missing mana, up to 20% reduction at 0 mana
+			'To, one day, find the answers that they alone could never find...'
 			'''
 	}
 }
@@ -960,6 +972,7 @@ Projectiles: {
 	DarkDash.DisplayName: Dark Dash
 	HomingMissile.DisplayName: Homing Missile
 	PharmaceuticBullet.DisplayName: Pharmaceutic Bullet
+	MagicSphere.DisplayName: Magic Sphere
 }
 
 Keybinds: {

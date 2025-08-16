@@ -2,9 +2,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 
-/*namespace TheBindingOfRarria.Content.Items;
+namespace TheBindingOfRarria.Content.Items;
 
-public class SteelyAegis : ModItem
+public class Aegis : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
 
@@ -20,7 +20,6 @@ public class SteelyAegis : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<AegisPlayer>().Aegis = true;
-        //player.endurance += 0.09f;
     }
 }
 
@@ -28,11 +27,10 @@ public class AegisPlayer : ModPlayer
 {
     public bool Aegis = false;
 
-    public override void PostUpdateEquips()
+    public override void PostUpdateMiscEffects()
     {
         if (Aegis)
         {
-            Player.allDamage.Additive += Player.endurance / 3;
         }
     }
-}*/
+}

@@ -110,6 +110,14 @@ public static class ResizedPlayerUtils
                 Player.ResetScale();
             }
         }
+
+        public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
+        {
+            if (IsScaled)
+            {
+                drawInfo.ItemLocation += new Vector2(0, drawInfo.drawPlayer.height * (Scale - 1f));
+            }
+        }
         #endregion
     }
 }
@@ -152,13 +160,15 @@ public class PlayerRenderTarget : ModSystem
         {
             var Scale = drawPlayer.GetModPlayer<ResizedPlayer>().Scale;
 
-            var difference = drawPlayer.height - p.OldSize.Y;
+            var difference = new Vector2(drawPlayer.width - p.OldSize.X, drawPlayer.height - p.OldSize.Y);
 
             if (shadow != 0 && shadow is 0.5f or 0.7f or 0.9f && (Math.Abs(position.Y - drawPlayer.position.Y) > 6 || Math.Abs(position.X - drawPlayer.position.X) > 6))
             {
-                position.Y -= difference;
+                position.Y -= difference.Y;
                 var data = self._drawData;
             }
+
+            position += difference * (Main.GameZoomTarget - 1f) / 4;
 
             DrawPlayerTarget(drawPlayer.whoAmI, () => orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly));
         }
@@ -179,8 +189,8 @@ public class PlayerRenderTarget : ModSystem
         int width = Main.screenWidth;
         int height = Main.screenHeight;
 
-        Target = new(gd, width, height);
-        ScaleTarget = new(gd, width, height);
+        ScaleTarget = new(gd, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+        Target = new(gd, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
     }
 
     private void DrawPlayerTarget(int who, Action action)
