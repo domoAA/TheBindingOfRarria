@@ -29,7 +29,7 @@ public sealed class PaleOreGeneration : ModSystem
         {
             progress.Message = PaleOrePassMessage.Value;
 
-            for (int k = 0; k < (int)(Main.maxTilesX * Main.maxTilesY * 0.00001); k++)
+            for (int k = 0; k < (int)(Main.maxTilesX * Main.maxTilesY * 0.00002); k++)
             {
                 int x = WorldGen.genRand.Next(150, Main.maxTilesX - 150);
                 int y = WorldGen.genRand.Next((int)GenVars.rockLayerLow, Main.UnderworldLayer - 100);

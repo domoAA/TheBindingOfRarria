@@ -162,7 +162,7 @@ public class PlayerRenderTarget : ModSystem
 
             var difference = new Vector2(drawPlayer.width - p.OldSize.X, drawPlayer.height - p.OldSize.Y);
 
-            if (shadow != 0 && shadow is 0.5f or 0.7f or 0.9f && (Math.Abs(position.Y - drawPlayer.position.Y) > 6 || Math.Abs(position.X - drawPlayer.position.X) > 6))
+            if (shadow != 0 && shadow is 0.5f or 0.7f or 0.9f && (Math.Abs(position.Y - drawPlayer.position.Y) > 6f || Math.Abs(position.X - drawPlayer.position.X) > 6f))
             {
                 position.Y -= difference.Y;
                 var data = self._drawData;

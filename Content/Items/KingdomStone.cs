@@ -28,6 +28,7 @@ public class KingdomStone : ModItem
         player.SpawnProjectileIfNotSpawned(ModContent.ProjectileType<MagicSphere>(), player.GetProjectileSource_Accessory(Item));
     }
 }
+
 public class ManaStoneDropNPC : GlobalNPC
 {
     public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => entity.aiStyle == NPCAIStyleID.Caster;

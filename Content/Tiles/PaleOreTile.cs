@@ -61,7 +61,7 @@ public class PaleOreTile : ModTile
                 (!Main.tileOreFinderPriority.Contains((short)neighbor.TileType) ||
                 Main.tileOreFinderPriority[neighbor.TileType] < 404))
             {
-                neighbor.TileType = TileID.IceBlock;
+                neighbor.ResetToType((ushort)TileID.IceBlock);
 
                 WorldGen.SquareTileFrame(randomNeighbor.X, randomNeighbor.Y);
                 NetMessage.SendTileSquare(-1, randomNeighbor.X, randomNeighbor.Y, 1);

@@ -840,24 +840,52 @@ Items: {
 	}
 
 	Aegis: {
-		DisplayName: Aegis
+		DisplayName: Dionysus' Aegis
 		Tooltip:
 			'''
 			Gain one of the 3 affinities based on the prefix that your equipped accessories have the most of
 			Offesnive: +10 armor penetration
 			Defensive: +10% defense effectiveness
 			Other: +10% lifesteal
-			'Each wall is made of many stones'
+			'Let the act guide you'
 			'''
 	}
 
 	KingdomStone: {
 		DisplayName: Kingdom Stone
-		Tooltip: 
+		Tooltip:
 			'''
 			+60 mana
 			Reduces damage taken depending on missing mana, up to 20% reduction at 0 mana
 			'To, one day, find the answers that they alone could never find...'
+			'''
+	}
+
+	Virus: {
+		DisplayName: Virus Sample
+		Tooltip:
+			'''
+			All enemies have their max life decreased by 5%
+			'Perhaps it is best to never open it again'
+			'''
+	}
+
+	SiphonBullets: {
+		DisplayName: Siphon Bullets
+		Tooltip:
+			'''
+			Your bullets temporarily steal 1 max life from enemies for 20 seconds
+			Duration does not get refreshed
+			'It's called borrowing, not stealing'
+			'''
+	}
+
+	MagicSeal: {
+		DisplayName: Magic Seal
+		Tooltip:
+			'''
+			Limits damage taken from a hit to {0} [c/90ee90:(30% of your max life)]
+			'I wonder what it was supposed to seal out?'
 			'''
 	}
 }
@@ -941,6 +969,11 @@ Buffs: {
 	SpiritRush: {
 		DisplayName: Spirit Rush
 		Description: Magic damage multiplier increased by another 0.1x
+	}
+
+	Siphoned: {
+		DisplayName: Siphoned
+		Description: Mods.TheBindingOfRarria.Buffs.Siphoned.Description
 	}
 }
 
