@@ -118,29 +118,13 @@ public class TreeSentinelPlayer : ModPlayer
         }
     }
 
-    public bool cancelled = false;
-
     public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
     {
-        if (counter > 0)
+        if (counter > 0 && TreeSentinel)
         {
             modifiers.Cancel();
             proj.GetReflected();
-            cancelled = true;
         }
-    }
-
-    public override bool FreeDodge(Player.HurtInfo info)
-    {
-        if (cancelled)
-        {
-            Player.immune = true;
-            Player.immuneTime = 60;
-            cancelled = false;
-            return true;
-        }
-
-        return base.FreeDodge(info);
     }
 
     public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
