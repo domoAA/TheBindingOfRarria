@@ -12,6 +12,8 @@ public static class Effects
 
     public static readonly Asset<Effect> ShpereShader = LoadEffect("Sphere");
 
+    public static readonly Asset<Effect> SpinAura = LoadEffect("SpinAura");
+
     private static Asset<Effect> LoadEffect(string EffectPath)
     {
         if (Main.dedServ)

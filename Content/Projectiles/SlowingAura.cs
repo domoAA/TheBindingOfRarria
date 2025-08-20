@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
+using TheBindingOfRarria.Common.Registries;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
@@ -77,6 +78,7 @@ public class SlowingAura : ModProjectile
         Texture2D texture = TextureAssets.Projectile[Type].Value;
 
         Color color = Color.LightYellow * (alpha / 255f);
+
 
         for (int i = 0; i < 8; i++)
         {

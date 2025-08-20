@@ -1,12 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.Graphics.Renderers;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
+using TheBindingOfRarria.Common.Registries;
 using static TheBindingOfRarria.Common.Systems.ResizedPlayerUtils;
 //using static TheBindingOfRarria.Common.Systems.ResizedPlayerUtils;
 
@@ -122,6 +124,29 @@ public static class ResizedPlayerUtils
     }
 }
 
+public class PlayerScaleItem : GlobalItem
+{
+    public override bool InstancePerEntity => true;
+
+    public override void UseItemHitbox(Item item, Player player, ref Rectangle hitbox, ref bool noHitbox)
+    {
+        var p = player.GetModPlayer<ResizedPlayer>();
+        if (p.IsScaled)
+        {
+            var addX = (int)(hitbox.Width * (p.Scale - 0.75f));
+            var addY = (int)(hitbox.Height * (p.Scale - 0.75f));
+
+            hitbox.Width += addX;
+            hitbox.Height += addY;
+
+            if (player.direction == -1)
+                hitbox.X -= addX / 2 + (int)(player.width - p.OldSize.X) / 2;
+
+            hitbox.Y -= addY / 2;
+        }
+    }
+}
+
 public class PlayerRenderTarget : ModSystem
 {
     public static RenderTarget2D Target;
@@ -140,7 +165,7 @@ public class PlayerRenderTarget : ModSystem
             ScaleTarget = new(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
         });
 
-        On_LegacyPlayerRenderer.DrawPlayerInternal += On_LegacyPlayerRenderer_DrawPlayerInternal; ;
+        On_LegacyPlayerRenderer.DrawPlayerInternal += On_LegacyPlayerRenderer_DrawPlayerInternal;
     }
 
     private void On_LegacyPlayerRenderer_DrawPlayerInternal(On_LegacyPlayerRenderer.orig_DrawPlayerInternal orig, LegacyPlayerRenderer self, Camera camera, Player drawPlayer, Vector2 position, float rotation, Vector2 rotationOrigin, float shadow, float alpha, float scale, bool headOnly)
@@ -223,7 +248,6 @@ public class PlayerRenderTarget : ModSystem
         player.ApplyPlayerSize(scale);
         var center = player.position - Main.screenPosition;
         player.ResetPlayerSize();
-
 
         Main.spriteBatch.Draw(ScaleTarget, center - new Vector2(0, player.gfxOffY * scale), null, Color.White, 0, center, scale, SpriteEffects.None, 0);
 

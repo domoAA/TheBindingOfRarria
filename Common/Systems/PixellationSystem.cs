@@ -19,6 +19,8 @@ public class PixellationSystem : ModSystem
 
     private static RenderTarget2D Target { get; set; }
 
+    private static Queue<(Action action, RenderType type)> Actions { get; set; } = new();
+
     public override void Load()
     {
 
@@ -30,6 +32,8 @@ public class PixellationSystem : ModSystem
                 Target = new(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
             });
         }
+
+        On_Main.DrawInfernoRings += DrawPixellated;
     }
 
     private void InitializeRT(Vector2 obj)
@@ -47,11 +51,21 @@ public class PixellationSystem : ModSystem
         Target = new(gd, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
     }
 
+    public static void QueuePixellationAction(Action action, RenderType type)
+    {
+        Actions.Enqueue((action, type));
+    }
+
     /// <summary>
     /// Invokes the passed draw action on the rt and draws the rt with 2x scale
     /// </summary>
-    public static void DrawPixellated(Action action, RenderType type)
+    private static void DrawPixellated(On_Main.orig_DrawInfernoRings orig, Main self)
     {
+        orig(self);
+
+        if (Actions is null || Actions.Count <= 0)
+            return;
+
         var gd = Main.graphics.GraphicsDevice;
 
         if (gd.PresentationParameters.RenderTargetUsage != RenderTargetUsage.PreserveContents)
@@ -72,11 +86,17 @@ public class PixellationSystem : ModSystem
         if (beginned)
             Main.spriteBatch.End(out parameters);
 
-        Main.spriteBatch.Begin(SpriteSortMode.Deferred, type == RenderType.Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Matrix.Identity);
 
-        action.Invoke();
+        for (int i = 0; i < Actions.Count; i++)
+        {
+            var (action, type) = Actions.Dequeue();
 
-        Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, type == RenderType.Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Matrix.Identity);
+ 
+            action.Invoke();
+
+            Main.spriteBatch.End();
+        }
 
         if (beginned)
             Main.spriteBatch.Begin(parameters);
@@ -89,7 +109,7 @@ public class PixellationSystem : ModSystem
         if (beginned)
             Main.spriteBatch.End(out parameters);
         
-        Main.spriteBatch.Begin(SpriteSortMode.Deferred, type == RenderType.Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+        Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
         Main.spriteBatch.Draw(Target, new Vector2(0), null, Color.White, 0, new Vector2(0), 2, SpriteEffects.None, 0);
 

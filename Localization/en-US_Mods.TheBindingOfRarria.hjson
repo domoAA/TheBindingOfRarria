@@ -888,6 +888,85 @@ Items: {
 			'I wonder what it was supposed to seal out?'
 			'''
 	}
+
+	RobotCarcass: {
+		DisplayName: Robot Carcass
+		Tooltip:
+			'''
+			Converts half of your life regeneration to defense
+			Every 0.5 hp/s is converted to 3 defense
+			'A remnant of some clanker'
+			'''
+	}
+
+	BloodhoundGreaves: {
+		DisplayName: Bloodhound Greaves
+		Tooltip:
+			'''
+			5% increased melee and movement speed
+			'Track and hunt'
+			'''
+	}
+
+	BloodhoundHelm: {
+		DisplayName: Bloodhound Helm
+		Tooltip:
+			'''
+			5% increased melee speed
+			'See without being seen'
+			'''
+		SetBonus: Allows you to dash in the direction of your cursor by pressing {0}
+	}
+
+	BloodhoundPlatemail: {
+		DisplayName: Bloodhound Platemail
+		Tooltip:
+			'''
+			5% increased melee speed and critical strike chance
+			'Smells of prey's blood'
+			'''
+	}
+
+	CompanionJar: {
+		DisplayName: Companion Jar
+		Tooltip:
+			'''
+			Pots you break become minions for 1 minute
+			You can have up to 5 pot minions
+			'Quite silly, it is'
+			'''
+	}
+
+	TreeSentinelCuirass: {
+		DisplayName: Tree Sentinel Cuirass
+		Tooltip:
+			'''
+			6% increased melee damage and critical strike chance
+			Enemies are more likely to target you
+			'Would look nicer with a halberd and a greatshield'
+			'''
+	}
+
+	TreeSentinelGreaves: {
+		DisplayName: Tree Sentinel Greaves
+		Tooltip:
+			'''
+			5% increased melee damage
+			Enemies are more likely to target you
+			'Shinier when riding a horse'
+			'''
+	}
+
+	TreeSentinelHelm: {
+		DisplayName: Tree Sentinel Helm
+		Tooltip:
+			'''
+			4% increased melee damage and greatly increased life regeneration
+			Enemies are more likely to target you
+			'Well, at least this one wasn't taken from a hero's grave'
+			'''
+		SetBonus: Grants knockback immunity. Press {0} to temporarily start reflecting hostile projectiles
+	}
 }
 
 Buffs: {
@@ -1006,6 +1085,7 @@ Projectiles: {
 	HomingMissile.DisplayName: Homing Missile
 	PharmaceuticBullet.DisplayName: Pharmaceutic Bullet
 	MagicSphere.DisplayName: Magic Sphere
+	PotMinion.DisplayName: Pot Minion
 }
 
 Keybinds: {
@@ -1014,6 +1094,8 @@ Keybinds: {
 	AbsorbingLiquid.DisplayName: Absorbing Liquid
 	CrystalHeart.DisplayName: Crystal Heart
 	Sangreal.DisplayName: Sangreal
+	BloodhoundDash.DisplayName: Bloodhound Dash
+	GoldenRetaliation.DisplayName: Golden Retaliation
 }
 
 Tiles: {
