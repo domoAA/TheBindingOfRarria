@@ -124,6 +124,9 @@ public class TreeSentinelPlayer : ModPlayer
         {
             modifiers.Cancel();
             proj.GetReflected();
+
+            for (int i = 0; i < 6; i++)
+                Dust.NewDust(proj.Center - new Vector2(8), 16, 16, DustID.GoldCoin);
         }
     }
 

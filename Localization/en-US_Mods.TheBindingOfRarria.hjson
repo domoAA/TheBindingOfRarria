@@ -967,6 +967,37 @@ Items: {
 			'''
 		SetBonus: Grants knockback immunity. Press {0} to temporarily start reflecting hostile projectiles
 	}
+
+	RakshasaGreaves: {
+		DisplayName: Rakshasa Greaves
+		Tooltip:
+			'''
+			9% increased damage and movement speed
+			Grants minor life regeneration
+			'Bloody'
+			'''
+	}
+
+	RakshasaHelm: {
+		DisplayName: Rakshasa Helm
+		Tooltip:
+			'''
+			9% increased damage
+			Grants minor life regeneration
+			'Blind  to suffering'
+			'''
+		SetBonus: Your every 6th attack is guaranteed to crit
+	}
+
+	RakshasaPlatemail: {
+		DisplayName: Rakshasa Platemail
+		Tooltip:
+			'''
+			9% increased damage and movement speed
+			Grants minor life regeneration
+			'Vicious'
+			'''
+	}
 }
 
 Buffs: {
