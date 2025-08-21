@@ -26,7 +26,7 @@ The current version includes:
 * 1 unique ore
 * and more...
 
-Big thanks for contributing to: pil, sungle, z_e_n_., stormytuna, BasicallyIAmFox, Ykyki4 and others
+Big thanks for contributing to: pil, sungle, z_e_n_., stormytuna, BasicallyIAmFox, Ykyki4, TacoConKvass and others
 
 This mod is fully compatible with multiplayer, and was mostly tested with some other mods.
 If you find any issues, provide detailed information about it on the workshop page or in the mod's discord.
