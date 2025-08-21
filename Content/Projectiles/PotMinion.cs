@@ -49,42 +49,55 @@ public class PotMinion : ModProjectile
     {
         var owner = Main.player[Projectile.owner];
 
-        Projectile.velocity *= 0.99f;
         Projectile.velocity = Projectile.Center.DirectionTo(owner.Center - new Vector2(0, 100).RotatedBy(Main.GlobalTimeWrappedHourly + Projectile.whoAmI));
 
+        if (Projectile.ai[1] > 0)
+            Projectile.ai[1]--;
+
+        if (Projectile.ai[1] != 0)
+            return;
 
         if (state == State.Idle && Projectile.ai[0] == 0 && Target == -1)
+        {
             Projectile.Minion_FindTargetInRange(800, ref Target, false);
 
+            if (Target != -1 && Main.npc[Target].GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy != -1)
+                Target = -1;
+        }
         else
         {
             var enemy = Main.npc[Target];
-            if (!enemy.active)
+            if (!enemy.active || (Main.npc[Target].GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy != -1 && Main.npc[Target].GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy != Projectile.identity))
             {
                 Projectile.ai[0] = 0;
                 state = State.Idle;
                 Target = -1;
+                Projectile.ai[1] = 40;
                 return;
             }
 
             if (state != State.Attacking && Projectile.ai[0] < 20 + (Projectile.whoAmI % 5))
             {
+                enemy.GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy = Projectile.identity;
+
                 state = State.Teleporting;
                 Projectile.ai[0]++;
 
                 if (Projectile.ai[0] == 0)
                 {
-                    Projectile.Center = owner.Center - new Vector2(0, 100).RotatedBy(float.Sin(Main.GlobalTimeWrappedHourly ));
+                    Projectile.Center = owner.Center - new Vector2(0, 100).RotatedBy(float.Sin(Main.GlobalTimeWrappedHourly));
                     state = State.Idle;
                     Target = -1;
+                    enemy.GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy = -1;
+                    Projectile.ai[1] = 40;
+                    Projectile.rotation = 0;
                 }
-                Projectile.rotation = 0;
 
                 return;
             }
             else state = State.Attacking;
 
-            Projectile.Center = enemy.Center - new Vector2(0, 100);
+            Projectile.Center = enemy.Center - new Vector2(0, 200);
 
             Projectile.rotation = Pi;
 
@@ -92,12 +105,13 @@ public class PotMinion : ModProjectile
             {
                 Projectile.ai[0]--;
                 return;
-            }    
+            }
 
             state = State.Teleporting;
 
+
             if (owner.whoAmI == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, new Vector2(0, 5), ProjectileID.PewMaticHornShot, 6, 2);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, new Vector2(0, 5), ProjectileID.PewMaticHornShot, 10, 2, ai1: Main.rand.Next(Main.projFrames[ProjectileID.PewMaticHornShot]));
         }
     }
 
@@ -108,11 +122,18 @@ public class PotMinion : ModProjectile
 
     public override bool PreDraw(ref Color lightColor)
     {
-        if (state == State.Teleporting)
+        if (state == State.Teleporting && float.Abs(Projectile.ai[0]) < 10)
         {
-            // some vfx idk
+            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Fireworks).noGravity = true;
         }
 
         return base.PreDraw(ref lightColor);
     }
+}
+
+public class PotMinionTargettedNPC : GlobalNPC
+{
+    public override bool InstancePerEntity => true;
+
+    public int TargettedBy = -1;
 }
