@@ -968,6 +968,15 @@ Items: {
 		SetBonus: Grants knockback immunity. Press {0} to temporarily start reflecting hostile projectiles
 	}
 
+	VandergriftBlade: {
+		DisplayName: Vandergrift's Blade
+		Tooltip:
+			'''
+			Whenever you kill an enemy, store a fraction of their defense
+			Your next heal is increased by the amount stored
+      '''
+  }
+  
 	RakshasaGreaves: {
 		DisplayName: Rakshasa Greaves
 		Tooltip:
