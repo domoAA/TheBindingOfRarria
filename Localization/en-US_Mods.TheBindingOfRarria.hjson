@@ -969,7 +969,7 @@ Items: {
 	}
 
 	VandergriftBlade: {
-		DisplayName: Vandergrift Blade
+		DisplayName: Vandergrift's Blade
 		Tooltip:
 			'''
 			Whenever you kill an enemy, store a fraction of their defense
