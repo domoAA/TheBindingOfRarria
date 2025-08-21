@@ -7,11 +7,6 @@
 	<PropertyGroup>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 	</PropertyGroup>
-	<ItemGroup>
-	  <Reference Include="ShopExtender">
-	    <HintPath>..\ModAssemblies\ShopExtender_v1.0.0.2.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Krafs.Publicizer" PrivateAssets="true" Version="2.2.1" />
