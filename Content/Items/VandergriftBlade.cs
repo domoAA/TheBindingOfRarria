@@ -26,7 +26,52 @@ public class VandergriftBladePlayer : ModPlayer {
 
     public float DefenseConversion = .5f;
 
+    public bool Healed = false;
+
     public override void ResetEffects() => Active = false;
+
+    public override void Load()
+    {
+        On_Player.Heal += ModifyHealAmount;
+        On_Player.HealEffect += ModifyHealEffect;
+    }
+
+    public override void Unload()
+    {
+        On_Player.Heal -= ModifyHealAmount;
+        On_Player.HealEffect -= ModifyHealEffect;
+    }
+
+    public static void ModifyHealEffect(On_Player.orig_HealEffect orig, Player self, int healAmount, bool broadcast)
+    {
+        int heal_value = healAmount;
+
+        VandergriftBladePlayer player = self.GetModPlayer<VandergriftBladePlayer>();
+        if (!player.Healed && player.Active) {
+            heal_value += player.StoredHeal;
+            self.statLife += player.StoredHeal;
+            player.StoredHeal = 0;
+        }
+
+        player.Healed = false;
+        orig(self, heal_value, broadcast);
+    }
+
+    public static void ModifyHealAmount(On_Player.orig_Heal orig, Player self, int amount)
+    {
+        int heal_value = amount;
+
+        VandergriftBladePlayer player = self.GetModPlayer<VandergriftBladePlayer>();
+        if (player.Active)
+        {
+            heal_value += player.StoredHeal;
+            self.statLife += player.StoredHeal;
+            player.StoredHeal = 0;
+        }
+
+        player.Healed = true;
+        orig(self, heal_value);
+    }
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
@@ -40,19 +85,5 @@ public class VandergriftBladePlayer : ModPlayer {
 
     public override void PostUpdateEquips() {
         if (!Active) StoredHeal = 0;
-    }
-
-    public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
-    {
-        if (!Active) return;
-        healValue += StoredHeal;
-    }
-}
-
-public class VandergriftBladeitem : GlobalItem {
-    public override void OnConsumeItem(Item item, Player player)
-    {
-        if (item.healLife > 0)
-            player.GetModPlayer<VandergriftBladePlayer>().StoredHeal = 0;
     }
 }
