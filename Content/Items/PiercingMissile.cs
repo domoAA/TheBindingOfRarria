@@ -3,7 +3,6 @@ using Terraria.ModLoader;
 using Terraria;
 using TheBindingOfRarria.Content.Dusts;
 using System;
-using ShopExtender;
 using System.Linq;
 
 namespace TheBindingOfRarria.Content.Items;
