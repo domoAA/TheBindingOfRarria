@@ -58,7 +58,7 @@ public class TreeSentinelHelm : ModItem
 
     public override void ArmorSetShadows(Player player)
     {
-        if (player.GetModPlayer<TreeSentinelPlayer>().counter > 0)
+        if (player.GetModPlayer<TreeSentinelPlayer>().counter >= 0)
             player.armorEffectDrawOutlines = true;
     }
 

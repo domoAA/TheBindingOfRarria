@@ -974,9 +974,10 @@ Items: {
 			'''
 			Whenever you kill an enemy, store a fraction of their defense
 			Your next heal is increased by the amount stored
-      '''
-  }
-  
+			   
+			'''
+	}
+
 	RakshasaGreaves: {
 		DisplayName: Rakshasa Greaves
 		Tooltip:
@@ -1005,6 +1006,30 @@ Items: {
 			9% increased damage and movement speed
 			Grants minor life regeneration
 			'Vicious'
+			'''
+	}
+
+	GodrickSoldierBoots: {
+		DisplayName: Godrick Soldier Boots
+		Tooltip: "'Worn down'"
+	}
+
+	GodrickSoldierHelm: {
+		DisplayName: Godrick Soldier Helm
+		Tooltip:
+			'''
+			Increases your max number of sentries by 1
+			'Collective mind'
+			'''
+		SetBonus: Grants 0.5 hp/s life regeneration for each minion or sentry you have summoned
+	}
+
+	GodrickSoldierTabard: {
+		DisplayName: Godrick Soldier Tabard
+		Tooltip:
+			'''
+			Increases your damage resistance by 5%
+			'One-man army'
 			'''
 	}
 }
