@@ -23,7 +23,7 @@ public class FireExplotaro : ModProjectile
         Projectile.usesIDStaticNPCImmunity = true;
         Projectile.idStaticNPCHitCooldown = 30;
 
-        for (int i = 9; i > 0; i--)
+        for (int i = 9; i >= 0; i--)
             bomba[i] = Vector2.One.RotatedBy(PiOver4 * (i + 1) + Main.rand.NextFloat(-Pi / 10, Pi / 10));
     }
 

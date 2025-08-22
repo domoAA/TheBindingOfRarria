@@ -23,7 +23,7 @@ public class CarefreePower : ModProjectile
         Projectile.timeLeft = 120;
         Projectile.netImportant = true;
 
-        for (int i = 19; i > 0; i--)
+        for (int i = 19; i >= 0; i--)
             edges[i] = Vector2.One.RotatedBy(PiOver4 * (i + 1) + Main.rand.NextFloat(-Pi / 20, Pi / 20));
     }
 
