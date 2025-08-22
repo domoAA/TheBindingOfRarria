@@ -17,7 +17,7 @@ public class WoodOMask : ModItem
         Item.width = 32;
         Item.height = 32;
         Item.rare = ItemRarityID.Green;
-        Item.value = Item.buyPrice(0, 0, 7, 20);
+        Item.value = Item.sellPrice(0, 0, 7, 20);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
