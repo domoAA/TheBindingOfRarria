@@ -974,7 +974,7 @@ Items: {
 			'''
 			Whenever you kill an enemy, store a fraction of their defense
 			Your next heal is increased by the amount stored
-			   
+			'Do not shatter a knight's sword'
 			'''
 	}
 

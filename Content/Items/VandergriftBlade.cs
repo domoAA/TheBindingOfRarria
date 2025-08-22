@@ -10,10 +10,10 @@ public class VandergriftBlade : ModItem
     public override void SetDefaults()
     {
         Item.accessory = true;
-        Item.width = 30;
-        Item.height = 30;
-        Item.rare = ItemRarityID.Green; // ?
-        Item.value = Item.sellPrice(0, 0, 30, 80); // ?
+        Item.width = 28;
+        Item.height = 34;
+        Item.rare = ItemRarityID.Green;
+        Item.value = Item.sellPrice(0, 1, 30, 0);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<VandergriftBladePlayer>().Active = true;

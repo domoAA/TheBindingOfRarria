@@ -34,15 +34,16 @@ public class GiantItemNPCShop : GlobalNPC
         if (npc.type == NPCID.DD2Bartender && Main.expertMode)
         {
             var index = Array.FindIndex(items, e => e == null);
+            if (index == 0)
+                index = 1;
 
-            if (index != -1)
+            if (index > 0)
                 items[index] = new Item(ModContent.ItemType<GirdleOfGiantStrength>())
                 {
                     shopCustomPrice = 12,
                     shopSpecialCurrency = CustomCurrencyID.DefenderMedals
 
                 };
-
         }
     }
 }

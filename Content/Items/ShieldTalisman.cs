@@ -40,16 +40,46 @@ public class ShieldItemNPCShop : GlobalNPC
         // tavernkeep
         if (npc.type == NPCID.DD2Bartender)
         {
-            var index = Array.FindIndex(items, e => e == null);
+            var index = Array.FindIndex(items, e => e != null && e.type == ModContent.ItemType<GreatshieldTalisman>());
 
             if (index != -1)
-                items[index] = new Item(ModContent.ItemType<ShieldTalisman>())
+            {
+                if (items[index + 1] == null)
+                    items[index + 1] = new Item(ModContent.ItemType<ShieldTalisman>())
+                    {
+                        shopCustomPrice = 5,
+                        shopSpecialCurrency = CustomCurrencyID.DefenderMedals
+
+                    };
+                else
+                {
+                    for (int i = 9; i > index + 1; i--)
+                    {
+                        items[i] = items[i - 1];
+                    }
+
+                    items[index + 1] = new Item(ModContent.ItemType<ShieldTalisman>())
+                    {
+                        shopCustomPrice = 5,
+                        shopSpecialCurrency = CustomCurrencyID.DefenderMedals
+
+                    };
+                }
+            }
+            else if (Array.FindIndex(items, e => e == null) != -1)
+            {
+                for (int i = 9; i > index + 1; i--)
+                {
+                    items[i] = items[i - 1];
+                }
+
+                items[index + 1] = new Item(ModContent.ItemType<ShieldTalisman>())
                 {
                     shopCustomPrice = 5,
                     shopSpecialCurrency = CustomCurrencyID.DefenderMedals
 
                 };
-
+            }
         }
     }
 }

@@ -14,12 +14,5 @@
 		<Publicize Include="tModLoader;FNA" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false" />
 	</ItemGroup>
 
-	<!-- References -->
-	<ItemGroup>
-		<EffectFiles Include="**/*.fx" />
-	</ItemGroup>
-	<Target Name="BuildEffects" BeforeTargets="BuildMod" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-		<Exec Command="@(EffectFiles->'&quot;./Assets/Effects/Compiler/fxc.exe&quot; &quot;%(RecursiveDir)%(FileName)%(Extension)&quot; /T fx_2_0 /nologo /Fo &quot;%(RecursiveDir)%(FileName).fxc&quot; &#xA;&#xD;')" IgnoreExitCode="true" />
-	</Target>
 
 </Project>

@@ -54,6 +54,32 @@ public class GodrickSoldierHelm : ModItem
     }
 }
 
+public partial class GodrickSoldierItemsNPCShop : GlobalNPC
+{
+    public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)
+    {
+        // tavernkeep
+        if (npc.type == NPCID.DD2Bartender)
+        {
+            var index = 10;
+            if (items[index] != null)
+                index = Array.FindIndex(items, e => e == null);
+
+            if (index != -1)
+                items[index] = new Item(ModContent.ItemType<GodrickSoldierHelm>())
+                {
+                    shopCustomPrice = 6,
+                    shopSpecialCurrency = CustomCurrencyID.DefenderMedals
+
+                };
+
+            AddTabard(ref items);
+            AddBoots(ref items);
+        }
+    }
+}
+
+
 public class GodrickSoldierSetPlayer : ModPlayer
 {
     public bool FinalBoss = false;
