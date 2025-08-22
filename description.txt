@@ -6,21 +6,33 @@ Jujutsu Kaisen
 Otherworld Legends
 Hollow Knight
 Dungeons and Dragons
+Gwent
+Necesse
+Spelunky Classic
+League of Legends
+Risk of Rain
+Deadlock
+Elden Ring
+Magic Survival
 
 
-The total planned size of the mod is about 60-80 items, and a few small changes and additions, like NPCs and status effects.
+
+The total planned size of the mod is about ~90 items, and a few small changes and additions, like NPCs and status effects.
 
 The current version includes:
-* 70 accessories
-* 13 status effects
-* 1 armor set
+* 86 accessories
+* 15 status effects
+* 5 armor set
 * 1 unique ore
 * and more...
 
-Big thanks for contributing to: pil, sungle, z_e_n_., stormytuna, BasicallyIAmFox, Ykyki4 and others
+Big thanks for contributing to: pil, sungle, z_e_n_., stormytuna, BasicallyIAmFox, Ykyki4, TacoConKvass and others
 
 This mod is fully compatible with multiplayer, and was mostly tested with some other mods.
 If you find any issues, provide detailed information about it on the workshop page or in the mod's discord.
 
 
-Here is a link to this mod's wiki page: https://terrariamods.wiki.gg/wiki/The_Binding_of_Rarria
+Disclaimer: I do not own the franchises this mod references, and the content in this mod does not belong solely to me, as it could be considered a fan-made remake of certain pieces of content those franchises own.
+
+
+Here is a link to this mod's wiki page: https://terrariamods.wiki.gg/wiki/The_Binding_of_Rarria[quote=tModLoader TheBindingOfRarria]
