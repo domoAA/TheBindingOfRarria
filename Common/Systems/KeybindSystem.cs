@@ -10,6 +10,8 @@ public class KeybindSystem : ModSystem
     public static ModKeybind AbsorbingKey { get; private set; }
     public static ModKeybind CrystalDashKey { get; private set; }
     public static ModKeybind SangrealKey { get; private set; }
+    public static ModKeybind BloodhoundDashKey { get; private set; }
+    public static ModKeybind TreeSentinelKey { get; private set; }
 
     public override void Load()
     {
@@ -18,13 +20,7 @@ public class KeybindSystem : ModSystem
         AbsorbingKey = KeybindLoader.RegisterKeybind(Mod, "AbsorbingLiquid", Keys.O);
         CrystalDashKey = KeybindLoader.RegisterKeybind(Mod, "CrystalHeart", Keys.V);
         SangrealKey = KeybindLoader.RegisterKeybind(Mod, "Sangreal", Keys.J);
-    }
-
-    public override void Unload()
-    {
-        ZaWardoKey = null;
-        BloodDripKey = null;
-        AbsorbingKey = null;
-        CrystalDashKey = null;
+        BloodhoundDashKey = KeybindLoader.RegisterKeybind(Mod, "BloodhoundDash", Keys.C);
+        TreeSentinelKey = KeybindLoader.RegisterKeybind(Mod, "GoldenRetaliation", Keys.L);
     }
 }

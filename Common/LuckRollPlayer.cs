@@ -50,7 +50,7 @@ public class LuckRollPlayer : ModPlayer
         {
             int bound = self.GetModPlayer<LuckRollPlayer>().Talisman ? 100 : 100 + Main.DefaultDamageVariationPercent;
 
-            int roll = Math.Max(1, CustomRangeDamageVar(Damage, 100 - Main.DefaultDamageVariationPercent, bound));
+            int roll = Math.Max(1, CustomRangeDamageVar(LuckRoll.original, 100 - Main.DefaultDamageVariationPercent, bound));
 
             if (roll > Damage)
                 Damage = roll;
@@ -60,7 +60,7 @@ public class LuckRollPlayer : ModPlayer
     {
         if (LuckRoll.rolled != 0 && Damage % LuckRoll.rolled == 0 && self.GetModPlayer<LuckRollPlayer>().Talisman)
         {
-            Damage = CustomRangeDamageVar(Damage, 100 - Main.DefaultDamageVariationPercent, 100, -self.luck);
+            Damage = CustomRangeDamageVar(LuckRoll.original, 100 - Main.DefaultDamageVariationPercent, 100, -self.luck);
             LuckRoll.rolled = Damage;
         }
     }

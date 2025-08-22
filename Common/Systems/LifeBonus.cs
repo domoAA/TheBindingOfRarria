@@ -32,7 +32,7 @@ public class TemporaryLifePlayer : ModPlayer
     {
         for (int e = 0; e < bonuses.Count - 1; e++)
         {
-            if (bonuses[e].ErasureCondition.Invoke(Player))
+            if (bonuses[e].ErasureCondition.Invoke(Player) || bonuses[e].TimeLeft <= 0)
                 bonuses.Remove(bonuses[e]);
 
             else bonuses[e].UpdateLifeBonus(ref Player.statLifeMax2);

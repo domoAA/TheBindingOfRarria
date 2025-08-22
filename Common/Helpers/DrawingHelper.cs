@@ -16,7 +16,7 @@ public static partial class Helper
         position = Vector2.Transform(position, HalfScale);
         scale = Vector2.Transform(scale, HalfScale);
 
-        PixellationSystem.QueuePixelationAction(() =>
+        PixellationSystem.QueuePixellationAction(() =>
         {
             spriteBatch.Draw(texture, position, sourceRect, color, rotation, origin, scale, SpriteEffects.None, 0);
         }, renderType);
@@ -27,7 +27,7 @@ public static partial class Helper
         position = Vector2.Transform(position, HalfScale);
         scale = Vector2.Transform(scale, HalfScale);
 
-        PixellationSystem.QueuePixelationAction(() =>
+        PixellationSystem.QueuePixellationAction(() =>
         {
             spriteBatch.Draw(texture, position, sourceRect, color, rotation, origin, scale, effects, 0);
         }, renderType);

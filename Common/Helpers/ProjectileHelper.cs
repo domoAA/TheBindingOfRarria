@@ -45,7 +45,7 @@ public static partial class Helper
 
     public static void GetReflected(this Projectile projectile)
     {
-        projectile.damage *= 2;
+        projectile.damage *= Main.masterMode ? 6 : Main.expertMode ? 4 : 2;
         projectile.velocity = -projectile.velocity;
         projectile.hostile = false;
         projectile.friendly = true;
