@@ -15,7 +15,7 @@ public class PaleOre : ModItem
         Item.DefaultToPlaceableTile(ModContent.TileType<PaleOreTile>());
         Item.width = 30;
         Item.height = 26;
-        Item.value = Item.buyPrice(0, 0, 20);
+        Item.value = Item.sellPrice(0, 0, 20);
         Item.rare = ItemRarityID.Green;
     }
 }

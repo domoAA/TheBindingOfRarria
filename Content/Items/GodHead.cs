@@ -16,7 +16,7 @@ public class GodHead : ModItem
         Item.accessory = true;
         Item.height = 22;
         Item.width = 30;
-        Item.value = Item.buyPrice(0, 6);
+        Item.value = Item.sellPrice(0, 6);
         Item.rare = ItemRarityID.Pink;
     }
 

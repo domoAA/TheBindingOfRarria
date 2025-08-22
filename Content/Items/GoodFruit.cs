@@ -14,7 +14,7 @@ public class GoodFruit : ModItem
         Item.height = 24;
         Item.width = 28;
         Item.rare = ItemRarityID.Orange;
-        Item.value = Item.buyPrice(0, 0, 90);
+        Item.value = Item.sellPrice(0, 0, 90);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

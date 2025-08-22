@@ -14,7 +14,7 @@ public class DevilsTrumpet : ModItem
         Item.accessory = true;
         Item.width = 32;
         Item.height = 30;
-        Item.value = Item.buyPrice(0, 1, 30);
+        Item.value = Item.sellPrice(0, 1, 30);
         Item.rare = ItemRarityID.LightRed;
     }
 

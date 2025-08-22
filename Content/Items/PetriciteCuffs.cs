@@ -16,7 +16,7 @@ public class PetriciteCuffs : ModItem
         Item.accessory = true;
         Item.height = 26;
         Item.width = 28;
-        Item.value = Item.buyPrice(0, 3, 14);
+        Item.value = Item.sellPrice(0, 3, 14);
         Item.rare = ItemRarityID.Master;
         Item.expert = true;
     }

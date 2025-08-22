@@ -17,7 +17,7 @@ public class AfterimageMirror : ModItem
         Item.height = 22;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 2);
         Item.expert = true;
     }
 

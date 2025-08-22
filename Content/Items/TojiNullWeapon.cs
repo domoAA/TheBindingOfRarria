@@ -17,7 +17,7 @@ public class TojiNullWeapon : ModItem
         Item.width = 34;
         Item.height = 40;
         Item.rare = ItemRarityID.Pink;
-        Item.value = Item.buyPrice(0, 2, 80);
+        Item.value = Item.sellPrice(0, 2, 80);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

@@ -15,7 +15,7 @@ public class DivergentsFist : ModItem
         Item.width = 26;
         Item.height = 32;
         Item.rare = ItemRarityID.Pink;
-        Item.value = Item.buyPrice(0, 3);
+        Item.value = Item.sellPrice(0, 3);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

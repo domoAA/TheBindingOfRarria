@@ -14,7 +14,7 @@ public class FireBomb : ModItem
         Item.width = 30;
         Item.height = 30;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 0, 80);
+        Item.value = Item.sellPrice(0, 0, 80);
         Item.rare = ItemRarityID.LightRed;
     }
 

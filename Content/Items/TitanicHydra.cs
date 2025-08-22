@@ -23,7 +23,7 @@ public class TitanicHydra : ModItem
         Item.height = 32;
         Item.width = 34;
         Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 1, 11, 11);
+        Item.value = Item.sellPrice(0, 1, 11, 11);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

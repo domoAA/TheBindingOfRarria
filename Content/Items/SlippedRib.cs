@@ -17,7 +17,7 @@ public class SlippedRib : ModItem
         Item.height = 24;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 2);
         Item.expert = true;
     }
 

@@ -15,7 +15,7 @@ public class Censer : ModItem
         Item.width = 26;
         Item.height = 34;
         Item.accessory = true;
-        Item.value = Item.buyPrice(0, 9);
+        Item.value = Item.sellPrice(0, 9);
         Item.rare = ItemRarityID.LightPurple;
     }
 

@@ -15,7 +15,7 @@ public class SweetHeart : ModItem
         Item.height = 24;
         Item.width = 26;
         Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 1, 33, 33);
+        Item.value = Item.sellPrice(0, 1, 33, 33);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<SweetPlayer>().Sweetie = true;
@@ -41,7 +41,7 @@ public class SweetPlayer : ModPlayer
     {
         base.OnHitNPC(target, hit, damageDone);
 
-        if (!Sweetie || Player.lifeSteal <= 0 || !target.canGhostHeal)
+        if (!Sweetie || Player.lifeSteal <= 0 || !target.canGhostHeal || target.immortal || target.lifeMax <= 5)
             return;
 
         Player.Heal(1 + damageDone / 10);

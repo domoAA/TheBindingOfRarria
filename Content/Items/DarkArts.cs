@@ -19,7 +19,7 @@ public class DarkArts : ModItem
         Item.height = 32;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 6);
+        Item.value = Item.sellPrice(0, 6);
         Item.expert = true;
 
     }

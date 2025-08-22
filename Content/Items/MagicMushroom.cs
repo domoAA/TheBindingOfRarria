@@ -6,7 +6,7 @@ using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Content.Items;
 
-/*public class MagicMushroom : ModItem
+public class MagicMushroom : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
 
@@ -16,7 +16,7 @@ namespace TheBindingOfRarria.Content.Items;
         Item.width = 24;
         Item.height = 28;
         Item.rare = ItemRarityID.Master;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 4);
         Item.master = true;
     }
 
@@ -42,7 +42,7 @@ public class RedMushPlayer : ModPlayer
     {
         if (FunGuy)
         {
-            Player.statLifeMax2 *= 11 / 10;
+            Player.statLifeMax2 = (int)(Player.statLifeMax2 * 1.1f);
             Player.GetDamage(DamageClass.Generic) *= 1.1f;
 
             if (Collision.IsClearSpotTest(Player.position - new Vector2(0f, (Growth - 0.9f) * 40) + Player.velocity, 16f, (int)(Player.width * (Growth + 0.04f)), (int)(Player.height * (Growth + 0.04f)), fallThrough: true, fall2: true))
@@ -59,11 +59,6 @@ public class RedMushPlayer : ModPlayer
         if (Growth != 1)
             ResizedPlayerUtils.SetScale(Player, Growth);
     }
-
-    public override void ModifyShootStats(Item item, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-    {
-        velocity += (velocity / velocity.Length());
-    }
 }
 
 public class RedMushItemNPCShop : GlobalNPC
@@ -75,4 +70,4 @@ public class RedMushItemNPCShop : GlobalNPC
            shop.Add(new Item(ModContent.ItemType<MagicMushroom>()), Condition.InMasterMode);
         }
     }
-}*/
+}

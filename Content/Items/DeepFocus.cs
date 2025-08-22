@@ -15,7 +15,7 @@ public class DeepFocus : ModItem
         Item.height = 30;
         Item.width = 30;
         Item.rare = ItemRarityID.Orange;
-        Item.value = Item.buyPrice(0, 0, 80);
+        Item.value = Item.sellPrice(0, 0, 80);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

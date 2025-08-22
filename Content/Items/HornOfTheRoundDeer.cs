@@ -18,7 +18,7 @@ public class HornOfTheRoundDeer : ModItem
         Item.width = 26;
         Item.height = 32;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 2);
         Item.expert = true;
     }
 

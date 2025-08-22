@@ -15,7 +15,7 @@ public class CryptBloom : ModItem
         Item.height = 28;
         Item.accessory = true;
         Item.rare = ItemRarityID.Green;
-        Item.value = Item.buyPrice(0, 1);
+        Item.value = Item.sellPrice(0, 1);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

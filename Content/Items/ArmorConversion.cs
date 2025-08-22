@@ -14,7 +14,7 @@ public class ArmorConversion : ModItem
         Item.height = 32;
         Item.accessory = true;
         Item.rare = ItemRarityID.Yellow;
-        Item.value = Item.buyPrice(0, 10);
+        Item.value = Item.sellPrice(0, 10);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

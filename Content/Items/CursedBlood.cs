@@ -24,7 +24,7 @@ public class CursedBlood : ModItem
         Item.height = 30;
         Item.width = 24;
         Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 1, 38);
+        Item.value = Item.sellPrice(0, 1, 38);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

@@ -18,7 +18,7 @@ public class RubberCement : ModItem
         Item.height = 26;
         Item.width = 24;
         Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 1, 12);
+        Item.value = Item.sellPrice(0, 1, 12);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<CementosPlayer>().Cementos = true;

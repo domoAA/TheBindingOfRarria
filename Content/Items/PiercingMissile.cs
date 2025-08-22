@@ -3,7 +3,6 @@ using Terraria.ModLoader;
 using Terraria;
 using TheBindingOfRarria.Content.Dusts;
 using System;
-using ShopExtender;
 using System.Linq;
 
 namespace TheBindingOfRarria.Content.Items;
@@ -18,7 +17,7 @@ public class PiercingMissile : ModItem
         Item.width = 20;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 0, 80);
+        Item.value = Item.sellPrice(0, 0, 80);
         Item.expert = true;
     }
     public override void UpdateAccessory(Player player, bool hideVisual)
@@ -26,6 +25,7 @@ public class PiercingMissile : ModItem
         player.GetModPlayer<NilfgaardBallistaPlayer>().BallistaMissile = true;
     }
 }
+
 public class NilfgaardBoltItemNPCShop : GlobalNPC
 {
     public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)

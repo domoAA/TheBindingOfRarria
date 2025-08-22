@@ -20,7 +20,7 @@ public class GolemsHeart : ModItem
         Item.accessory = true;
         Item.defense = 2;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 6, 66);
+        Item.value = Item.sellPrice(0, 6, 66);
         Item.expert = true;
     }
 

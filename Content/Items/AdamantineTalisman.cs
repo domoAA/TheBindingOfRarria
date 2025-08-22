@@ -16,8 +16,9 @@ public class AdamantineTalisman : ModItem
         Item.accessory = true;
         Item.height = 30;
         Item.width = 26;
+        Item.defense = 5;
         Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.buyPrice(0, 4, 0, 4);
+        Item.value = Item.sellPrice(0, 4, 0, 4);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<LuckRollPlayer>().Talisman = true;

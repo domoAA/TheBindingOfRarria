@@ -25,7 +25,7 @@ public class Ankh : ModItem
         Item.height = 30;
         Item.accessory = true;
         Item.rare = ItemRarityID.LightPurple;
-        Item.value = Item.buyPrice(0, 3);
+        Item.value = Item.sellPrice(0, 3);
     }
 
     public override void AddRecipes()

@@ -16,7 +16,7 @@ public class GirdleOfGiantStrength : ModItem
         Item.height = 24;
         Item.accessory = true;
         Item.rare = ItemRarityID.Expert;
-        Item.value = Item.buyPrice(0, 2);
+        Item.value = Item.sellPrice(0, 2);
         Item.expert = true;
     }
 
@@ -34,15 +34,16 @@ public class GiantItemNPCShop : GlobalNPC
         if (npc.type == NPCID.DD2Bartender && Main.expertMode)
         {
             var index = Array.FindIndex(items, e => e == null);
+            if (index == 0)
+                index = 1;
 
-            if (index != -1)
+            if (index > 0)
                 items[index] = new Item(ModContent.ItemType<GirdleOfGiantStrength>())
                 {
                     shopCustomPrice = 12,
                     shopSpecialCurrency = CustomCurrencyID.DefenderMedals
 
                 };
-
         }
     }
 }
@@ -50,6 +51,8 @@ public class GiantItemNPCShop : GlobalNPC
 public class GiantPlayer : ModPlayer
 {
     public bool HasGirdleOfGiantStrength = false;
+
+    public bool Healed = false;
 
     public override void ResetEffects()
     {
@@ -60,6 +63,23 @@ public class GiantPlayer : ModPlayer
     {
         base.Load();
         Terraria.On_Player.Heal += On_Player_Heal;
+        On_Player.HealEffect += On_Player_HealEffect;
+    }
+
+    private void On_Player_HealEffect(On_Player.orig_HealEffect orig, Player self, int healAmount, bool broadcast)
+    {
+        if (!self.GetModPlayer<GiantPlayer>().Healed && self.GetModPlayer<GiantPlayer>().HasGirdleOfGiantStrength)
+        {
+            int bonus = healAmount / 2;
+            if (bonus > 0)
+            {
+                self.statLifeMax2 += bonus;
+                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 600, cond => !CheckGiantStrength(self)));
+            }
+        }
+
+        self.GetModPlayer<GiantPlayer>().Healed = false;
+        orig(self, healAmount, broadcast);
     }
 
     private void On_Player_Heal(On_Player.orig_Heal orig, Player self, int amount)
@@ -70,9 +90,11 @@ public class GiantPlayer : ModPlayer
             if (bonus > 0)
             {
                 self.statLifeMax2 += bonus;
-                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 600, new Predicate<Player>(obj => !CheckGiantStrength(Player))));
+                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 600, cond => !CheckGiantStrength(self)));
             }
         }
+
+        self.GetModPlayer<GiantPlayer>().Healed = true;
         orig(self, amount);
     }
 

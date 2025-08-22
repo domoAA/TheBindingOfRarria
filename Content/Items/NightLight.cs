@@ -15,7 +15,7 @@ public class NightLight : ModItem
         Item.accessory = true;
         Item.width = 18;
         Item.height = 34;
-        Item.value = Item.buyPrice(0, 8);
+        Item.value = Item.sellPrice(0, 8);
         Item.rare = ItemRarityID.Pink;
     }
 
