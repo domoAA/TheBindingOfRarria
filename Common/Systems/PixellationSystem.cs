@@ -25,7 +25,6 @@ public class PixellationSystem : ModSystem
     }
 
     private static RenderTarget2D Target { get; set; }
-    private static RenderTarget2D ProjTarget { get; set; }
 
     private static Dictionary<RenderLayer, Queue<(Action action, RenderType type)>> Actions { get; set; } = [];
 
@@ -38,7 +37,6 @@ public class PixellationSystem : ModSystem
             Main.RunOnMainThread(() =>
             {
                 Target = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-                ProjTarget = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
             });
         }
 
@@ -73,7 +71,6 @@ public class PixellationSystem : ModSystem
         int height = Main.screenHeight / 2;
 
         Target = new(gd, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-        ProjTarget = new(gd, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
     }
 
     public static void QueuePixellationAction(Action action, RenderType type, RenderLayer layer)

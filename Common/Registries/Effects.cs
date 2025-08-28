@@ -16,6 +16,8 @@ public static class Effects
 
     public static readonly Asset<Effect> Trail = LoadEffect("Trail");
 
+    public static readonly Asset<Effect> Quantizer = LoadEffect("Quantizer");
+
     private static Asset<Effect> LoadEffect(string EffectPath)
     {
         if (Main.dedServ)

@@ -9,7 +9,7 @@ using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
-public class H2VBolt : ModProjectile
+public class LightningBolt : ModProjectile
 {
     public Vector2 Start = default;
     public Vector2 End = default;
@@ -20,7 +20,7 @@ public class H2VBolt : ModProjectile
 
     internal static void SetPositions(Vector2 start, Vector2 end, Projectile instance, int target = -1)
     {
-        H2VBolt bolt = instance.As<H2VBolt>();
+        LightningBolt bolt = instance.As<LightningBolt>();
 
         bolt.Start = start;
         bolt.End = end;
@@ -37,9 +37,11 @@ public class H2VBolt : ModProjectile
         Projectile.aiStyle = -1;
         Projectile.timeLeft = 60;
         Projectile.extraUpdates = 3;
+        Projectile.DamageType = DamageClass.Default;
 
         Projectile.friendly = true;
         Projectile.penetrate = -1;
+        Projectile.OriginalArmorPenetration = 20;
 
         Projectile.ignoreWater = true;
 
@@ -144,7 +146,7 @@ public class H2VBolt : ModProjectile
         {
             if (Projectile.timeLeft > 50)
             {
-                Projectile.scale = Lerp(Projectile.scale, 2f, 0.25f);
+                Projectile.scale = Lerp(Projectile.scale, 20f, 0.25f);
                 Projectile.Opacity = Lerp(Projectile.Opacity, 1f, 0.15f);
             }
 
@@ -185,7 +187,7 @@ public class H2VBolt : ModProjectile
     {
         PixellationSystem.QueuePixellationAction(() =>
         {
-            Texture2D texture = TextureAssets.Projectile[Type].Value;
+            Texture2D texture = TextureAssets.Extra[98].Value;
 
             for (int i = 1; i < positions.Count; i++)
             {
@@ -200,16 +202,18 @@ public class H2VBolt : ModProjectile
                     Vector2 drawPos = Vector2.Lerp(start, end, lerp);
 
                     Main.EntitySpriteDraw(texture, (drawPos - Main.screenPosition) / 2,
-                        null, Color.Lerp(Color.Yellow, Color.LightYellow, 0.37f) * Projectile.Opacity * Projectile.scale * 0.5f, 0,
+                        null, Color.Lerp(Color.Yellow, Color.LightYellow, 0.37f) * Projectile.Opacity * Projectile.scale * 0.5f, start.DirectionTo(end).ToRotation(),
                         texture.Size() / 2, Projectile.scale / 2 * 0.2f * new Vector2(0.4f, 0.01f),
                         SpriteEffects.None
                     );
 
                     Main.EntitySpriteDraw(texture, (drawPos - Main.screenPosition) / 2,
-                      null, Color.Lerp(Color.Yellow, Color.White, 0.87f) * Projectile.Opacity * Projectile.scale * 1.5f, 0,
+                      null, Color.Lerp(Color.Yellow, Color.White, 0.87f) * Projectile.Opacity * Projectile.scale * 1.5f, start.DirectionTo(end).ToRotation(),
                       texture.Size() / 2, Projectile.scale / 2 * 0.15f * new Vector2(0.42f, 0.007f),
                       SpriteEffects.None
-                  );
+                    );
+
+                    Lighting.AddLight(drawPos, Color.LightGoldenrodYellow.ToVector3());
                 }
             }
         }, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.Projectiles);

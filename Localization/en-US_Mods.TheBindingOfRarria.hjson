@@ -1109,12 +1109,25 @@ Items: {
 
 	GoldenHalberd: {
 		DisplayName: Golden Halberd
-		Tooltip: ""
+		Tooltip:
+			'''
+			Increases damage and damage reduction by 5% on hit
+			'Vow to only use it for protection'
+			'''
 	}
 
 	H20Volt: {
-		DisplayName: H20 Volt
-		Tooltip: ""
+		DisplayName: 120 Volt
+		Tooltip:
+			'''
+			Up to 4 nearby enemies constantly get zapped with electricity
+			'It's technically 84.85-169.7 volt'
+			'''
+	}
+
+	Fulgurbloom: {
+		DisplayName: Fulgurbloom
+		Tooltip: "'Imbued with traces of lightning's essence'"
 	}
 }
 
@@ -1201,12 +1214,12 @@ Buffs: {
 
 	Siphoned: {
 		DisplayName: Siphoned
-		Description: Mods.TheBindingOfRarria.Buffs.Siphoned.Description
+		Description: Your life is siphoned away
 	}
 
 	GoldenVow: {
 		DisplayName: Golden Vow
-		Description: Mods.TheBindingOfRarria.Buffs.GoldenVow.Description
+		Description: 5% increased damage and damage reduction
 	}
 }
 
@@ -1242,6 +1255,7 @@ Projectiles: {
 	PotMinion.DisplayName: Pot Minion
 	GoldenHalberdProj.DisplayName: Golden Halberd Proj
 	H2VBolt.DisplayName: H2 V Bolt
+	LightningBolt.DisplayName: Lightning Bolt
 }
 
 Keybinds: {
@@ -1259,6 +1273,7 @@ Tiles: {
 	SihilStone.MapEntry: Sword in ice
 	MardroemeTile.MapEntry: Suspicious looking mushrooms
 	SuspiciousScaleTile.MapEntry: Suspicious looking scales
+	FulgurbloomTile.MapEntry: FulgurbloomTile
 }
 
 WorldGen: {

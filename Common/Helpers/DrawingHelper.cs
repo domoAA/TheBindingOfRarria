@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Systems;
@@ -31,6 +33,15 @@ public static partial class Helper
 
         T instance = ModContent.GetInstance<T>();
         return instance.GetType().Namespace.Replace(".", "/") + "/" + instance.Name + extraText;
+    }
+
+    public static void Screenshake(this Vector2 pos, float power, float vibrations, float distFalloff, int time)
+    {
+        if (Main.dedServ)
+            return;
+
+        PunchCameraModifier modifier = new(pos, Main.rand.NextFloat(MathF.Tau).ToRotationVector2(), power, vibrations, time, distFalloff, $"{Main.time}");
+        Main.instance.CameraModifiers.Add(modifier);
     }
 
     public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, PixellationSystem.RenderType renderType, PixellationSystem.RenderLayer layer)

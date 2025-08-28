@@ -5,18 +5,18 @@ using TheBindingOfRarria.Content.Tiles;
 
 namespace TheBindingOfRarria.Content.WorldGeneration;
 
-public class ScaleySand : GlobalTile
+public class ElectroEarth : GlobalTile
 {
     public static int counter = 0;
 
     public override void RandomUpdate(int x, int y, int type)
     {
-        if (!Main.rand.NextBool(5000))
+        if (!Main.rand.NextBool(10000))
             return;
 
-        if (Main.tile[x, y].TileType == TileID.Sand && WorldGen.TileEmpty(x, y - 1))
+        if (Main.maxTilesY / 4 > y && Main.tile[x, y].TileType == TileID.Grass && WorldGen.TileEmpty(x, y - 1))
         {
-            WorldGen.PlaceTile(x, y - 1, ModContent.TileType<SuspiciousScaleTile>(), style: Main.rand.Next(2));
+            WorldGen.PlaceTile(x, y - 1, ModContent.TileType<FulgurbloomTile>());
             counter++;
         }
     }

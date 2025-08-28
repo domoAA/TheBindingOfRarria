@@ -48,6 +48,8 @@ public class GoldenHalberdProj : ModProjectile
         //custom swords should not break on hit or go through tiles
         Projectile.penetrate = -1;
         Projectile.ownerHitCheck = true;
+        Projectile.tileCollide = false;
+        Projectile.ignoreWater = true;
 
         //ensure the projectile only hits once
         Projectile.usesLocalNPCImmunity = true;
@@ -57,6 +59,11 @@ public class GoldenHalberdProj : ModProjectile
         Projectile.scale = 1f;
         Projectile.friendly = true;
         Projectile.DamageType = DamageClass.MeleeNoSpeed;
+    }
+
+    public override bool? CanCutTiles()
+    {
+        return false;
     }
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -70,13 +77,13 @@ public class GoldenHalberdProj : ModProjectile
         Projectile.spriteDirection = Projectile.direction = Main.player[Projectile.owner].direction;
 
         if (Projectile.timeLeft == 50)
-            Projectile.rotation = Projectile.spriteDirection * -PiOver2;
+            Projectile.rotation = Projectile.spriteDirection * -PiOver2 * 1.2f;
 
 
 
         Projectile.rotation += 0.1f * Projectile.spriteDirection / (0.3f + float.Pow(Projectile.rotation, 2) / 1.5f);
 
-        if (Projectile.timeLeft < 15)
+        if (Projectile.timeLeft < 16)
         {
             if (Trail.Count > 0)
                 Trail.Dequeue();
@@ -136,7 +143,8 @@ public class GoldenHalberdProj : ModProjectile
 
             //here we retrieve our shader, simply setting it in MyMod.Load will do
             Effect effect = Effects.Trail?.Value;
-            if (effect is null)
+            var quant = Effects.Quantizer?.Value;
+            if (effect is null || quant is null)
                 return;
 
             //when drawing with shaders, you always need to restart the spritebatch to use immediate sorting.
@@ -161,11 +169,13 @@ public class GoldenHalberdProj : ModProjectile
             effect.Parameters["uLerpPower"].SetValue(0.25f);
             effect.CurrentTechnique.Passes["TrailColor"].Apply(); //you could also use [0] here too, or whatever pass your shader is gonna use (remember, it starts at 0 for the 1st pass, and then goes up from there)
 
-            //actually draw the vertices, which will have the shader applied to them.
-            Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices.ToArray(), 0, vertices.Count - 2);
 
+            //actually draw the vertices, which will have the shader applied to them.
+            
+                Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices.ToArray(), 0, vertices.Count - 2);
+           
             //make sure to restore the spritebatch after drawing is done. If you wish to layer multiple trails on top of eachother, then uncomment the line below.
-            //vertices.Clear();
+            vertices.Clear();
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(parameters);
@@ -182,9 +192,9 @@ public class GoldenHalberdProj : ModProjectile
         //draw the trail under the projectile.
         for (int i = 0; i < 2; i++)
         {
-            DrawTrail(Color.DarkGoldenrod.MultiplyRGB(Color.DarkGoldenrod) with { A = 50 }, Color.DarkGoldenrod with { A = 50 }, 0.75f, 0.81f);
-            DrawTrail(Color.DarkGoldenrod.MultiplyRGB(Color.DarkGoldenrod) with { A = 70 }, Color.DarkGoldenrod with { A = 70 }, 0.5f, 0.79f);
-            DrawTrail(Color.DarkGoldenrod.MultiplyRGB(Color.DarkGoldenrod) with { A = 80 }, Color.DarkGoldenrod with { A = 80 }, 0.3f, 0.70f);
+            DrawTrail(Color.DarkGoldenrod.MultiplyRGB(Color.DarkGoldenrod) with { A = 70 }, Color.DarkGoldenrod with { A = 70 }, 0.75f, 0.81f);
+            DrawTrail(Color.DarkGoldenrod.MultiplyRGB(Color.DarkGoldenrod) with { A = 90 }, Color.DarkGoldenrod with { A = 90 }, 0.5f, 0.79f);
+            DrawTrail(Color.DarkGoldenrod.MultiplyRGB(Color.DarkGoldenrod) with { A = 90 }, Color.DarkGoldenrod with { A = 90 }, 0.3f, 0.70f);
         }
 
         var texture = TextureAssets.Projectile[Type].Value;
