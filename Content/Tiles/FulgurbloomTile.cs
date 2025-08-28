@@ -221,6 +221,7 @@ internal class LightningHerbZappySystem : ModSystem
                     if (current.TileType == ModContent.TileType<FulgurbloomTile>() && FulgurbloomTile.GetStage(start.X + x, start.Y + y) == PlantStage.Grown)
                     {
                         Vector2 flowerPos = new Point(start.X + x, start.Y + y).ToWorldCoordinates();
+
                         if (Main.rand.NextBool(100 - (int)Main.LocalPlayer.velocity.Length()))
                             flowerPos.X = Main.LocalPlayer.Center.X;
 
@@ -231,7 +232,6 @@ internal class LightningHerbZappySystem : ModSystem
                             if (WorldGen.SolidOrSlopedTile(pos.ToTileCoordinates().X, pos.ToTileCoordinates().Y))
                                 break;
                         }
-
 
                         Vector2 end = pos + new Vector2(Main.rand.NextFloat(-100f, 100f), -900f);
 
