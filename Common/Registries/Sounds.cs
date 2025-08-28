@@ -25,5 +25,7 @@ public class Sounds : ModSystem
         AdaptedSound = new(prefix + "ModifiedMahoragaWheel");
         WheelCreak = new(prefix + "ModifiedMahoragaWheelCreak");
         DespairTrigger = [new SoundStyle(prefix + "DespairTrigger0"), new SoundStyle(prefix + "DespairTrigger1")];
+
+        //DespairTrigger = new SoundStyle(prefix + "DespairTrigger") with {Variants = [0, 1]}; is another way,..,,.
     }
 }

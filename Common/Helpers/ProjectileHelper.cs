@@ -1,23 +1,57 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Projectiles;
 
-namespace TheBindingOfRarria.Content.Projectiles;
+namespace TheBindingOfRarria.Common.Helpers;
 
 public static partial class Helper
 {
+    public static void NewProjectileBetter(IEntitySource source, Vector2 pos, Vector2 vel, int type, float damage, float knockBack, int owner, Action<Projectile> modification = null)
+    {
+        if (Main.netMode == NetmodeID.MultiplayerClient && (owner < 0 || owner > 255))
+            return;
+
+        if (Main.myPlayer != owner)
+            return;
+
+        var projectile = Projectile.NewProjectileDirect(
+            source, pos, vel,
+            type, (int)damage,
+            knockBack, owner
+        );
+
+        if (modification != null)
+        {
+            modification(projectile);
+            projectile.netUpdate = true;
+        }
+    }
+
+    public static T As<T>(this Projectile index) where T : ModProjectile
+    {
+        if (index.ModProjectile is T modProjectile)
+            return modProjectile as T;
+        else
+        {
+            index.Kill();
+            return null;
+        }
+    }
+
     public static bool ReflectCheck(Projectile target, Predicate<Projectile> predicate) => predicate(target);
-    
-    public static bool ReflectCheck(this Projectile projectile, Projectile target) =>  new Predicate<Projectile>(
-        proj => 
-        proj.velocity.LengthSquared() > 1 
-        && proj.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed > 0 
-        && proj.type != projectile.type 
-        && proj.hostile 
+
+    public static bool ReflectCheck(this Projectile projectile, Projectile target) => new Predicate<Projectile>(
+        proj =>
+        proj.velocity.LengthSquared() > 1
+        && proj.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed > 0
+        && proj.type != projectile.type
+        && proj.hostile
         && projectile.Colliding(proj.getRect(), projectile.getRect()))(target);
-    
+
     public static void ReflectProjectiles(this Projectile projectile, float chance = 1f)
     {
         foreach (var proj in Main.ActiveProjectiles)
@@ -28,7 +62,7 @@ public static partial class Helper
 
             if (target != null)
             {
-               bool reflected = target.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed < chance;
+                bool reflected = target.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed < chance;
 
                 projectile.GetGlobalProjectile<ReflectableGlobalProjectile>().ReflectableSeed = 0;
 
@@ -90,7 +124,7 @@ public static partial class Helper
     {
         foreach (Projectile projectile in Main.ActiveProjectiles)
         {
-                // Sure.
+            // Sure.
             Predicate<Projectile> predicate = proj.hostile ? new Predicate<Projectile>(p => p != null && p.CanBeReflected() && p.Colliding(p.getRect(), proj.getRect())) : new Predicate<Projectile>(p => p != null && p.active && p.hostile && p.type != proj.type && p.velocity.LengthSquared() > 1 && p.Colliding(p.getRect(), proj.getRect()));
             if (ReflectCheck(projectile, predicate))
             {

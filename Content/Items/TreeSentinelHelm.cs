@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using TheBindingOfRarria.Common.Config;
 using TheBindingOfRarria.Content.Projectiles;
+using TheBindingOfRarria.Common.Helpers;
 
 namespace TheBindingOfRarria.Content.Items;
 

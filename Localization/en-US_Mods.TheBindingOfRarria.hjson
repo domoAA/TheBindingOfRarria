@@ -1111,6 +1111,11 @@ Items: {
 		DisplayName: Golden Halberd
 		Tooltip: ""
 	}
+
+	H20Volt: {
+		DisplayName: H20 Volt
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -1231,6 +1236,7 @@ Projectiles: {
 	MagicSphere.DisplayName: Magic Sphere
 	PotMinion.DisplayName: Pot Minion
 	GoldenHalberdProj.DisplayName: Golden Halberd Proj
+	H2VBolt.DisplayName: H2 V Bolt
 }
 
 Keybinds: {

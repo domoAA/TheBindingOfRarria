@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
-using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Common.Helpers;
 
@@ -58,11 +57,5 @@ public static partial class Helper
             proj.timeLeft = 5;
             proj.netUpdate = true;
         }
-    }
-
-    public static void DrawGlowMask(this Player player, Color color)
-    {
-        PlayerGlowMask.Alpha[player.whoAmI] = color.ToVector4().W;
-        player.GetModPlayer<GlowMaskPlayer>().GlowColor = color;
     }
 }

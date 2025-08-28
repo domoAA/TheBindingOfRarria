@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Systems;
 
 namespace TheBindingOfRarria.Common.Helpers;
@@ -10,6 +12,26 @@ public static partial class Helper
     private static readonly Matrix HalfScale = Matrix.CreateScale(0.5f);
 
     public static Vector2 ScreenSize => new(Main.screenWidth, Main.screenHeight);
+
+    public static string GetVanillaExtraTexture(int extraID) => $"Terraria/Images/Extra_{extraID}";
+    public static string GetVanillaItemTexture(int itemID) => $"Terraria/Images/Item_{itemID}";
+    public static string GetVanillaProjectileTexture(int projectileID) => $"Terraria/Images/Projectile_{projectileID}";
+
+    /// <summary>
+    /// Allows you to retrieve the texture that should be paired with some modded type
+    /// <br>Assumes the texture has the same name as the class and is in the same folder</br>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="extraText"></param>
+    /// <returns></returns>
+    public static string GetTextureFromOther<T>(string extraText = "") where T : ModType
+    {
+        if (typeof(T) is null)
+            return GetVanillaItemTexture(ItemID.Torch); //torch.
+
+        T instance = ModContent.GetInstance<T>();
+        return instance.GetType().Namespace.Replace(".", "/") + "/" + instance.Name + extraText;
+    }
 
     public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, PixellationSystem.RenderType renderType)
     {

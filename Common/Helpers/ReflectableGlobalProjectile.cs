@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using TheBindingOfRarria.Common.Helpers;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
