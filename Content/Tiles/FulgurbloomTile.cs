@@ -2,8 +2,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
 using Terraria.ID;
@@ -172,6 +174,12 @@ public class FulgurbloomTile : ModTile
         return stage == PlantStage.Grown;
     }
 
+    public override void NearbyEffects(int i, int j, bool closer)
+    {
+        if (!LightningHerbZappySystem.FlowahPositions.Contains(new Vector2(i, j)))  
+            LightningHerbZappySystem.FlowahPositions.Add(new Vector2(i, j));
+    }
+
     public override void RandomUpdate(int i, int j)
     {
         Tile tile = Framing.GetTileSafely(i, j);
@@ -201,16 +209,39 @@ public class FulgurbloomTile : ModTile
 
 internal class LightningHerbZappySystem : ModSystem
 {
-    internal int herbsTjatgoBAZINGA;
-
-    public override void PostUpdateWorld()
+    public static List<Vector2> FlowahPositions = [];
+    public override void PostUpdatePlayers()
     {
-        if (herbsTjatgoBAZINGA > 0)
+        if (FlowahPositions.Count > 0)
         {
-            if (!Main.rand.NextBool(50))
-                return;
+            var dist = 800f * 800f;
+            Vector2 flowerPos = FlowahPositions[0];
 
-            Point start = Main.LocalPlayer.Center.ToTileCoordinates();
+            Point start = new((int)flowerPos.X, (int)flowerPos.Y);
+            Player player = null;
+            for (int i = 0; i < FlowahPositions.Count; i++)
+            {
+                flowerPos = FlowahPositions[0];
+                FlowahPositions.RemoveAt(0);
+
+                start = new((int)flowerPos.X, (int)flowerPos.Y);
+
+                foreach (var p in Main.player)
+                {
+                    if (!p.active || p.Center.DistanceSQ(flowerPos.ToWorldCoordinates()) > dist)
+                        continue;
+
+                    start = p.Center.ToTileCoordinates();
+                    dist = p.Center.DistanceSQ(flowerPos.ToWorldCoordinates());
+                    player = p;
+                }
+
+                if (player is null)
+                    continue;
+            }
+
+            if (player is null || !Main.rand.NextBool(30) || player.whoAmI != Main.myPlayer)
+                return;
 
             for (int x = -100; x < 100; x++)
             {
@@ -220,9 +251,9 @@ internal class LightningHerbZappySystem : ModSystem
 
                     if (current.TileType == ModContent.TileType<FulgurbloomTile>() && FulgurbloomTile.GetStage(start.X + x, start.Y + y) == PlantStage.Grown)
                     {
-                        Vector2 flowerPos = new Point(start.X + x, start.Y + y).ToWorldCoordinates();
-                        if (Main.rand.NextBool(100 - (int)Main.LocalPlayer.velocity.Length()))
-                            flowerPos.X = Main.LocalPlayer.Center.X;
+                        flowerPos = new Point(start.X + x, start.Y + y).ToWorldCoordinates();
+                        if (Main.rand.NextBool(100 - (int)player.velocity.Length()))
+                            flowerPos.X = player.Center.X;
 
                         var pos = flowerPos + new Vector2(Main.rand.NextFloat(-500f, 500f), 0);
                         for (int i = -40; i < 40; i++)
@@ -233,7 +264,7 @@ internal class LightningHerbZappySystem : ModSystem
                         }
 
 
-                        Vector2 end = pos + new Vector2(Main.rand.NextFloat(-100f, 100f), -900f);
+                        Vector2 end = pos + new Vector2(Main.rand.NextFloat(-100f, 100f), -1100f);
 
                         Helper.NewProjectileBetter(new EntitySource_WorldEvent(), pos, Vector2.Zero, ModContent.ProjectileType<LightningBolt>(), 10, 0f, Main.myPlayer, self =>
                         {
@@ -251,10 +282,5 @@ internal class LightningHerbZappySystem : ModSystem
                 }
             }
         }
-    }
-
-    public override void TileCountsAvailable(ReadOnlySpan<int> tileCounts)
-    {
-        herbsTjatgoBAZINGA = tileCounts[ModContent.TileType<FulgurbloomTile>()];
     }
 }
