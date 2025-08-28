@@ -59,6 +59,14 @@ public class PotMinion : ModProjectile
 
         if (state == State.Idle && Projectile.ai[0] == 0 && Target == -1)
         {
+            if (Projectile.Center.DistanceSQ(owner.Center) > 600 * 600)
+            {
+                state = State.Teleporting;
+                Projectile.ai[0] = -20 - (Projectile.whoAmI % 5);
+                Target = 0;
+                return;
+            }
+
             Projectile.Minion_FindTargetInRange(800, ref Target, false);
 
             if (Target != -1 && Main.npc[Target].GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy != -1)
@@ -67,18 +75,22 @@ public class PotMinion : ModProjectile
         else
         {
             var enemy = Main.npc[Target];
-            if (!enemy.active || (Main.npc[Target].GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy != -1 && Main.npc[Target].GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy != Projectile.identity))
+            if (Projectile.ai[0] >= 0 && (!enemy?.active == true || (enemy?.GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy > -1 && enemy?.GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy != Projectile.identity)))
             {
                 Projectile.ai[0] = 0;
                 state = State.Idle;
                 Target = -1;
                 Projectile.ai[1] = 40;
+                Projectile.rotation = 0;
                 return;
             }
 
             if (state != State.Attacking && Projectile.ai[0] < 20 + (Projectile.whoAmI % 5))
             {
-                enemy.GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy = Projectile.identity;
+                if (Projectile.ai[0] >= 0)
+                    enemy.GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy = Projectile.identity;
+                else
+                    enemy.GetGlobalNPC<PotMinionTargettedNPC>().TargettedBy = -1;
 
                 state = State.Teleporting;
                 Projectile.ai[0]++;
@@ -97,7 +109,7 @@ public class PotMinion : ModProjectile
             }
             else state = State.Attacking;
 
-            Projectile.Center = enemy.Center - new Vector2(0, 200);
+            Projectile.Center = enemy.Center - new Vector2(0, 150);
 
             Projectile.rotation = Pi;
 

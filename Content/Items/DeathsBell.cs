@@ -29,7 +29,7 @@ public class DeathsBell : ModItem
 
         if (counter > 1800)
         {
-            var target = Main.npc.FirstOrDefault(t => t.active && !t.boss && t.rarity == 0 && t.Center.DistanceSQ(player.Center) < 800 * 800);
+            var target = Main.npc.FirstOrDefault(t => t.active && !t.friendly && !t.boss && t.aiStyle != NPCAIStyleID.DD2MysteriousPortal && t.lifeMax > 5 && t.rarity == 0 && t.Center.DistanceSQ(player.Center) < 800 * 800);
             if (target is not null)
             {
                 counter = 0;

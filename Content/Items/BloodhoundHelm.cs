@@ -134,6 +134,7 @@ public class BloodhoundDashPlayer : ModPlayer
 
 
             counter--;
+            Player.dashTime = counter;
 
             if (counter == 0)
                 counter = -DashCooldown;
@@ -153,6 +154,7 @@ public class BloodhoundDashPlayer : ModPlayer
             if (KeybindSystem.BloodhoundDashKey.JustPressed || (KeybindSystem.BloodhoundDashKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Keys.C)))
             {
                 counter = DashDuration;
+                Player.dashTime = counter;
                 DashDir = Player.Center.DirectionTo(Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY)).ToRotation();
             }
             else

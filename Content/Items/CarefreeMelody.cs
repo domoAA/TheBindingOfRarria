@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Projectiles;
 
@@ -24,47 +26,66 @@ public class CarefreeMelody : ModItem
     public override void AddRecipes()
     {
         CreateRecipe()
-            .AddIngredient(ItemID.DontStarveShaderItem)
             .AddIngredient(ItemID.WormScarf)
+            .AddIngredient(ItemID.Bell)
+            .AddIngredient(ItemID.LivingFireBlock, 20)
             .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
             .AddTile(TileID.TinkerersWorkbench)
             .Register();
 
         CreateRecipe()
-            .AddIngredient(ItemID.DontStarveShaderItem)
             .AddIngredient(ItemID.BrainOfConfusion)
+            .AddIngredient(ItemID.Bell)
+            .AddIngredient(ItemID.LivingFireBlock, 20)
             .AddIngredient(ModContent.ItemType<PaleOre>(), 30)
             .AddTile(TileID.TinkerersWorkbench)
             .Register();
+    }
+
+    public override void ModifyTooltips(List<TooltipLine> tooltips)
+    {
+        int index = tooltips.FindIndex(t => t.Name == "Tooltip0");
+        if (index != -1)
+        {
+            string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{(int)(Main.LocalPlayer.GetModPlayer<GrimmTroupeBanisherPlayer>().Chance * 100)}");
+
+            text = text[..text.LastIndexOf($"\n")];
+            text = text[..text.LastIndexOf($"\n")];
+            tooltips[index].Text = text;
+        }
     }
 }
 
 public class GrimmTroupeBanisherPlayer : ModPlayer
 {
-    private int Hits = 0;
+    public float Chance = 0;
     public Item Melody = null;
 
     public override void ResetEffects() => Melody = null;
-    
+
     public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
     {
         base.OnHitByNPC(npc, hurtInfo);
         if (Melody != null)
-            Hits++;
+        {
+            Chance += 0.1f;
+        }
     }
 
     public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
     {
         base.OnHitByProjectile(proj, hurtInfo);
         if (Melody != null)
-            Hits++;
+        {
+            Chance += 0.1f;
+        }
     }
 
     public override bool FreeDodge(Player.HurtInfo info)
     {
-        if (Hits >= 5 && Melody != null)
+        if (Main.rand.NextFloat() < Chance && Melody != null && info.CooldownCounter != ImmunityCooldownID.TileContactDamage)
         {
-            Hits = 0;
+            Chance = 0;
             Player.immune = true;
             Player.immuneTime = 70;
             Projectile.NewProjectile(Player.GetSource_Accessory_OnHurt(Melody, info.DamageSource), Player.Center, Vector2.Zero, ModContent.ProjectileType<CarefreePower>(), 0, 0, Player.whoAmI);

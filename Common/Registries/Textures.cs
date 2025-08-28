@@ -19,6 +19,8 @@ public static class Textures
 
     public static readonly Asset<Texture2D> Crypt = LoadTexture2D("Crypt");
 
+    public static readonly Asset<Texture2D> TrailTexture = LoadTexture2D("TrailTexture");
+
     private static Asset<Texture2D> LoadTexture2D(string TexturePath)
     {
         if (Main.dedServ)

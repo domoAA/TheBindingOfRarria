@@ -34,12 +34,13 @@ public class GodrickSoldierHelm : ModItem
         Item.width = 20;
         Item.height = 18;
         Item.defense = 5;
+        Item.rare = ItemRarityID.Orange;
         Item.value = Item.sellPrice(0, 1, 50, 0);
     }
 
     public override void UpdateEquip(Player player)
     {
-
+        player.maxTurrets += 1;
     }
 
     public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -83,6 +84,11 @@ public partial class GodrickSoldierItemsNPCShop : GlobalNPC
 public class GodrickSoldierSetPlayer : ModPlayer
 {
     public bool FinalBoss = false;
+
+    public override void ResetEffects()
+    {
+        FinalBoss = false;
+    }
 
     public override void UpdateLifeRegen()
     {

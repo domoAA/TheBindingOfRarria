@@ -117,7 +117,7 @@ public class TheBindingOfRarria : Mod
             value = (value - p) / 100;
 
             var tooltip = item.Tooltip.Value;
-            if (tooltip == "" || !tooltip.Contains("\n"))
+            if (tooltip == "" || !tooltip.Contains('\n'))
                 continue;
 
             var page = itemPage.Replace("name", name).Replace("p|g|s|c", $"{p}|{g}|{s}|{c}").Replace("rare = 0", $"rare = {item.Item.rare.ToString()}").Replace("firstLine", tooltip[..tooltip.LastIndexOf("\n")].Replace("\n", "<br>\n")).Replace("flavor", tooltip[tooltip.LastIndexOf("\n")..]);

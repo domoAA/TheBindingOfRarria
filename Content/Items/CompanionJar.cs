@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,7 +39,7 @@ public class PotBreakTile : GlobalTile
 {
     public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
     {
-        if (type == TileID.Pots && Main.LocalPlayer.GetModPlayer<PotTalismanPlayer>().HasSillyJar && Main.tile[i + 1, j + 1].TileType == TileID.Pots)
+        if (type == TileID.Pots && (Main.LocalPlayer.Center - new Point(i, j).ToWorldCoordinates()).LengthSquared() < 800 * 800 && Main.LocalPlayer.GetModPlayer<PotTalismanPlayer>().HasSillyJar && Main.tile[i + 1, j + 1].TileType == TileID.Pots)
         {
             if (Main.LocalPlayer.ownedProjectileCounts[ModContent.ProjectileType<PotMinion>()] < 5)
             {

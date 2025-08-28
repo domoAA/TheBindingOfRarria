@@ -10,6 +10,7 @@ namespace TheBindingOfRarria.Common.Systems;
 public class PixellationSystem : ModSystem
 {
     // credits for the base for this system to naka, also thanks to zen, stormytuna and some others I forgor about for helping me change this thing to fit my needs
+    // rewritten multiple times
 
     public enum RenderType
     {
@@ -29,7 +30,7 @@ public class PixellationSystem : ModSystem
             Main.OnResolutionChanged += InitializeRT;
             Main.RunOnMainThread(() =>
             {
-                Target = new(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+                Target = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
             });
         }
 
@@ -78,14 +79,14 @@ public class PixellationSystem : ModSystem
                 rt.RenderTargetUsage = RenderTargetUsage.PreserveContents;
         }
 
-        gd.SetRenderTarget(Target);
-        gd.Clear(Color.Transparent);
 
         Helper.SpritebatchParameters parameters = new();
         var beginned = Main.spriteBatch.beginCalled;
         if (beginned)
             Main.spriteBatch.End(out parameters);
 
+        gd.SetRenderTarget(Target);
+        gd.Clear(Color.Transparent);
 
         for (int i = 0; i < Actions.Count; i++)
         {
@@ -98,17 +99,9 @@ public class PixellationSystem : ModSystem
             Main.spriteBatch.End();
         }
 
-        if (beginned)
-            Main.spriteBatch.Begin(parameters);
-    
-
 
         Main.graphics.GraphicsDevice.SetRenderTargets(oldTargets);
 
-        beginned = Main.spriteBatch.beginCalled;
-        if (beginned)
-            Main.spriteBatch.End(out parameters);
-        
         Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
         Main.spriteBatch.Draw(Target, new Vector2(0), null, Color.White, 0, new Vector2(0), 2, SpriteEffects.None, 0);

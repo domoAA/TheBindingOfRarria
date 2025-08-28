@@ -14,5 +14,11 @@
 		<Publicize Include="tModLoader;FNA" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Reference Include="ShopExpander">
+	    <HintPath>..\ModAssemblies\ShopExpander_v1.8.1.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 
 </Project>

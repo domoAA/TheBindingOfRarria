@@ -20,7 +20,7 @@ public class RakshasaHelm : ModItem
     {
         Item.width = 22;
         Item.height = 18;
-        Item.defense = 17;
+        Item.defense = 12;
         Item.lifeRegen = 2;
         Item.rare = ItemRarityID.LightRed;
         Item.value = Item.sellPrice(0, 4, 0, 0);
@@ -28,7 +28,7 @@ public class RakshasaHelm : ModItem
 
     public override void UpdateEquip(Player player)
     {
-        player.GetDamage(DamageClass.Generic) += 0.09f;
+        player.GetDamage(DamageClass.Generic) += 0.08f;
     }
 
     public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -54,7 +54,6 @@ public class RakshasaHelm : ModItem
             .AddIngredient(ItemID.AdamantiteHelmet)
             .AddIngredient(ItemID.CrimsonHelmet)
             .AddIngredient(ItemID.SoulofNight, 10)
-            .AddIngredient(ItemID.BloodWater, 4)
             .AddTile(TileID.AdamantiteForge)
             .Register();
     }

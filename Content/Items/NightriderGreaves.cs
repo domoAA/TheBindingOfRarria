@@ -1,40 +1,40 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
 
 namespace TheBindingOfRarria.Content.Items;
 
-[AutoloadEquip(EquipType.Body)]
-public class RakshasaPlatemail : ModItem
+[AutoloadEquip(EquipType.Legs)]
+public class NightriderGreaves : ModItem
 {
     public override string Texture => ContentPath + "Items/" + Name;
 
     public override void SetStaticDefaults()
     {
-        ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
+        ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
     }
 
     public override void SetDefaults()
     {
-        Item.width = 30;
-        Item.height = 26;
-        Item.defense = 13;
-        Item.lifeRegen = 2;
+        Item.width = 22;
+        Item.height = 16;
+        Item.defense = 9;
         Item.rare = ItemRarityID.LightRed;
-        Item.value = Item.sellPrice(0, 3, 50, 0);
+        Item.value = Item.sellPrice(0, 3, 0, 0);
     }
 
     public override void UpdateEquip(Player player)
     {
-        player.GetDamage(DamageClass.Generic) += 0.08f;
+        player.GetCritChance(DamageClass.Melee) += 6f;
+        player.aggro -= 200;
     }
 
     public override void AddRecipes()
     {
         CreateRecipe()
-            .AddIngredient(ItemID.AdamantiteBreastplate)
-            .AddIngredient(ItemID.CrimsonScalemail)
-            .AddIngredient(ItemID.SoulofNight, 15)
+            .AddIngredient(ItemID.TitaniumLeggings)
+            .AddIngredient(ItemID.ShadowGreaves)
+            .AddIngredient(ItemID.SoulofNight, 5)
             .AddTile(TileID.AdamantiteForge)
             .Register();
     }

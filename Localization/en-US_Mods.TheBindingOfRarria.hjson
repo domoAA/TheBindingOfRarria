@@ -271,7 +271,8 @@ Items: {
 		DisplayName: Carefree Melody
 		Tooltip:
 			'''
-			You dodge every 6th attack
+			Gain a {0}% chance to dodge an attack, increased by 10% for each time it does not activate
+			Reset to 0% after activation
 			'Contains a song of protection'
 			'''
 	}
@@ -496,7 +497,7 @@ Items: {
 	}
 
 	CrystalHeart: {
-		DisplayName: Crystal Heart
+		DisplayName: Crystal Core
 		Tooltip:
 			'''
 			Hold {0} to charge up an infinite horizontal dash
@@ -931,7 +932,7 @@ Items: {
 		DisplayName: Companion Jar
 		Tooltip:
 			'''
-			Pots you break become minions for 1 minute
+			Pots broken near you become minions for 1 minute
 			You can have up to 5 pot minions
 			'Quite silly, it is'
 			'''
@@ -982,7 +983,7 @@ Items: {
 		DisplayName: Rakshasa Greaves
 		Tooltip:
 			'''
-			9% increased damage and movement speed
+			8% increased damage and movement speed
 			Grants minor life regeneration
 			'Bloody'
 			'''
@@ -992,7 +993,7 @@ Items: {
 		DisplayName: Rakshasa Helm
 		Tooltip:
 			'''
-			9% increased damage
+			8% increased damage
 			Grants minor life regeneration
 			'Blind  to suffering'
 			'''
@@ -1003,7 +1004,7 @@ Items: {
 		DisplayName: Rakshasa Platemail
 		Tooltip:
 			'''
-			9% increased damage and movement speed
+			8% increased damage
 			Grants minor life regeneration
 			'Vicious'
 			'''
@@ -1011,7 +1012,11 @@ Items: {
 
 	GodrickSoldierBoots: {
 		DisplayName: Godrick Soldier Boots
-		Tooltip: "'Worn down'"
+		Tooltip:
+			'''
+			+30 max life
+			'Worn down'
+			'''
 	}
 
 	GodrickSoldierHelm: {
@@ -1031,6 +1036,80 @@ Items: {
 			Increases your damage resistance by 5%
 			'One-man army'
 			'''
+	}
+
+	SolitudeGreaves: {
+		DisplayName: Solitude Greaves
+		Tooltip:
+			'''
+			Enemies are more likely to target you
+			'Well-kept'
+			'''
+	}
+
+	SolitudeHelmet: {
+		DisplayName: Solitude Helmet
+		Tooltip:
+			'''
+			Enemies are more likely to target you
+			'Always in your mind'
+			'''
+		SetBonus: Grants increased life and mana regeneration and 10% increased damage if there are no creatures near you
+	}
+
+	SolitudePlatemail: {
+		DisplayName: Solitude Platemail
+		Tooltip:
+			'''
+			Enemies are more likely to target you
+			'Perfectly clean'
+			'''
+	}
+
+	NightriderGreaves: {
+		DisplayName: Nightrider Greaves
+		Tooltip:
+			'''
+			6% increased melee critical strike chance
+			Enemies are less likely to target you
+			'Tailored for cavalry'
+			'''
+	}
+
+	NightriderHelmet: {
+		DisplayName: Nightrider Helmet
+		Tooltip:
+			'''
+			6% increased melee damage
+			Enemies are less likely to target you
+			'Their dark sight never leaves their victim'
+			'''
+		SetBonus: Grants lifesteal on your melee attacks during nighttime or while mounted
+	}
+
+	NightriderPlatemail: {
+		DisplayName: Nightrider Platemail
+		Tooltip:
+			'''
+			6% increased melee damage and critical strike chance
+			Enemies are less likely to target you
+			'Smells of blood'
+			'''
+	}
+
+	BlessedDewTalisman: {
+		DisplayName: Blessed Dew Talisman
+		Tooltip:
+			'''
+			Your  natural life regeneration cannot fall below 25% of its maximum
+			Does not apply if it is set to 0 or lower
+			'Works best when not hungry'
+			'''
+	}
+
+	GoldenHalberd: {
+		DisplayName: Golden Halberd
+		Tooltip: ""
 	}
 }
 
@@ -1151,6 +1230,7 @@ Projectiles: {
 	PharmaceuticBullet.DisplayName: Pharmaceutic Bullet
 	MagicSphere.DisplayName: Magic Sphere
 	PotMinion.DisplayName: Pot Minion
+	GoldenHalberdProj.DisplayName: Golden Halberd Proj
 }
 
 Keybinds: {

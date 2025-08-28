@@ -36,7 +36,7 @@ public class ManaStoneDropNPC : GlobalNPC
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {
         if (npc.type == NPCID.DarkCaster || npc.type == NPCID.GoblinSorcerer || npc.type == NPCID.Tim)
-            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<KingdomStone>(), npc.type == NPCID.Tim ? 3 : 10));
+            npcLoot.Add(ItemDropRule.ByCondition(new Conditions.IsExpert(), ModContent.ItemType<KingdomStone>(), npc.type == NPCID.Tim ? 3 : 30));
 
         base.ModifyNPCLoot(npc, npcLoot);
     }

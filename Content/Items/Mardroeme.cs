@@ -26,11 +26,12 @@ public class Mardroeme : ModItem
         Item.rare = ItemRarityID.Green;
         Item.UseSound = SoundID.Item2;
         Item.healLife = 230;
+        Item.potion = true;
     }
 
     public override bool CanUseItem(Player player)
     {
-        if (player.potionDelay > 0)
+        if (player.potionDelay > 0 || player.statLife < 50)
             return false;
         return true;
     }

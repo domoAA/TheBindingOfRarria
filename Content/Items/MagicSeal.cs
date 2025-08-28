@@ -45,20 +45,23 @@ public class MagicSeal : ModItem
 
 public class MagicTriangePlayer : ModPlayer
 {
-    public float Growth = 1;
+    public float Limit = 0.3f;
 
     public bool MagicTriange = false;
 
     public override void ResetEffects()
     {
         MagicTriange = false;
+        if (Main.GameMode == 2 && Main.getGoodWorld)
+            Limit = 0.5f;
+        else Limit = 0.3f;
     }
 
     public override void ModifyHurt(ref Player.HurtModifiers modifiers)
     {
-        if (MagicTriange)
+        if (MagicTriange && modifiers.Dodgeable)
         {
-            modifiers.SetMaxDamage((int)(Player.statLifeMax2 * 0.3f));
+            modifiers.SetMaxDamage((int)(Player.statLifeMax2 * Limit));
         }
     }
 }

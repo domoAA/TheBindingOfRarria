@@ -104,6 +104,7 @@ public class DarkDashPlayer : ModPlayer
 
 
             counter--;
+            Player.dashTime = counter;
 
             if (counter == 0)
                 counter = -DashCooldown;

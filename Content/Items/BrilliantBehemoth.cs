@@ -45,7 +45,7 @@ public class BrilliantBehemothPlayer : ModPlayer
 
         foreach (var npc in Main.ActiveNPCs)
         {
-            if ((npc.Center == target.Center || npc.WithinRange(target.Center, ExplosionRadius)) && npc.whoAmI != target.whoAmI)
+            if ((npc.Center == target.Center || npc.WithinRange(target.Center, ExplosionRadius)) && npc.whoAmI != target.whoAmI && target.aiStyle != NPCAIStyleID.DD2MysteriousPortal)
             {
                 int direction = npc.Center == target.Center ? 1 : float.Sign(target.DirectionTo(npc.Center).X);
                 npc.SimpleStrikeNPC((int)(hit.Damage * ExplosionDamageMult), direction, knockBack: hit.Knockback * ExplosionKnockbackMult);

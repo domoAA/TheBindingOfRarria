@@ -54,7 +54,11 @@ public class CullPlayer : ModPlayer
 
         if (PlayedTheseGamesBefore != null)
         {
-            Player.Heal(1);
+            if (Player.lifeSteal > 0)
+            {
+                Player.Heal(1);
+                Player.lifeSteal -= 10;
+            }
             Item.NewItem(Player.GetSource_Accessory(PlayedTheseGamesBefore), target.Center, ItemID.CopperCoin, (int)(Math.Max(0, Player.luck) * 10 + 1));
         }
 

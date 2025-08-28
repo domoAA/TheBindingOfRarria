@@ -26,8 +26,8 @@ public class RakshasaGreaves : ModItem
 
     public override void UpdateEquip(Player player)
     {
-        player.GetDamage(DamageClass.Generic) += 0.09f;
-        player.moveSpeed += 0.09f;
+        player.GetDamage(DamageClass.Generic) += 0.08f;
+        player.moveSpeed += 0.08f;
     }
 
     public override void AddRecipes()
@@ -36,7 +36,6 @@ public class RakshasaGreaves : ModItem
             .AddIngredient(ItemID.AdamantiteLeggings)
             .AddIngredient(ItemID.CrimsonGreaves)
             .AddIngredient(ItemID.SoulofNight, 5)
-            .AddIngredient(ItemID.BloodWater, 2)
             .AddTile(TileID.AdamantiteForge)
             .Register();
     }

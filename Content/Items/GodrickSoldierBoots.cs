@@ -20,12 +20,13 @@ public class GodrickSoldierBoots : ModItem
         Item.width = 22;
         Item.height = 16;
         Item.defense = 4;
+        Item.rare = ItemRarityID.Orange;
         Item.value = Item.sellPrice(0, 1, 0, 0);
     }
 
     public override void UpdateEquip(Player player)
     {
-
+        player.statLifeMax2 += 30;
     }
 }
 

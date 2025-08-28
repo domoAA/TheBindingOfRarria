@@ -14,6 +14,8 @@ public static class Effects
 
     public static readonly Asset<Effect> SpinAura = LoadEffect("SpinAura");
 
+    public static readonly Asset<Effect> Trail = LoadEffect("Trail");
+
     private static Asset<Effect> LoadEffect(string EffectPath)
     {
         if (Main.dedServ)

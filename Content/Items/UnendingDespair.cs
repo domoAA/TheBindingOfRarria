@@ -66,8 +66,8 @@ public class UnendingDespair : ModItem
         {
             string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.UnendingDespair.Tooltip"), $"{Main.LocalPlayer.statLifeMax2 / 10}");
 
-            text = text.Remove(text.LastIndexOf($"\n"));
-            text = text.Remove(text.LastIndexOf($"\n"));
+            text = text[..text.LastIndexOf($"\n")];
+            text = text[..text.LastIndexOf($"\n")];
             tooltips[index].Text = text;
         }
     }

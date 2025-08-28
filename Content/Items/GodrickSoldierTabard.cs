@@ -20,6 +20,7 @@ public class GodrickSoldierTabard : ModItem
         Item.width = 30;
         Item.height = 26;
         Item.defense = 4;
+        Item.rare = ItemRarityID.Orange;
         Item.value = Item.sellPrice(0, 2, 0, 0);
     }
 
