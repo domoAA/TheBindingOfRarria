@@ -24,6 +24,7 @@ public class GoldenHalberd : ModItem
         Item.useTurn = false;
         Item.value = Item.sellPrice(gold: 1, silver: 60);
         Item.rare = ItemRarityID.Pink;
+        Item.knockBack = 5f;
     }
 
     public override void AddRecipes()

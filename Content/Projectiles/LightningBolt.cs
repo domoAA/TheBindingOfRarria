@@ -30,6 +30,11 @@ public class LightningBolt : ModProjectile
 
     public override string Texture => Helper.GetVanillaExtraTexture(179);
 
+    public override void SetStaticDefaults()
+    {
+        ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
+    }
+
     public override void SetDefaults()
     {
         Projectile.width = Projectile.height = 20;
