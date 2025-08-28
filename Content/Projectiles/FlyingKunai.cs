@@ -70,8 +70,8 @@ public class FlyingKunai : ModProjectile
                     darkScale.X *= 0.75f;
 
 
-                    Main.spriteBatch.DrawPixellated(texture, position, new Rectangle(0, 8, 14, 2), darkScale, rotation, origin, darkColor * (1 - ratio), SpriteEffects.None, PixellationSystem.RenderType.Additive);
-                    Main.spriteBatch.DrawPixellated(texture, position, new Rectangle(0, 8, 14, 2), scale, rotation, origin, brightColor * (0.5f - ratio), SpriteEffects.None, PixellationSystem.RenderType.Additive);
+                    Main.spriteBatch.DrawPixellated(texture, position, new Rectangle(0, 8, 14, 2), darkScale, rotation, origin, darkColor * (1 - ratio), SpriteEffects.None, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.Projectiles);
+                    Main.spriteBatch.DrawPixellated(texture, position, new Rectangle(0, 8, 14, 2), scale, rotation, origin, brightColor * (0.5f - ratio), SpriteEffects.None, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.Projectiles);
                 }
             }
 

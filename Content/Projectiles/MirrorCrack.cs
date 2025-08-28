@@ -49,7 +49,7 @@ public class MirrorCrack : ModProjectile
         Color color = lightColor;
         color.A += dimming;
 
-        Main.spriteBatch.DrawPixellated(texture, Projectile.Center - Main.screenPosition, null, Projectile.scale * Vector2.One, Projectile.rotation, texture.Size() * 0.5f, color, effect, PixellationSystem.RenderType.Additive);
+        Main.spriteBatch.DrawPixellated(texture, Projectile.Center - Main.screenPosition, null, Projectile.scale * Vector2.One, Projectile.rotation, texture.Size() * 0.5f, color, effect, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.OverEverything);
         return false;
     }
 }

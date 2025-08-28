@@ -144,7 +144,7 @@ public class H2VBolt : ModProjectile
         {
             if (Projectile.timeLeft > 50)
             {
-                Projectile.scale = Lerp(Projectile.scale, 3f, 0.25f);
+                Projectile.scale = Lerp(Projectile.scale, 2f, 0.25f);
                 Projectile.Opacity = Lerp(Projectile.Opacity, 1f, 0.15f);
             }
 
@@ -212,7 +212,7 @@ public class H2VBolt : ModProjectile
                   );
                 }
             }
-        }, PixellationSystem.RenderType.Additive);
+        }, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.Projectiles);
 
         return false;
     }

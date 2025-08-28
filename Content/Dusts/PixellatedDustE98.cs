@@ -46,7 +46,7 @@ public class PixellatedDustE98 : ModDust
 
         Vector2 scale = dust.scale * new Vector2(0.9f, 0.015f * dust.color.A);
 
-        Main.spriteBatch.DrawPixellated(texture, dust.position - Main.screenPosition, null, scale, dust.rotation + PiOver2, texture.Size() * 0.5f, dust.color, PixellationSystem.RenderType.Additive);
+        Main.spriteBatch.DrawPixellated(texture, dust.position - Main.screenPosition, null, scale, dust.rotation + PiOver2, texture.Size() * 0.5f, dust.color, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.OverEverything);
         return false;
     }
 }

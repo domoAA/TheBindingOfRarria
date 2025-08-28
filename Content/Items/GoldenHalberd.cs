@@ -19,7 +19,8 @@ public class GoldenHalberd : ModItem
         Item.noUseGraphic = true;
         Item.useStyle = ItemUseStyleID.Swing;
         Item.noMelee = true;
-        Item.useTime = 55;
-        Item.useAnimation = 35;
+        Item.useTime = 65;
+        Item.useAnimation = 65;
+        Item.useTurn = false;
     }
 }

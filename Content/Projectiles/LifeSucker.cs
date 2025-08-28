@@ -84,10 +84,10 @@ public class LifeSucker : ModProjectile
         for (int i = 0; i < 4; i++)
         {
             rotation += PiOver2;
-            Main.spriteBatch.DrawPixellated(texture, Projectile.Center - Main.screenPosition, null, 0.9f * new Vector2(0.4f * (-float.Pow(Projectile.timeLeft - 20, 2) * 0.001f + 0.4f), Projectile.scale * 0.1f) * 2, rotation, texture.Size() * 0.5f, color, SpriteEffects.None, PixellationSystem.RenderType.Additive);
+            Main.spriteBatch.DrawPixellated(texture, Projectile.Center - Main.screenPosition, null, 0.9f * new Vector2(0.4f * (-float.Pow(Projectile.timeLeft - 20, 2) * 0.001f + 0.4f), Projectile.scale * 0.1f) * 2, rotation, texture.Size() * 0.5f, color, SpriteEffects.None, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.Projectiles);
         }
 
-        Main.spriteBatch.DrawPixellated(texture, Projectile.Center - (Projectile.velocity / 2) - Main.screenPosition, null, new Vector2(Projectile.velocity.Length() / 256, Projectile.scale * 0.1f) * 2, Projectile.velocity.ToRotation() + Pi, texture.Size() * 0.5f, color, SpriteEffects.None, PixellationSystem.RenderType.Additive);
+        Main.spriteBatch.DrawPixellated(texture, Projectile.Center - (Projectile.velocity / 2) - Main.screenPosition, null, new Vector2(Projectile.velocity.Length() / 256, Projectile.scale * 0.1f) * 2, Projectile.velocity.ToRotation() + Pi, texture.Size() * 0.5f, color, SpriteEffects.None, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.Projectiles);
 
         return false;
     }

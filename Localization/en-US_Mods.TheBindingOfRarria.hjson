@@ -1203,6 +1203,11 @@ Buffs: {
 		DisplayName: Siphoned
 		Description: Mods.TheBindingOfRarria.Buffs.Siphoned.Description
 	}
+
+	GoldenVow: {
+		DisplayName: Golden Vow
+		Description: Mods.TheBindingOfRarria.Buffs.GoldenVow.Description
+	}
 }
 
 Projectiles: {

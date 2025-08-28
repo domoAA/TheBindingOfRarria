@@ -18,9 +18,16 @@ public class PixellationSystem : ModSystem
         AlphaBlend
     }
 
-    private static RenderTarget2D Target { get; set; }
+    public enum RenderLayer
+    {
+        OverEverything,
+        Projectiles
+    }
 
-    private static Queue<(Action action, RenderType type)> Actions { get; set; } = new();
+    private static RenderTarget2D Target { get; set; }
+    private static RenderTarget2D ProjTarget { get; set; }
+
+    private static Dictionary<RenderLayer, Queue<(Action action, RenderType type)>> Actions { get; set; } = [];
 
     public override void Load()
     {
@@ -31,10 +38,26 @@ public class PixellationSystem : ModSystem
             Main.RunOnMainThread(() =>
             {
                 Target = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+                ProjTarget = new(Main.instance.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
             });
         }
 
-        On_Main.DrawInfernoRings += DrawPixellated;
+        On_Main.DrawInfernoRings += DrawPixellatedOverEverything;
+        On_Main.DrawProjectiles += DrawPixellatedProjectiles;
+    }
+
+    private void DrawPixellatedProjectiles(On_Main.orig_DrawProjectiles orig, Main self)
+    {
+        orig(self);
+
+        DrawPixellated(RenderLayer.Projectiles);
+    }
+
+    private static void DrawPixellatedOverEverything(On_Main.orig_DrawInfernoRings orig, Main self)
+    {
+        orig(self);
+
+        DrawPixellated(RenderLayer.OverEverything);
     }
 
     private void InitializeRT(Vector2 obj)
@@ -50,21 +73,26 @@ public class PixellationSystem : ModSystem
         int height = Main.screenHeight / 2;
 
         Target = new(gd, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+        ProjTarget = new(gd, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
     }
 
-    public static void QueuePixellationAction(Action action, RenderType type)
+    public static void QueuePixellationAction(Action action, RenderType type, RenderLayer layer)
     {
-        Actions.Enqueue((action, type));
+        if (!Actions.ContainsKey(layer))
+        {
+            var nullQueue = new Queue<(Action, RenderType)>();
+            Actions.Add(layer, nullQueue); 
+        }
+        Actions[layer].Enqueue((action, type));
     }
 
     /// <summary>
     /// Invokes the passed draw action on the rt and draws the rt with 2x scale
     /// </summary>
-    private static void DrawPixellated(On_Main.orig_DrawInfernoRings orig, Main self)
+    /// 
+    private static void DrawPixellated(RenderLayer layer)
     {
-        orig(self);
-
-        if (Actions is null || Actions.Count <= 0)
+        if (Actions is null || Actions.Count <= 0 || !Actions.TryGetValue(layer, out Queue<(Action action, RenderType type)> value) || value is null || value.Count <= 0)
             return;
 
         var gd = Main.graphics.GraphicsDevice;
@@ -88,12 +116,12 @@ public class PixellationSystem : ModSystem
         gd.SetRenderTarget(Target);
         gd.Clear(Color.Transparent);
 
-        for (int i = 0; i < Actions.Count; i++)
+        for (int i = 0; i < Actions[layer].Count; i++)
         {
-            var (action, type) = Actions.Dequeue();
+            var (action, type) = Actions[layer].Dequeue();
 
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, type == RenderType.Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Matrix.Identity);
- 
+
             action.Invoke();
 
             Main.spriteBatch.End();

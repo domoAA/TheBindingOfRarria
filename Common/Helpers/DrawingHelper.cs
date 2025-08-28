@@ -33,7 +33,7 @@ public static partial class Helper
         return instance.GetType().Namespace.Replace(".", "/") + "/" + instance.Name + extraText;
     }
 
-    public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, PixellationSystem.RenderType renderType)
+    public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, PixellationSystem.RenderType renderType, PixellationSystem.RenderLayer layer)
     {
         position = Vector2.Transform(position, HalfScale);
         scale = Vector2.Transform(scale, HalfScale);
@@ -41,10 +41,10 @@ public static partial class Helper
         PixellationSystem.QueuePixellationAction(() =>
         {
             spriteBatch.Draw(texture, position, sourceRect, color, rotation, origin, scale, SpriteEffects.None, 0);
-        }, renderType);
+        }, renderType, layer);
     }
 
-    public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, SpriteEffects effects, PixellationSystem.RenderType renderType)
+    public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, SpriteEffects effects, PixellationSystem.RenderType renderType, PixellationSystem.RenderLayer layer)
     {
         position = Vector2.Transform(position, HalfScale);
         scale = Vector2.Transform(scale, HalfScale);
@@ -52,11 +52,11 @@ public static partial class Helper
         PixellationSystem.QueuePixellationAction(() =>
         {
             spriteBatch.Draw(texture, position, sourceRect, color, rotation, origin, scale, effects, 0);
-        }, renderType);
+        }, renderType, layer);
     }
 
-    public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, float scale, float rotation, Vector2 origin, Color color, PixellationSystem.RenderType renderType) =>
-        spriteBatch.DrawPixellated(texture, position, sourceRect, scale * Vector2.One, rotation, origin, color, renderType);
+    public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, float scale, float rotation, Vector2 origin, Color color, PixellationSystem.RenderType renderType, PixellationSystem.RenderLayer layer) =>
+        spriteBatch.DrawPixellated(texture, position, sourceRect, scale * Vector2.One, rotation, origin, color, renderType, layer);
 
     #region Transparency Slop
     public static void DrawWithTransparency(this Texture2D texture, Vector2 center, float scale, Color color, byte alpha)

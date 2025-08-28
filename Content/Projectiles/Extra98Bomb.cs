@@ -80,7 +80,7 @@ public class Extra98Bomb : ModProjectile
         Texture2D texture = TextureAssets.Projectile[Type].Value;
 
         if (Projectile.timeLeft > 12)
-            Main.spriteBatch.DrawPixellated(texture, Projectile.Center - Main.screenPosition, null, Projectile.scale, Projectile.rotation, texture.Size() * 0.5f, lightColor, PixellationSystem.RenderType.Additive);
+            Main.spriteBatch.DrawPixellated(texture, Projectile.Center - Main.screenPosition, null, Projectile.scale, Projectile.rotation, texture.Size() * 0.5f, lightColor, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.OverEverything);
         
         return false;
     }

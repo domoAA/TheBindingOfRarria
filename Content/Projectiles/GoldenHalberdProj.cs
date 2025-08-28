@@ -10,6 +10,8 @@ using Terraria.WorldBuilding;
 using TheBindingOfRarria.Common;
 using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Common.Registries;
+using TheBindingOfRarria.Common.Systems;
+using TheBindingOfRarria.Content.Buffs;
 
 namespace TheBindingOfRarria.Content.Projectiles;
 
@@ -49,12 +51,17 @@ public class GoldenHalberdProj : ModProjectile
 
         //ensure the projectile only hits once
         Projectile.usesLocalNPCImmunity = true;
-        Projectile.localNPCHitCooldown = 2;
+        Projectile.localNPCHitCooldown = -1;
 
         Projectile.timeLeft = 50;
         Projectile.scale = 1f;
         Projectile.friendly = true;
-        Projectile.DamageType = DamageClass.Melee;
+        Projectile.DamageType = DamageClass.MeleeNoSpeed;
+    }
+
+    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+    {
+        Main.player[Projectile.owner].AddBuff(ModContent.BuffType<GoldenVow>(), 300);
     }
 
     public override void AI()
@@ -95,7 +102,8 @@ public class GoldenHalberdProj : ModProjectile
     {
         float point = 0f;
 
-        Vector2 length = Projectile.rotation.ToRotationVector2() * 80f; //replace with desired length
+        Vector2 length = -new Vector2(94).RotatedBy(Projectile.rotation + (Projectile.spriteDirection + 1) / 2 * PiOver2); //replace with desired length
+        //length.X *= Projectile.spriteDirection;
 
         if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + length * 0.05f, Projectile.Center + length, 20, ref point))
             return true;
@@ -105,60 +113,63 @@ public class GoldenHalberdProj : ModProjectile
 
     public void DrawTrail(Color colorStart, Color colorEnd, float trailZStart = 0.5f, float trailZEnd = 1f)
     {
-        List<VertexInfo> vertices = []; //this is what we will be passing the trail points to, to draw the strip trail.
-        List<Vector2> _trail = [.. Trail]; //despite a Queue being handy for adding/removing points, you cannot access indices the way you would with other things like List<T> and T[].
-
-        for (int i = 0; i < _trail.Count; i++)
+        PixellationSystem.QueuePixellationAction(() =>
         {
-            //define a completion ratio from start to end of the provided positions.
-            float t = i / (float)_trail.Count; //cast this to a float here to avoid stupid truncation
+            List<VertexInfo> vertices = []; //this is what we will be passing the trail points to, to draw the strip trail.
+            List<Vector2> _trail = [.. Trail]; //despite a Queue being handy for adding/removing points, you cannot access indices the way you would with other things like List<T> and T[].
 
-            //using this ratio, we can create a gradient for the opacity of the trail to follow.
-            //this starts at full opacity and fades out as we reach the end of the trail.
-            float alpha = Lerp(0f, 1f, t); //remove Projectile.Opacity if you dont want this to fade with your projectile if it has such behaviour.
+            for (int i = 0; i < _trail.Count; i++)
+            {
+                //define a completion ratio from start to end of the provided positions.
+                float t = i / (float)_trail.Count; //cast this to a float here to avoid stupid truncation
 
-            //now, we need to actually add VertexInfo values to vertices.
-            //we add 2 per iteration, an upper and a lower one.
-            //the Z coordinate of the TexCoord is used by the shader for opacity, so pass it here.
-            vertices.Add(new VertexInfo(Projectile.Center + _trail[i] * trailZStart, Color.White, new Vector3(t, 1f, alpha)));
-            vertices.Add(new VertexInfo(Projectile.Center + _trail[i] * trailZEnd, Color.White, new Vector3(t, 0f, alpha)));
-        }
+                //using this ratio, we can create a gradient for the opacity of the trail to follow.
+                //this starts at full opacity and fades out as we reach the end of the trail.
+                float alpha = Lerp(0f, 1f, t); //remove Projectile.Opacity if you dont want this to fade with your projectile if it has such behaviour.
 
-        //here we retrieve our shader, simply setting it in MyMod.Load will do
-        Effect effect = Effects.Trail?.Value;
-        if (effect is null)
-            return;
+                //now, we need to actually add VertexInfo values to vertices.
+                //we add 2 per iteration, an upper and a lower one.
+                //the Z coordinate of the TexCoord is used by the shader for opacity, so pass it here.
+                vertices.Add(new VertexInfo((Projectile.Center + _trail[i] * trailZStart), Color.White, new Vector3(t, 1f, alpha)));
+                vertices.Add(new VertexInfo((Projectile.Center + _trail[i] * trailZEnd), Color.White, new Vector3(t, 0f, alpha)));
+            }
 
-        //when drawing with shaders, you always need to restart the spritebatch to use immediate sorting.
-        //when using immediate, draw data is immediately (hence the name) uploaded to the active gpu, which is important for things like this.
-        Main.spriteBatch.End(out var parameters);
-        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
+            //here we retrieve our shader, simply setting it in MyMod.Load will do
+            Effect effect = Effects.Trail?.Value;
+            if (effect is null)
+                return;
 
-        //these ensure the vertex shader is applied to a proper position on the screen, and is accounted for by zoom and such.
-        Matrix transform = Main.GameViewMatrix.TransformationMatrix;
-        Matrix projection = Matrix.CreateOrthographicOffCenter(0, Main.screenWidth, Main.screenHeight, 0, 0, 1);
-        Matrix model = Matrix.CreateTranslation(new Vector3(-Main.screenPosition.X, -Main.screenPosition.Y, 0)) * transform;
+            //when drawing with shaders, you always need to restart the spritebatch to use immediate sorting.
+            //when using immediate, draw data is immediately (hence the name) uploaded to the active gpu, which is important for things like this.
+            Main.spriteBatch.End(out var parameters);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone);
+
+            //these ensure the vertex shader is applied to a proper position on the screen, and is accounted for by zoom and such.
+            Matrix transform = Matrix.Identity;
+            Matrix projection = Matrix.CreateOrthographicOffCenter(0, Main.screenWidth, Main.screenHeight, 0, 0, 1);
+            Matrix model = Matrix.CreateTranslation(new Vector3(-Main.screenPosition.X, -Main.screenPosition.Y, 0)) * transform;
 
 
-        //the shader samles the first texture here, so assign it to the trail shape texture you want to use.
-        //this is a Texture2D so have a static Asset<Texture2D> in your class, then set it to the trail texture on load and access .Value here
-        Main.graphics.GraphicsDevice.Textures[0] = Textures.TrailTexture.Value;
+            //the shader samles the first texture here, so assign it to the trail shape texture you want to use.
+            //this is a Texture2D so have a static Asset<Texture2D> in your class, then set it to the trail texture on load and access .Value here
+            Main.graphics.GraphicsDevice.Textures[0] = Textures.TrailTexture.Value;
 
-        //set up the shader parameters. 
-        effect.Parameters["uTransform"].SetValue(model * projection);
-        effect.Parameters["uColor"].SetValue(colorStart.ToVector4());
-        effect.Parameters["uEndColor"].SetValue(colorEnd.ToVector4());
-        effect.Parameters["uLerpPower"].SetValue(0.25f);
-        effect.CurrentTechnique.Passes["TrailColor"].Apply(); //you could also use [0] here too, or whatever pass your shader is gonna use (remember, it starts at 0 for the 1st pass, and then goes up from there)
+            //set up the shader parameters. 
+            effect.Parameters["uTransform"].SetValue(model * projection);
+            effect.Parameters["uColor"].SetValue(colorStart.ToVector4());
+            effect.Parameters["uEndColor"].SetValue(colorEnd.ToVector4());
+            effect.Parameters["uLerpPower"].SetValue(0.25f);
+            effect.CurrentTechnique.Passes["TrailColor"].Apply(); //you could also use [0] here too, or whatever pass your shader is gonna use (remember, it starts at 0 for the 1st pass, and then goes up from there)
 
-        //actually draw the vertices, which will have the shader applied to them.
-        Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices.ToArray(), 0, vertices.Count - 2);
+            //actually draw the vertices, which will have the shader applied to them.
+            Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices.ToArray(), 0, vertices.Count - 2);
 
-        //make sure to restore the spritebatch after drawing is done. If you wish to layer multiple trails on top of eachother, then uncomment the line below.
-        //vertices.Clear();
+            //make sure to restore the spritebatch after drawing is done. If you wish to layer multiple trails on top of eachother, then uncomment the line below.
+            //vertices.Clear();
 
-        Main.spriteBatch.End();
-        Main.spriteBatch.Begin(parameters);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(parameters);
+        }, PixellationSystem.RenderType.Additive, PixellationSystem.RenderLayer.Projectiles);
     }
 
     public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
