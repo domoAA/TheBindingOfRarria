@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -26,6 +27,7 @@ public class LightningBolt : ModProjectile
         bolt.End = end;
         bolt.Target = target;
         bolt.CreatedPositions = false;
+        instance.netUpdate = true;
     }
 
     public override string Texture => Helper.GetVanillaExtraTexture(179);
@@ -55,6 +57,19 @@ public class LightningBolt : ModProjectile
 
         Projectile.scale = 0f;
         Projectile.Opacity = 0f;
+        SetPositions(Projectile.position, Projectile.position + Projectile.velocity, Projectile);
+    }
+
+    public override void SendExtraAI(BinaryWriter writer)
+    {
+        writer.WriteVector2(Start);
+        writer.WriteVector2(End);
+    }
+
+    public override void ReceiveExtraAI(BinaryReader reader)
+    {
+        Start = reader.ReadVector2();
+        End = reader.ReadVector2();
     }
 
     public static List<Vector2> CreatePoints(Vector2 source, Vector2 dest, float sway = 80f, float constrain = 1f)
@@ -103,6 +118,9 @@ public class LightningBolt : ModProjectile
 
     public override void AI()
     {
+        if (End == default && Start == default) 
+            return;
+
         if (Target != -1)
         {
             NPC npc = Main.npc[Target];

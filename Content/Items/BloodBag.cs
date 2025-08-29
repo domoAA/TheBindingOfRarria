@@ -64,7 +64,7 @@ public class BloodBagPlayer : ModPlayer
         On_Player.UpdateLifeRegen -= On_Player_UpdateLifeRegen;
     }
 
-    private void On_Player_UpdateLifeRegen(On_Player.orig_UpdateLifeRegen orig, Player self)
+    private static void On_Player_UpdateLifeRegen(On_Player.orig_UpdateLifeRegen orig, Player self)
     {
         var player = self.GetModPlayer<BloodBagPlayer>();
 

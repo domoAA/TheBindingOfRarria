@@ -66,7 +66,7 @@ public class GiantPlayer : ModPlayer
         On_Player.HealEffect += On_Player_HealEffect;
     }
 
-    private void On_Player_HealEffect(On_Player.orig_HealEffect orig, Player self, int healAmount, bool broadcast)
+    private static void On_Player_HealEffect(On_Player.orig_HealEffect orig, Player self, int healAmount, bool broadcast)
     {
         if (!self.GetModPlayer<GiantPlayer>().Healed && self.GetModPlayer<GiantPlayer>().HasGirdleOfGiantStrength)
         {
@@ -82,7 +82,7 @@ public class GiantPlayer : ModPlayer
         orig(self, healAmount, broadcast);
     }
 
-    private void On_Player_Heal(On_Player.orig_Heal orig, Player self, int amount)
+    private static void On_Player_Heal(On_Player.orig_Heal orig, Player self, int amount)
     {
         if (self.GetModPlayer<GiantPlayer>().HasGirdleOfGiantStrength)
         {

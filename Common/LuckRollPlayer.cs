@@ -65,7 +65,7 @@ public class LuckRollPlayer : ModPlayer
         }
     }
 
-    private double UseLowLuckRoll(On_Player.orig_Hurt_PlayerDeathReason_int_int_refHurtInfo_bool_bool_int_bool_float_float_float orig, Player self, PlayerDeathReason damageSource, int Damage, int hitDirection, out Player.HurtInfo info, bool pvp, bool quiet, int cooldownCounter, bool dodgeable, float armorPenetration, float scalingArmorPenetration, float knockback)
+    private static double UseLowLuckRoll(On_Player.orig_Hurt_PlayerDeathReason_int_int_refHurtInfo_bool_bool_int_bool_float_float_float orig, Player self, PlayerDeathReason damageSource, int Damage, int hitDirection, out Player.HurtInfo info, bool pvp, bool quiet, int cooldownCounter, bool dodgeable, float armorPenetration, float scalingArmorPenetration, float knockback)
     {
         TalismanRoll(self, ref Damage);
 
@@ -76,7 +76,7 @@ public class LuckRollPlayer : ModPlayer
         return orig(self, damageSource, Damage, hitDirection, out info, pvp, quiet, cooldownCounter, dodgeable, armorPenetration, scalingArmorPenetration, knockback);
     }
 
-    private int RegisterLuckRoll(On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
+    private static int RegisterLuckRoll(On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
     {
         int result = orig(dmg, percent, luck);
 

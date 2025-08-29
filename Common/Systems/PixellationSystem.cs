@@ -44,7 +44,7 @@ public class PixellationSystem : ModSystem
         On_Main.DrawProjectiles += DrawPixellatedProjectiles;
     }
 
-    private void DrawPixellatedProjectiles(On_Main.orig_DrawProjectiles orig, Main self)
+    private static void DrawPixellatedProjectiles(On_Main.orig_DrawProjectiles orig, Main self)
     {
         orig(self);
 
@@ -58,7 +58,7 @@ public class PixellationSystem : ModSystem
         DrawPixellated(RenderLayer.OverEverything);
     }
 
-    private void InitializeRT(Vector2 obj)
+    private static void InitializeRT(Vector2 obj)
     {
         if (Main.dedServ)
         {
