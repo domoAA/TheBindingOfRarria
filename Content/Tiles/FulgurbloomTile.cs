@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ using Terraria.ObjectData;
 using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Content.Items;
 using TheBindingOfRarria.Content.Projectiles;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TheBindingOfRarria.Content.Tiles;
 
@@ -157,7 +159,7 @@ public class FulgurbloomTile : ModTile
         else if (stage == PlantStage.Grown)
         {
             // Default yields, only when fully grown
-            herbItemStack = Main.rand.Next(2, 4);
+            herbItemStack = Main.rand.Next(1, 3);
         }
 
         if (herbItemType > 0 && herbItemStack > 0)
@@ -176,8 +178,43 @@ public class FulgurbloomTile : ModTile
 
     public override void NearbyEffects(int i, int j, bool closer)
     {
-        if (!LightningHerbZappySystem.FlowahPositions.Contains(new Vector2(i, j)))  
-            LightningHerbZappySystem.FlowahPositions.Add(new Vector2(i, j));
+        if (closer || Main.gamePaused || GetStage(i, j) != PlantStage.Grown)
+            return;
+
+        Vector2 flowerPos = new(i, j);
+
+
+
+        if (!Main.rand.NextBool(80))
+            return;
+
+        Tile current = Main.tile[i, j];
+
+        if (current.TileType == ModContent.TileType<FulgurbloomTile>())
+        {
+            var pos = flowerPos.ToPoint() + new Vector2(Main.rand.NextFloat(-500f, 500f), 0).ToTileCoordinates();
+            for (int a = -40; a < 40; a++)
+            {
+                pos.Y++;
+                if (WorldGen.SolidOrSlopedTile(pos.X, pos.Y))
+                    break;
+            }
+
+
+            Vector2 end = pos.ToWorldCoordinates() + new Vector2(Main.rand.NextFloat(-100f, 100f), -1100f);
+
+            Projectile.NewProjectile(
+            new EntitySource_WorldEvent(), pos.ToWorldCoordinates(), end - pos.ToWorldCoordinates(),
+            ModContent.ProjectileType<LightningBolt>(), 10,
+            2, Main.myPlayer
+        );
+
+            SoundEngine.PlaySound(SoundID.Thunder);
+
+            Helper.Screenshake(pos.ToWorldCoordinates(), 10f, 5f, 1000f, 10);
+            //Dust.NewDustDirect(new Point(start.X + x, start.Y + y).ToWorldCoordinates(), 0, 0, DustID.GemDiamond, Scale: 10);
+            return;
+        }
     }
 
     public override void RandomUpdate(int i, int j)
@@ -214,73 +251,7 @@ internal class LightningHerbZappySystem : ModSystem
     {
         if (FlowahPositions.Count > 0)
         {
-            var dist = 800f * 800f;
-            Vector2 flowerPos = FlowahPositions[0];
-
-            Point start = new((int)flowerPos.X, (int)flowerPos.Y);
-            Player player = null;
-            for (int i = 0; i < FlowahPositions.Count; i++)
-            {
-                flowerPos = FlowahPositions[0];
-                FlowahPositions.RemoveAt(0);
-
-                start = new((int)flowerPos.X, (int)flowerPos.Y);
-
-                foreach (var p in Main.player)
-                {
-                    if (!p.active || p.Center.DistanceSQ(flowerPos.ToWorldCoordinates()) > dist)
-                        continue;
-
-                    start = p.Center.ToTileCoordinates();
-                    dist = p.Center.DistanceSQ(flowerPos.ToWorldCoordinates());
-                    player = p;
-                }
-
-                if (player is null)
-                    continue;
-            }
-
-            if (player is null || !Main.rand.NextBool(30) || player.whoAmI != Main.myPlayer)
-                return;
-
-            for (int x = -100; x < 100; x++)
-            {
-                for (int y = -100; y < 100; y++)
-                {
-                    Tile current = Main.tile[start.X + x, start.Y + y];
-
-                    if (current.TileType == ModContent.TileType<FulgurbloomTile>() && FulgurbloomTile.GetStage(start.X + x, start.Y + y) == PlantStage.Grown)
-                    {
-                        flowerPos = new Point(start.X + x, start.Y + y).ToWorldCoordinates();
-                        if (Main.rand.NextBool(100 - (int)player.velocity.Length()))
-                            flowerPos.X = player.Center.X;
-
-                        var pos = flowerPos + new Vector2(Main.rand.NextFloat(-500f, 500f), 0);
-                        for (int i = -40; i < 40; i++)
-                        {
-                            pos = new Point(pos.ToTileCoordinates().X, flowerPos.ToTileCoordinates().Y + i).ToWorldCoordinates();
-                            if (WorldGen.SolidOrSlopedTile(pos.ToTileCoordinates().X, pos.ToTileCoordinates().Y))
-                                break;
-                        }
-
-
-                        Vector2 end = pos + new Vector2(Main.rand.NextFloat(-100f, 100f), -1100f);
-
-                        Helper.NewProjectileBetter(new EntitySource_WorldEvent(), pos, Vector2.Zero, ModContent.ProjectileType<LightningBolt>(), 10, 0f, Main.myPlayer, self =>
-                        {
-                            self.hostile = true;
-                            self.friendly = true;
-                            LightningBolt.SetPositions(pos, end, self, -1);
-                        });
-
-                        SoundEngine.PlaySound(SoundID.Thunder);
-
-                        Helper.Screenshake(pos, 10f, 5f, 1000f, 10);
-                        //Dust.NewDustDirect(new Point(start.X + x, start.Y + y).ToWorldCoordinates(), 0, 0, DustID.GemDiamond, Scale: 10);
-                        return;
-                    }
-                }
-            }
+            
         }
     }
 }

@@ -46,7 +46,7 @@ public class MedicatedPlayer : ModPlayer
     
     public override void Load() => On_Player.AddBuff_DetermineBuffTimeToAdd += CoolBuffTime;
     
-    private int CoolBuffTime(On_Player.orig_AddBuff_DetermineBuffTimeToAdd orig, Player self, int type, int time1)
+    private static int CoolBuffTime(On_Player.orig_AddBuff_DetermineBuffTimeToAdd orig, Player self, int type, int time1)
     {
         int buffTime = orig(self, type, time1);
 

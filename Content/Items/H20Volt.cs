@@ -48,6 +48,8 @@ public class H2VPlayer : ModPlayer
 {
     public bool Equipped;
 
+    public int counter = 0;
+
     public override void ResetEffects() => Equipped = false;
 
     public override void PostUpdateEquips()
@@ -55,8 +57,11 @@ public class H2VPlayer : ModPlayer
         if (!Equipped)
             return;
 
-        if (Main.rand.NextBool(40))
+        counter++;
+
+        if (counter >= 0)
         {
+            counter = -30;
             int count = 4;
 
             int[] npcs = Helper.GetTargetIndices(Player.Center, count, 350f);

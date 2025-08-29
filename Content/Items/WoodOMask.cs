@@ -46,7 +46,7 @@ public class PoisonMinionsPlayer : ModPlayer
         On_NPC.AddBuff += SendMissilesAtVulnerableKiddies;
     }
 
-    private void SendMissilesAtVulnerableKiddies(On_NPC.orig_AddBuff orig, NPC self, int type, int time, bool quiet)
+    private static void SendMissilesAtVulnerableKiddies(On_NPC.orig_AddBuff orig, NPC self, int type, int time, bool quiet)
     {
         if (self.CountsAsACritter || self.HasBuff(type) || !Main.debuff[type] || self.buffImmune[type])
         {
