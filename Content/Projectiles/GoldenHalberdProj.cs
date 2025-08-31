@@ -157,7 +157,6 @@ public class GoldenHalberdProj : ModProjectile
             Matrix projection = Matrix.CreateOrthographicOffCenter(0, Main.screenWidth, Main.screenHeight, 0, 0, 1);
             Matrix model = Matrix.CreateTranslation(new Vector3(-Main.screenPosition.X, -Main.screenPosition.Y, 0)) * transform;
 
-
             //the shader samles the first texture here, so assign it to the trail shape texture you want to use.
             //this is a Texture2D so have a static Asset<Texture2D> in your class, then set it to the trail texture on load and access .Value here
             Main.graphics.GraphicsDevice.Textures[0] = Textures.TrailTexture.Value;

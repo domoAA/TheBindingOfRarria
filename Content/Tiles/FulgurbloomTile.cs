@@ -178,42 +178,70 @@ public class FulgurbloomTile : ModTile
 
     public override void NearbyEffects(int i, int j, bool closer)
     {
-        if (closer || Main.gamePaused || GetStage(i, j) != PlantStage.Grown)
+        //if (Main.gamePaused)
+        //    return;
+
+        //Vector2 flowerPos = new(i * 16, j * 16);
+
+        //if (!Main.rand.NextBool(2))
+        //    return;
+
+        //Tile current = Main.tile[i, j];
+
+        //if (current.TileType == ModContent.TileType<FulgurbloomTile>())
+        //{
+        //    var pos = flowerPos.ToPoint() + new Vector2(Main.rand.NextFloat(-500f, 500f), 0).ToTileCoordinates();
+
+        //    for (int a = -40; a < 40; a++)
+        //    {
+        //        pos.Y++;
+        //        if (WorldGen.SolidOrSlopedTile(pos.X, pos.Y))
+        //            break;
+        //    }
+
+        //    Vector2 end = pos.ToWorldCoordinates() + new Vector2(Main.rand.NextFloat(-100f, 100f), -1100f);
+
+        //    Projectile.NewProjectile(
+        //        new EntitySource_WorldEvent(), pos.ToWorldCoordinates(), end - pos.ToWorldCoordinates(),
+        //        ModContent.ProjectileType<LightningBolt>(), 10,
+        //        2, Main.myPlayer
+        //    );
+
+        //    SoundEngine.PlaySound(SoundID.Thunder);
+        //    Helper.Screenshake(pos.ToWorldCoordinates(), 10f, 5f, 1000f, 10);
+
+        //    return;
+        //}
+
+        if (Main.gamePaused || !Main.IsItStorming || GetStage(i, j) != PlantStage.Grown)
             return;
 
-        Vector2 flowerPos = new(i, j);
-
-
-
-        if (!Main.rand.NextBool(80))
-            return;
-
-        Tile current = Main.tile[i, j];
-
-        if (current.TileType == ModContent.TileType<FulgurbloomTile>())
+        if (Main.rand.NextBool(100))
         {
-            var pos = flowerPos.ToPoint() + new Vector2(Main.rand.NextFloat(-500f, 500f), 0).ToTileCoordinates();
-            for (int a = -40; a < 40; a++)
+            Vector2 tilePos = new Vector2(i * 16, j * 16) + (Vector2.UnitX * Main.rand.NextFloat(-100f, 100f));
+            Vector2 startPos = tilePos + new Vector2(Main.rand.NextFloat(-100f, 100f), -800f);
+
+            if (Collision.SolidCollision(tilePos, 16, 16))
             {
-                pos.Y++;
-                if (WorldGen.SolidOrSlopedTile(pos.X, pos.Y))
-                    break;
+                for (int y = -20; y < 100; y++)
+                {
+                    if (!Collision.SolidCollision(tilePos, 16, 16 + (y * 4)))
+                    {
+                        tilePos.Y += y * 4;
+                        break;
+                    }
+                }
             }
 
+            var proj = Projectile.NewProjectileDirect(
+                new EntitySource_WorldEvent(), startPos, Vector2.Zero,
+                ModContent.ProjectileType<LightningBolt>(), 10,
+                2, Main.myPlayer
+            );
 
-            Vector2 end = pos.ToWorldCoordinates() + new Vector2(Main.rand.NextFloat(-100f, 100f), -1100f);
-
-            Projectile.NewProjectile(
-            new EntitySource_WorldEvent(), pos.ToWorldCoordinates(), end - pos.ToWorldCoordinates(),
-            ModContent.ProjectileType<LightningBolt>(), 10,
-            2, Main.myPlayer
-        );
-
+            LightningBolt.SetPositions(tilePos, startPos, proj, -1);
             SoundEngine.PlaySound(SoundID.Thunder);
-
-            Helper.Screenshake(pos.ToWorldCoordinates(), 10f, 5f, 1000f, 10);
-            //Dust.NewDustDirect(new Point(start.X + x, start.Y + y).ToWorldCoordinates(), 0, 0, DustID.GemDiamond, Scale: 10);
-            return;
+            Helper.Screenshake(tilePos, 10f, 5f, 1000f, 10);
         }
     }
 

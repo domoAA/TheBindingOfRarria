@@ -34,7 +34,7 @@ public class LightningBolt : ModProjectile
 
     public override void SetStaticDefaults()
     {
-        ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
+        ProjectileID.Sets.DrawScreenCheckFluff[Type] = 10000;
     }
 
     public override void SetDefaults()
@@ -57,7 +57,6 @@ public class LightningBolt : ModProjectile
 
         Projectile.scale = 0f;
         Projectile.Opacity = 0f;
-        SetPositions(Projectile.position, Projectile.position + Projectile.velocity, Projectile);
     }
 
     public override void SendExtraAI(BinaryWriter writer)
