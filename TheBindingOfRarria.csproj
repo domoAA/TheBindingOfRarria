@@ -19,6 +19,20 @@
 	    <HintPath>..\ModAssemblies\ShopExpander_v1.8.1.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
+	
+	<!-- Global usings!!!!! -->
+	<ItemGroup>
+		<Using Include="Terraria.ModLoader.ModContent" Static="true" />
+		<Using Include="System.MathF" Static="true" />
+		<Using Include="Microsoft.Xna.Framework.MathHelper" Static="true" />
+		<Using Include="Terraria.ModLoader" />
+		<Using Include="Microsoft.Xna.Framework.Graphics" />
+		<Using Include="Microsoft.Xna.Framework" />
+		<Using Include="Terraria" />
+		<Using Include="Terraria.ID" />
+		<Using Include="Terraria.DataStructures" />
+		<Using Include="Terraria.GameContent" />
+	</ItemGroup>
 
 	<ItemGroup Condition="'$(DesignTimeBuild)' != 'true'">
 		<EffectFiles Include="**/*.fx" />

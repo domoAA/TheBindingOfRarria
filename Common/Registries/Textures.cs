@@ -21,6 +21,8 @@ public static class Textures
 
     public static readonly Asset<Texture2D> TrailTexture = LoadTexture2D("TrailTexture");
 
+    public static readonly Asset<Texture2D> TrailTexture2 = LoadTexture2D("TrailTexture2");
+
     private static Asset<Texture2D> LoadTexture2D(string TexturePath)
     {
         if (Main.dedServ)

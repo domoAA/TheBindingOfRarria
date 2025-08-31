@@ -14,6 +14,8 @@ float4 uColor = float4(1, 1, 1, 1); //vec4 for the color near the base
 float4 uEndColor = float4(1, 1, 1, 1); //vec4 for the color near the tip
 float uLerpPower = 0; //controls how quickly it pulls towards the second color
 
+float2 lerpPull = float2(1, 1);
+
 struct VSInput
 {
     float2 Pos : POSITION0;
@@ -50,7 +52,19 @@ float4 PixelShaderFunction(PSInput input) : COLOR0
     float4 offset = lerp(uColor, uEndColor, 1 - lerpValue); //the color to apply to the sampled image
     
     return imageAlpha * offset; //return the new color.
+}
 
+float4 PixelShaderFunction2(PSInput input) : COLOR0
+{
+    float3 coords = input.Texcoord; 
+    float4 image = tex2D(uShape, float2(coords.x, coords.y)) * input.Color; 
+    
+    float4 imageAlpha = image * coords.z; 
+    float t = saturate((coords.y * lerpPull.y * 0.5) + (coords.x * lerpPull.x * 0.5));
+    float lerpValue = saturate(t + uLerpPower); 
+    float4 offset = lerp(uColor, uEndColor, 1 - lerpValue);
+    
+    return imageAlpha * offset;
 }
 
 technique Technique1
@@ -59,5 +73,11 @@ technique Technique1
     {
         VertexShader = compile vs_3_0 VertexShaderFunction();
         PixelShader = compile ps_3_0 PixelShaderFunction();
+    }
+
+    pass TrailColor2
+    {
+        VertexShader = compile vs_3_0 VertexShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction2();
     }
 }
