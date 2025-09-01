@@ -108,16 +108,43 @@ public class ShieldTalismanPlayer : ModPlayer
 
     public int crit = 0;
 
+    public static (bool flag, int amount) blocked = (false, 0);
+
     public override void ResetEffects() => ShieldCrest = false;
 
-    public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
+    public override void ModifyHurt(ref Player.HurtModifiers modifiers)
     {
         if (ShieldCrest && Main.rand.Next(100) < (int)(25 * (Main.LocalPlayer.GetModPlayer<ShieldTalismanPlayer>().crit / 100f + 1)))
         {
             modifiers.FinalDamage *= 0.5f;
 
-            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<ShieldSphere>(), 0, 0);
+            blocked = (true, 0);
         }
+    }
+
+    public override void OnHurt(Player.HurtInfo info)
+    {
+        if (blocked.flag)
+        {
+            blocked.amount = info.Damage;
+        }
+    }
+
+    public override void Load()
+    {
+        On_CombatText.NewText_Rectangle_Color_string_bool_bool += AddBlockText;
+    }
+
+    private static int AddBlockText(On_CombatText.orig_NewText_Rectangle_Color_string_bool_bool orig, Rectangle location, Color color, string text, bool dramatic, bool dot)
+    {
+        if (blocked.flag && blocked.amount.ToString() == text)
+        {
+            color = Color.Gray;
+
+            blocked = (false, 0);
+        }
+
+        return orig(location, color, text, dramatic, dot);
     }
 
     public override void PostUpdate()
