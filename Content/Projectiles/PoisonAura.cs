@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheBindingOfRarria.Common;
+using TheBindingOfRarria.Common.Graphics.Particles;
 using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Common.Registries;
 using static System.Net.Mime.MediaTypeNames;
@@ -68,6 +69,17 @@ internal class PoisonAura : ModProjectile
 
             Projectile.Opacity = Lerp(0, 1, Clamp(Time / 25f, 0, 1));
             Projectile.scale = Lerp(0, 1, Clamp(Time / 15f, 0, 1));
+
+            Projectile.Center = Main.LocalPlayer.Center + new Vector2(25, 0);
+
+            ParticleManager.SpawnParticle(Main.LocalPlayer.Center + Main.rand.NextVector2CircularEdge(25f, 25f), -Vector2.UnitY, 
+                30, Color.Lerp(Color.Lime, Color.LimeGreen, 0.33f), 
+                new ParticleFadeData(Main.rand.NextFloat(0.5f, 1f), 0, 1, 0), 
+                new Vector2(Main.rand.NextFloat(0.8f, 2f), Main.rand.NextFloat(0.1f, 0.133f) * 0.6f) * 0.4f, 
+                ParticleBehaviour.Default, ParticleDrawType.Additive, ParticleTextureType.FadedGlowyBall, 
+                [0.98f]
+            );
+
         }
     }
 
@@ -102,7 +114,7 @@ internal class PoisonAura : ModProjectile
         for (int i = 0; i < Positions[0].Count; i++)
         {
             float factor = i / (float)Positions[0].Count;
-            float a = 0.2f * Projectile.Opacity;
+            float a = 0.25f * Projectile.Opacity;
             float t = (float)Main.timeForVisualEffects * -0.063f;
 
             Color color = Color.Green * Projectile.Opacity * a;
@@ -114,7 +126,7 @@ internal class PoisonAura : ModProjectile
         for (int i = 0; i < Positions[0].Count; i++)
         {
             float factor = i / (float)Positions[0].Count;
-            float a = 0.2f * Projectile.Opacity;
+            float a = 0.5f * Projectile.Opacity;
             float t = (float)Main.timeForVisualEffects * 0.063f;
 
             Color color = Color.Green * Projectile.Opacity * a;
@@ -126,7 +138,7 @@ internal class PoisonAura : ModProjectile
         for (int i = 0; i < Positions[0].Count; i++)
         {
             float factor = i / (float)Positions[0].Count;
-            float a = 0.15f * Projectile.Opacity;
+            float a = 0.35f * Projectile.Opacity;
             float t = (float)Main.timeForVisualEffects * -0.1f;
 
             Color color = Color.Green * Projectile.Opacity * a;

@@ -61,9 +61,8 @@ public class PixellationSystem : ModSystem
     private static void InitializeRT(Vector2 obj)
     {
         if (Main.dedServ)
-        {
             return;
-        }
+
         Target?.Dispose();
 
         GraphicsDevice gd = Main.instance.GraphicsDevice;
@@ -75,12 +74,14 @@ public class PixellationSystem : ModSystem
 
     public static void QueuePixellationAction(Action action, RenderType type, RenderLayer layer)
     {
-        if (!Actions.ContainsKey(layer))
+        if (!Actions.TryGetValue(layer, out Queue<(Action action, RenderType type)> value))
         {
             var nullQueue = new Queue<(Action, RenderType)>();
-            Actions.Add(layer, nullQueue); 
+            value = nullQueue;
+            Actions.Add(layer, value); 
         }
-        Actions[layer].Enqueue((action, type));
+
+        value.Enqueue((action, type));
     }
 
     /// <summary>
@@ -104,9 +105,9 @@ public class PixellationSystem : ModSystem
                 rt.RenderTargetUsage = RenderTargetUsage.PreserveContents;
         }
 
-
         Helper.SpritebatchParameters parameters = new();
         var beginned = Main.spriteBatch.beginCalled;
+
         if (beginned)
             Main.spriteBatch.End(out parameters);
 
@@ -117,10 +118,8 @@ public class PixellationSystem : ModSystem
         {
             var (action, type) = Actions[layer].Dequeue();
 
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, type == RenderType.Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Matrix.CreateScale(0.5f, 0.5f, 1));
-
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, type == RenderType.Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Matrix.CreateScale(0.5f, 0.5f, 1f));
             action.Invoke();
-
             Main.spriteBatch.End();
         }
 
@@ -128,9 +127,7 @@ public class PixellationSystem : ModSystem
         Main.graphics.GraphicsDevice.SetRenderTargets(oldTargets);
 
         Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
         Main.spriteBatch.Draw(Target, new Vector2(0), null, Color.White, 0, new Vector2(0), 2, SpriteEffects.None, 0);
-
         Main.spriteBatch.End();
 
         if (beginned)
