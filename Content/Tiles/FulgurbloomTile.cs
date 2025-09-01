@@ -245,15 +245,3 @@ public class FulgurbloomTile : ModTile
         return (PlantStage)(tile.TileFrameX / FrameWidth);
     }
 }
-
-internal class LightningHerbZappySystem : ModSystem
-{
-    public static List<Vector2> FlowahPositions = [];
-    public override void PostUpdatePlayers()
-    {
-        if (FlowahPositions.Count > 0)
-        {
-            
-        }
-    }
-}

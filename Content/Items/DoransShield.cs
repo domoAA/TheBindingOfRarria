@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TheBindingOfRarria.Content.Buffs;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -27,10 +28,20 @@ public class TankStartPlayer : ModPlayer
 
     public override void ResetEffects() => AgainstAnADC = false;
 
-    public override void UpdateLifeRegen()
+    public override void NaturalLifeRegen(ref float regen)
+    {
+        if (Player.HasBuff(ModContent.BuffType<SecondBreath>()))
+        {
+            Player.lifeRegenTime += 3;
+        }
+    }
+
+    public override void OnHurt(Player.HurtInfo info)
     {
         if (AgainstAnADC)
-            Player.lifeRegen += (Player.statLifeMax2 - Player.statLife) / 50;
+        {
+            Player.AddBuff(ModContent.BuffType<SecondBreath>(), 600);
+        }
     }
 }
 

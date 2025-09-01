@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria;
-using System;
+using TheBindingOfRarria.Content.Projectiles;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -30,6 +34,20 @@ public class ShieldTalisman : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<ShieldTalismanPlayer>().ShieldCrest = true;
+    }
+
+    public override void ModifyTooltips(List<TooltipLine> tooltips)
+    {
+        float value = 25 * (Main.LocalPlayer.GetModPlayer<ShieldTalismanPlayer>().crit / 100f + 1);
+
+        string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{(int)value}");
+
+        int index = tooltips.FindIndex(line => line.Name == "Tooltip0");
+        if (index != -1)
+        {
+            text = text[..text.IndexOf($"\n")];
+            tooltips[index].Text = text;
+        }
     }
 }
 
@@ -88,17 +106,22 @@ public class ShieldTalismanPlayer : ModPlayer
 {
     public bool ShieldCrest = false;
 
+    public int crit = 0;
+
     public override void ResetEffects() => ShieldCrest = false;
 
     public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
     {
-        if (ShieldCrest)
+        if (ShieldCrest && Main.rand.Next(100) < (int)(25 * (Main.LocalPlayer.GetModPlayer<ShieldTalismanPlayer>().crit / 100f + 1)))
         {
-            var difference = npc.Center - Player.Center;
-            if (difference.X * Player.direction > Player.width / 2 && Math.Abs(npc.width) / Math.Abs(npc.height) < Math.Abs(difference.X) / Math.Abs(difference.Y))
-            {
-                modifiers.FinalDamage *= 0.9f;
-            }
+            modifiers.FinalDamage *= 0.5f;
+
+            Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<ShieldSphere>(), 0, 0);
         }
+    }
+
+    public override void PostUpdate()
+    {
+        crit = (int)Player.GetCritChance(DamageClass.Generic);
     }
 }
