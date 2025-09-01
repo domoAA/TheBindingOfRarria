@@ -1259,6 +1259,7 @@ Projectiles: {
 	GoldenHalberdProj.DisplayName: Golden Halberd Proj
 	H2VBolt.DisplayName: H2 V Bolt
 	LightningBolt.DisplayName: Lightning Bolt
+	PoisonAura.DisplayName: Poison Aura
 }
 
 Keybinds: {

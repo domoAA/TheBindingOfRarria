@@ -35,7 +35,7 @@ public class LightningBolt : ModProjectile
 
     public override void SetStaticDefaults()
     {
-        ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
+        ProjectileID.Sets.DrawScreenCheckFluff[Type] = 10000;
     }
 
     public override void SetDefaults()

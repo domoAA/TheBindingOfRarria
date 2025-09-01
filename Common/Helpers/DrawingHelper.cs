@@ -35,12 +35,14 @@ public static partial class Helper
         return instance.GetType().Namespace.Replace(".", "/") + "/" + instance.Name + extraText;
     }
 
+    public static float EvenCircle(float i, float points) => TwoPi / (float)points * i;
+
     public static void Screenshake(this Vector2 pos, float power, float vibrations, float distFalloff, int time)
     {
         if (Main.dedServ)
             return;
 
-        PunchCameraModifier modifier = new(pos, Main.rand.NextFloat(MathF.Tau).ToRotationVector2(), power, vibrations, time, distFalloff, $"{Main.time}");
+        PunchCameraModifier modifier = new(pos, Main.rand.NextFloat(Tau).ToRotationVector2(), power, vibrations, time, distFalloff, $"{Main.time}");
         Main.instance.CameraModifiers.Add(modifier);
     }
 
