@@ -46,8 +46,8 @@ public static partial class Helper
 
     public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, PixellationSystem.RenderType renderType, PixellationSystem.RenderLayer layer)
     {
-        position = Vector2.Transform(position, HalfScale);
-        scale = Vector2.Transform(scale, HalfScale);
+        //position = Vector2.Transform(position, HalfScale);
+        //scale = Vector2.Transform(scale, HalfScale);
 
         PixellationSystem.QueuePixellationAction(() =>
         {
@@ -57,8 +57,8 @@ public static partial class Helper
 
     public static void DrawPixellated(this SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRect, Vector2 scale, float rotation, Vector2 origin, Color color, SpriteEffects effects, PixellationSystem.RenderType renderType, PixellationSystem.RenderLayer layer)
     {
-        position = Vector2.Transform(position, HalfScale);
-        scale = Vector2.Transform(scale, HalfScale);
+        //position = Vector2.Transform(position, HalfScale);
+        //scale = Vector2.Transform(scale, HalfScale);
 
         PixellationSystem.QueuePixellationAction(() =>
         {

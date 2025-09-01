@@ -43,7 +43,7 @@ public class UnendingDespair : ModItem
 
                 foreach (var t in Main.ActiveNPCs)
                 {
-                    if (!victims.Contains(t.whoAmI) && !t.friendly && !t.immortal && !t.CountsAsACritter && t.Center.DistanceSQ(player.Center) < dist)
+                    if (!victims.Contains(t.whoAmI) && !t.friendly && t.lifeMax > 5 && t.CanBeChasedBy() && !t.immortal && !t.CountsAsACritter && t.Center.DistanceSQ(player.Center) < dist)
                     {
                         dist = t.Center.DistanceSQ(player.Center);
                         

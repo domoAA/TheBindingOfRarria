@@ -40,7 +40,7 @@ public class TheLastFinger : ModItem
 
             foreach (var target in Main.ActiveNPCs)
             {
-                if (target.Center.DistanceSQ(player.Center) < distance && !target.friendly && !target.immortal)
+                if (!target.friendly && target.lifeMax > 5 && target.CanBeChasedBy() && !target.immortal && !target.CountsAsACritter && !target.immortal)
                 {
                     distance = target.Center.DistanceSQ(player.Center);
                     position = target.Center;

@@ -1,16 +1,18 @@
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using System.IO;
-using TheBindingOfRarria.Content.Projectiles;
-using TheBindingOfRarria.Content.Items;
-using static TheBindingOfRarria.Common.Helpers.Helper;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using Terraria.Localization;
-using Terraria.GameContent.ItemDropRules;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using TheBindingOfRarria.Common.Systems;
+using TheBindingOfRarria.Content.Items;
+using TheBindingOfRarria.Content.Projectiles;
+using static Terraria.WorldGen;
+using static TheBindingOfRarria.Common.Helpers.Helper;
 
 namespace TheBindingOfRarria;
 
@@ -139,6 +141,7 @@ public class TheBindingOfRarria : Mod
         ProjectileReflect,
         EntitySlow,
         DustSpawn,
+        PlayerScale,
         Default
     }
 
@@ -224,6 +227,32 @@ public class TheBindingOfRarria : Mod
                 natureplayer.direction = direction;
             }
             return;
+        }
+        else if (type == (int)PacketTypes.PlayerScale)
+        {
+            var who = (int)reader.ReadByte();
+
+            var scale = reader.ReadSingle();
+            var oldSize = reader.ReadPackedVector2();
+            var pos = reader.ReadPackedVector2();
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                ModPacket packet = GetPacket();
+                packet.Write(type);
+                packet.Write((byte)who);
+                packet.Write(scale);
+                packet.WritePackedVector2(oldSize);
+                packet.WritePackedVector2(pos);
+                packet.Send();
+            }
+
+            var player = Main.player[who];
+            var p = player.GetModPlayer<ResizedPlayerUtils.ResizedPlayer>();
+
+            p.Scale = scale;
+            p.OldSize = oldSize;
+            player.position = pos;
         }
     }
 }

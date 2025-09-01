@@ -1,6 +1,9 @@
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Systems;
 using TheBindingOfRarria.Content.Buffs.Debuffs;
@@ -23,6 +26,21 @@ public class SiphonBullets : ModItem
     {
         player.GetModPlayer<SiphonPlayer>().VenusTrap = true;
         player.GetModPlayer<SiphonPlayer>().duration--;
+        player.GetModPlayer<SiphonPlayer>().counter--;
+    }
+
+    public override void ModifyTooltips(List<TooltipLine> tooltips)
+    {
+        float value = Main.LocalPlayer.GetModPlayer<GeneThiefPlayer>().maxHP / 100;
+
+        string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{value}");
+
+        int index = tooltips.FindIndex(line => line.Name == "Tooltip0");
+        if (index != -1)
+        {
+            text = text[..text.IndexOf($"\n")];
+            tooltips[index].Text = text;
+        }
     }
 }
 
@@ -53,6 +71,8 @@ public class SiphonPlayer : ModPlayer
 {
     public bool VenusTrap = false;
     public int duration = 0;
+    public int power = 1;
+    public int counter = 10;
 
     public override void ResetEffects()
     {
@@ -60,20 +80,26 @@ public class SiphonPlayer : ModPlayer
             duration = 0;
 
         VenusTrap = false;
+        power = Player.GetModPlayer<GeneThiefPlayer>().maxHP / 100;
     }
 
     public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
     {
-        if (VenusTrap && BulletGlobalProjectile.Bullet.Contains(proj.type) && target.lifeMax > 5 && !target.immortal)
+        if (counter <= 0 && VenusTrap && BulletGlobalProjectile.Bullet.Contains(proj.type) && target.lifeMax > 5 && !target.immortal)
         {
-            duration = 1200;
-            Player.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(1, 1200, p => !p.GetModPlayer<SiphonPlayer>().VenusTrap || p.GetModPlayer<SiphonPlayer>().duration <= 0));
-            target.AddBuff(ModContent.BuffType<Siphoned>(), 1200);
+            duration = target.active ? 600 : 1800;
+            Player.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(power, duration, p => !p.GetModPlayer<SiphonPlayer>().VenusTrap || p.GetModPlayer<SiphonPlayer>().duration <= 0, "Siphon"));
             
-            if (target.life >= target.lifeMax)
-                target.life--;
-            target.lifeMax--;
-            target.GetGlobalNPC<SiphonedNPC>().SiphonedLife++;
+            if (target.active)
+                target.AddBuff(ModContent.BuffType<Siphoned>(), duration);
+            
+            var percent = target.life / (float)target.lifeMax;
+
+            target.lifeMax -= power;
+            target.life = (int)Math.Floor(percent * target.lifeMax);
+
+            target.GetGlobalNPC<SiphonedNPC>().SiphonedLife += power;
+            counter = 10;
         }
     }
 }

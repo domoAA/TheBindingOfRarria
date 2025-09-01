@@ -117,7 +117,7 @@ public class PixellationSystem : ModSystem
         {
             var (action, type) = Actions[layer].Dequeue();
 
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, type == RenderType.Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Matrix.Identity);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, type == RenderType.Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Matrix.CreateScale(0.5f, 0.5f, 1));
 
             action.Invoke();
 

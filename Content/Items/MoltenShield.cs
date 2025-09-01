@@ -31,7 +31,7 @@ public class MoltenShield : ModItem
 
     public override void ModifyTooltips(List<TooltipLine> tooltips)
     {
-        float value = Main.LocalPlayer.DefenseEffectiveness.Value;
+        float value = Main.LocalPlayer.GetModPlayer<MoltenCatchPlayer>().Effectiveness;
 
         string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{(int)(value * 100)}%");
 
@@ -57,6 +57,8 @@ public class MoltenShield : ModItem
 
 public class MoltenCatchPlayer : ModPlayer
 {
+    public float Effectiveness = 0f;
+
     public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
     {
         if (attempt.fishingLevel > 30 && attempt.veryrare && attempt.inLava && attempt.CanFishInLava && Main.rand.NextBool(5))
@@ -66,5 +68,10 @@ public class MoltenCatchPlayer : ModPlayer
             sonar.Text = Language.GetTextValue("Mods.TheBindingOfRarria.Items.MoltenShield.DisplayName");
             itemDrop = ModContent.ItemType<MoltenShield>();
         }
+    }
+
+    public override void PostUpdate()
+    {
+        Effectiveness = Player.DefenseEffectiveness.Value;
     }
 }

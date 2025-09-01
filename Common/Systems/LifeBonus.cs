@@ -10,12 +10,14 @@ public class LifeBonus
     public int Amount;
     public int TimeLeft;
     public Predicate<Player> ErasureCondition;
+    public string Source;
 
-    public LifeBonus(int amount, int duration, Predicate<Player> erasureCondition)
+    public LifeBonus(int amount, int duration, Predicate<Player> erasureCondition, string source)
     {
         Amount = amount;
         TimeLeft = duration;
         ErasureCondition = erasureCondition;
+        Source = source;
     }
     public void UpdateLifeBonus(ref int life)
     {

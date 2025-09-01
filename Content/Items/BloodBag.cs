@@ -1,9 +1,11 @@
 
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace TheBindingOfRarria.Content.Items;
 
@@ -24,6 +26,21 @@ public class BloodBag : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<BloodBagPlayer>().HasIVBag = true;
+    }
+
+    public override void ModifyTooltips(List<TooltipLine> tooltips)
+    {
+        float value = Main.LocalPlayer.GetModPlayer<GeneThiefPlayer>().maxHP / 3;
+
+        string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{value}");
+
+        int index = tooltips.FindIndex(line => line.Name == "Tooltip1");
+        if (index != -1)
+        {
+            text = text[(text.IndexOf($"\n") + 1)..];
+            text = text[..text.IndexOf($"\n")];
+            tooltips[index].Text = text;
+        }
     }
 }
 
@@ -73,7 +90,7 @@ public class BloodBagPlayer : ModPlayer
             if (self.statLife >= self.statLifeMax2)
                 player.counter.blood += (player.counter.timer - self.lifeRegenCount) / 60;
 
-            else if (player.counter.blood > 0 && self.statLife < self.statLifeMax2 / 2)
+            else if (player.counter.blood > 0 && self.HasBuff(BuffID.PotionSickness))
             {
                 self.statLife += 2;
                 player.counter.blood -= 2;

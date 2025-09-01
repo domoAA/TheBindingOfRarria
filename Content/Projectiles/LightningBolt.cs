@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,19 +58,20 @@ public class LightningBolt : ModProjectile
 
         Projectile.scale = 0f;
         Projectile.Opacity = 0f;
-        SetPositions(Projectile.position, Projectile.position + Projectile.velocity, Projectile);
     }
 
     public override void SendExtraAI(BinaryWriter writer)
     {
         writer.WriteVector2(Start);
         writer.WriteVector2(End);
+        writer.Write(Projectile.hostile);
     }
 
     public override void ReceiveExtraAI(BinaryReader reader)
     {
         Start = reader.ReadVector2();
         End = reader.ReadVector2();
+        Projectile.hostile = reader.ReadBoolean();
     }
 
     public static List<Vector2> CreatePoints(Vector2 source, Vector2 dest, float sway = 80f, float constrain = 1f)
@@ -145,6 +147,12 @@ public class LightningBolt : ModProjectile
                 End = npc.Center;
             }
         }
+        else if (Projectile.Center != End)
+        {
+            SoundEngine.PlaySound(SoundID.Thunder);
+
+            Helper.Screenshake(Start, 10f, 5f, 1000f, 10);
+        }
 
         Projectile.Center = End;
 
@@ -163,6 +171,7 @@ public class LightningBolt : ModProjectile
                 Dust.NewDustDirect(positions[i], 0, 0, DustID.GemTopaz, 0, 0, Scale: Main.rand.NextFloat(0.3f, 0.66f)).noGravity = true;
 
             CreatedPositions = true;
+            Projectile.netUpdate = true;
         }
 
         else
@@ -224,15 +233,15 @@ public class LightningBolt : ModProjectile
                     float lerp = j / (float)count;
                     Vector2 drawPos = Vector2.Lerp(start, end, lerp);
 
-                    Main.EntitySpriteDraw(texture, (drawPos - Main.screenPosition) / 2,
+                    Main.EntitySpriteDraw(texture, (drawPos - Main.screenPosition),
                         null, Color.Lerp(Color.Yellow, Color.LightYellow, 0.37f) * Projectile.Opacity * Projectile.scale * 0.5f, start.DirectionTo(end).ToRotation(),
-                        texture.Size() / 2, Projectile.scale / 2 * 0.2f * new Vector2(0.4f, 0.01f),
+                        texture.Size() / 2, Projectile.scale * 0.2f * new Vector2(0.4f, 0.01f),
                         SpriteEffects.None
                     );
 
-                    Main.EntitySpriteDraw(texture, (drawPos - Main.screenPosition) / 2,
+                    Main.EntitySpriteDraw(texture, (drawPos - Main.screenPosition),
                       null, Color.Lerp(Color.Yellow, Color.White, 0.87f) * Projectile.Opacity * Projectile.scale * 1.5f, start.DirectionTo(end).ToRotation(),
-                      texture.Size() / 2, Projectile.scale / 2 * 0.15f * new Vector2(0.42f, 0.007f),
+                      texture.Size() / 2, Projectile.scale * 0.15f * new Vector2(0.42f, 0.007f),
                       SpriteEffects.None
                     );
 

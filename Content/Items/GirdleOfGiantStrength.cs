@@ -74,7 +74,7 @@ public class GiantPlayer : ModPlayer
             if (bonus > 0)
             {
                 self.statLifeMax2 += bonus;
-                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 600, cond => !CheckGiantStrength(self)));
+                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 1200, cond => !CheckGiantStrength(self), "Girdle"));
             }
         }
 
@@ -90,7 +90,7 @@ public class GiantPlayer : ModPlayer
             if (bonus > 0)
             {
                 self.statLifeMax2 += bonus;
-                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 600, cond => !CheckGiantStrength(self)));
+                self.GetModPlayer<TemporaryLifePlayer>().bonuses.Add(new LifeBonus(bonus, 1200, cond => !CheckGiantStrength(self), "Girdle"));
             }
         }
 

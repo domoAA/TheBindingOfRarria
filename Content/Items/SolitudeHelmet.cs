@@ -97,7 +97,7 @@ public class SolitudePlayer : ModPlayer
     {
         Solo = true;
 
-        if (Main.npc.Any(t => t.active && !t.immortal && t.Center.DistanceSQ(Player.Center) < Range * Range))
+        if (Main.npc.Any(t => t.active && t.CanBeChasedBy() && !t.immortal && !t.immortal && t.Center.DistanceSQ(Player.Center) < Range * Range))
             Solo = false;
     }
 

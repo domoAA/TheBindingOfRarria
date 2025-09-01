@@ -70,7 +70,7 @@ public class AegisPlayer : ModPlayer
 
     public static int[] Offensive = [Precise, Lucky, Jagged, Spiked, Angry, Menacing, Wild, Rash, Intrepid, Violent];
 
-    public static int[] Defensive = [Hard, Guarding, Armored, Warding, Brisk, Fleeting, Hasty, Quick, Hasty2, Quick2];
+    public static int[] Defensive = [Hard, Guarding, Armored, Warding];
 
     public override void PostUpdateEquips()
     {
@@ -119,7 +119,7 @@ public class AegisPlayer : ModPlayer
             return;
 
         Player.Heal(damageDone / 10);
-        Player.lifeSteal -= damageDone * 2;
+        Player.lifeSteal -= damageDone;
     }
 }
 

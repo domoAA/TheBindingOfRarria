@@ -55,7 +55,7 @@ public class RestorativeDebuffsLocketPlayer : ModPlayer
 
         foreach (var target in Main.ActiveNPCs)
         {
-            if (!target.immortal && !target.friendly && target.lifeRegen < 0 && target.Center.DistanceSQ(Player.Center) < 700 * 700)
+            if (!target.friendly && target.lifeMax > 5 && target.CanBeChasedBy() && !target.immortal && !target.CountsAsACritter && target.lifeRegen < 0 && target.Center.DistanceSQ(Player.Center) < 700 * 700)
             {
                 Player.lifeRegen += (int)float.Floor(-target.lifeRegen / 8f);
                 if (Main.GlobalTimeWrappedHourly % 0.33f == 0)

@@ -12,6 +12,7 @@ using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Content.Items;
@@ -185,7 +186,7 @@ public class FulgurbloomTile : ModTile
 
 
 
-        if (!Main.rand.NextBool(80))
+        if (!Main.rand.NextBool(100))
             return;
 
         Tile current = Main.tile[i, j];
@@ -195,24 +196,25 @@ public class FulgurbloomTile : ModTile
             var pos = flowerPos.ToPoint() + new Vector2(Main.rand.NextFloat(-500f, 500f), 0).ToTileCoordinates();
             for (int a = -40; a < 40; a++)
             {
-                pos.Y++;
                 if (WorldGen.SolidOrSlopedTile(pos.X, pos.Y))
                     break;
+                pos.Y++;
             }
 
 
             Vector2 end = pos.ToWorldCoordinates() + new Vector2(Main.rand.NextFloat(-100f, 100f), -1100f);
 
-            Projectile.NewProjectile(
-            new EntitySource_WorldEvent(), pos.ToWorldCoordinates(), end - pos.ToWorldCoordinates(),
-            ModContent.ProjectileType<LightningBolt>(), 10,
-            2, Main.myPlayer
-        );
+            var start = pos.ToWorldCoordinates();
+            var proj = Projectile.NewProjectileDirect(
+                new EntitySource_WorldEvent(), start, Vector2.Zero,
+                ModContent.ProjectileType<LightningBolt>(), 200,
+                2, Main.myPlayer
+            );
 
-            SoundEngine.PlaySound(SoundID.Thunder);
+            proj.hostile = true;
+            LightningBolt.SetPositions(start, end, proj, -1);
 
-            Helper.Screenshake(pos.ToWorldCoordinates(), 10f, 5f, 1000f, 10);
-            //Dust.NewDustDirect(new Point(start.X + x, start.Y + y).ToWorldCoordinates(), 0, 0, DustID.GemDiamond, Scale: 10);
+
             return;
         }
     }

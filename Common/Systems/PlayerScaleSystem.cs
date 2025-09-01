@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.Graphics.Renderers;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Common.Registries;
@@ -90,6 +91,17 @@ public static class ResizedPlayerUtils
 
         #region Methods
 
+        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        {
+            ModPacket packet = Mod.GetPacket();
+            packet.Write((int)TheBindingOfRarria.PacketTypes.PlayerScale);
+            packet.Write((byte)Player.whoAmI);
+            packet.Write(Scale);
+            packet.WritePackedVector2(OldSize);
+            packet.WritePackedVector2(Player.position);
+            packet.Send(toWho, fromWho);
+        }
+
         public override void Initialize()
         {
             Scale = 1;
@@ -101,6 +113,9 @@ public static class ResizedPlayerUtils
             if (IsScaled)
             {
                 Player.ApplyPlayerSize(Scale);
+
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    Player.GetModPlayer<ResizedPlayer>().SyncPlayer(255, Main.myPlayer, false);
             }
         }
 
@@ -110,6 +125,9 @@ public static class ResizedPlayerUtils
             {
                 ResetPlayerSize(Player);
                 Player.ResetScale();
+
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    Player.GetModPlayer<ResizedPlayer>().SyncPlayer(255, Main.myPlayer, false);
             }
         }
 

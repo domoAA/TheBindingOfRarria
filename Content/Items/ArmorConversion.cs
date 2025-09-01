@@ -30,7 +30,6 @@ public class ArmorConversion : ModItem
             .AddIngredient(ItemID.PaladinsShield)
             .AddIngredient(ItemID.AegisCrystal)
             .AddIngredient(ItemID.LifeCrystal, 2)
-            .AddIngredient(ItemID.LifeforcePotion)
             .AddIngredient(ItemID.RegenerationPotion, 5)
             .AddTile(TileID.MythrilAnvil)
             .Register();

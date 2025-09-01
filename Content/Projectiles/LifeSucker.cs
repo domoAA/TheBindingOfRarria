@@ -65,7 +65,12 @@ public class LifeSucker : ModProjectile
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
-        Main.player[Projectile.owner].GetModPlayer<LifeSuckerPlayer>().heal += damageDone / 5;
+        var owner = Main.player[Projectile.owner];
+        if (owner.lifeSteal > 0)
+        {
+            owner.lifeSteal -= damageDone / 2;
+            owner.GetModPlayer<LifeSuckerPlayer>().heal += damageDone / 5;
+        }
         Projectile.ai[2] = 1;
     }
 

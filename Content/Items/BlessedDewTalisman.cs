@@ -28,6 +28,7 @@ public class BlessedDewTalisman : ModItem
         CreateRecipe()
             .AddIngredient(ItemID.BottledHoney)
             .AddIngredient(ItemID.SoulofLight, 10)
+            .AddIngredient(ItemID.Ichor, 10)
             .AddTile(TileID.ImbuingStation)
             .Register();
     }
@@ -48,5 +49,6 @@ public class BlessedDewPlayer : ModPlayer
         {
             Player.lifeRegenTime = Math.Max(Player.shinyStone ? 3000 : 900, Player.lifeRegenTime);
         }
+        regen *= !Player.IsStandingStillForSpecialEffects ? 1.5f : 1;
     }
 }

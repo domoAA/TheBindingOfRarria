@@ -36,22 +36,22 @@ public class SwearSworPlayer : ModPlayer
         var buff = SihilBuffs.PotionBuffs[Main.rand.Next(SihilBuffs.PotionBuffs.Count)];
 
         if (SwearSwor && !target.active)
-            Player.AddBuff(buff, 660);
+            Player.AddBuff(buff, 3600);
     }
 }
 
 public class SihilBuffs : ModSystem
 {
-    public static List<int> PotionBuffs = [];
+    public static List<int> PotionBuffs = [BuffID.Spelunker, BuffID.Shine, BuffID.Mining, BuffID.Dangersense, BuffID.Hunter, BuffID.NightOwl, BuffID.WaterWalking];
 
-    public override void PostSetupContent()
+    /*public override void PostSetupContent()
     {
         foreach (var i in ContentSamples.ItemsByType)
         {
             if (i.Value.consumable && i.Value.useStyle == ItemUseStyleID.DrinkLiquid && i.Value.buffType != 0 && !Main.debuff[i.Value.buffType] && !BuffID.Sets.IsWellFed[i.Value.buffType] && !BuffID.Sets.IsAFlaskBuff[i.Value.buffType])
                 PotionBuffs.Add(i.Value.buffType);
         }
-    }
+    }*/
 
     public override void Unload()
     {
