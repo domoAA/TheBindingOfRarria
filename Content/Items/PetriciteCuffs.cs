@@ -63,14 +63,7 @@ public class PetriciteCuffsPlayer : ModPlayer
 
     public static float CalculatePetriciteBlock(Player player)
     {
-        var value = 0.1f;
-
-        float MagicDamagePercent = (player.GetTotalDamage(DamageClass.Magic).Additive - 1) * 100;
-        float MagicDamageSqrt = MathF.Sqrt(MagicDamagePercent);
-
-        value += (MagicDamageSqrt / 100);
-
-        return value;
+        return player.GetDamage(DamageClass.Magic).ApplyTo(0.1f);
     }
 
     public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)

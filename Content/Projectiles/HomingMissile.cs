@@ -36,7 +36,7 @@ public class HomingMissile : ModProjectile
             var distanceSQ = 600 * 600f;
             foreach (var t in Main.npc) 
             {
-                if (t.active && !t.friendly && t.Center.DistanceSQ(Projectile.Center) < distanceSQ)
+                if (t.active && !t.friendly && t.lifeMax > 5 && t.CanBeChasedBy() && !t.immortal && !t.CountsAsACritter && t.Center.DistanceSQ(Projectile.Center) < distanceSQ)
                 {
                     distanceSQ = t.DistanceSQ(Projectile.Center);
                     Projectile.ai[0] = t.whoAmI;

@@ -57,7 +57,7 @@ public class SlasherItemPlayer : ModPlayer
 
             foreach (NPC n in Main.ActiveNPCs)
             {
-                if (target.Center.DistanceSQ(Player.Center) < distance && !n.friendly && n.whoAmI != target.whoAmI && !n.immortal)
+                if (target.Center.DistanceSQ(Player.Center) < distance && !target.friendly && target.lifeMax > 5 && target.CanBeChasedBy() && !target.immortal && !target.CountsAsACritter && n.whoAmI != target.whoAmI && !n.immortal)
                 {
                     distance = n.Center.DistanceSQ(Player.Center);
                     position = n.Center;

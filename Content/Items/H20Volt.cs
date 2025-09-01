@@ -24,11 +24,11 @@ public class H20Volt : ModItem
         Item.width = 28;
         Item.height = 36;
         Item.accessory = true;
-        Item.rare = ItemRarityID.Green;
-        Item.value = Item.sellPrice(silver: 60);
+        Item.rare = ItemRarityID.Orange;
+        Item.value = Item.sellPrice(silver: 90);
     }
 
-    public override void UpdateEquip(Player player)
+    public override void UpdateAccessory(Player player, bool hideVisual)
     {
         if (player.TryGetModPlayer<H2VPlayer>(out var modPlayer))
             modPlayer.Equipped = true;
@@ -54,35 +54,32 @@ public class H2VPlayer : ModPlayer
 
     public override void PostUpdateEquips()
     {
-        if (!Equipped)
+        counter++;
+        if (!Equipped || counter < 0)
             return;
 
-        counter++;
 
-        if (counter >= 0)
+        counter = -60;
+        int count = 4;
+
+        int[] npcs = Helper.GetTargetIndices(Player.Center, count, 350f);
+
+        if (npcs != null)
         {
-            counter = -30;
-            int count = 4;
-
-            int[] npcs = Helper.GetTargetIndices(Player.Center, count, 350f);
-
-            if (npcs != null)
+            for (int i = 0; i < npcs.Length; i++)
             {
-                for (int i = 0; i < npcs.Length; i++)
+                NPC npc = Main.npc[npcs[i]];
+
+                if (npc == null)
+                    continue;
+
+                Vector2 start = Player.Center;
+                Vector2 end = npc.Center;
+
+                Helper.NewProjectileBetter(Player.GetSource_FromAI(), start, Vector2.Normalize(end - start) * 10f, ModContent.ProjectileType<LightningBolt>(), 7, 0f, Player.whoAmI, self =>
                 {
-                    NPC npc = Main.npc[npcs[i]];
-
-                    if (npc == null)
-                        continue;
-
-                    Vector2 start = Player.Center;
-                    Vector2 end = npc.Center;
-
-                    Helper.NewProjectileBetter(Player.GetSource_FromAI(), start, Vector2.Normalize(end - start) * 10f, ModContent.ProjectileType<LightningBolt>(), 7, 0f, Main.myPlayer, self =>
-                    {
-                        LightningBolt.SetPositions(start, end, self, npc.whoAmI);
-                    });
-                }
+                    LightningBolt.SetPositions(start, end, self, npc.whoAmI);
+                });
             }
         }
     }

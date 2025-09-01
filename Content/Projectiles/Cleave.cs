@@ -60,7 +60,7 @@ public class Cleave : ModProjectile
 
         foreach (var target in Main.ActiveNPCs)
         {
-            if (target.friendly || target.immune[Projectile.owner] > 0 || target.aiStyle == NPCAIStyleID.DD2MysteriousPortal)
+            if (target.friendly || !target.CanBeChasedBy() && target.immortal || target.immune[Projectile.owner] > 0 || target.aiStyle == NPCAIStyleID.DD2MysteriousPortal)
                 continue;
 
             for (int i = 4; i > 0; i--)

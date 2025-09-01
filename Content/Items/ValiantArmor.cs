@@ -30,15 +30,6 @@ public class ValiantArmor : ModItem
             .AddIngredient(ItemID.ShieldStatue)
             .AddIngredient(ItemID.HeroShield)
             .AddIngredient(ItemID.AegisFruit)
-            .AddIngredient(ItemID.LifeforcePotion)
-            .AddIngredient(ItemID.SoulofMight, 10)
-            .AddTile(TileID.MythrilAnvil)
-            .Register();
-
-        CreateRecipe()
-            .AddIngredient(ItemID.ShieldStatue)
-            .AddIngredient(ItemID.HeroShield)
-            .AddIngredient(ItemID.AegisFruit)
             .AddIngredient(ItemID.LifeCrystal, 3)
             .AddIngredient(ItemID.SoulofMight, 10)
             .AddTile(TileID.MythrilAnvil)

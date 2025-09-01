@@ -95,7 +95,7 @@ public class CrazyPlayer : ModPlayer
 
             foreach (var target in Main.ActiveNPCs)
             {
-                if (!target.friendly && target.Center.DistanceSQ(Player.Center) < distance)
+                if (!target.friendly && target.lifeMax > 5 && target.CanBeChasedBy() && !target.immortal && !target.CountsAsACritter && target.Center.DistanceSQ(Player.Center) < distance)
                 {
                     distance = target.Center.DistanceSQ(Player.Center);
                     position = target.Center;

@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Content.Buffs;
 
@@ -24,15 +26,32 @@ public class GeneSickle : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.AddBuff(ModContent.BuffType<LifePool>(), 2);
-        player.GetModPlayer<GeneThiefPlayer>().counter--;
+        var p = player.GetModPlayer<GeneThiefPlayer>();
+        p.counter--;
 
-        if (player.GetModPlayer<GeneThiefPlayer>().counter < 0)
+        if (p.counter < 0)
         {
-            player.GetModPlayer<GeneThiefPlayer>().counter = 300;
-            player.GetModPlayer<GeneThiefPlayer>().genePool -= player.GetModPlayer<GeneThiefPlayer>().genePool > 0 ? 1 : 0;
+            p.counter = 300;
+            p.genePool -= p.genePool > 0 ? 1 : 0;
         }
 
-        player.statLifeMax2 += player.GetModPlayer<GeneThiefPlayer>().genePool;
+        player.statLifeMax2 += p.genePool;
+
+        player.GetArmorPenetration(DamageClass.Generic) += p.maxHP / 100;
+    }
+
+    public override void ModifyTooltips(List<TooltipLine> tooltips)
+    {
+        float value = Main.LocalPlayer.GetModPlayer<GeneThiefPlayer>().maxHP / 100;
+
+        string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{value}");
+
+        int index = tooltips.FindIndex(line => line.Name == "Tooltip0");
+        if (index != -1)
+        {
+            text = text[..text.IndexOf($"\n")];
+            tooltips[index].Text = text;
+        }
     }
 }
 
@@ -49,6 +68,8 @@ public class GeneticPeakNPC : GlobalNPC
 
 public class GeneThiefPlayer : ModPlayer
 {
+    public int maxHP = 0;
+
     public int genePool;
     public int counter = 300;
 
@@ -58,6 +79,8 @@ public class GeneThiefPlayer : ModPlayer
             genePool = 0;
 
         genePool = Math.Min(genePool, 150);
+
+        maxHP = Player.statLifeMax2;
     }
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

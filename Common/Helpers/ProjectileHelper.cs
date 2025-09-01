@@ -83,6 +83,8 @@ public static partial class Helper
         projectile.velocity = -projectile.velocity;
         projectile.hostile = false;
         projectile.friendly = true;
+
+        Terraria.Audio.SoundEngine.PlaySound(SoundID.Item150);
     }
 
     public static void GetSlowed(this Projectile projectile, TheBindingOfRarria.State state, int duration)

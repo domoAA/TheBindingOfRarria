@@ -242,6 +242,7 @@ Items: {
 		DisplayName: Gene Sickle
 		Tooltip:
 			'''
+			Increases armor penetration by {0} [c/90ee90:(1% of your max life)]
 			You gain 1 max life every time you kill an enemy, up to 150
 			The bonus is reduced by 1 every 5 seconds
 			'Reap the fruits of evolution'
@@ -301,7 +302,7 @@ Items: {
 		DisplayName: Weaver Song
 		Tooltip:
 			'''
-			+2 max minions
+			+1 max minion slot
 			Minions' hits slow enemies down
 			'Silken charm containing a song of farewell'
 			'''
@@ -582,7 +583,7 @@ Items: {
 		DisplayName: Sihil
 		Tooltip:
 			'''
-			Killing an enemy grants you a potion buff
+			Killing an enemy grants you an exploration-related potion buff
 			'What's written on this blade? That a curse?'
 			'No. An insult.'
 			'''
@@ -752,7 +753,8 @@ Items: {
 		Tooltip:
 			'''
 			Grants minor life regeneration [c/90ee90:(1 hp/s)]
-			Excessive life regeneration is stored and released as life regeneration bonus when you're below 50% life
+			Excessive life regeneration is stored, up to {0} [c/90ee90:(1/3 of your max life)] 
+			Stored life is expended in return for increased life regeneration while you're under the Potion Sickness effect
 			'That's gonna help you keep your blood on the inside'
 			'''
 	}
@@ -875,8 +877,9 @@ Items: {
 		DisplayName: Siphon Bullets
 		Tooltip:
 			'''
-			Your bullets temporarily steal 1 max life from enemies for 20 seconds
-			Duration does not get refreshed
+			Your bullets temporarily steal {0} [c/90ee90:(1% of your max life)] max life from the enemy
+			Each stack has individual duration
+			If an enemy is killed by the bullet, the duration of the stack is greatly increased
 			'It's called borrowing, not stealing'
 			'''
 	}
@@ -1101,7 +1104,7 @@ Items: {
 		DisplayName: Blessed Dew Talisman
 		Tooltip:
 			'''
-			Your  natural life regeneration cannot fall below 25% of its maximum
+			Your natural life regeneration cannot fall below 25% of its maximum and is 50% more effective while moving 
 			Does not apply if it is set to 0 or lower
 			'Works best when not hungry'
 			'''
