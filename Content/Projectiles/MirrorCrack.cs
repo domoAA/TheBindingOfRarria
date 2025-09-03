@@ -35,7 +35,6 @@ public class MirrorCrack : ModProjectile
 
     public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
     {
-        Main.instance.DrawCacheNPCsOverPlayers.Add(index);
         overPlayers.Add(index);
     }
 

@@ -1133,6 +1133,11 @@ Items: {
 		DisplayName: Fulgurbloom
 		Tooltip: "'Imbued with traces of lightning's essence'"
 	}
+
+	HandBallista: {
+		DisplayName: Hand Ballista
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -1267,6 +1272,7 @@ Projectiles: {
 	LightningBolt.DisplayName: Lightning Bolt
 	PoisonAura.DisplayName: Poison Aura
 	ShieldSphere.DisplayName: Shield Sphere
+	HandBallistaProj.DisplayName: Hand Ballista Proj
 }
 
 Keybinds: {
