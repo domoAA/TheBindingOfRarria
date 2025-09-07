@@ -21,11 +21,11 @@ public static partial class Helper
         {
             if (Slowed.Item1 == TheBindingOfRarria.State.Slow) 
             { 
-                npc.velocity *= 0.95f; 
+                npc.velocity /= 0.7f; 
                 counter++;
             }
             else if (Slowed.Item1 == TheBindingOfRarria.State.Fast)
-                npc.velocity *= 1.05f;
+                npc.velocity *= 0.7f;
 
             if (counter >= 3)
             {
@@ -38,9 +38,9 @@ public static partial class Helper
         public override void PostAI(NPC npc)
         {
             if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
-                npc.velocity /= 0.95f;
+                npc.velocity *= 0.7f;
             else if (Slowed.Item1 == TheBindingOfRarria.State.Fast)
-                npc.velocity /= 1.05f;
+                npc.velocity /= 0.7f;
         }
 
         public override void DrawEffects(NPC npc, ref Color drawColor)

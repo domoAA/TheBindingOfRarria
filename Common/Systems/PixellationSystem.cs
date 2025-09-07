@@ -47,14 +47,12 @@ public class PixellationSystem : ModSystem
     private static void DrawPixellatedProjectiles(On_Main.orig_DrawProjectiles orig, Main self)
     {
         orig(self);
-
         DrawPixellated(RenderLayer.Projectiles);
     }
 
     private static void DrawPixellatedOverEverything(On_Main.orig_DrawInfernoRings orig, Main self)
     {
         orig(self);
-
         DrawPixellated(RenderLayer.OverEverything);
     }
 

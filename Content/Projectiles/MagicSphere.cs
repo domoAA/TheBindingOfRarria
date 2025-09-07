@@ -50,6 +50,7 @@ public class MagicSphere : ModProjectile
 
         Main.spriteBatch.Draw(texture, drawPos, texture.Bounds, Color.Red, 0, texture.Size() / 2, scale, SpriteEffects.None, 0);
 
+
         Main.spriteBatch.End();
         Main.spriteBatch.Begin(snapshot);
         

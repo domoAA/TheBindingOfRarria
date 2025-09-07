@@ -1136,7 +1136,36 @@ Items: {
 
 	HandBallista: {
 		DisplayName: Hand Ballista
-		Tooltip: ""
+		Tooltip: "'Bigger than a person'"
+	}
+
+	Longclaw: {
+		DisplayName: Longclaw
+		Tooltip:
+			'''
+			+7 melee armor penetration
+			Increases melee size by 30% 
+			'Claws of a beast unknown to science'
+			'''
+	}
+
+	PollipPouch: {
+		DisplayName: Pollip Pouch
+		Tooltip:
+			'''
+			Grants a 10% chance to apply Venom to the enemy on hit
+			'It's weird that you know how to make that'
+			'''
+	}
+
+	Weavelight: {
+		DisplayName: Weavelight
+		Tooltip:
+			'''
+			Regenerates 5 mana per second
+			You emit light
+			'It is definitely better than Lumafly Lantern, I assure you!'
+			'''
 	}
 }
 
@@ -1273,6 +1302,7 @@ Projectiles: {
 	PoisonAura.DisplayName: Poison Aura
 	ShieldSphere.DisplayName: Shield Sphere
 	HandBallistaProj.DisplayName: Hand Ballista Proj
+	BallistaBolt.DisplayName: Ballista Bolt
 }
 
 Keybinds: {

@@ -114,7 +114,7 @@ internal class PoisonAura : ModProjectile
         for (int i = 0; i < Positions[0].Count; i++)
         {
             float factor = i / (float)Positions[0].Count;
-            float a = 0.25f * Projectile.Opacity;
+            float a = 0.35f * Projectile.Opacity;
             float t = (float)Main.timeForVisualEffects * -0.063f;
 
             Color color = Color.Green * Projectile.Opacity * a;

@@ -22,7 +22,7 @@ public class HandBallistaProj : ModProjectile
 
     public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
     {
-        overPlayers.Add(index);
+        //overPlayers.Add(index);
     }
 
     public override bool ShouldUpdatePosition()
@@ -32,10 +32,14 @@ public class HandBallistaProj : ModProjectile
 
     public override void AI()
     {
-        Projectile.ai[0] += 0.1f;
+        Projectile.ai[0] += 0.05f;
+        if (Projectile.ai[0] > 2.5f && Projectile.ai[0] <= 4)
+            Projectile.ai[0] += 0.15f;
 
         if (Projectile.ai[0] > 5)
             Projectile.Kill();
+        var owner = Main.player[Projectile.owner];
+        Projectile.Center = new Vector2(0, owner.gfxOffY) + owner.Center + Projectile.velocity * 15 - new Vector2(0, 5);
     }
 
     public override bool PreDraw(ref Color lightColor)
