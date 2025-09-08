@@ -124,7 +124,7 @@ public class PixellationSystem : ModSystem
         }
 
 
-        Main.graphics.GraphicsDevice.SetRenderTargets(oldTargets);
+        Main.graphics.GraphicsDevice.SetRenderTargets(oldTargets); 
 
         Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         Main.spriteBatch.Draw(Target, new Vector2(0), null, Color.White, 0, new Vector2(0), 2, SpriteEffects.None, 0);
