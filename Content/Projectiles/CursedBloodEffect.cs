@@ -30,8 +30,6 @@ public class CursedBloodEffect : ModProjectile
 
     public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
     {
-            // also why twice like what ?
-        Main.instance.DrawCacheNPCsOverPlayers.Add(index);
         overPlayers.Add(index);
     }
 

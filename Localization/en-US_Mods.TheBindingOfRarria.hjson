@@ -492,7 +492,7 @@ Items: {
 		DisplayName: Doran's Shield
 		Tooltip:
 			'''
-			You regenerate 1% of your missing health every second
+			After taking a hit, your natural life regeneration rate is increased by 300% for 10 seconds
 			'A great choice if you're up against a ranged opponent'
 			'''
 	}
@@ -810,7 +810,8 @@ Items: {
 		DisplayName: Shield Talisman
 		Tooltip:
 			'''
-			You take 10% less damage from creatures if they hit you from the front
+			Grants a {0}% chance to critically defend against a hit, halving damage taken
+			The chance scales with your critical strike chance
 			'An heirloom that always outlived its owners'
 			'''
 	}
@@ -1132,6 +1133,40 @@ Items: {
 		DisplayName: Fulgurbloom
 		Tooltip: "'Imbued with traces of lightning's essence'"
 	}
+
+	HandBallista: {
+		DisplayName: Hand Ballista
+		Tooltip: "'Bigger than a person'"
+	}
+
+	Longclaw: {
+		DisplayName: Longclaw
+		Tooltip:
+			'''
+			+7 melee armor penetration
+			Increases melee size by 30% 
+			'Claws of a beast unknown to science'
+			'''
+	}
+
+	PollipPouch: {
+		DisplayName: Pollip Pouch
+		Tooltip:
+			'''
+			Grants a 10% chance to apply Venom to the enemy on hit
+			'It's weird that you know how to make that'
+			'''
+	}
+
+	Weavelight: {
+		DisplayName: Weavelight
+		Tooltip:
+			'''
+			Regenerates 5 mana per second
+			You emit light
+			'It is definitely better than Lumafly Lantern, I assure you!'
+			'''
+	}
 }
 
 Buffs: {
@@ -1224,6 +1259,11 @@ Buffs: {
 		DisplayName: Golden Vow
 		Description: 5% increased damage and damage reduction
 	}
+
+	SecondBreath: {
+		DisplayName: Second Breath
+		Description: +300% natural regeneration rate
+	}
 }
 
 Projectiles: {
@@ -1260,6 +1300,9 @@ Projectiles: {
 	H2VBolt.DisplayName: H2 V Bolt
 	LightningBolt.DisplayName: Lightning Bolt
 	PoisonAura.DisplayName: Poison Aura
+	ShieldSphere.DisplayName: Shield Sphere
+	HandBallistaProj.DisplayName: Hand Ballista Proj
+	BallistaBolt.DisplayName: Ballista Bolt
 }
 
 Keybinds: {

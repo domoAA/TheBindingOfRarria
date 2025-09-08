@@ -50,6 +50,7 @@ public class MagicSphere : ModProjectile
 
         Main.spriteBatch.Draw(texture, drawPos, texture.Bounds, Color.Red, 0, texture.Size() / 2, scale, SpriteEffects.None, 0);
 
+
         Main.spriteBatch.End();
         Main.spriteBatch.Begin(snapshot);
         
@@ -64,7 +65,6 @@ public class MagicSphere : ModProjectile
     }
     public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
     {
-        Main.instance.DrawCacheNPCsOverPlayers.Add(index);
         overPlayers.Add(index);
     }
 

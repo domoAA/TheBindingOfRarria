@@ -193,7 +193,7 @@ public class TheBindingOfRarria : Mod
                 packet.Send();
             }
 
-                // guh
+            // guh
             if (entityType)
             {
                 foreach (Projectile p in Main.ActiveProjectiles)
@@ -202,8 +202,28 @@ public class TheBindingOfRarria : Mod
             }
             else
                 foreach (NPC n in Main.ActiveNPCs)
-                    if (n.whoAmI == id)
-                        n.GetGlobalNPC<SlowedGlobalNPC>().Slowed = ((State)slow, duration);
+                {
+                    if (n.whoAmI != id)
+                        continue;
+
+                    n.GetGlobalNPC<SlowedGlobalNPC>().Slowed = ((State)slow, duration);
+
+                    if (n.realLife != -1)
+                    {
+                        Main.npc[n.realLife].GetGlobalNPC<SlowedGlobalNPC>().Slowed = ((State)slow, duration);
+
+                        var npcs = Array.FindAll(Main.npc, npc => npc.realLife == n.realLife && npc.active);
+                        if (npcs is null || npcs.Length < 1)
+                            break;
+
+                        foreach (NPC npc in npcs)
+                        {
+                            npc.GetGlobalNPC<SlowedGlobalNPC>().Slowed = ((State)slow, duration);
+                        }
+                    }
+
+                    break;
+                }
             return;
         }
         else if (type == (int)PacketTypes.DustSpawn)
