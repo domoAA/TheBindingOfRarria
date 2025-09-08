@@ -14,15 +14,17 @@ Risk of Rain
 Deadlock
 Elden Ring
 Magic Survival
+Silksong
 
 
 
 The total planned size of the mod is about ~90 items, and a few small changes and additions, like NPCs and status effects.
 
 The current version includes:
-* 87 accessories
+* 91 accessories
 * 15 status effects
 * 7 armor set
+* 2 unique weapons
 * 1 unique ore
 * and more...
 

@@ -30,18 +30,18 @@ public class MagicSphere : ModProjectile
 
     public override bool PreDraw(ref Color lightColor)
     {
-        Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
         Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0, Main.player[Projectile.owner].gfxOffY);
 
 
-        var effect = Effects.ShpereShader?.Value;
 
 
         Main.spriteBatch.End(out var snapshot);
-        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, Main.Rasterizer, effect, snapshot.matrix);
+        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, Main.Rasterizer, null, Matrix.Identity);
 
         var scale = Main.LocalPlayer.height / (texture.Height * 0.5f);
-        
+
+        var effect = Effects.ShpereShader.Value;
         effect?.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
         effect?.Parameters["uSize"].SetValue(texture.Size() * scale);
         effect?.Parameters["uColor"].SetValue((Color.RoyalBlue with { A = (byte)(250f * Projectile.ai[0]) }).ToVector4());
@@ -53,7 +53,10 @@ public class MagicSphere : ModProjectile
 
         Main.spriteBatch.End();
         Main.spriteBatch.Begin(snapshot);
-        
+
+        Main.spriteBatch.End();
+        Main.spriteBatch.Begin(snapshot);
+
 
 
         return false;

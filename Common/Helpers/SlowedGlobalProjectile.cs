@@ -13,10 +13,10 @@ public class SlowedGlobalProjectile : GlobalProjectile
         if (Slowed.Item1 != TheBindingOfRarria.State.Default)
         {
             if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
-                projectile.velocity *= 0.95f;
+                projectile.velocity /= 0.7f;
 
             else if (Slowed.Item1 == TheBindingOfRarria.State.Fast)
-                projectile.velocity *= 1.05f;
+                projectile.velocity *= 0.7f;
 
             projectile.netUpdate = true;
         }
@@ -28,10 +28,10 @@ public class SlowedGlobalProjectile : GlobalProjectile
         if (Slowed.Item1 != TheBindingOfRarria.State.Default)
         {
             if (Slowed.Item1 == TheBindingOfRarria.State.Slow)
-                projectile.velocity /= 0.95f;
+                projectile.velocity *= 0.7f;
 
             else if (Slowed.Item1 == TheBindingOfRarria.State.Fast)
-                projectile.velocity /= 1.05f;
+                projectile.velocity /= 0.7f;
 
             projectile.netUpdate = true;
         }

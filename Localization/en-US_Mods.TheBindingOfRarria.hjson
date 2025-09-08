@@ -1167,6 +1167,25 @@ Items: {
 			'It is definitely better than Lumafly Lantern, I assure you!'
 			'''
 	}
+
+	WeightedShots: {
+		DisplayName: Weighted Shots
+		Tooltip:
+			'''
+			+20% ranged damage
+			Your ranged projectiles are affected by additional gravity
+			'Delegate!'
+			'''
+	}
+
+	NightriderFlail: {
+		DisplayName: Nightrider Flail
+		Tooltip:
+			'''
+			Ignores 33% of enemy's defense
+			'AT least not bleeding'
+			'''
+	}
 }
 
 Buffs: {
@@ -1303,6 +1322,7 @@ Projectiles: {
 	ShieldSphere.DisplayName: Shield Sphere
 	HandBallistaProj.DisplayName: Hand Ballista Proj
 	BallistaBolt.DisplayName: Ballista Bolt
+	TripleFlail.DisplayName: Triple Flail
 }
 
 Keybinds: {
