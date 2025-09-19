@@ -49,7 +49,7 @@ public class YghernScale : ModItem
         int index = tooltips.FindIndex(line => line.Name == "Tooltip0");
         if (index != -1)
         {
-            text = text.Remove(text.LastIndexOf($"\n"));
+            text = text[..text.LastIndexOf($"\n")];
             tooltips[index].Text = text;
         }
     }

@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TheBindingOfRarria.Common.Helpers;
 using TheBindingOfRarria.Common.Registries;
+using static Terraria.WorldGen;
 using static TheBindingOfRarria.Common.Systems.ResizedPlayerUtils;
 //using static TheBindingOfRarria.Common.Systems.ResizedPlayerUtils;
 
@@ -51,7 +52,7 @@ public static class ResizedPlayerUtils
     /// <summary>
     ///     Set the player's custom scale.
     /// </summary>
-    public static void SetScale(this Player player, float scale)
+    public static void SetScale(this Player player, float scale, bool netSync = true)
     {
         var resizedPlayer = player.GetModPlayer<ResizedPlayer>();
         if (Math.Abs(scale - resizedPlayer.Scale) < float.Epsilon)
@@ -64,6 +65,18 @@ public static class ResizedPlayerUtils
         //player.ApplyPlayerSize(scale);
 
         resizedPlayer.Scale = Math.Max(scale, 0.05f);
+
+        if (Main.netMode == NetmodeID.SinglePlayer)
+            netSync = false;
+
+        if (!netSync || Main.myPlayer != player.whoAmI)
+            return;
+        
+        ModPacket packet = ModContent.GetInstance<TheBindingOfRarria>().GetPacket();
+        packet.Write((int)TheBindingOfRarria.PacketTypes.PlayerScale);
+        packet.Write((byte)player.whoAmI);
+        packet.Write(resizedPlayer.Scale);
+        packet.Send();
     }
 
     /// <summary>
@@ -91,15 +104,9 @@ public static class ResizedPlayerUtils
 
         #region Methods
 
-        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        public override void Load()
         {
-            ModPacket packet = Mod.GetPacket();
-            packet.Write((int)TheBindingOfRarria.PacketTypes.PlayerScale);
-            packet.Write((byte)Player.whoAmI);
-            packet.Write(Scale);
-            packet.WritePackedVector2(OldSize);
-            packet.WritePackedVector2(Player.position);
-            packet.Send(toWho, fromWho);
+            
         }
 
         public override void Initialize()
@@ -114,8 +121,22 @@ public static class ResizedPlayerUtils
             {
                 Player.ApplyPlayerSize(Scale);
 
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                    Player.GetModPlayer<ResizedPlayer>().SyncPlayer(255, Main.myPlayer, false);
+                if (!Collision.IsClearSpotTest(Player.position - new Vector2(0f, 21) + Player.velocity, 16f, Player.width, Player.height, fallThrough: true, fall2: true))
+                {
+                    var tileOffset = 0;
+
+                    for (int x = 0; x < Player.width / 16f; x++)
+                    {
+                        for (int y = 0; y < Player.height / 16f; y++)
+                        {
+                            if (tileOffset <= y  && WorldGen.SolidOrSlopedTile(Main.tile[Player.BottomLeft.ToTileCoordinates() + new Point(x, -y)]))
+                                tileOffset = y;
+                        }
+                    }
+
+                    Player.position -= new Vector2(0, tileOffset).ToWorldCoordinates();
+                    Player.velocity.Y = Math.Min(Player.velocity.Y, 0);
+                }
             }
         }
 
@@ -126,8 +147,6 @@ public static class ResizedPlayerUtils
                 ResetPlayerSize(Player);
                 Player.ResetScale();
 
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                    Player.GetModPlayer<ResizedPlayer>().SyncPlayer(255, Main.myPlayer, false);
             }
         }
 

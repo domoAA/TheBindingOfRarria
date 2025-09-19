@@ -23,35 +23,27 @@ public class Sangreal : ModItem
         Item.accessory = true;
         Item.height = 30;
         Item.width = 26;
+        Item.lifeRegen += 8;
         Item.rare = ItemRarityID.Pink;
         Item.value = Item.sellPrice(0, 5);
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
-        var p = player.GetModPlayer<SangrealPlayer>();
-        p.Noble = true;
-        p.counter--;
-
-        if (player.GetModPlayer<SangrealPlayer>().counter > 0)
-            player.AddBuff(ModContent.BuffType<NobleWine_CD>(), player.GetModPlayer<SangrealPlayer>().counter);
+        player.GetModPlayer<SangrealPlayer>().Noble = true;
     }
 
     public override void ModifyTooltips(List<TooltipLine> tooltips)
     {
-        string key = KeybindSystem.SangrealKey.GetAssignedKeys().FirstOrDefault();
-        if (key == "" || key == null)
-            key = "J";
+        var value = Main.LocalPlayer.GetModPlayer<SangrealPlayer>().Limit;
 
-        string text = string.Format(Language.GetTextValue("Mods.TheBindingOfRarria.Items.Sangreal.Tooltip"), key);
+        string text = string.Format(Language.GetTextValue($"Mods.TheBindingOfRarria.Items.{Name}.Tooltip"), $"{value}");
 
-
-        int index = tooltips.FindIndex(line => line.Name == "Tooltip0");
+        int index = tooltips.FindIndex(line => line.Name == "Tooltip1");
         if (index != -1)
         {
-            text = text.Remove(text.LastIndexOf($"\n"));
-            text = text.Remove(text.LastIndexOf($"\n"));
-            text = text.Remove(text.LastIndexOf($"\n"));
+            text = text[..text.LastIndexOf($"\n")];
+            text = text[(text.LastIndexOf($"\n") + 1)..];
             tooltips[index].Text = text;
         }
     }
@@ -60,54 +52,61 @@ public class Sangreal : ModItem
 public class SangrealPlayer : ModPlayer
 {
     public bool Noble = false;
-    public int counter = 0;
-    public int Stored = 0;
+
+    public int Limit = 500;
+
+    public override void Load()
+    {
+        On_Player.UpdateLifeRegen += On_Player_UpdateLifeRegen;
+        On_Player.Heal += On_Player_Heal;
+        On_Player.HealEffect += On_Player_HealEffect;
+    }
+
+    public override void PostUpdate()
+    {
+        Limit = (int)(Player.statLifeMax2 * 0.66f);
+    }
+
+    private static void On_Player_HealEffect(On_Player.orig_HealEffect orig, Player self, int healAmount, bool broadcast)
+    {
+        orig(self, healAmount, broadcast);
+
+        var p = self.GetModPlayer<SangrealPlayer>();
+        if (p.Noble)
+            self.statLife = Math.Min(self.statLife, p.Limit);
+    }
+
+    private static void On_Player_Heal(On_Player.orig_Heal orig, Player self, int amount)
+    {
+        orig(self, amount);
+
+        var p = self.GetModPlayer<SangrealPlayer>();
+        if (p.Noble)
+            self.statLife = Math.Min(self.statLife, p.Limit);
+    }
+
+    private static void On_Player_UpdateLifeRegen(On_Player.orig_UpdateLifeRegen orig, Player self)
+    {
+        orig(self);
+
+        var p = self.GetModPlayer<SangrealPlayer>();
+        if (p.Noble)
+            self.statLife = Math.Min(self.statLife, p.Limit);
+    }
 
     public override void ResetEffects()
     {
-        if ((!Noble || counter <= 0) && Player.HasBuff(ModContent.BuffType<NobleWine_CD>()))
-            Player.ClearBuff(ModContent.BuffType<NobleWine_CD>());
-
-        if (!Noble && Player.HasBuff(ModContent.BuffType<NobleWine>()))
-            Player.ClearBuff(ModContent.BuffType<NobleWine>());
-
+        if (Noble)
+            Player.statLife = Math.Min(Player.statLife, Limit);
+        
         Noble = false;
     }
 
-    public override void PostUpdateEquips()
+    public override void ModifyHurt(ref Player.HurtModifiers modifiers)
     {
-        if (!Player.HasBuff(ModContent.BuffType<NobleWine>()) && Stored > 0)
+        if (Noble)
         {
-            var DamageSource = PlayerDeathReason.ByCustomReason(NetworkText.FromKey("Mods.TheBindingOfRarria.Items.Sangreal.DeathMessage", Player.name));
-            Player.Hurt(DamageSource, Stored * 2, 1, dodgeable: false, knockback: 0);
-
-            Stored = 0;
-        }
-
-        if (Player.HasBuff(ModContent.BuffType<NobleWine>()) && Stored == 151)
-        {
-            Player.Heal(150);
-            Stored = 150;
-        }
-    }
-
-    public override void OnHurt(Player.HurtInfo info)
-    {
-        if (Stored > 0)
-            Stored = Math.Max(0, Stored - info.Damage);
-    }
-
-    public override void ProcessTriggers(TriggersSet triggersSet)
-    {
-        if (Noble && (KeybindSystem.SangrealKey.JustPressed || (KeybindSystem.SangrealKey.GetAssignedKeys().FirstOrDefault() == null && Main.keyState.IsKeyDown(Keys.J))) && Main.myPlayer == Player.whoAmI)
-        {
-            if (counter <= 0)
-            {
-                Player.AddBuff(ModContent.BuffType<NobleWine>(), 90);
-                Stored = 151;
-
-                counter = 2700;
-            }
+            modifiers.IncomingDamageMultiplier *= 1.1f;
         }
     }
 }
@@ -117,7 +116,7 @@ public class SangrealDropNPC : GlobalNPC
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {
         if (npc.type == NPCID.Vampire || npc.type == NPCID.VampireBat)
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Sangreal>(), 20));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Sangreal>(), 10));
 
         base.ModifyNPCLoot(npc, npcLoot);
     }

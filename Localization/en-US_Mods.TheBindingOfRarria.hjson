@@ -71,7 +71,7 @@ Items: {
 		DisplayName: Valiant Armor
 		Tooltip:
 			'''
-			+50 max life
+			+100 max life
 			+10% damage reduction
 			Enemies are more likely to target you
 			'Resilience befitting of a hero'
@@ -682,9 +682,8 @@ Items: {
 		DisplayName: Sangreal
 		Tooltip:
 			'''
-			Press {0} to gain 150 temporary max life
-			When the effect runs out, you take damage double of temporary life left
-			Cooldown: 45 seconds
+			Grants tremendously increased life regeneration [c/90ee90:(5 hp/s)]
+			Your life cannot exceed {0} [c/90ee90:(66% of your max life)], and attacks against you have 10% increased damage
 			'The prized, oaky flavor of Sangreal is a noble privilege. Can you handle it?'
 			'''
 		DeathMessage: "{0} couldn't handle the power of noble alcohol"
@@ -1183,8 +1182,45 @@ Items: {
 		Tooltip:
 			'''
 			Ignores 33% of enemy's defense
-			'AT least not bleeding'
+			'At least not bleeding'
 			'''
+	}
+
+	BlueSeal: {
+		DisplayName: Blue Seal
+		Tooltip:
+			'''
+			+40 max life
+			'Ring of the Way of Blue covenant'
+			'''
+	}
+
+	RustyAxeHead: {
+		DisplayName: Rusty Axe Head
+		Tooltip:
+			'''
+			Increases damage by 15% after getting hit
+			'Makes you wonder what kind of power it posessed before'
+			'''
+	}
+
+	SteelChestplate: {
+		DisplayName: Steel Chestplate
+		Tooltip:
+			'''
+			Increases damage by 15% after getting hit
+			'A one-piece set of armor'
+			'''
+		SetBonus:
+			'''
+			Grants a stacking 3% damage reduction when you are hit, up to 15%
+			Cannot gain stacks while the duration is above half
+			'''
+	}
+
+	WispfireLantern: {
+		DisplayName: Wispfire Lantern
+		Tooltip: ""
 	}
 }
 
@@ -1244,13 +1280,8 @@ Buffs: {
 		Description: 25% increased damage
 	}
 
-	NobleWine: {
-		DisplayName: Noble Wine
-		Description: Grants temporary life
-	}
-
 	YghernBuff: {
-		DisplayName: Yghern Buff
+		DisplayName: Monster's Scales
 		Description: Reduces damage of hits against you
 	}
 
@@ -1259,7 +1290,6 @@ Buffs: {
 	BrokenWatch_CD.DisplayName: Broken Watch Cooldown
 	HolyProtection_CD.DisplayName: Holy Protection Cooldown
 	ModLiquid_CD.DisplayName: Absorbing Liquid Cooldown
-	NobleWine_CD.DisplayName: Noble Wine Cooldown
 	ReverseCT_CD.DisplayName: Reverse Cursed Technique Cooldown
 	TojiNullDebuff_CD.DisplayName: Toji Null Debuff Cooldown
 	YghernBuff_CD.DisplayName: Yghern Buff Cooldown
@@ -1282,6 +1312,16 @@ Buffs: {
 	SecondBreath: {
 		DisplayName: Second Breath
 		Description: +300% natural regeneration rate
+	}
+
+	RustyBerserk: {
+		DisplayName: Rusty Berserk
+		Description: +15% increased damage
+	}
+
+	SteelEndurance: {
+		DisplayName: Steel Endurance
+		Description: Increased endurance by 3% per stack
 	}
 }
 
@@ -1323,6 +1363,7 @@ Projectiles: {
 	HandBallistaProj.DisplayName: Hand Ballista Proj
 	BallistaBolt.DisplayName: Ballista Bolt
 	TripleFlail.DisplayName: Triple Flail
+	Wispfire.DisplayName: Wispfire
 }
 
 Keybinds: {

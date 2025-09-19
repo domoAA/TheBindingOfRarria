@@ -251,10 +251,7 @@ public class TheBindingOfRarria : Mod
         else if (type == (int)PacketTypes.PlayerScale)
         {
             var who = (int)reader.ReadByte();
-
             var scale = reader.ReadSingle();
-            var oldSize = reader.ReadPackedVector2();
-            var pos = reader.ReadPackedVector2();
 
             if (Main.netMode == NetmodeID.Server)
             {
@@ -262,17 +259,11 @@ public class TheBindingOfRarria : Mod
                 packet.Write(type);
                 packet.Write((byte)who);
                 packet.Write(scale);
-                packet.WritePackedVector2(oldSize);
-                packet.WritePackedVector2(pos);
                 packet.Send();
             }
 
             var player = Main.player[who];
-            var p = player.GetModPlayer<ResizedPlayerUtils.ResizedPlayer>();
-
-            p.Scale = scale;
-            p.OldSize = oldSize;
-            player.position = pos;
+            ResizedPlayerUtils.SetScale(player, scale, false);
         }
     }
 }

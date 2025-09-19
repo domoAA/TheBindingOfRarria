@@ -28,7 +28,7 @@ public class LifePool : ModBuff
 
         Vector2 origin = drawParams.Texture.Size() * 0.5f;
 
-        var color = Color.Black;
+        var color = Color.White;
         color.A = 150;
 
         // You can use ChatManager::DrawColorCodedStringWithShadow.
