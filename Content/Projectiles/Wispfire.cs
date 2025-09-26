@@ -42,6 +42,12 @@ public class Wispfire : ModProjectile
 
         Projectile.OrbitingPlayer(1.6f, r, rotation);
         Projectile.rotation = 0;
+
+        if (Projectile.ai[0] % 120  == 0 && Main.myPlayer == Projectile.owner)
+        {
+            var target = Projectile.FindTargetWithLineOfSight(500f);
+            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, target == -1 ? Main.rand.NextVector2Circular(2.5f, 2.5f) : Main.npc[target].Center.DirectionFrom(Projectile.Center) * 10, ProjectileID.WandOfSparkingSpark, 20, 0);
+        }
     }
 
     public override bool PreDraw(ref Color lightColor)

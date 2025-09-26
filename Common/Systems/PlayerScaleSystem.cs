@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
@@ -31,6 +32,7 @@ public static class ResizedPlayerUtils
 
         player.BottomLeft = player.position;
 
+        p.OverFlowedScalings--;
     }
 
     public static void ApplyPlayerSize(this Player player, float scale)
@@ -47,6 +49,7 @@ public static class ResizedPlayerUtils
 
         player.BottomLeft = player.position;
 
+        p.OverFlowedScalings++;
     }
 
     /// <summary>
@@ -65,7 +68,7 @@ public static class ResizedPlayerUtils
         //player.ApplyPlayerSize(scale);
 
         resizedPlayer.Scale = Math.Max(scale, 0.05f);
-
+        
         if (Main.netMode == NetmodeID.SinglePlayer)
             netSync = false;
 
@@ -100,6 +103,8 @@ public static class ResizedPlayerUtils
 
         public bool IsScaled => Scale is < 1 or > 1;
 
+        public int OverFlowedScalings = 0;
+
         #endregion
 
         #region Methods
@@ -121,21 +126,21 @@ public static class ResizedPlayerUtils
             {
                 Player.ApplyPlayerSize(Scale);
 
-                if (!Collision.IsClearSpotTest(Player.position - new Vector2(0f, 21) + Player.velocity, 16f, Player.width, Player.height, fallThrough: true, fall2: true))
+                if (!Collision.IsClearSpotTest(Player.position, 16f, Player.width, Player.height, fallThrough: true, fall2: true))
                 {
                     var tileOffset = 0;
 
-                    for (int x = 0; x < Player.width / 16f; x++)
+                    for (int x = 0; x < Player.width / 16; x++)
                     {
-                        for (int y = 0; y < Player.height / 16f; y++)
+                        for (int y = 0; y < Player.height / 16; y++)
                         {
                             if (tileOffset <= y  && WorldGen.SolidOrSlopedTile(Main.tile[Player.BottomLeft.ToTileCoordinates() + new Point(x, -y)]))
                                 tileOffset = y;
                         }
                     }
 
-                    Player.position -= new Vector2(0, tileOffset).ToWorldCoordinates();
-                    Player.velocity.Y = Math.Min(Player.velocity.Y, 0);
+                    //Player.position -= new Vector2(0, tileOffset).ToWorldCoordinates();
+                    Player.velocity.Y = Math.Min(0, Player.velocity.Y);
                 }
             }
         }
@@ -145,8 +150,14 @@ public static class ResizedPlayerUtils
             if (IsScaled)
             {
                 ResetPlayerSize(Player);
-                Player.ResetScale();
 
+                if (OverFlowedScalings > 0)
+                {
+                    OldSize = Player.DefaultSize;
+                    ResetPlayerSize(Player);
+                }
+
+                Player.ResetScale();
             }
         }
 
@@ -154,7 +165,26 @@ public static class ResizedPlayerUtils
         {
             if (IsScaled)
             {
-                drawInfo.ItemLocation += new Vector2(0, drawInfo.drawPlayer.height * (Scale - 1f));
+                //drawInfo.ItemLocation += new Vector2(0, drawInfo.drawPlayer.height * (Scale - 1f));
+
+            }
+        }
+
+        public override void HideDrawLayers(PlayerDrawSet drawInfo)
+        {
+            if (IsScaled && PlayerRenderTarget.ShouldSkip)
+            {
+                PlayerDrawLayers.HeldItem.Hide();
+            }
+            else if (IsScaled)
+            {
+                foreach (var l in PlayerDrawLayers.VanillaLayers)
+                {
+                    if (l == PlayerDrawLayers.HeldItem)
+                        continue;
+
+                    l.Hide();
+                }
             }
         }
         #endregion
@@ -167,6 +197,7 @@ public class PlayerScaleItem : GlobalItem
 
     public override void UseItemHitbox(Item item, Player player, ref Rectangle hitbox, ref bool noHitbox)
     {
+        return;
         var p = player.GetModPlayer<ResizedPlayer>();
         if (p.IsScaled)
         {
@@ -189,6 +220,8 @@ public class PlayerRenderTarget : ModSystem
     public static RenderTarget2D Target;
 
     private static RenderTarget2D ScaleTarget;
+
+    public static bool ShouldSkip = false;
 
     public override void Load()
     {
@@ -224,15 +257,49 @@ public class PlayerRenderTarget : ModSystem
 
             var difference = new Vector2(drawPlayer.width - p.OldSize.X, drawPlayer.height - p.OldSize.Y);
 
-            if (shadow != 0 && shadow is 0.5f or 0.7f or 0.9f && (Math.Abs(position.Y - drawPlayer.position.Y) > 6f || Math.Abs(position.X - drawPlayer.position.X) > 6f))
+            if (shadow is 0.5f or 0.7f or 0.9f && (Math.Abs(position.Y - drawPlayer.position.Y) > 6f || Math.Abs(position.X - drawPlayer.position.X) > 6f))
             {
                 position.Y -= difference.Y;
-                var data = self._drawData;
             }
 
             position += difference * (Main.GameZoomTarget - 1f) / 4;
 
             DrawPlayerTarget(drawPlayer.whoAmI, () => orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly));
+
+            var info = new PlayerDrawSet();
+            info.BoringSetup(drawPlayer, self._drawData, self._dust, self._gore, position, alpha, rotation, rotationOrigin);
+
+            ShouldSkip = false;
+
+            PlayerDrawLayers.DrawPlayer_27_HeldItem(ref info);
+
+
+            var pos = drawPlayer.position;
+            var mC = drawPlayer.MountedCenter;
+            var po = position;
+
+            //drawPlayer.position = Vector2.Zero;
+            //drawPlayer.MountedCenter = Vector2.Zero;
+            //position = Vector2.Zero;
+            //info.hideEntirePlayer = true;
+
+            orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly);
+            
+
+
+            drawPlayer.position = pos;
+            drawPlayer.MountedCenter = mC;
+            position = po;
+        }
+        else if (headOnly && !Main.gameMenu && drawPlayer.TryGetModPlayer<ResizedPlayer>(out p) == true && p.IsScaled)
+        {
+            var Scale = drawPlayer.GetModPlayer<ResizedPlayer>().Scale;
+
+            var difference = new Vector2(drawPlayer.width - p.OldSize.X, drawPlayer.height - p.OldSize.Y);
+
+            position -= difference;
+
+            orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly);
         }
 
         else orig(self, camera, drawPlayer, position, rotation, rotationOrigin, shadow, alpha, scale, headOnly);
@@ -269,8 +336,11 @@ public class PlayerRenderTarget : ModSystem
         var scale = player.GetModPlayer<ResizedPlayer>().Scale;
         player.ResetPlayerSize();
 
+        ShouldSkip = true;
+
         action.Invoke();
 
+        ShouldSkip = false;
 
         Main.graphics.GraphicsDevice.SetRenderTarget(Target);
         Main.graphics.GraphicsDevice.Clear(Color.Transparent);
@@ -306,9 +376,12 @@ public class PlayerRenderTarget : ModSystem
 
         Main.spriteBatch.Draw(Target, new Vector2(0, 0), Color.White);
 
+
         Main.spriteBatch.End();
 
         if (beginned)
             Main.spriteBatch.Begin(parameters);
+
+
     }
 }

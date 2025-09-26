@@ -52,12 +52,12 @@ public class SlasherItemPlayer : ModPlayer
     {
         if (Halberd != null && !Slashed && Player.whoAmI == Main.myPlayer && !target.immortal)
         {
-            float distance = 400f * 400;
+            float distance = 700f * 700;
             Vector2 position = Vector2.Zero;
 
             foreach (NPC n in Main.ActiveNPCs)
             {
-                if (target.Center.DistanceSQ(Player.Center) < distance && !target.friendly && target.lifeMax > 5 && target.CanBeChasedBy() && !target.immortal && !target.CountsAsACritter && n.whoAmI != target.whoAmI && !n.immortal)
+                if (n.Center.DistanceSQ(Player.Center) < distance && !target.friendly && target.lifeMax > 5 && target.CanBeChasedBy() && !target.immortal && !target.CountsAsACritter && !n.CountsAsACritter && !n.immortal)
                 {
                     distance = n.Center.DistanceSQ(Player.Center);
                     position = n.Center;

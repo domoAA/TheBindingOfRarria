@@ -519,7 +519,7 @@ Items: {
 		DisplayName: Broken Slasher Halberd
 		Tooltip:
 			'''
-			When your melee swing hits an enemy, another nearby enemy is slashed
+			When your melee swing hits an enemy, the closest enemy is slashed
 			'It's like Muramasa, except it's not'
 			'''
 	}
@@ -1206,11 +1206,7 @@ Items: {
 
 	SteelChestplate: {
 		DisplayName: Steel Chestplate
-		Tooltip:
-			'''
-			Increases damage by 15% after getting hit
-			'A one-piece set of armor'
-			'''
+		Tooltip: "'A one-piece set of armor'"
 		SetBonus:
 			'''
 			Grants a stacking 3% damage reduction when you are hit, up to 15%
@@ -1220,7 +1216,68 @@ Items: {
 
 	WispfireLantern: {
 		DisplayName: Wispfire Lantern
-		Tooltip: ""
+		Tooltip:
+			'''
+			5% reduced mana cost
+			Summons fire wisps as you spend mana
+			'Broken iron lantern containing smouldering wispfire'
+			'''
+	}
+
+	GhizaWheel: {
+		DisplayName: Ghiza Wheel
+		Tooltip:
+			'''
+			Critical hits steal enemy's max life
+			'Device of torture used by Inquisitor Ghiza'
+			'''
+	}
+
+	RageBait: {
+		DisplayName: Rage Bait
+		Tooltip:
+			'''
+			Grants an additional 1/6 chance to fish out enemies
+			'We fed the fish guys, it was bait'
+			'''
+	}
+
+	Multibinder: {
+		DisplayName: Multibinder
+		Tooltip:
+			'''
+			Healing potions heal 15% less life
+			Healing potions are activated an additional time 20 seconds after being used
+			'Elaborate, etched Weaver spindle'
+			'''
+	}
+
+	InjectorBand: {
+		DisplayName: Injector Band
+		Tooltip:
+			'''
+			Potion sickness is 10 seconds shorter
+			'Brace of surgical pins from the Whiteward'
+			'''
+	}
+
+	BasilliskEye: {
+		DisplayName: Basillisk Eye
+		Tooltip:
+			'''
+			All enemies have their max life decreased by 10%
+			'A gaze from beyond'
+			'''
+	}
+
+	OccultSkull: {
+		DisplayName: Occult Skull
+		Tooltip:
+			'''
+			Increases your max life by x% (1% per 2% missing life of the strongest enemy alive)
+			Decreases enemy max life by 7%
+			'Was probably used in rituals'
+			'''
 	}
 }
 
@@ -1364,6 +1421,7 @@ Projectiles: {
 	BallistaBolt.DisplayName: Ballista Bolt
 	TripleFlail.DisplayName: Triple Flail
 	Wispfire.DisplayName: Wispfire
+	GhizaWheelSaw.DisplayName: Ghiza Wheel Saw
 }
 
 Keybinds: {
