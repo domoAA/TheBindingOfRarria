@@ -45,7 +45,7 @@ public class RedMushPlayer : ModPlayer
             Player.statLifeMax2 = (int)(Player.statLifeMax2 * 1.1f);
             Player.GetDamage(DamageClass.Generic) *= 1.1f;
 
-            if (Collision.IsClearSpotTest(Player.position - new Vector2(0f, (Growth - 0.9f) * 40) + Player.velocity, 16f, (int)(Player.width * (Growth + 0.04f)), (int)(Player.height * (Growth + 0.04f)), fallThrough: true, fall2: true))
+            if (Player.CheckIfScaleFits(Growth + 0.04f))
                 Growth =
                 Math.Min(
                     1.5f,

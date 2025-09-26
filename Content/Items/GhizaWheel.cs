@@ -10,7 +10,7 @@ public class GhizaWheel : ModItem
     public override void SetDefaults()
     {
         Item.height = 100;
-        Item.width = 200;
+        Item.width = 100;
         Item.shoot = ModContent.ProjectileType<GhizaWheelSaw>();
         Item.damage = 33;
         Item.DamageType = DamageClass.MeleeNoSpeed;
@@ -22,7 +22,7 @@ public class GhizaWheel : ModItem
         Item.useTurn = false;
         Item.value = Item.sellPrice(gold: 1, silver: 60);
         Item.rare = ItemRarityID.Pink;
-        Item.knockBack = 5f;
+        Item.knockBack = 1f;
     }
 
     public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -41,7 +41,7 @@ public class GhizaWheel : ModItem
 
         var origin = new Vector2(31, 30);
 
-        Main.spriteBatch.Draw(texture.Value, Item.Center - Main.screenPosition, null, lightColor, rotation, origin, scale, SpriteEffects.None, 0);
+        Main.spriteBatch.Draw(texture.Value, Item.Center + (Item.Size * new Vector2(0.3f, -0.3f)).RotatedBy(rotation) - Main.screenPosition, null, lightColor, rotation, origin, scale, SpriteEffects.None, 0);
 
         return base.PreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
     }

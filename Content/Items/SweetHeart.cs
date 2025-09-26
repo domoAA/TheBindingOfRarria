@@ -44,8 +44,8 @@ public class SweetPlayer : ModPlayer
         if (!Sweetie || Player.lifeSteal <= 0 || !target.canGhostHeal || target.immortal || target.lifeMax <= 5)
             return;
 
-        Player.Heal(damageDone / 10);
-        Player.lifeSteal -= damageDone * 2;
+        Player.Heal(damageDone / 20);
+        Player.lifeSteal -= damageDone / 20;
     }
 
     public override void UpdateBadLifeRegen()

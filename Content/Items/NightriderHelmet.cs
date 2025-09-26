@@ -75,7 +75,7 @@ public class NightriderPlayer : ModPlayer
 {
     public bool Cavalry = true;
 
-    public const float power = 0.03f;
+    public const float power = 0.02f;
 
     public override void ResetEffects()
     {
@@ -95,7 +95,7 @@ public class NightriderPlayer : ModPlayer
         {
             var amount = (int)(damageDone * power);
             Player.Heal(amount);
-            Player.lifeSteal -= damageDone * 0.3f;
+            Player.lifeSteal -= amount;
         }
     }
 }

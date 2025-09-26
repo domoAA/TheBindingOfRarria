@@ -14,6 +14,7 @@ public class BasilliskEye : ModItem
         Item.rare = ItemRarityID.Expert;
         Item.value = Item.sellPrice(0, 8, 80);
         Item.expertOnly = true;
+        Item.expert = true;
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual) => HPDecreaseSystem.Basillisk = true;

@@ -22,15 +22,24 @@ namespace TheBindingOfRarria.Common.Systems;
 public static class ResizedPlayerUtils
 {
     #region Static Methods
+
+    public static bool CheckIfScaleFits(this Player player, float scale)
+    {
+        var width = (int)(player.width * scale);
+        var height = (int)(player.height * scale);
+        var pos = player.position - new Vector2(0, height - player.height);
+        return Collision.IsClearSpotTest(pos, 16, width, height, fallThrough: true, fall2: true);
+    }
+
     public static void ResetPlayerSize(this Player player)
     {
         var p = player.GetModPlayer<ResizedPlayer>();
-        player.position = player.BottomLeft;
+        player.position = player.Bottom;
 
         player.width = (int)p.OldSize.X;
         player.height = (int)p.OldSize.Y;
 
-        player.BottomLeft = player.position;
+        player.Bottom = player.position;
 
         p.OverFlowedScalings--;
     }
@@ -39,7 +48,7 @@ public static class ResizedPlayerUtils
     {
         // https://github.com/NotLe0n/Creativetools/blob/1.4.4/src/Tools/Modify/ModifyPlayer.cs
         var p = player.GetModPlayer<ResizedPlayer>();
-        player.position = player.BottomLeft;
+        player.position = player.Bottom;
 
         p.OldSize.X = player.width;
         p.OldSize.Y = player.height;
@@ -47,7 +56,7 @@ public static class ResizedPlayerUtils
         player.width = (int)(player.width * scale);
         player.height = (int)(player.height * scale);
 
-        player.BottomLeft = player.position;
+        player.Bottom = player.position;
 
         p.OverFlowedScalings++;
     }
@@ -126,7 +135,7 @@ public static class ResizedPlayerUtils
             {
                 Player.ApplyPlayerSize(Scale);
 
-                if (!Collision.IsClearSpotTest(Player.position, 16f, Player.width, Player.height, fallThrough: true, fall2: true))
+                if (Main.myPlayer != Player.whoAmI && !Collision.IsClearSpotTest(Player.position, 16f, Player.width, Player.height, fallThrough: true, fall2: true))
                 {
                     var tileOffset = 0;
 
@@ -134,13 +143,13 @@ public static class ResizedPlayerUtils
                     {
                         for (int y = 0; y < Player.height / 16; y++)
                         {
-                            if (tileOffset <= y  && WorldGen.SolidOrSlopedTile(Main.tile[Player.BottomLeft.ToTileCoordinates() + new Point(x, -y)]))
+                            if (tileOffset <= y  && WorldGen.SolidOrSlopedTile(Main.tile[Player.Bottom.ToTileCoordinates() + new Point(x, -y)]))
                                 tileOffset = y;
                         }
                     }
 
-                    //Player.position -= new Vector2(0, tileOffset).ToWorldCoordinates();
-                    Player.velocity.Y = Math.Min(0, Player.velocity.Y);
+                    Player.position -= new Vector2(0, tileOffset).ToWorldCoordinates();
+                    //Player.velocity.Y = Math.Min(0, Player.velocity.Y);
                 }
             }
         }
@@ -259,7 +268,7 @@ public class PlayerRenderTarget : ModSystem
 
             if (shadow is 0.5f or 0.7f or 0.9f && (Math.Abs(position.Y - drawPlayer.position.Y) > 6f || Math.Abs(position.X - drawPlayer.position.X) > 6f))
             {
-                position.Y -= difference.Y;
+                position -= difference * new Vector2(0.5f, 1);
             }
 
             position += difference * (Main.GameZoomTarget - 1f) / 4;

@@ -849,7 +849,7 @@ Items: {
 			Gain one of the 3 affinities based on the prefix that your equipped accessories have the most of
 			Offesnive: +10 armor penetration
 			Defensive: +10% defense effectiveness
-			Other: +10% lifesteal
+			Other: +5% lifesteal
 			'Let the act guide you'
 			'''
 	}
@@ -1200,7 +1200,7 @@ Items: {
 		Tooltip:
 			'''
 			Increases damage by 15% after getting hit
-			'Makes you wonder what kind of power it posessed before'
+			'Makes you wonder what kind of power it possessed before'
 			'''
 	}
 
@@ -1247,7 +1247,7 @@ Items: {
 		Tooltip:
 			'''
 			Healing potions heal 15% less life
-			Healing potions are activated an additional time 20 seconds after being used
+			Healing potions are activated an additional time 15 seconds after being used
 			'Elaborate, etched Weaver spindle'
 			'''
 	}
@@ -1262,7 +1262,7 @@ Items: {
 	}
 
 	BasilliskEye: {
-		DisplayName: Basillisk Eye
+		DisplayName: Basillisk's Eye
 		Tooltip:
 			'''
 			All enemies have their max life decreased by 10%
@@ -1274,10 +1274,25 @@ Items: {
 		DisplayName: Occult Skull
 		Tooltip:
 			'''
-			Increases your max life by x% (1% per 2% missing life of the strongest enemy alive)
+			Increases your max life by 1% per 2% missing life of the strongest enemy alive
 			Decreases enemy max life by 7%
 			'Was probably used in rituals'
 			'''
+	}
+
+	WardingBell: {
+		DisplayName: Warding Bell
+		Tooltip:
+			'''
+			Consuming healing potions grants defense for each Warding item equipped
+			Current amount of defense granted: {0}
+			'Holy bell inscribed with a hymn of protection'
+			'''
+	}
+
+	BeastCrest: {
+		DisplayName: Beast Crest
+		Tooltip: ""
 	}
 }
 

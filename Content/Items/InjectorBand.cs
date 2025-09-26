@@ -11,13 +11,25 @@ public class InjectorBand : ModItem
         Item.accessory = true;
         Item.width = 36;
         Item.height = 36;
-        Item.rare = ItemRarityID.Green;
-        Item.value = Item.sellPrice(0, 0, 7, 20);
+        Item.rare = ItemRarityID.Expert;
+        Item.value = Item.sellPrice(0, 0, 6, 66);
+        Item.expert = true;
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<FasthealPlayer>().Fast = true;
+    }
+}
+
+public class InjectorItemNPCShop : GlobalNPC
+{
+    public override void ModifyShop(NPCShop shop)
+    {
+        if (shop.NpcType == NPCID.Merchant)
+        {
+            shop.Add(new Item(ModContent.ItemType<InjectorBand>()), Condition.DownedEowOrBoc, Condition.InExpertMode);
+        }
     }
 }
 

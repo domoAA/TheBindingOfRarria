@@ -13,8 +13,9 @@ public class Multibinder : ModItem
         Item.accessory = true;
         Item.width = 40;
         Item.height = 36;
-        Item.rare = ItemRarityID.Green;
+        Item.rare = ItemRarityID.Master;
         Item.value = Item.sellPrice(0, 0, 7, 20);
+        Item.master = true;
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)
@@ -22,6 +23,17 @@ public class Multibinder : ModItem
         player.GetModPlayer<MultihealPlayer>().Multi = true;
     }
 
+}
+
+public class MultibinderItemNPCShop : GlobalNPC
+{
+    public override void ModifyShop(NPCShop shop)
+    {
+        if (shop.NpcType == NPCID.Merchant)
+        {
+            shop.Add(new Item(ModContent.ItemType<Multibinder>()), Condition.DownedSkeletron, Condition.InMasterMode);
+        }
+    }
 }
 
 public class MultihealPlayer : ModPlayer
@@ -55,7 +67,7 @@ public class MultihealPlayer : ModPlayer
         var p = self.GetModPlayer<MultihealPlayer>();
         if (p.Multi && p.counter == 0)
         {
-            p.counter = 1200;
+            p.counter = 900;
             p.HealItem = sItem;
         }
 

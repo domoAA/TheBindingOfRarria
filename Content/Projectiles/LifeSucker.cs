@@ -68,7 +68,7 @@ public class LifeSucker : ModProjectile
         var owner = Main.player[Projectile.owner];
         if (owner.lifeSteal > 0)
         {
-            owner.lifeSteal -= damageDone / 2;
+            owner.lifeSteal -= damageDone / 5;
             owner.GetModPlayer<LifeSuckerPlayer>().heal += damageDone / 5;
         }
         Projectile.ai[2] = 1;

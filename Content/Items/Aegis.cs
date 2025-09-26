@@ -118,8 +118,8 @@ public class AegisPlayer : ModPlayer
         if (!Actor || CurrentAffinity != Affinity.Other || Player.lifeSteal <= 0 || !target.canGhostHeal || target.immortal || target.lifeMax <= 5)
             return;
 
-        Player.Heal(damageDone / 10);
-        Player.lifeSteal -= damageDone;
+        Player.Heal(damageDone / 20);
+        Player.lifeSteal -= damageDone / 20;
     }
 }
 
