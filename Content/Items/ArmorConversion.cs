@@ -19,6 +19,7 @@ public class ArmorConversion : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
+        player.noKnockback = true;
         player.statLifeMax2 += 80;
         player.statDefense -= 8;
         player.lifeRegenCount += 4;

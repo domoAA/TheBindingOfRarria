@@ -30,6 +30,7 @@ public class GreatshieldTalisman : ModItem
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         player.GetModPlayer<GreatshieldTalismanPlayer>().GreatshieldCrest = true;
+        player.noKnockback = true;
     }
 }
 

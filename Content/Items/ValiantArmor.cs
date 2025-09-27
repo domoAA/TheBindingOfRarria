@@ -19,6 +19,7 @@ public class ValiantArmor : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
+        player.noKnockback = true;
         player.statLifeMax2 += 100;
         player.aggro += 500;
         player.endurance += 0.1f;

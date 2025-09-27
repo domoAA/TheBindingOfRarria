@@ -35,6 +35,7 @@ Items: {
 			+80 max life
 			Reduces defense by 8
 			You regenerate additional 2 hp/s
+			Grants immunity to knockback
 			'Literally too healthy to die'
 			'''
 	}
@@ -73,6 +74,7 @@ Items: {
 			'''
 			+100 max life
 			+10% damage reduction
+			Grants immunity to knockback
 			Enemies are more likely to target you
 			'Resilience befitting of a hero'
 			'''
@@ -800,6 +802,7 @@ Items: {
 		DisplayName: Greatshield Talisman
 		Tooltip:
 			'''
+			Grants immunity to knockback
 			You take 20% less damage from creatures if you have a shield equipped
 			'A remnant of times when The Wall walked on battlefields'
 			'''
@@ -1292,7 +1295,12 @@ Items: {
 
 	BeastCrest: {
 		DisplayName: Beast Crest
-		Tooltip: ""
+		Tooltip: 
+			'''
+			Healing potions grant lifesteal for 8 seconds instead of healing you
+			Lifesteal limit is higher
+			'Rip and tear'
+			'''
 	}
 }
 
