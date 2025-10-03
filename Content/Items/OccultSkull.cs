@@ -38,7 +38,7 @@ public class OccultSkull : ModItem
         if (target > -1)
         {
             var t = Main.npc[target];
-            player.statLifeMax2 += (int)(player.GetModPlayer<GeneThiefPlayer>().maxHP * (t.lifeMax - t.life) / (float)t.lifeMax) / 2;
+            player.statLifeMax2 += (int)(player.GetModPlayer<GeneThiefPlayer>().maxHP * (t.lifeMax - t.life) / (float)t.lifeMax) / 3;
             var name = t.FullName;
         }
     }

@@ -80,7 +80,7 @@ public class GhizaWheelSaw : ModProjectile
     {
         float point = 0f;
 
-        Vector2 length = new Vector2(Radius).RotatedBy(Projectile.rotation);
+        Vector2 length = new Vector2(Radius / 2).RotatedBy(Projectile.rotation);
 
         if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + length * 0.05f, Projectile.Center + length, 20, ref point))
             return true;

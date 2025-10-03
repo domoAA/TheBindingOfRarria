@@ -20,6 +20,7 @@ public class BeastCrest : ModItem
 
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
+        if (player.lifeSteal < 80)
         player.lifeSteal += 0.1f;
 
         player.GetModPlayer<BeastPlayer>().Beast = true;

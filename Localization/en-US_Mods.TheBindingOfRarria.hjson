@@ -1277,7 +1277,7 @@ Items: {
 		DisplayName: Occult Skull
 		Tooltip:
 			'''
-			Increases your max life by 1% per 2% missing life of the strongest enemy alive
+			Increases your max life by 1% per 3% missing life of the strongest enemy alive
 			Decreases enemy max life by 7%
 			'Was probably used in rituals'
 			'''
@@ -1295,12 +1295,17 @@ Items: {
 
 	BeastCrest: {
 		DisplayName: Beast Crest
-		Tooltip: 
+		Tooltip:
 			'''
 			Healing potions grant lifesteal for 8 seconds instead of healing you
 			Lifesteal limit is higher
 			'Rip and tear'
 			'''
+	}
+
+	CurveSickle: {
+		DisplayName: Curve Sickle
+		Tooltip: "'Radial sharpbone used by skilled hunters as a weapon'"
 	}
 }
 
@@ -1403,6 +1408,13 @@ Buffs: {
 		DisplayName: Steel Endurance
 		Description: Increased endurance by 3% per stack
 	}
+
+	NobleWine: {
+		DisplayName: Noble Wine
+		Description: Mods.TheBindingOfRarria.Buffs.NobleWine.Description
+	}
+
+	NobleWine_CD.DisplayName: Noble Wine_ C D
 }
 
 Projectiles: {
@@ -1445,6 +1457,8 @@ Projectiles: {
 	TripleFlail.DisplayName: Triple Flail
 	Wispfire.DisplayName: Wispfire
 	GhizaWheelSaw.DisplayName: Ghiza Wheel Saw
+	RebelSwing.DisplayName: Rebel Swing
+	CurveSickleProj.DisplayName: Curve Sickle Proj
 }
 
 Keybinds: {
@@ -1490,3 +1504,5 @@ Configs: {
 		}
 	}
 }
+
+NPCs.Rebel.DisplayName: Rebel
